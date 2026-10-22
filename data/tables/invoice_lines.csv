@@ -1,0 +1,48 @@
+invoice_id,line_no,kind,category,description,qty,unit_price,amount
+INV-NL-01,1,labor,labor,Safe-off and disconnect existing 150A panel,4,92.00,368.00
+INV-NL-01,2,labor,labor,Install 200A load center and ground bus,8,92.00,736.00
+INV-NL-01,3,labor,labor,Add isolated ground for studio riser — extra 2 hours as discussed after opening the gutter,2,92.00,184.00
+INV-NL-01,4,material,material,200A 30-space load center,1,486.00,486.00
+INV-NL-01,5,material,material,Breaker kit and ground bar,1,214.00,214.00
+INV-NL-01,6,material,material,Surge device required by city inspector note 3/16,1,168.00,168.00
+INV-NL-04,1,labor,labor,Remove damaged step flashing at south wall,6,85.00,510.00
+INV-NL-04,2,labor,labor,Install new step flashing and counterflash,8,85.00,680.00
+INV-NL-04,3,material,material,Step flashing and sealant,1,240.00,240.00
+INV-NL-04,4,material,material,Lump-sum weather allowance,1,400.00,400.00
+INV-OC-01,1,labor,labor,Site protect corridor floors,2,78.00,156.00
+INV-OC-01,2,labor,labor,Replace corridor fixtures and test,10,78.00,780.00
+INV-OC-01,3,labor,labor,Add emergency heads at stair 2 after Helen asked for code heads in writing,3,78.00,234.00
+INV-OC-01,4,material,material,"LED corridor fixtures, 14 each",14,42.00,588.00
+INV-OC-01,5,material,material,Drivers and whips,1,96.00,96.00
+INV-OC-01,6,material,material,"Emergency heads, 2 each",2,88.00,176.00
+INV-OC-03,1,material,material,Boiler loop pump and flanking valves replacement — lump sum,1,2200.00,2200.00
+INV-OC-04,1,labor,labor,Site protect stair 3,2,74.00,148.00
+INV-OC-04,2,labor,labor,"Cut and replace wet drywall, texture to match",9,74.00,666.00
+INV-OC-04,3,material,material,"Drywall, tape, and texture",1,132.00,132.00
+INV-OC-04,4,material,material,Paint to match stair 3,1,68.00,68.00
+INV-PW-01,1,labor,labor,Trace and label shop panel circuits,6,90.00,540.00
+INV-PW-01,2,labor,labor,Print and apply directory,2,90.00,180.00
+INV-PW-01,3,material,material,Directory card and labels,1,42.00,42.00
+INV-PW-01,4,material,material,Marker and sleeves,1,18.00,18.00
+INV-PW-03,1,labor,labor,Cut failed EPDM at office cricket,4,80.00,320.00
+INV-PW-03,2,labor,labor,Patch and seam new EPDM,6,80.00,480.00
+INV-PW-03,3,material,material,EPDM patch kit,1,210.00,210.00
+INV-PW-03,4,material,material,Primer and seam tape,1,64.00,64.00
+INV-PW-03,5,labor,travel,Trip charge,1,175.00,175.00
+INV-PW-04,1,material,material,RTU-2 compressor replacement including labor,1,3600.00,3600.00
+INV-RM-02,1,labor,labor,PL-labor: rebuild restroom flush valve,2,84.00,168.00
+INV-RM-02,2,labor,labor,Need to determine the cause of the refill hiss,3,84.00,252.00
+INV-RM-02,3,material,material,PL-material: flush valve kit,1,96.00,96.00
+INV-RM-02,4,material,material,PL-material: possible fill valve,1,42.00,42.00
+INV-RM-03,1,labor,labor,HV-labor: replace AHU belts and align,3,88.00,264.00
+INV-RM-03,2,labor,labor,HV-labor: test and log amps,1,88.00,88.00
+INV-RM-03,3,material,material,HV-material: belt set,1,54.00,54.00
+INV-RM-03,4,material,material,HV-material: sheave bolts,1,12.00,12.00
+INV-RM-03,5,labor,management,Client portal packet and amp log upload,1,40.00,40.00
+INV-RM-04,1,labor,labor,GN-labor: open gallery ceiling and dry area,4,84.00,336.00
+INV-RM-04,2,labor,labor,GN-labor: patch supply nick and close,5,84.00,420.00
+INV-RM-04,3,labor,travel,Mobilization / trip,1,225.00,225.00
+INV-RM-04,4,labor,labor,GN-labor: north wall refinish,4,84.00,336.00
+INV-RM-04,5,material,material,GN-material: copper repair coupling,1,38.00,38.00
+INV-RM-04,6,material,material,GN-material: ceiling tile,4,16.00,64.00
+INV-RM-04,7,material,material,"GN-material: paint, north wall",1,46.00,46.00

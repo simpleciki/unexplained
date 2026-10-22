@@ -1,0 +1,17 @@
+{"old_card":"card.nl01Ground.promise","new_card":"card.nl01Ground.result","relation":"REPLACES"}
+{"old_card":"card.nl01.approve.v1","new_card":"card.nl01.approve.v2","relation":"REPLACES"}
+{"old_card":"card.nl01.approve.v2","new_card":"card.nl01.approve.v3","relation":"REPLACES"}
+{"old_card":"card.nl.labor.old","new_card":"card.nl.labor.new","relation":"REPLACES"}
+{"old_card":"card.nl.cap.inforce","new_card":"card.nl.cap.withdrawn","relation":"REPLACES"}
+{"old_card":"card.oc01.approve.v1","new_card":"card.oc01.approve.v2","relation":"REPLACES"}
+{"old_card":"card.oc01.approve.v2","new_card":"card.oc01.approve.v3","relation":"SAME"}
+{"old_card":"card.oc.structure.old","new_card":"card.oc.structure.new","relation":"REPLACES"}
+{"old_card":"card.oc.rule.helenonly","new_card":"card.oc.rule.cc.tomas","relation":"REPLACES"}
+{"old_card":"card.oc04Framing.promise","new_card":"card.oc04Framing.result","relation":"REPLACES"}
+{"old_card":"card.pw.labor.old","new_card":"card.pw.labor.new","relation":"REPLACES"}
+{"old_card":"card.rm01Panel.promise","new_card":"card.rm01Panel.result","relation":"REPLACES"}
+{"old_card":"card.rm.labor.old","new_card":"card.rm.labor.new","relation":"REPLACES"}
+{"old_card":"card.rm03.approve.v1","new_card":"card.rm03.approve.v2","relation":"UNRELATED"}
+{"old_card":"card.rm03.approve.v1","new_card":"card.rm04.labor.new","relation":"UNRELATED"}
+{"old_card":"card.pw05.reject.v1","new_card":"card.pw05.reject.v2","relation":"REPLACES"}
+{"old_card":"card.pw05.reject.v2","new_card":"card.pw05.reject.v3","relation":"REPLACES"}

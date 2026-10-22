@@ -1,0 +1,199 @@
+quote_id,line_no,kind,category,description,qty,unit_price,amount
+Q-NL-01-v1,1,labor,labor,Safe-off and disconnect existing 150A panel,4,92.00,368.00
+Q-NL-01-v1,2,labor,labor,Install 200A load center and ground bus,8,92.00,736.00
+Q-NL-01-v1,3,material,material,200A 30-space load center,1,486.00,486.00
+Q-NL-01-v1,4,material,material,Breaker kit and ground bar,1,214.00,214.00
+Q-NL-01-v2,1,labor,labor,Safe-off and disconnect existing 150A panel,4,92.00,368.00
+Q-NL-01-v2,2,labor,labor,Install 200A load center and ground bus,8,92.00,736.00
+Q-NL-01-v2,3,labor,labor,Add isolated ground for studio riser — extra 2 hours as discussed after opening the gutter,2,92.00,184.00
+Q-NL-01-v2,4,material,material,200A 30-space load center,1,486.00,486.00
+Q-NL-01-v2,5,material,material,Breaker kit and ground bar,1,214.00,214.00
+Q-NL-01-v3,1,labor,labor,Safe-off and disconnect existing 150A panel,4,92.00,368.00
+Q-NL-01-v3,2,labor,labor,Install 200A load center and ground bus,8,92.00,736.00
+Q-NL-01-v3,3,labor,labor,Add isolated ground for studio riser — extra 2 hours as discussed after opening the gutter,2,92.00,184.00
+Q-NL-01-v3,4,material,material,200A 30-space load center,1,486.00,486.00
+Q-NL-01-v3,5,material,material,Breaker kit and ground bar,1,214.00,214.00
+Q-NL-01-v3,6,material,material,Surge device required by city inspector note 3/16,1,168.00,168.00
+Q-NL-02-v1,1,labor,labor,Drain and disconnect 40gal heater,3,88.00,264.00
+Q-NL-02-v1,2,labor,labor,Set new 40gal and recirc connections,5,88.00,440.00
+Q-NL-02-v1,3,material,material,40gal electric water heater,1,620.00,620.00
+Q-NL-02-v1,4,material,material,Supply stops and dielectric unions,1,74.00,74.00
+Q-NL-02-v1,5,material,freight,"Freight, 40gal heater delivery",1,45.00,45.00
+Q-NL-02-v2,1,labor,labor,Drain and disconnect 40gal heater,3,88.00,264.00
+Q-NL-02-v2,2,labor,labor,Set new 40gal and recirc connections,5,88.00,440.00
+Q-NL-02-v2,3,material,material,40gal electric water heater,1,620.00,620.00
+Q-NL-02-v2,4,material,material,Supply stops and dielectric unions,1,74.00,74.00
+Q-NL-02-v2,5,material,material,Expansion tank if needed after second look,1,186.00,186.00
+Q-NL-02-v2,6,material,freight,"Freight, 40gal heater delivery",1,45.00,45.00
+Q-NL-02-v3,1,labor,labor,Drain and disconnect 40gal heater,3,88.00,264.00
+Q-NL-02-v3,2,labor,labor,Set new 40gal and recirc connections,5,88.00,440.00
+Q-NL-02-v3,3,material,material,40gal electric water heater,1,790.00,790.00
+Q-NL-02-v3,4,material,material,Supply stops and dielectric unions,1,74.00,74.00
+Q-NL-02-v3,5,material,material,Expansion tank if needed after second look,1,186.00,186.00
+Q-NL-02-v3,6,material,freight,"Freight, 40gal heater delivery",1,45.00,45.00
+Q-NL-03-v1,1,labor,labor,Recover and gauge condenser,3,95.00,285.00
+Q-NL-03-v1,2,labor,labor,Need to determine the cause of short cycling,2,95.00,190.00
+Q-NL-03-v1,3,material,material,Gauge manifold consumables,1,28.00,28.00
+Q-NL-03-v2,1,labor,labor,Recover and gauge condenser,3,95.00,285.00
+Q-NL-03-v2,2,labor,labor,Need to determine the cause of short cycling,4,95.00,380.00
+Q-NL-03-v2,3,material,material,Gauge manifold consumables,1,28.00,28.00
+Q-NL-03-v3,1,labor,labor,Recover and gauge condenser,3,95.00,285.00
+Q-NL-03-v3,2,labor,labor,Need to determine the cause of short cycling,4,95.00,380.00
+Q-NL-03-v3,3,material,material,Gauge manifold consumables,1,28.00,28.00
+Q-NL-03-v3,4,material,material,Contingency capacitor if that is the cause,1,64.00,64.00
+Q-NL-03-v4,1,labor,labor,Recover and gauge condenser,3,95.00,285.00
+Q-NL-03-v4,2,labor,labor,Still need to determine the cause of short cycling,5,95.00,475.00
+Q-NL-03-v4,3,material,material,Gauge manifold consumables,1,28.00,28.00
+Q-NL-03-v4,4,material,material,Contingency capacitor if that is the cause,1,64.00,64.00
+Q-NL-04-v1,1,labor,labor,Remove damaged step flashing at south wall,6,85.00,510.00
+Q-NL-04-v1,2,labor,labor,Install new step flashing and counterflash,8,85.00,680.00
+Q-NL-04-v1,3,material,material,Step flashing and sealant,1,240.00,240.00
+Q-NL-04-v2,1,labor,labor,Remove damaged step flashing at south wall,6,85.00,510.00
+Q-NL-04-v2,2,labor,labor,Install new step flashing and counterflash,8,85.00,680.00
+Q-NL-04-v2,3,material,material,Step flashing and sealant,1,240.00,240.00
+Q-NL-04-v2,4,material,material,Lump-sum weather allowance,1,400.00,400.00
+Q-NL-04-v3,1,labor,labor,Remove damaged step flashing at south wall,12,85.00,1020.00
+Q-NL-04-v3,2,labor,labor,Install new step flashing and counterflash,14,85.00,1190.00
+Q-NL-04-v3,3,material,material,Step flashing and sealant,1,240.00,240.00
+Q-NL-04-v3,4,material,material,Plywood patch at wet corner,1,190.00,190.00
+Q-OC-01-v1,1,labor,labor,Site protect corridor floors,2,78.00,156.00
+Q-OC-01-v1,2,labor,labor,Replace corridor fixtures and test,10,78.00,780.00
+Q-OC-01-v1,3,material,material,"LED corridor fixtures, 14 each",14,42.00,588.00
+Q-OC-01-v1,4,material,material,Drivers and whips,1,96.00,96.00
+Q-OC-01-v2,1,labor,labor,Site protect corridor floors,2,78.00,156.00
+Q-OC-01-v2,2,labor,labor,Replace corridor fixtures and test,10,78.00,780.00
+Q-OC-01-v2,3,labor,labor,Add emergency heads at stair 2 after Helen asked for code heads in writing,3,78.00,234.00
+Q-OC-01-v2,4,material,material,"LED corridor fixtures, 14 each",14,42.00,588.00
+Q-OC-01-v2,5,material,material,Drivers and whips,1,96.00,96.00
+Q-OC-01-v2,6,material,material,"Emergency heads, 2 each",2,88.00,176.00
+Q-OC-01-v3,1,labor,labor,Site protect corridor floors,2,78.00,156.00
+Q-OC-01-v3,2,labor,labor,Replace corridor fixtures and test,10,78.00,780.00
+Q-OC-01-v3,3,labor,labor,Add emergency heads at stair 2 after Helen asked for code heads in writing,3,78.00,234.00
+Q-OC-01-v3,4,material,material,"LED corridor fixtures, 14 each",14,42.00,588.00
+Q-OC-01-v3,5,material,material,Drivers and whips,1,96.00,96.00
+Q-OC-01-v3,6,material,material,"Emergency heads, 2 each",2,88.00,176.00
+Q-OC-02-v1,1,labor,labor,Site protect unit 12 floors,1,82.00,82.00
+Q-OC-02-v1,2,labor,labor,Open stack and replace failed section,7,82.00,574.00
+Q-OC-02-v1,3,material,material,Cast section and couplings,1,310.00,310.00
+Q-OC-02-v1,4,material,material,Test balls and wrap,1,48.00,48.00
+Q-OC-02-v2,1,labor,labor,Site protect unit 12 floors,1,82.00,82.00
+Q-OC-02-v2,2,labor,labor,Open stack and replace failed section,7,82.00,574.00
+Q-OC-02-v2,3,labor,labor,Camera the rest of the stack to name the next leak,2,82.00,164.00
+Q-OC-02-v2,4,material,material,Cast section and couplings,1,310.00,310.00
+Q-OC-02-v2,5,material,material,Test balls and wrap,1,48.00,48.00
+Q-OC-02-v3,1,labor,labor,Site protect unit 12 floors,1,82.00,82.00
+Q-OC-02-v3,2,labor,labor,Open stack and replace failed section,7,82.00,574.00
+Q-OC-02-v3,3,labor,labor,Camera the rest of the stack to name the next leak,2,82.00,164.00
+Q-OC-02-v3,4,material,material,Cast section and couplings,1,310.00,310.00
+Q-OC-02-v3,5,material,material,Test balls and wrap,1,48.00,48.00
+Q-OC-03-v1,1,labor,labor,Site protect mechanical room,1,90.00,90.00
+Q-OC-03-v1,2,labor,labor,Replace loop pump and flanges,6,90.00,540.00
+Q-OC-03-v1,3,material,material,Circulator pump,1,540.00,540.00
+Q-OC-03-v1,4,material,material,Gaskets and flanges,1,86.00,86.00
+Q-OC-03-v2,1,material,material,Boiler loop pump and flanking valves replacement — lump sum,1,2200.00,2200.00
+Q-OC-03-v3,1,material,material,"Boiler loop pump replacement — lump sum, see backup sheet",1,1256.00,1256.00
+Q-OC-04-v1,1,labor,labor,Site protect stair 3,2,74.00,148.00
+Q-OC-04-v1,2,labor,labor,"Cut and replace wet drywall, texture to match",9,74.00,666.00
+Q-OC-04-v1,3,material,material,"Drywall, tape, and texture",1,132.00,132.00
+Q-OC-04-v1,4,material,material,Paint to match stair 3,1,68.00,68.00
+Q-PW-01-v1,1,labor,labor,Trace and label shop panel circuits,6,90.00,540.00
+Q-PW-01-v1,2,labor,labor,Print and apply directory,2,90.00,180.00
+Q-PW-01-v1,3,material,material,Directory card and labels,1,42.00,42.00
+Q-PW-01-v1,4,material,material,Marker and sleeves,1,18.00,18.00
+Q-PW-02-v1,1,labor,labor,Snake floor drain and run water test,3,86.00,258.00
+Q-PW-02-v1,2,labor,labor,Need to determine the cause of the odor,2,86.00,172.00
+Q-PW-02-v1,3,material,material,Snake blades and deodorizer,1,36.00,36.00
+Q-PW-02-v2,1,labor,labor,Snake floor drain and run water test,3,86.00,258.00
+Q-PW-02-v2,2,labor,labor,Need to determine the cause of the odor,4,86.00,344.00
+Q-PW-02-v2,3,material,material,Snake blades and deodorizer,1,36.00,36.00
+Q-PW-02-v3,1,labor,labor,Snake floor drain and run water test,3,86.00,258.00
+Q-PW-02-v3,2,labor,labor,Need to determine the cause of the odor,4,86.00,344.00
+Q-PW-02-v3,3,labor,labor,Camera if we later know we need it,2,86.00,172.00
+Q-PW-02-v3,4,material,material,Snake blades and deodorizer,1,36.00,36.00
+Q-PW-02-v4,1,labor,labor,Snake floor drain and run water test,3,86.00,258.00
+Q-PW-02-v4,2,labor,labor,Need to determine the cause of the odor,5,86.00,430.00
+Q-PW-02-v4,3,labor,labor,Camera if we later know we need it,2,86.00,172.00
+Q-PW-02-v4,4,material,material,Snake blades and deodorizer,1,36.00,36.00
+Q-PW-02-v4,5,material,material,Trap if that turns out to be missing,1,54.00,54.00
+Q-PW-03-v1,1,labor,labor,Cut failed EPDM at office cricket,4,80.00,320.00
+Q-PW-03-v1,2,labor,labor,Patch and seam new EPDM,6,80.00,480.00
+Q-PW-03-v1,3,material,material,EPDM patch kit,1,210.00,210.00
+Q-PW-03-v1,4,material,material,Primer and seam tape,1,64.00,64.00
+Q-PW-03-v2,1,labor,labor,Cut failed EPDM at office cricket,4,80.00,320.00
+Q-PW-03-v2,2,labor,labor,Patch and seam new EPDM,6,80.00,480.00
+Q-PW-03-v2,3,material,material,EPDM patch kit,1,210.00,210.00
+Q-PW-03-v2,4,material,material,Primer and seam tape,1,64.00,64.00
+Q-PW-03-v2,5,labor,travel,Trip charge,1,175.00,175.00
+Q-PW-04-v1,1,labor,labor,Recover charge and pull compressor,7,98.00,686.00
+Q-PW-04-v1,2,labor,labor,Set new compressor and evacuate,8,98.00,784.00
+Q-PW-04-v1,3,material,material,Compressor for RTU-2,1,1840.00,1840.00
+Q-PW-04-v1,4,material,material,Drier and oil,1,122.00,122.00
+Q-PW-04-v1,5,material,freight,"Freight, compressor delivery",1,95.00,95.00
+Q-PW-04-v2,1,material,material,RTU-2 compressor replacement including labor,1,3600.00,3600.00
+Q-RM-01-v1,1,labor,labor,EL-labor: pull 3 new 20A receptacles in annex,5,88.00,440.00
+Q-RM-01-v1,2,labor,labor,EL-labor: make up and test,2,88.00,176.00
+Q-RM-01-v1,3,material,material,EL-material: 12/2 and boxes,1,96.00,96.00
+Q-RM-01-v1,4,material,material,EL-material: devices and plates,3,14.00,42.00
+Q-RM-01-v2,1,labor,labor,EL-labor: pull 3 new 20A receptacles in annex,5,88.00,440.00
+Q-RM-01-v2,2,labor,labor,EL-labor: make up and test,2,88.00,176.00
+Q-RM-01-v2,3,material,material,EL-material: 12/2 and boxes,1,96.00,96.00
+Q-RM-01-v2,4,material,material,EL-material: devices and plates,3,14.00,42.00
+Q-RM-01-v2,5,labor,labor,EL-labor: homerun to annex subpanel,3,88.00,264.00
+Q-RM-02-v1,1,labor,labor,PL-labor: rebuild restroom flush valve,2,84.00,168.00
+Q-RM-02-v1,2,material,material,PL-material: flush valve kit,1,96.00,96.00
+Q-RM-02-v2,1,labor,labor,PL-labor: rebuild restroom flush valve,2,84.00,168.00
+Q-RM-02-v2,2,labor,labor,Need to determine the cause of the refill hiss,3,84.00,252.00
+Q-RM-02-v2,3,material,material,PL-material: flush valve kit,1,96.00,96.00
+Q-RM-02-v3,1,labor,labor,PL-labor: rebuild restroom flush valve,2,84.00,168.00
+Q-RM-02-v3,2,labor,labor,Need to determine the cause of the refill hiss,3,84.00,252.00
+Q-RM-02-v3,3,material,material,PL-material: flush valve kit,1,96.00,96.00
+Q-RM-02-v3,4,material,material,PL-material: possible fill valve,1,42.00,42.00
+Q-RM-02-v4,1,labor,labor,PL-labor: rebuild restroom flush valve,2,84.00,168.00
+Q-RM-02-v4,2,labor,labor,Need to determine the cause of the refill hiss,3,84.00,252.00
+Q-RM-02-v4,3,material,material,PL-material: flush valve kit,1,96.00,96.00
+Q-RM-02-v4,4,material,material,PL-material: possible fill valve,1,42.00,42.00
+Q-RM-03-v1,1,labor,labor,HV-labor: replace AHU belts and align,3,88.00,264.00
+Q-RM-03-v1,2,labor,labor,HV-labor: test and log amps,1,88.00,88.00
+Q-RM-03-v1,3,material,material,HV-material: belt set,1,54.00,54.00
+Q-RM-03-v1,4,material,material,HV-material: sheave bolts,1,12.00,12.00
+Q-RM-03-v1,5,labor,management,Client portal packet and amp log upload,1,40.00,40.00
+Q-RM-03-v2,1,labor,labor,HV-labor: replace AHU belts and align,3,96.00,288.00
+Q-RM-03-v2,2,labor,labor,HV-labor: test and log amps,1,96.00,96.00
+Q-RM-03-v2,3,material,material,HV-material: belt set,1,54.00,54.00
+Q-RM-03-v2,4,material,material,HV-material: sheave bolts,1,12.00,12.00
+Q-RM-03-v2,5,labor,management,Client portal packet and amp log upload,1,40.00,40.00
+Q-RM-04-v1,1,labor,labor,GN-labor: open gallery ceiling and dry area,4,84.00,336.00
+Q-RM-04-v1,2,labor,labor,GN-labor: patch supply nick and close,5,84.00,420.00
+Q-RM-04-v1,3,material,material,GN-material: copper repair coupling,1,38.00,38.00
+Q-RM-04-v1,4,material,material,GN-material: ceiling tile,4,16.00,64.00
+Q-RM-04-v2,1,labor,labor,GN-labor: open gallery ceiling and dry area,4,84.00,336.00
+Q-RM-04-v2,2,labor,labor,GN-labor: patch supply nick and close,5,84.00,420.00
+Q-RM-04-v2,3,labor,travel,Mobilization / trip,1,225.00,225.00
+Q-RM-04-v2,4,labor,labor,GN-labor: north wall refinish,4,84.00,336.00
+Q-RM-04-v2,5,material,material,GN-material: copper repair coupling,1,38.00,38.00
+Q-RM-04-v2,6,material,material,GN-material: ceiling tile,4,16.00,64.00
+Q-RM-04-v2,7,material,material,"GN-material: paint, north wall",1,46.00,46.00
+Q-PW-05-v1,1,labor,labor,Remove cracked strainer and clamp ring,2,80.00,160.00
+Q-PW-05-v1,2,labor,labor,"Reset drain body, flash and seal",4,80.00,320.00
+Q-PW-05-v1,3,material,material,Cast drain strainer and clamp ring,1,185.00,185.00
+Q-PW-05-v1,4,material,material,Flashing membrane and sealant,1,96.00,96.00
+Q-PW-05-v2,1,labor,labor,Remove cracked strainer and clamp ring,2,80.00,160.00
+Q-PW-05-v2,2,labor,labor,"Reset drain body, flash and seal",4,80.00,320.00
+Q-PW-05-v2,3,labor,labor,Replace leader to first cleanout,6,80.00,480.00
+Q-PW-05-v2,4,material,material,Cast drain strainer and clamp ring,1,228.00,228.00
+Q-PW-05-v2,5,material,material,Flashing membrane and sealant,1,96.00,96.00
+Q-PW-05-v2,6,material,material,4-inch cast leader and couplings,1,342.00,342.00
+Q-PW-05-v3,1,labor,labor,Remove cracked strainer and clamp ring,2,80.00,160.00
+Q-PW-05-v3,2,labor,labor,"Reset drain body, flash and seal",7,80.00,560.00
+Q-PW-05-v3,3,labor,labor,Replace leader to first cleanout,8,80.00,640.00
+Q-PW-05-v3,4,material,material,Cast drain strainer and clamp ring,1,228.00,228.00
+Q-PW-05-v3,5,material,material,Flashing membrane and sealant,1,96.00,96.00
+Q-PW-05-v3,6,material,material,4-inch cast leader and couplings,1,342.00,342.00
+Q-OC-05-v1,1,labor,labor,Site protect unit 7 bath,1,78.00,78.00
+Q-OC-05-v1,2,labor,labor,"Remove old fan, install new fan and test",3,78.00,234.00
+Q-OC-05-v1,3,material,material,"Bath exhaust fan, 110 CFM",1,148.00,148.00
+Q-OC-05-v1,4,material,material,Duct clamp and foil tape,1,22.00,22.00
+Q-OC-05-v2,1,labor,labor,Site protect unit 7 bath,1,78.00,78.00
+Q-OC-05-v2,2,labor,labor,"Remove old fan, install new fan and test",3,78.00,234.00
+Q-OC-05-v2,3,material,material,"Bath exhaust fan, 110 CFM",1,212.00,212.00
+Q-OC-05-v2,4,material,material,Duct clamp and foil tape,1,22.00,22.00

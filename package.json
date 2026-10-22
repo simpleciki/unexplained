@@ -1,0 +1,24 @@
+{
+  "name": "unexplained",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke:runtime": "tsx scripts/smoke-runtime.ts",
+    "generate:data": "node --import tsx scripts/generate-data.ts && node --import tsx scripts/hero-numbers.ts",
+    "validate:data": "node --import tsx scripts/validate-data.ts",
+    "hero:numbers": "node --import tsx scripts/hero-numbers.ts",
+    "eval:oracle": "node --import tsx src/eval/oracle.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

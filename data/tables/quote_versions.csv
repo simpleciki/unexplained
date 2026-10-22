@@ -1,0 +1,48 @@
+quote_id,work_order_id,version,submitted_at,submitted_by,status,total_labor,total_material,total,scope_summary
+Q-NL-01-v1,WO-NL-01,1,2026-03-04T09:15:00-06:00,p.hw.jonah_prent,approved,1104.00,700.00,1804.00,Replace 150A panel with 200A load center; labor and material split as usual.
+Q-NL-01-v2,WO-NL-01,2,2026-03-12T10:05:00-05:00,p.hw.jonah_prent,approved,1288.00,700.00,1988.00,Same panel swap plus isolated ground hours found after opening the gutter.
+Q-NL-01-v3,WO-NL-01,3,2026-03-16T16:30:00-05:00,p.hw.jonah_prent,approved,1288.00,868.00,2156.00,"Panel swap, isolated ground, plus inspector-required surge device."
+Q-NL-02-v1,WO-NL-02,1,2026-03-13T11:20:00-05:00,p.hw.jonah_prent,approved,704.00,739.00,1443.00,Swap 40gal electric heater; labor then material.
+Q-NL-02-v2,WO-NL-02,2,2026-03-24T09:50:00-05:00,p.hw.jonah_prent,submitted,704.00,925.00,1629.00,Swap 40gal electric heater; labor then material.
+Q-NL-02-v3,WO-NL-02,3,2026-04-07T10:15:00-05:00,p.hw.jonah_prent,submitted,704.00,1095.00,1799.00,Swap 40gal electric heater; labor then material.
+Q-NL-03-v1,WO-NL-03,1,2026-03-19T10:00:00-05:00,p.hw.jonah_prent,approved,475.00,28.00,503.00,Find why the condenser will not hold cool. Need to determine the cause before naming parts.
+Q-NL-03-v2,WO-NL-03,2,2026-04-02T09:30:00-05:00,p.hw.jonah_prent,submitted,665.00,28.00,693.00,Find why the condenser will not hold cool. Need to determine the cause before naming parts.
+Q-NL-03-v3,WO-NL-03,3,2026-04-21T11:10:00-05:00,p.hw.jonah_prent,submitted,665.00,92.00,757.00,Find why the condenser will not hold cool. Need to determine the cause before naming parts.
+Q-NL-03-v4,WO-NL-03,4,2026-05-12T09:45:00-05:00,p.hw.jonah_prent,submitted,760.00,92.00,852.00,Find why the condenser will not hold cool. Need to determine the cause before naming parts.
+Q-NL-04-v1,WO-NL-04,1,2026-04-03T09:10:00-05:00,p.hw.jonah_prent,voided,1190.00,240.00,1430.00,Replace south wall step flashing.
+Q-NL-04-v2,WO-NL-04,2,2026-04-03T09:22:00-05:00,p.hw.jonah_prent,rejected,1190.00,640.00,1830.00,Replace south wall step flashing.
+Q-NL-04-v3,WO-NL-04,3,2026-04-14T09:20:00-05:00,p.hw.jonah_prent,submitted,2210.00,430.00,2640.00,Replace south wall step flashing.
+Q-OC-01-v1,WO-OC-01,1,2026-03-05T13:10:00-06:00,p.hw.jonah_prent,approved,936.00,684.00,1620.00,"Protect floors, replace corridor fixtures, named drivers."
+Q-OC-01-v2,WO-OC-01,2,2026-03-23T11:00:00-05:00,p.hw.jonah_prent,approved,1170.00,860.00,2030.00,Same lighting plus emergency heads Helen requested in writing.
+Q-OC-01-v3,WO-OC-01,3,2026-05-06T10:40:00-05:00,p.hw.jonah_prent,approved,1170.00,860.00,2030.00,Restated for the closeout file; same lines as v2.
+Q-OC-02-v1,WO-OC-02,1,2026-03-17T14:00:00-05:00,p.hw.jonah_prent,approved,656.00,358.00,1014.00,"Protect, open stack, named cast section."
+Q-OC-02-v2,WO-OC-02,2,2026-04-09T09:05:00-05:00,p.hw.jonah_prent,submitted,820.00,358.00,1178.00,"Protect, open stack, named cast section."
+Q-OC-02-v3,WO-OC-02,3,2026-05-22T10:20:00-05:00,p.hw.jonah_prent,submitted,820.00,358.00,1178.00,"Protect, open stack, named cast section, plus camera."
+Q-OC-03-v1,WO-OC-03,1,2026-04-07T12:30:00-05:00,p.hw.jonah_prent,approved,630.00,626.00,1256.00,"Protect, replace loop pump, named pump and flanges."
+Q-OC-03-v2,WO-OC-03,2,2026-05-18T11:15:00-05:00,p.hw.jonah_prent,submitted,0.00,2200.00,2200.00,"Protect, replace loop pump, named pump and flanges."
+Q-OC-03-v3,WO-OC-03,3,2026-06-04T09:50:00-05:00,p.hw.jonah_prent,submitted,0.00,1256.00,1256.00,"Mechanical lump sum with backup sheet attached, per Helen's 1 June instruction."
+Q-OC-04-v1,WO-OC-04,1,2026-04-21T10:30:00-05:00,p.hw.jonah_prent,approved,814.00,200.00,1014.00,"Protect, replace wet drywall, named material."
+Q-PW-01-v1,WO-PW-01,1,2026-03-06T11:20:00-06:00,p.hw.jonah_prent,approved,720.00,60.00,780.00,"Trace, label, named directory material."
+Q-PW-02-v1,WO-PW-02,1,2026-03-23T13:40:00-05:00,p.hw.jonah_prent,approved,430.00,36.00,466.00,Basement floor drain odor. Cause still not identified.
+Q-PW-02-v2,WO-PW-02,2,2026-04-16T10:00:00-05:00,p.hw.jonah_prent,submitted,602.00,36.00,638.00,Basement floor drain odor. Cause still not identified.
+Q-PW-02-v3,WO-PW-02,3,2026-05-05T09:20:00-05:00,p.hw.jonah_prent,submitted,774.00,36.00,810.00,Basement floor drain odor. Cause still not identified.
+Q-PW-02-v4,WO-PW-02,4,2026-05-28T11:40:00-05:00,p.hw.jonah_prent,submitted,860.00,90.00,950.00,Basement floor drain odor. Cause still not identified.
+Q-PW-03-v1,WO-PW-03,1,2026-04-09T10:25:00-05:00,p.hw.jonah_prent,approved,800.00,274.00,1074.00,"Cut, patch EPDM, named kit and tape."
+Q-PW-03-v2,WO-PW-03,2,2026-05-01T09:00:00-05:00,p.hw.jonah_prent,voided,975.00,274.00,1249.00,"Cut, patch EPDM, named kit and tape."
+Q-PW-04-v1,WO-PW-04,1,2026-04-16T14:20:00-05:00,p.hw.jonah_prent,approved,1470.00,2057.00,3527.00,"Recover, replace compressor, named drier and oil."
+Q-PW-04-v2,WO-PW-04,2,2026-05-14T09:35:00-05:00,p.hw.jonah_prent,submitted,0.00,3600.00,3600.00,"Recover, replace compressor, named drier and oil."
+Q-RM-01-v1,WO-RM-01,1,2026-03-10T10:10:00-05:00,p.hw.jonah_prent,approved,616.00,138.00,754.00,EL-labor then EL-material receptacle run.
+Q-RM-01-v2,WO-RM-01,2,2026-04-13T08:50:00-05:00,p.hw.jonah_prent,submitted,880.00,138.00,1018.00,EL-labor then EL-material receptacle run.
+Q-RM-02-v1,WO-RM-02,1,2026-03-30T09:40:00-05:00,p.hw.jonah_prent,approved,168.00,96.00,264.00,"Rebuild flush valve, named kit."
+Q-RM-02-v2,WO-RM-02,2,2026-04-27T09:00:00-05:00,p.hw.jonah_prent,voided,420.00,96.00,516.00,"Rebuild flush valve, named kit. Need to determine the cause of the refill hiss."
+Q-RM-02-v3,WO-RM-02,3,2026-04-27T09:09:00-05:00,p.hw.jonah_prent,rejected,420.00,138.00,558.00,"Rebuild flush valve, named kit. Need to determine the cause of the refill hiss."
+Q-RM-02-v4,WO-RM-02,4,2026-05-08T10:00:00-05:00,p.hw.jonah_prent,submitted,420.00,138.00,558.00,"Rebuild flush valve, named kit. Need to determine the cause of the refill hiss."
+Q-RM-03-v1,WO-RM-03,1,2026-04-02T09:25:00-05:00,p.hw.jonah_prent,approved,392.00,66.00,458.00,HV-labor then HV-material belts.
+Q-RM-03-v2,WO-RM-03,2,2026-06-03T10:05:00-05:00,p.hw.jonah_prent,approved,424.00,66.00,490.00,Second seasonal belt change. HV-labor then HV-material belts.
+Q-RM-04-v1,WO-RM-04,1,2026-04-20T11:00:00-05:00,p.hw.jonah_prent,approved,756.00,102.00,858.00,"Open ceiling, patch supply nick, named tiles."
+Q-RM-04-v2,WO-RM-04,2,2026-05-13T09:30:00-05:00,p.hw.jonah_prent,submitted,1317.00,148.00,1465.00,"Open ceiling, patch supply nick, named tiles."
+Q-PW-05-v1,WO-PW-05,1,2026-05-04T09:11:00-05:00,p.hw.jonah_prent,rejected,480.00,281.00,761.00,Rebuild the northeast roof drain at Heron Court.
+Q-PW-05-v2,WO-PW-05,2,2026-05-27T10:00:00-05:00,p.hw.jonah_prent,rejected,960.00,666.00,1626.00,Rebuild the northeast roof drain at Heron Court.
+Q-PW-05-v3,WO-PW-05,3,2026-06-15T09:30:00-05:00,p.hw.jonah_prent,rejected,1360.00,666.00,2026.00,Rebuild the northeast roof drain at Heron Court.
+Q-OC-05-v1,WO-OC-05,1,2026-06-08T09:00:00-05:00,p.hw.jonah_prent,voided,312.00,170.00,482.00,"Protect, replace bath fan, named fan and small material."
+Q-OC-05-v2,WO-OC-05,2,2026-06-08T09:07:00-05:00,p.hw.jonah_prent,rejected,312.00,234.00,546.00,"Protect, replace bath fan, named fan and small material."

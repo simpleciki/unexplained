@@ -1,0 +1,160 @@
+topics:
+  scope:
+    - work
+    - job-scope
+    - included-work
+    - scope
+  price:
+    - cost
+    - amount
+    - pricing
+    - price
+  open_item:
+    - open-item
+    - pending-check
+    - follow-up-inspection
+    - open_item
+  client_rule:
+    - standing-rule
+    - client-requirement
+    - process-rule
+    - client_rule
+  approval:
+    - approve
+    - reject
+    - sign-off
+    - approval
+facets:
+  price.labor:
+    - labor
+    - hours
+    - labor-rate
+  price.material:
+    - material
+    - parts
+    - equipment
+  price.total:
+    - total
+    - grand-total
+  scope.lines:
+    - line-items
+    - breakdown
+  scope.structure:
+    - quote-structure
+    - lump-sum
+    - trip-charge
+  open_item.inspection:
+    - reinspect
+    - cause-unknown
+  client_rule.submission:
+    - how-to-send
+    - portal
+    - cc-list
+  client_rule.cap:
+    - pre-approval-cap
+    - threshold
+  approval.status:
+    - approved
+    - rejected
+  approval.effective:
+    - start-date
+    - in-force
+  submission.process:
+    - void
+    - resend
+    - notify
+    - duplicate-notice
+scopes:
+  global: []
+  "client:cl.north_loft":
+    - north-loft
+    - nl
+  "client:cl.oak_circle":
+    - oak-circle
+    - oc
+  "client:cl.pike_water":
+    - pike-water
+    - pw
+  "client:cl.red_mill":
+    - red-mill
+    - rm
+  "job:WO-NL-01":
+    - panel-job
+  "job:WO-NL-02":
+    - heater-job
+  "job:WO-NL-03":
+    - condenser-job
+  "job:WO-NL-04":
+    - flashing-job
+  "job:WO-OC-01":
+    - corridor-light-job
+  "job:WO-OC-02":
+    - stack-job
+  "job:WO-OC-03":
+    - pump-job
+  "job:WO-OC-04":
+    - stair-drywall-job
+  "job:WO-PW-01":
+    - shop-label-job
+  "job:WO-PW-02":
+    - drain-job
+  "job:WO-PW-03":
+    - epdm-job
+  "job:WO-PW-04":
+    - rtu-job
+  "job:WO-RM-01":
+    - annex-receptacle-job
+  "job:WO-RM-02":
+    - flush-valve-job
+  "job:WO-RM-03":
+    - ahu-belts-job
+  "job:WO-RM-04":
+    - gallery-leak-job
+  "job:WO-PW-05":
+    - dock-door-job
+  "job:WO-OC-05":
+    - bath-fan-job
+scope_parent:
+  "job:WO-NL-01": "client:cl.north_loft"
+  "job:WO-NL-02": "client:cl.north_loft"
+  "job:WO-NL-03": "client:cl.north_loft"
+  "job:WO-NL-04": "client:cl.north_loft"
+  "job:WO-OC-01": "client:cl.oak_circle"
+  "job:WO-OC-02": "client:cl.oak_circle"
+  "job:WO-OC-03": "client:cl.oak_circle"
+  "job:WO-OC-04": "client:cl.oak_circle"
+  "job:WO-PW-01": "client:cl.pike_water"
+  "job:WO-PW-02": "client:cl.pike_water"
+  "job:WO-PW-03": "client:cl.pike_water"
+  "job:WO-PW-04": "client:cl.pike_water"
+  "job:WO-RM-01": "client:cl.red_mill"
+  "job:WO-RM-02": "client:cl.red_mill"
+  "job:WO-RM-03": "client:cl.red_mill"
+  "job:WO-RM-04": "client:cl.red_mill"
+  "job:WO-PW-05": "client:cl.pike_water"
+  "job:WO-OC-05": "client:cl.oak_circle"
+  "client:cl.north_loft": global
+  "client:cl.oak_circle": global
+  "client:cl.pike_water": global
+  "client:cl.red_mill": global
+deciders:
+  approval:
+    - p.nl.ria_moth
+    - p.oc.helen_bray
+    - p.pw.otto_gell
+    - p.rm.yvette_sarn
+  client_rule:
+    - p.nl.ria_moth
+    - p.oc.helen_bray
+    - p.pw.otto_gell
+    - p.rm.yvette_sarn
+  scope:
+    - p.nl.ria_moth
+    - p.oc.helen_bray
+    - p.pw.otto_gell
+    - p.rm.yvette_sarn
+  price:
+    - p.nl.ria_moth
+    - p.oc.helen_bray
+    - p.pw.otto_gell
+    - p.rm.yvette_sarn
