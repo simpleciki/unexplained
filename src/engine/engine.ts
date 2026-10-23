@@ -22,8 +22,9 @@ export type Engine = {
   memory: MemoryWrite;
 };
 
-export function buildEngine(root: string, cards: DecisionCard[], edges: RelationEdge[], emit: EventSink = noEvents): Engine {
-  const data = loadDataset(root);
+// data: the dataset already loaded (from Zetaris, say); data/ files otherwise.
+export function buildEngine(root: string, cards: DecisionCard[], edges: RelationEdge[], emit: EventSink = noEvents, preloaded?: Dataset): Engine {
+  const data = preloaded ?? loadDataset(root);
   const vocab = loadVocab(root);
   const checked = verifyCards(cards, data.records, vocab, emit);
   for (const c of checked) if (c.result !== "PASS") emit({ action: "card_rejected", ref: c.card_id, outcome: c.result, details: { reason: c.reason } });
@@ -34,9 +35,9 @@ export function buildEngine(root: string, cards: DecisionCard[], edges: Relation
   return { data, vocab, cards: checked, graph, docs, memory };
 }
 
-// state/seats.json is the authority; state/hmem-snapshot.json is H-MEM's view of the same cards.
-export function saveState(engine: Engine, root: string) {
-  const dir = join(root, "state");
+// <dir>/seats.json is the authority; <dir>/hmem-snapshot.json is H-MEM's view of the same cards.
+// A live ingest writes state/; the oracle writes state/oracle/ so it never overwrites a live run.
+export function saveState(engine: Engine, root: string, dir = join(root, "state")) {
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, "seats.json"), JSON.stringify(engine.graph.seatTable(), null, 2) + "\n");
   const snap = engine.memory.hmem.store.snapshotAll();

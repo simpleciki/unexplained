@@ -43,6 +43,11 @@ export function detectP5(ctx: DetectCtx): Flag {
   const open = openItems(ctx, cutoff);
   if (open.length) candidates.push({ cause: "an open item (promised check or requested finding) had no recorded result", evidence: open.flatMap((o) => [o.card.card_id, o.card.record_id]), inference: true });
 
+  // What both systems recorded on this job up to the rejection: client portal messages and the
+  // contractor's own notes, from v_job_evidence_timeline.
+  const timeline = (ctx.data.views?.job_evidence_timeline ?? [])
+    .filter((r) => r.work_order_id === ctx.job && ms(r.source_recorded_at) <= cutoff)
+    .map((r) => ({ record_id: r.record_id, at: r.source_recorded_at, system: r.system, type: r.source_type }));
   return {
     pattern: "P5",
     fired: true,
@@ -51,6 +56,7 @@ export function detectP5(ctx: DetectCtx): Flag {
       rejections: rejections.map((r) => ({ card: r.card.card_id, quote_id: r.quote_id, reason_stated: r.card.mode === "gives_reason" })),
       stated_reasons: stated.map((r) => r.card.quote),
       candidate_causes: candidates,
+      timeline,
     },
   };
 }

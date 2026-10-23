@@ -8,3 +8,5 @@ logs/
 .claude/settings.local.json
 .cursor/
 state/
+cache/*
+!cache/samples/

@@ -13,7 +13,15 @@
     "generate:data": "node --import tsx scripts/generate-data.ts && node --import tsx scripts/hero-numbers.ts",
     "validate:data": "node --import tsx scripts/validate-data.ts",
     "hero:numbers": "node --import tsx scripts/hero-numbers.ts",
-    "eval:oracle": "node --import tsx src/eval/oracle.ts"
+    "eval:oracle": "node --env-file-if-exists=.env --import tsx src/eval/oracle.ts",
+    "ingest": "node --env-file-if-exists=.env --import tsx src/cli/ingest.ts",
+    "ask": "node --env-file-if-exists=.env --import tsx src/cli/ask.ts",
+    "eval:live": "node --env-file-if-exists=.env --import tsx src/cli/eval-live.ts",
+    "record:samples": "node --env-file-if-exists=.env --import tsx src/cli/record-samples.ts",
+    "sources:serve": "node --import tsx src/zetaris/source-server.ts",
+    "zetaris:register": "node --env-file-if-exists=.env --import tsx scripts/zetaris-register.ts",
+    "zetaris:parity": "node --env-file-if-exists=.env --import tsx scripts/zetaris-parity.ts",
+    "cache:audit": "node --import tsx scripts/cache-audit.ts"
   },
   "devDependencies": {
     "@types/node": "^24.9.1",

@@ -6,82 +6,22 @@ import {
   type ProviderStatus,
 } from "./provider.ts";
 
-export const METERLESS_PROVIDER_ID = "meterless";
-export const METERLESS_PROVIDER_NAME = "Meterless Runtime";
-export const DEFAULT_METERLESS_BASE_URL = "http://127.0.0.1:8088/v1";
-export const PLACEHOLDER_RUNTIME_TOKEN = "rt-local";
-export const DEFAULT_APP_ID = "unexplained";
+import {
+  CHAT_TIMEOUT_MS,
+  DEFAULT_APP_ID,
+  MAX_REQUESTS_PER_MINUTE,
+  METERLESS_PROVIDER_ID,
+  METERLESS_PROVIDER_NAME,
+  MINUTE_MS,
+  PLACEHOLDER_RUNTIME_TOKEN,
+  RETRY_DELAY_MS,
+  normaliseBaseUrl,
+  type MeterlessOptions,
+} from "./meterless-config.ts";
+import { SlidingWindowLimiter, defaultSleep, isAbortError } from "./limiter.ts";
+import { redactAccount, routeError, isRetryable, parseModelIds, safeText, throwIfFailed, type ChatCompletionResponse } from "./http.ts";
 
-const CHAT_TIMEOUT_MS = 180_000;
-const RETRY_DELAY_MS = 2_000;
-const MAX_REQUESTS_PER_MINUTE = 30;
-const MINUTE_MS = 60_000;
-
-export type MeterlessOptions = {
-  token: string;
-  baseUrl?: string;
-  appId?: string;
-  fetch?: typeof fetch;
-  sleep?: (ms: number) => Promise<void>;
-  now?: () => number;
-  requestTimeoutMs?: number;
-  maxRequestsPerMinute?: number;
-};
-
-export function normaliseBaseUrl(input?: string): string {
-  const raw = (input ?? "").trim();
-  const source = raw.length > 0 ? raw : DEFAULT_METERLESS_BASE_URL;
-  const withScheme = /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(source)
-    ? source
-    : `http://${source}`;
-  const url = new URL(withScheme);
-  const scheme = url.protocol.replace(/:$/, "");
-  const port = url.port || (scheme === "https" ? "443" : "80");
-  return `${scheme}://${url.hostname}:${port}/v1`;
-}
-
-function isAbortError(error: unknown): boolean {
-  if (!error || typeof error !== "object") return false;
-  const name = "name" in error ? String(error.name) : "";
-  return name === "AbortError" || name === "TimeoutError";
-}
-
-function defaultSleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-class SlidingWindowLimiter {
-  private stamps: number[] = [];
-
-  constructor(
-    private readonly max: number,
-    private readonly windowMs: number,
-    private readonly now: () => number,
-    private readonly sleep: (ms: number) => Promise<void>,
-  ) {}
-
-  async acquire(): Promise<void> {
-    for (;;) {
-      const now = this.now();
-      this.stamps = this.stamps.filter((t) => now - t < this.windowMs);
-      if (this.stamps.length < this.max) {
-        this.stamps.push(now);
-        return;
-      }
-      const oldest = this.stamps[0] ?? now;
-      await this.sleep(Math.max(1, this.windowMs - (now - oldest)));
-    }
-  }
-}
-
-type ModelsResponse = {
-  data?: Array<{ id?: string }>;
-};
-
-type ChatCompletionResponse = {
-  model?: string;
-  choices?: Array<{ message?: { content?: unknown } }>;
-};
+export * from "./meterless-config.ts";
 
 export class MeterlessRuntime implements ChatProvider {
   readonly id = METERLESS_PROVIDER_ID;
@@ -122,7 +62,7 @@ export class MeterlessRuntime implements ChatProvider {
       if (response.status !== 200) {
         return "offline";
       }
-      const ids = await this.parseModelIds(response);
+      const ids = await parseModelIds(response);
       return ids.length > 0 ? "online" : "offline";
     } catch {
       return "offline";
@@ -132,8 +72,8 @@ export class MeterlessRuntime implements ChatProvider {
   async listModels(): Promise<string[]> {
     this.assertLiveToken();
     const response = await this.request(`${this.baseUrl}/models`, { method: "GET" });
-    this.throwIfFailed(response, await this.safeText(response));
-    return this.parseModelIds(response);
+    throwIfFailed(response, await safeText(response));
+    return parseModelIds(response);
   }
 
   async chat(req: ChatRequest): Promise<ChatResult> {
@@ -161,7 +101,12 @@ export class MeterlessRuntime implements ChatProvider {
       },
       { retryOnTimeoutOr5xx: true },
     );
-    const payload = (await response.json()) as ChatCompletionResponse;
+    const payload = (await response.json()) as ChatCompletionResponse & { error?: unknown };
+    // Some routes answer 200 with an error body; a dead upstream model must still be recognised.
+    if (payload.error) {
+      const raw = JSON.stringify(payload);
+      throw routeError(raw, response.status) ?? new ProviderError("http", redactAccount(raw), response.status);
+    }
     const content = payload.choices?.[0]?.message?.content;
     const text = typeof content === "string" ? content : "";
     return {
@@ -178,19 +123,6 @@ export class MeterlessRuntime implements ChatProvider {
         "Placeholder runtime token is not allowed",
       );
     }
-  }
-
-  private async parseModelIds(response: Response): Promise<string[]> {
-    let payload: ModelsResponse;
-    try {
-      payload = (await response.json()) as ModelsResponse;
-    } catch {
-      return [];
-    }
-    const items = Array.isArray(payload.data) ? payload.data : [];
-    return items
-      .map((item) => item.id)
-      .filter((id): id is string => typeof id === "string" && id.startsWith("meterless/"));
   }
 
   private async request(
@@ -229,37 +161,17 @@ export class MeterlessRuntime implements ChatProvider {
       if (!options.retryOnTimeoutOr5xx) {
         return first;
       }
-      this.throwIfFailed(first, await this.safeText(first));
+      throwIfFailed(first, await safeText(first));
       return first;
     } catch (error) {
-      if (!options.retryOnTimeoutOr5xx || !this.isRetryable(error)) {
+      if (!options.retryOnTimeoutOr5xx || !isRetryable(error)) {
         throw error;
       }
       await this.sleep(RETRY_DELAY_MS);
       const second = await attempt();
-      this.throwIfFailed(second, await this.safeText(second));
+      throwIfFailed(second, await safeText(second));
       return second;
     }
   }
 
-  private isRetryable(error: unknown): boolean {
-    if (!(error instanceof ProviderError)) return false;
-    return error.kind === "timeout" || (error.kind === "http" && (error.status ?? 0) >= 500);
-  }
-
-  private throwIfFailed(response: Response, bodyText: string): void {
-    if (response.ok) return;
-    if (response.status === 401 || response.status === 403) {
-      throw new ProviderError("unauthorized", bodyText || `HTTP ${response.status}`, response.status);
-    }
-    throw new ProviderError("http", bodyText || `HTTP ${response.status}`, response.status);
-  }
-
-  private async safeText(response: Response): Promise<string> {
-    try {
-      return await response.clone().text();
-    } catch {
-      return "";
-    }
-  }
 }

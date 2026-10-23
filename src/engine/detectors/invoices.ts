@@ -11,13 +11,16 @@ export function detectP7(ctx: DetectCtx): Flag {
   const approved = ctx.docs.approvedVersions(ctx.job, at);
   const basis = approved.at(-1);
   const approvalCards = approved.map((a) => a.approval.card.card_id);
+  // Cross-source context from v_invoice_vs_approved (client portal invoice joined to the contractor's
+  // work order and trade). Its approved_quote_id is end-of-window state: shown, never used to decide.
+  const crossSource = (ctx.data.views?.invoice_vs_approved ?? []).filter((r) => (inv ? r.invoice_id === inv.invoice_id : r.work_order_id === ctx.job));
   if (!inv) {
     // Nothing invoiced yet: billable only against an approved version.
     return {
       pattern: "P7",
       fired: !basis,
       evidence: uniq([...approvalCards, ...ctx.docs.rejections(ctx.job, at).map((r) => r.card.card_id)]),
-      details: { approved_version: basis?.version.quote_id ?? null, reason: basis ? "an approved version exists" : "no approved version to bill against" },
+      details: { approved_version: basis?.version.quote_id ?? null, reason: basis ? "an approved version exists" : "no approved version to bill against", cross_source: crossSource },
     };
   }
   const invRec = ctx.docs.recordFor("invoice", inv.invoice_id).record_id;
@@ -46,6 +49,6 @@ export function detectP7(ctx: DetectCtx): Flag {
     pattern: "P7",
     fired: problems.length > 0,
     evidence: uniq([...approvalCards, invRec, ...(basis ? [basis.version.record.record_id] : [])]),
-    details: { invoice: inv.invoice_id, approved_version: basis?.version.quote_id ?? null, mismatches: problems },
+    details: { invoice: inv.invoice_id, approved_version: basis?.version.quote_id ?? null, mismatches: problems, cross_source: crossSource },
   };
 }

@@ -67,7 +67,9 @@ export type Tables = {
   invoiceLines: Row[];
 };
 
-export type Dataset = { records: SourceRecord[]; tables: Tables };
+// views: cross-source rows read through Zetaris (or their in-memory equivalent). Optional: the engine's
+// conclusions never depend on them; they add cross-system context to the evidence.
+export type Dataset = { records: SourceRecord[]; tables: Tables; views?: { invoice_vs_approved?: Row[]; job_evidence_timeline?: Row[] } };
 
 // evidence backs a fired flag; support cites what a check found clean (e.g. a promise closed by its result).
 export type Flag = { pattern: string; fired: boolean; evidence: string[]; details: Record<string, unknown>; support?: string[] };

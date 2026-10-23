@@ -1,37 +1,15 @@
 // The seat graph. A seat is (topic, facet, scope); each accepted card sits on one seat per facet.
 // Order on a seat comes only from relation judgments (REPLACES / SAME / REFINES) checked against
 // decided_at. Unjudged cards on the same seat coexist; they are never ordered by time alone.
-import type { CheckedCard, Relation, RelationEdge, Result, Seat, SourceRecord } from "./types.ts";
+import type { CheckedCard, RelationEdge, Result, Seat, SourceRecord } from "./types.ts";
+import { holdsSeat } from "./seat-types.ts";
+import type { Link, SeatResolution } from "./seat-types.ts";
+
+export type { Link, SeatResolution } from "./seat-types.ts";
 import { seatKey } from "./types.ts";
 import { compare, parseTime } from "./time.ts";
 import type { Vocab } from "./vocab.ts";
 import { scopeChain } from "./vocab.ts";
-
-// Who can hold a seat. "mentions" only reports what someone else said, so it never does. On a topic
-// the client owns (it has deciders), only the client's own cards count: a contractor's note about a
-// rule or a price is not the rule or the price. Contractor promises sit on open_item seats.
-function holdsSeat(c: CheckedCard, vocab: Vocab): boolean {
-  if (c.mode === "mentions") return false;
-  if (c.mode === "decides") return true; // already decider-checked
-  if (c.mode === "proposes") return c.topic === "open_item";
-  const deciders = vocab.deciders[c.topic];
-  return !deciders || deciders.includes(c.decided_by);
-}
-
-export type Link = { from: string; to: string; relation: Relation; status: "ok" | "conflict"; why: string };
-
-export type SeatResolution = {
-  seat: Seat;
-  scope_used: string;
-  scope_fallback: boolean;
-  state: Result;
-  current_card: string | null;
-  in_effect_card: string | null;
-  coexisting: string[];
-  chain: string[];
-  conflicts: Link[];
-  scheduled: string | null; // decided but not yet effective on the as-of date
-};
 
 const ms = (iso: string) => parseTime(iso)?.start ?? Number.NaN;
 

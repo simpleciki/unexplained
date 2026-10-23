@@ -14,8 +14,9 @@ const engineFiles = files(join(import.meta.dirname, "."));
 const code = (f: string) => readFileSync(f, "utf8").replace(/\/\/.*$/gm, "");
 
 describe("engine source rules", () => {
-  it("never opens eval/gold/", () => {
-    for (const f of engineFiles) expect(code(f), f).not.toMatch(/eval\/gold|gold_cards|gold_edges|gold_questions/);
+  it("never opens eval/gold/ (engine, agents and pipeline)", () => {
+    const answering = [...engineFiles, ...files(join(import.meta.dirname, "../agents")), ...files(join(import.meta.dirname, "../pipeline"))];
+    for (const f of answering) expect(code(f), f).not.toMatch(/eval\/gold|gold_cards|gold_edges|gold_questions/);
   });
   it("never reads the end-of-window status column of quotes or invoices", () => {
     // Seat links have their own .status (ok | conflict); any other .status read would be a table column.
