@@ -44,7 +44,7 @@ describe("routing rules", () => {
     const judged = { reviewer: "Ciki", judged_at: JUDGED, reason: "only a status update", verdict: "no_decision" as const };
     const r = routeRecord({ ...base, failed_upstream: "x", judged });
     expect(r.bucket).toBe("human_confirmed");
-    expect(r.why).toBe("no decision here by Ciki on 2026-10-20: only a status update");
+    expect(r.why).toBe("nothing to keep, judged by Ciki on 2026-10-20: only a status update");
   });
 });
 
@@ -126,6 +126,13 @@ describe("judgments", () => {
     const system = extractionScore(applied.cards, gold);
     expect(modelOnly.matched).toBe(0); // the model never found it: its score must not borrow the person's card
     expect(system.matched).toBe(1);
+  });
+
+  it("an older judgment without effective still loads with the record time", () => {
+    const old: Judgment = { judgment_id: "j.rec-0001.1", record_id: "rec-0001", verdict: "cards", cards: [{ mode: "decides", quote: "Paint the porch rail grey.", decided_by: "p.nl.ria_moth", topic: "scope", facets: [] }], reason: "r", reviewer: "Ciki", judged_at: JUDGED };
+    const [c] = applyJudgments([], [], [old], records).cards;
+    expect(c.effective).toBe(records[0].source_recorded_at);
+    expect(c.decided_at).toBe(records[0].source_recorded_at);
   });
 
   it("a no_decision judgment leaves the record with no cards", () => {

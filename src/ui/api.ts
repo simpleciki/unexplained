@@ -8,7 +8,8 @@ import { ms } from "../engine/docs.ts";
 import { runDetectors } from "../engine/detectors/index.ts";
 import { agentContext } from "../agents/shared.ts";
 import { loadIngested } from "../pipeline/ingest.ts";
-import { appendJudgment, confirmation } from "../review/judgments.ts";
+import { appendJudgment, confirmation, openQuestions } from "../review/judgments.ts";
+import { suggestEffective } from "../review/effective.ts";
 import type { JudgmentInput } from "../review/judgments.ts";
 import { jobQueue, loadReviewView } from "../review/queue.ts";
 import type { ReviewView } from "../review/queue.ts";
@@ -99,7 +100,8 @@ export function inOffsetOf(iso: string, t: number): string {
 // submitted or issued, with the document itself as the one in hand.
 // The verdict never says "clear" while anything the check depends on is open: a job record written before
 // the document that no one has judged yet (needs_human), or a P2 change only the Judge model step could
-// judge. Records the model read as empty are reported as open for spot-check but do not block "clear".
+// judge, or an open question a person left on a card they kept. Records the model read as empty are
+// reported as open for spot-check but do not block "clear".
 export function check(ctx: Ctx, docId: string) {
   const t = ctx.data.tables;
   const invoice = t.invoices.find((x) => x.invoice_id === docId) ?? null;
@@ -121,6 +123,8 @@ export function check(ctx: Ctx, docId: string) {
   const unjudged = seen.filter((x) => x.bucket === "needs_human");
   const spot = seen.filter((x) => x.bucket === "auto_empty");
   const read = seen.length - unjudged.length;
+  const seenIds = new Set(seen.map((x) => x.record_id));
+  const questions = openQuestions(ctx.view.judgments).filter((q) => seenIds.has(q.record_id));
 
   const warnings = flags
     .filter((f) => f.pattern in WARNINGS)
@@ -131,8 +135,8 @@ export function check(ctx: Ctx, docId: string) {
         ? "warning"
         : needsJudge
           ? "not judged here (needs the Judge model step)"
-          : unjudged.length
-            ? `no evidence in the ${read} of ${seen.length} records read`
+          : unjudged.length || questions.length
+            ? `no evidence in the ${read} of ${seen.length} records read${questions.length ? `; ${questions.length} open question${questions.length > 1 ? "s" : ""}` : ""}`
             : "clear";
       return {
         pattern: f.pattern,
@@ -149,6 +153,7 @@ export function check(ctx: Ctx, docId: string) {
   const openPatterns = warnings.filter((w) => w.open).map((w) => w.pattern);
   const notes = [
     ...(unjudged.length ? [`${unjudged.length} record${unjudged.length > 1 ? "s" : ""} in this job written before this ${invoice ? "invoice" : "quote"} ${unjudged.length > 1 ? "are" : "is"} not judged yet; the result can change`] : []),
+    ...questions.map((q) => `Open question (${q.reviewer}, ${Number(q.judged_at.slice(5, 7))}/${Number(q.judged_at.slice(8, 10))}) on ${q.record_id}: ${q.question}`),
     ...openPatterns.map((p) => `${p} (${WARNINGS[p]}) needs the Judge model step, not run here`),
   ];
   const info = spot.length ? `${spot.length} record${spot.length > 1 ? "s" : ""} the model read as empty ${spot.length > 1 ? "are" : "is"} open for spot-check` : null;
@@ -168,6 +173,14 @@ export function check(ctx: Ctx, docId: string) {
     warnings,
     queue: q,
   };
+}
+
+// Prefill for "Effective from" on a quote the person selected: a time phrase in the words, else the message time.
+export function effective(ctx: Ctx, recordId: string, quote: string) {
+  const rec = ctx.data.records.find((r) => r.record_id === recordId);
+  if (!rec) return null;
+  const s = suggestEffective(quote, rec.source_recorded_at);
+  return { ...s, local: inOffsetOf(s.iso, ms(s.iso)) };
 }
 
 export function queue(ctx: Ctx, job?: string) {

@@ -30,13 +30,14 @@ export type RecordOutcome = {
   rejected?: string;
   gate_rejected: number;
   skeptic_dropped: number;
-  judged?: { reviewer: string; judged_at: string; reason: string; verdict: "cards" | "no_decision" };
+  judged?: { reviewer: string; judged_at: string; reason: string; verdict: "cards" | "no_decision"; open_questions?: string[] };
 };
 
 export function routeRecord(o: RecordOutcome): { bucket: Bucket; why: string } {
   if (o.judged) {
-    const what = o.judged.verdict === "cards" ? "decision confirmed" : "no decision here";
-    return { bucket: "human_confirmed", why: `${what} by ${o.judged.reviewer} on ${o.judged.judged_at.slice(0, 10)}: ${o.judged.reason}` };
+    const what = o.judged.verdict === "cards" ? "cards kept" : "nothing to keep, judged";
+    const q = o.judged.open_questions?.length ? ` (open question: ${o.judged.open_questions.join("; ")})` : "";
+    return { bucket: "human_confirmed", why: `${what} by ${o.judged.reviewer} on ${o.judged.judged_at.slice(0, 10)}: ${o.judged.reason}${q}` };
   }
   if (!o.reached) return { bucket: "needs_human", why: "the run stopped before this record" };
   if (o.failed_upstream) {

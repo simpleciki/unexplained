@@ -76,7 +76,20 @@
   .rtext { font-size: 16px; line-height: 1.6; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fffef9; cursor: text; user-select: text; }
   .hint { font-size: 12px; color: var(--faint); margin: 4px 0 8px; }
   .cand { font-size: 13px; color: var(--muted); margin: 6px 0; }
-  .rows .row { display: grid; grid-template-columns: 1fr 150px 210px 130px 28px; gap: 8px; align-items: center; margin: 6px 0; font-size: 14px; }
+  .rowbox { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 8px 0; background: #fcfcfb; }
+  .rows .row { display: grid; grid-template-columns: 1fr 170px 230px 130px 28px; gap: 8px; align-items: center; font-size: 14px; }
+  .row2 { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 8px; font-size: 13px; color: var(--muted); }
+  .row2 input { font: inherit; font-size: 13px; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
+  .row2 .qlabel { flex: 1; display: flex; gap: 6px; align-items: center; }
+  .row2 .qlabel input { flex: 1; min-width: 260px; }
+  .row2 .from { font-style: italic; }
+  .typehelp { font-size: 12px; color: var(--faint); margin-top: 6px; }
+  .q-open { color: #8a6a18; font-weight: 550; margin-top: 2px; }
+  .hist { font-size: 13px; color: var(--muted); margin-top: 4px; border-left: 2px solid var(--line); padding-left: 8px; }
+  .nothing { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); }
+  .nothing .hint { margin: 4px 0 0; }
+  .again { margin-top: 10px; }
+  .again .item { margin-top: 8px; }
   .rows .row .q { background: var(--mark); padding: 3px 8px; border-radius: 4px; }
   select, textarea, button { font: inherit; font-size: 14px; }
   select, textarea { border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; background: #fff; }
@@ -224,87 +237,143 @@ function warningHtml(w) {
 }
 
 const ITEMS = new Map(); // record id -> queue item, for defaults when a quote is selected
+
+// The four card types in plain words. The examples are the invented ones from the Researcher prompt
+// (src/agents/researcher.ts), never text from the job records.
+const TYPES = {
+  decides: { label: "Decision", help: "The client approves, rejects, or sets or withdraws a rule; also a client decision someone else logged.", example: "Yes, that works. Use the cedar boards on the north side." },
+  gives_reason: { label: "Reason", help: "Why: why something was rejected, why a price changed, why something is needed.", example: "We can't accept the glazing quote: it charges for six panes and only two are broken." },
+  proposes: { label: "Promise / open item", help: "Something someone will do or find out later.", example: "We'll measure the stairwell again on Monday and send a revised number by Wednesday." },
+  mentions: { label: "Mentions", help: "Refers to an existing practice, decision or state without making a new one.", example: "I haven't signed off on the shed roof yet." },
+};
+const typeLabel = (m) => TYPES[m]?.label ?? m;
+const shortDay = (iso) => `${Number(iso.slice(5, 7))}/${Number(iso.slice(8, 10))}`;
+
 function queueHtml(q) {
   for (const x of [...q.needs_human, ...q.spot_check, ...q.confirmed]) ITEMS.set(x.record_id, x);
   return `
     <h3>Needs your judgment (${q.needs_human.length})</h3>
-    ${q.needs_human.length ? q.needs_human.map((x) => itemHtml(x, false)).join("") : `<div class="empty">Nothing waiting on this job.</div>`}
+    ${q.needs_human.length ? q.needs_human.map((x) => itemHtml(x, "need")).join("") : `<div class="empty">Nothing waiting on this job.</div>`}
     <details class="spotsec"><summary>Model found nothing here — spot-check (${q.spot_check.length})</summary>
-      ${q.spot_check.length ? q.spot_check.map((x) => itemHtml(x, true)).join("") : `<div class="empty">None.</div>`}
+      ${q.spot_check.length ? q.spot_check.map((x) => itemHtml(x, "spot")).join("") : `<div class="empty">None.</div>`}
     </details>
-    ${q.confirmed.length ? `<h3>Confirmed by a person (${q.confirmed.length})</h3>${q.confirmed.map((x) => `<div class="card"><div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
-      <div class="done-line">${esc(x.why)}</div>${(x.judgment?.cards || []).map((c) => `<div class="cand">${esc(c.mode.replace("_", " "))} · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”</div>`).join("")}
-      <div class="rtext">${esc(x.text)}</div></div>`).join("")}` : ""}`;
+    ${q.confirmed.length ? `<h3>Confirmed by a person (${q.confirmed.length})</h3>${q.confirmed.map(confirmedHtml).join("")}` : ""}`;
 }
 
-function itemHtml(x, spot) {
+function cardLine(c) {
+  return `<div class="cand"><b>${esc(typeLabel(c.mode))}</b> · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”
+    ${c.effective ? ` · effective from ${esc(day(c.effective))}` : " · effective from the message time"}
+    ${c.open_question ? `<div class="q-open">Open question: ${esc(c.open_question)}</div>` : ""}</div>`;
+}
+
+function confirmedHtml(x) {
+  const j = x.judgment;
+  const hist = (x.history || []).map((h) => `<div class="hist">replaces the judgment of ${esc(day(h.judged_at))} by ${esc(h.reviewer)}: ${esc(h.verdict === "cards" ? h.types.map(typeLabel).join(", ") : "nothing to keep")} — ${esc(h.reason)}</div>`).join("");
+  return `<div class="card"><div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
+    <div class="done-line">${j?.verdict === "no_decision" ? "Nothing to keep" : "Kept"} — ${esc(j?.reviewer)}, ${esc(day(j?.judged_at))}: ${esc(j?.reason)}</div>
+    ${(j?.cards || []).map(cardLine).join("")}
+    ${hist}
+    <div class="rtext">${esc(x.text)}</div>
+    <details class="again"><summary>Judge this record again (the new judgment replaces this one; the history stays)</summary>${itemHtml(x, "again")}</details></div>`;
+}
+
+function itemHtml(x, kind) {
   const d = (S.drafts[x.record_id] ??= { rows: [], reason: "" });
-  return `<div class="card item ${spot ? "spot" : ""}" data-rec="${esc(x.record_id)}">
-    <div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
-    <div class="why">${esc(x.why)}</div>
+  const head = kind === "again" ? "" : `<div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
+    <div class="why">${esc(x.why)}</div>`;
+  return `<div class="${kind === "again" ? "" : "card "}item ${kind === "spot" ? "spot" : ""}" data-rec="${esc(x.record_id)}">
+    ${head}
     <div class="rtext" data-text="${esc(x.record_id)}">${esc(x.text)}</div>
-    <div class="hint">Select the words that state a decision, reason, proposal or report. Each selection becomes an exact quote.</div>
-    ${x.candidates.map((c) => `<div class="cand">model candidate: ${esc(c.mode.replace("_", " "))} · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”</div>`).join("")}
+    <div class="hint" data-hint>${hintText(d)}</div>
+    ${x.candidates.map((c) => `<div class="cand">model candidate: ${esc(typeLabel(c.mode))} · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”</div>`).join("")}
     <div class="rows">${d.rows.map((r, i) => rowHtml(r, i)).join("")}</div>
-    <textarea placeholder="Reason (required): why this is or is not a decision" data-reason="${esc(x.record_id)}">${esc(d.reason)}</textarea>
+    <textarea placeholder="Reason (required): what you read in this record and why" data-reason="${esc(x.record_id)}">${esc(d.reason)}</textarea>
     <div class="actions">
-      <button class="primary" data-act="cards" ${d.rows.length ? "" : "disabled"}>Confirm ${d.rows.length > 1 ? d.rows.length + " cards" : "card"}</button>
-      <button data-act="none">No decision here</button>
+      <button class="primary" data-act="cards" ${d.rows.length ? "" : "disabled"}>${confirmLabel(d)}</button>
       <span class="err" data-err="${esc(x.record_id)}"></span>
     </div>
+    <div class="nothing"><button data-act="none">Nothing to keep in this record</button>
+      <div class="hint">Use this only when the record holds no decision, reason, promise or reference.</div></div>
   </div>`;
 }
 
+const hintText = (d) => d.rows.length
+  ? "Select more words for another card — one record can hold several decisions."
+  : "Select the words that state a decision, reason, promise or reference. Each selection becomes an exact quote.";
+const confirmLabel = (d) => `Keep ${d.rows.length > 1 ? d.rows.length + " cards" : "this card"}`;
+
 function rowHtml(r, i) {
   const opts = (vals, cur, label = (v) => v) => vals.map((v) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(label(v))}</option>`).join("");
-  return `<div class="row" data-i="${i}">
-    <span class="q">“${esc(r.quote)}”</span>
-    <select data-f="mode">${opts(S.meta.modes, r.mode, (m) => m.replace("_", " "))}</select>
-    <select data-f="decided_by">${opts(S.meta.people.map((p) => p.id), r.decided_by, (id) => `${nameOf(id)} (${S.people.get(id)?.role ?? ""})`.slice(0, 48))}</select>
-    <select data-f="topic"><option value="">topic…</option>${opts(S.meta.topics, r.topic, (t) => t.replace("_", " "))}</select>
-    <button class="x" data-act="drop" title="remove">×</button>
+  const t = TYPES[r.mode];
+  return `<div class="rowbox" data-i="${i}">
+    <div class="row" data-i="${i}">
+      <span class="q">“${esc(r.quote)}”</span>
+      <select data-f="mode">${opts(Object.keys(TYPES), r.mode, typeLabel)}</select>
+      <select data-f="decided_by">${opts(S.meta.people.map((p) => p.id), r.decided_by, (id) => `${nameOf(id)} (${S.people.get(id)?.role ?? ""})`.slice(0, 48))}</select>
+      <select data-f="topic"><option value="">topic…</option>${opts(S.meta.topics, r.topic, (t) => t.replace("_", " "))}</select>
+      <button class="x" data-act="drop" title="remove">×</button>
+    </div>
+    <div class="row2" data-i="${i}">
+      <label>Effective from <input type="date" data-f="eff_date" value="${esc(r.eff_date)}"> <input type="time" data-f="eff_time" value="${esc(r.eff_time)}"></label>
+      <span class="from">${r.eff_from === "your edit" ? "set by you" : r.eff_from ? `prefilled from ${esc(r.eff_from)}` : "…"}</span>
+      <label class="qlabel">Has a question <input type="text" data-f="question" placeholder="optional: what is still unclear (keeps the card, blocks Clear)" value="${esc(r.question)}"></label>
+    </div>
+    <div class="typehelp">${esc(t.label)}: ${esc(t.help)} <i>e.g. “${esc(t.example)}”</i></div>
   </div>`;
 }
 
 function itemOf(el) { const c = el.closest("[data-rec]"); return c && c.dataset.rec; }
-// Only the quote rows and the confirm button change while a person works on an item; rebuild those in place.
+// Only the quote rows, the hint and the keep button change while a person works on an item; rebuild in place.
 function rerenderItem(rec) {
-  const card = document.querySelector(`[data-rec="${CSS.escape(rec)}"]`);
-  if (!card) return;
   const d = S.drafts[rec];
-  card.querySelector(".rows").innerHTML = d.rows.map((r, i) => rowHtml(r, i)).join("");
-  const b = card.querySelector('[data-act="cards"]');
-  b.disabled = !d.rows.length;
-  b.textContent = `Confirm ${d.rows.length > 1 ? d.rows.length + " cards" : "card"}`;
+  for (const card of document.querySelectorAll(`[data-rec="${CSS.escape(rec)}"]`)) {
+    card.querySelector(".rows").innerHTML = d.rows.map((r, i) => rowHtml(r, i)).join("");
+    card.querySelector("[data-hint]").textContent = hintText(d);
+    const b = card.querySelector('[data-act="cards"]');
+    b.disabled = !d.rows.length;
+    b.textContent = confirmLabel(d);
+  }
 }
 
-// A selection inside a record's text becomes a quote row (exact words only).
-document.addEventListener("mouseup", (e) => {
+// A selection inside a record's text becomes a quote row (exact words only), with "effective from"
+// prefilled from a time phrase in those words, or the message time.
+document.addEventListener("mouseup", async (e) => {
   const box = e.target.closest?.("[data-text]");
   if (!box) return;
   const sel = window.getSelection().toString().replace(/\s+/g, " ").trim();
   if (!sel) return;
   const rec = box.dataset.text;
-  const full = box.textContent;
-  const err = document.querySelector(`[data-err="${CSS.escape(rec)}"]`);
-  if (!full.includes(sel)) { err.textContent = "Select words within one record only."; return; }
+  const err = box.closest("[data-rec]").querySelector("[data-err]");
+  if (!box.textContent.includes(sel)) { err.textContent = "Select words within one record only."; return; }
   err.textContent = "";
   const d = S.drafts[rec];
   if (d.rows.some((r) => r.quote === sel)) return;
   const item = ITEMS.get(rec);
   const cand = item?.candidates?.find((c) => c.quote.includes(sel) || sel.includes(c.quote));
-  d.rows.push({ quote: sel, mode: cand?.mode ?? "decides", decided_by: cand?.decided_by ?? item?.author ?? S.meta.people[0].id, topic: cand?.topic ?? "" });
+  const row = { quote: sel, mode: cand?.mode ?? "decides", decided_by: cand?.decided_by ?? item?.author ?? S.meta.people[0].id, topic: cand?.topic ?? "", eff_date: "", eff_time: "", eff_from: "", question: "" };
+  d.rows.push(row);
   window.getSelection().removeAllRanges();
+  rerenderItem(rec);
+  const s = (await api(`/api/effective?record=${encodeURIComponent(rec)}&quote=${encodeURIComponent(sel)}`)).body;
+  Object.assign(row, { eff_date: s.local.slice(0, 10), eff_time: s.local.slice(11, 16), eff_from: s.from });
   rerenderItem(rec);
 });
 
 document.addEventListener("change", (e) => {
-  const row = e.target.closest?.(".row");
+  const box = e.target.closest?.("[data-i]");
   const rec = itemOf(e.target);
-  if (row && rec && e.target.dataset.f) S.drafts[rec].rows[Number(row.dataset.i)][e.target.dataset.f] = e.target.value;
+  if (!box || !rec || !e.target.dataset.f) return;
+  const r = S.drafts[rec].rows[Number(box.dataset.i)];
+  r[e.target.dataset.f] = e.target.value;
+  if (e.target.dataset.f === "eff_date" || e.target.dataset.f === "eff_time") r.eff_from = "your edit";
+  if (e.target.dataset.f === "mode" || e.target.dataset.f.startsWith("eff_")) rerenderItem(rec);
 });
 document.addEventListener("input", (e) => {
   if (e.target.dataset?.reason) S.drafts[e.target.dataset.reason].reason = e.target.value;
+  if (e.target.dataset?.f === "question") {
+    const rec = itemOf(e.target);
+    S.drafts[rec].rows[Number(e.target.closest("[data-i]").dataset.i)].question = e.target.value;
+  }
 });
 document.addEventListener("click", async (e) => {
   const act = e.target.dataset?.act;
@@ -312,14 +381,19 @@ document.addEventListener("click", async (e) => {
   const rec = itemOf(e.target);
   if (!rec) return;
   const d = S.drafts[rec];
-  if (act === "drop") { d.rows.splice(Number(e.target.closest(".row").dataset.i), 1); return rerenderItem(rec); }
-  const err = document.querySelector(`[data-err="${CSS.escape(rec)}"]`);
+  if (act === "drop") { d.rows.splice(Number(e.target.closest("[data-i]").dataset.i), 1); return rerenderItem(rec); }
+  const err = e.target.closest("[data-rec]").querySelector("[data-err]");
   const reviewer = reviewerEl.value.trim();
   if (!reviewer) { err.textContent = "Enter a reviewer name at the top."; return; }
   if (!d.reason.trim()) { err.textContent = "A reason is required."; return; }
   const body = act === "none"
     ? { record_id: rec, verdict: "no_decision", cards: [], reason: d.reason, reviewer }
-    : { record_id: rec, verdict: "cards", cards: d.rows.map((r) => ({ mode: r.mode, quote: r.quote, decided_by: r.decided_by, ...(r.topic ? { topic: r.topic } : {}) })), reason: d.reason, reviewer };
+    : { record_id: rec, verdict: "cards", reason: d.reason, reviewer, cards: d.rows.map((r) => ({
+        mode: r.mode, quote: r.quote, decided_by: r.decided_by,
+        ...(r.topic ? { topic: r.topic } : {}),
+        ...(r.eff_date ? { effective: `${r.eff_date}T${r.eff_time || "00:00"}` } : {}),
+        ...(r.question.trim() ? { open_question: r.question.trim() } : {}),
+      })) };
   e.target.disabled = true;
   const r = await api("/api/judgments", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
   e.target.disabled = false;

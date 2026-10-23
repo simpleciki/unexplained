@@ -6,10 +6,15 @@ import { join } from "node:path";
 import { parseJsonl } from "../engine/data.ts";
 import type { CardMode, DecisionCard, RelationEdge, SourceRecord } from "../engine/types.ts";
 import type { Vocab } from "../engine/vocab.ts";
+import { effectiveFromForm } from "./effective.ts";
 
 const MODES: CardMode[] = ["decides", "mentions", "gives_reason", "proposes"];
 
-export type JudgedCard = { mode: CardMode; quote: string; decided_by: string; topic?: string; facets?: string[]; scope?: string };
+// effective: when the decision starts to apply (ISO with offset; the form sends "YYYY-MM-DDTHH:MM" and it is
+// stored with the offset of that date). Absent on older judgments: the record time is used.
+// open_question: the person keeps the card but has a doubt; it stays an open item until a later judgment
+// for the record drops it.
+export type JudgedCard = { mode: CardMode; quote: string; decided_by: string; topic?: string; facets?: string[]; scope?: string; effective?: string; open_question?: string };
 export type Judgment = {
   judgment_id: string;
   record_id: string;
@@ -63,6 +68,7 @@ export function validateJudgment(input: JudgmentInput, records: SourceRecord[], 
     else if (!vocab.topics.has(topic)) out.push(`cards[${i}]: unknown topic ${topic}`);
     for (const f of c.facets ?? []) if (!vocab.facets.has(f)) out.push(`cards[${i}]: unknown facet ${f}`);
     if (c.scope && !vocab.scopes.has(c.scope)) out.push(`cards[${i}]: unknown scope ${c.scope}`);
+    if (c.effective !== undefined && !effectiveFromForm(c.effective, rec.source_recorded_at)) out.push(`cards[${i}]: "effective from" is not a date and time: ${c.effective}`);
   }
   return out;
 }
@@ -86,10 +92,19 @@ export function appendJudgment(root: string, input: JudgmentInput, records: Sour
   const all = loadJudgments(root);
   const previous = latestPerRecord(all).get(input.record_id);
   const n = all.filter((j) => j.record_id === input.record_id).length + 1;
+  const rec = records.find((r) => r.record_id === input.record_id)!;
   const cards = input.verdict === "cards"
     ? input.cards.map((c) => {
         const m = c.topic ? undefined : topicFromModel(c.quote, input.record_id, modelCards);
-        return { ...c, topic: c.topic ?? m!.topic, facets: c.facets ?? m?.facets ?? [] };
+        const { open_question, effective, ...rest } = c;
+        const question = open_question?.trim();
+        return {
+          ...rest,
+          topic: c.topic ?? m!.topic,
+          facets: c.facets ?? m?.facets ?? [],
+          ...(effective !== undefined ? { effective: effectiveFromForm(effective, rec.source_recorded_at)! } : {}),
+          ...(question ? { open_question: question } : {}),
+        };
       })
     : [];
   const j: Judgment = {
@@ -128,8 +143,8 @@ export function applyJudgments(modelCards: DecisionCard[], edges: RelationEdge[]
         topic: c.topic ?? "",
         facets: c.facets ?? [],
         scope: c.scope ?? (rec.thread_id ? `job:${rec.thread_id}` : "global"),
-        decided_at: rec.source_recorded_at,
-        effective: rec.source_recorded_at,
+        decided_at: rec.source_recorded_at, // when it was said
+        effective: c.effective ?? rec.source_recorded_at, // when it applies; older judgments have no effective
         decided_by: c.decided_by,
         source: "human",
         judgment_id: j.judgment_id,
@@ -143,6 +158,18 @@ export function applyJudgments(modelCards: DecisionCard[], edges: RelationEdge[]
     edges: edges.filter((e) => ids.has(e.old_card) && ids.has(e.new_card)),
     human,
   };
+}
+
+// The judgments a record's latest one replaced, oldest first (the file is append-only, so nothing is lost).
+export function historyOf(judgments: Judgment[], recordId: string): Judgment[] {
+  return judgments.filter((j) => j.record_id === recordId).slice(0, -1);
+}
+
+// Open questions on the latest judgment of each record: the person kept a card but has a doubt.
+export function openQuestions(judgments: Judgment[]): { record_id: string; reviewer: string; judged_at: string; question: string }[] {
+  return [...latestPerRecord(judgments).values()].flatMap((j) =>
+    j.cards.filter((c) => c.open_question).map((c) => ({ record_id: j.record_id, reviewer: j.reviewer, judged_at: j.judged_at, question: c.open_question! })),
+  );
 }
 
 // "confirmed by Ciki on 2026-10-23: <reason>" for a human card; undefined for a model card.

@@ -42,7 +42,7 @@ export function outcomesOf(records: SourceRecord[], cards: DecisionCard[], repor
       rejected: report.records_rejected.find((x) => x.record_id === r.record_id)?.why,
       gate_rejected: count(report.cards_gate_rejected.map((c) => c.card_id), r.record_id),
       skeptic_dropped: count(report.cards_dropped_by_skeptic.map((c) => c.card_id), r.record_id),
-      judged: j ? { reviewer: j.reviewer, judged_at: j.judged_at, reason: j.reason, verdict: j.verdict } : undefined,
+      judged: j ? { reviewer: j.reviewer, judged_at: j.judged_at, reason: j.reason, verdict: j.verdict, open_questions: j.cards.flatMap((c) => (c.open_question ? [c.open_question] : [])) } : undefined,
     };
   });
 }

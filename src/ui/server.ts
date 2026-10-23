@@ -9,7 +9,7 @@ import { createServer } from "node:http";
 import { join } from "node:path";
 import { loadData } from "../adapters/zetaris.ts";
 import type { Dataset } from "../engine/types.ts";
-import { check, jobs, ledger, loadCtx, meta, postJudgment, queue } from "./api.ts";
+import { check, effective, jobs, ledger, loadCtx, meta, postJudgment, queue } from "./api.ts";
 import type { Ctx } from "./api.ts";
 
 export type Reply = { status: number; type: "json" | "html"; body: string };
@@ -24,6 +24,10 @@ export function route(box: { ctx: Ctx; html: string }, method: string, url: stri
   if (method === "GET" && p === "/api/meta") return json(200, meta(box.ctx));
   if (method === "GET" && p === "/api/jobs") return json(200, jobs(box.ctx));
   if (method === "GET" && p === "/api/queue") return json(200, queue(box.ctx, u.searchParams.get("job") ?? undefined));
+  if (method === "GET" && p === "/api/effective") {
+    const r = effective(box.ctx, u.searchParams.get("record") ?? "", u.searchParams.get("quote") ?? "");
+    return r ? json(200, r) : json(404, { errors: ["unknown record"] });
+  }
   if (method === "GET" && p === "/api/check") {
     const doc = u.searchParams.get("doc");
     const r = doc ? check(box.ctx, doc) : null;

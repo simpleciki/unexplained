@@ -8,7 +8,7 @@ import { loadDataset } from "../engine/data.ts";
 import type { Dataset, DecisionCard, SourceRecord } from "../engine/types.ts";
 import { extractableRecords } from "../pipeline/ingest.ts";
 import type { IngestReport } from "../pipeline/ingest.ts";
-import { latestPerRecord, loadJudgments } from "./judgments.ts";
+import { historyOf, latestPerRecord, loadJudgments } from "./judgments.ts";
 import type { Judgment } from "./judgments.ts";
 import { buildLedger } from "./ledger.ts";
 import type { Ledger } from "./ledger.ts";
@@ -25,6 +25,8 @@ export type QueueItem = {
   text: string;
   candidates: Pick<DecisionCard, "card_id" | "mode" | "decided_by" | "topic" | "quote">[];
   judgment?: Judgment;
+  // Earlier judgments the latest one replaced, oldest first: "replaces the judgment of <date>: ...".
+  history: { judgment_id: string; judged_at: string; reviewer: string; verdict: Judgment["verdict"]; types: string[]; reason: string }[];
 };
 
 export type ReviewView = { data: Dataset; modelCards: DecisionCard[]; judgments: Judgment[]; ledger: Ledger; items: QueueItem[] };
@@ -51,6 +53,7 @@ export function loadReviewView(root: string, data: Dataset = loadDataset(root)):
       text: r.text,
       candidates: modelCards.filter((c) => c.record_id === x.record_id).map(({ card_id, mode, decided_by, topic, quote }) => ({ card_id, mode, decided_by, topic, quote })),
       judgment: latest.get(x.record_id),
+      history: historyOf(judgments, x.record_id).map((h) => ({ judgment_id: h.judgment_id, judged_at: h.judged_at, reviewer: h.reviewer, verdict: h.verdict, types: h.cards.map((c) => c.mode), reason: h.reason })),
     };
   });
   return { data, modelCards, judgments, ledger, items };

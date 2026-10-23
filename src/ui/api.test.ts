@@ -90,6 +90,60 @@ describe("gatekeeper API", () => {
     expect(c.verdict.notes.join()).toMatch(/P2 .* needs the Judge model step/);
   });
 
+  it("prefills effective from a time phrase in the quote; the human card carries it; an edit is stored", () => {
+    const { box } = setup();
+    const quote = "Electrical labor for North Loft is $98 per hour from 1 May 2026.";
+    const pre = get(box, `/api/effective?record=rec-0017&quote=${encodeURIComponent(quote)}`).body;
+    expect(pre).toMatchObject({ iso: "2026-05-01T00:00:00-05:00", from: 'the words "1 May 2026"', local: "2026-05-01 00:00" });
+    const noPhrase = get(box, `/api/effective?record=rec-0017&quote=${encodeURIComponent("Leave material pricing as already approved.")}`).body;
+    expect(noPhrase).toMatchObject({ iso: "2026-04-08T07:55:00-05:00", from: "the message time" });
+    const post = (cards: unknown[]) => route(box, "POST", "/api/judgments", JSON.stringify({ record_id: "rec-0017", verdict: "cards", cards, reason: "rate from 1 May; material unchanged", reviewer: "Ciki" }));
+    // Two quote rows -> two cards: the second decision in the record gets its own card.
+    const r = post([
+      { mode: "decides", quote, decided_by: "p.nl.ria_moth", topic: "price", effective: "2026-05-01T00:00" },
+      { mode: "decides", quote: "Leave material pricing as already approved.", decided_by: "p.nl.ria_moth", topic: "price" },
+    ]);
+    expect(r.status).toBe(201);
+    const human = box.ctx.engine.cards.filter((c) => c.record_id === "rec-0017");
+    expect(human.map((c) => [c.quote, c.effective, c.decided_at])).toEqual([
+      [quote, "2026-05-01T00:00:00-05:00", "2026-04-08T07:55:00-05:00"],
+      ["Leave material pricing as already approved.", "2026-04-08T07:55:00-05:00", "2026-04-08T07:55:00-05:00"],
+    ]);
+    // An edited date is stored as edited (with the offset of that date).
+    expect(post([{ mode: "decides", quote, decided_by: "p.nl.ria_moth", topic: "price", effective: "2026-05-15T08:30" }]).status).toBe(201);
+    expect(box.ctx.engine.cards.find((c) => c.record_id === "rec-0017")!.effective).toBe("2026-05-15T08:30:00-05:00");
+    expect(JSON.parse(post([{ mode: "decides", quote, decided_by: "p.nl.ria_moth", topic: "price", effective: "soon" }]).body).errors.join()).toMatch(/not a date/);
+  });
+
+  it("an open question keeps the card and turns a would-be Clear into Not cleared with the note", () => {
+    const { box } = setup();
+    const doc = "Q-NL-01-v1";
+    const open = get(box, `/api/check?doc=${doc}`).body.queue.needs_human.filter((x: { recorded_at: string }) => Date.parse(x.recorded_at) < Date.parse("2026-03-04T09:15:00-06:00"));
+    const [first, ...rest] = open;
+    for (const x of rest) route(box, "POST", "/api/judgments", JSON.stringify({ record_id: x.record_id, verdict: "no_decision", cards: [], reason: "read it", reviewer: "Ciki" }));
+    const words = first.text.split(/(?<=\.)\s/)[0];
+    const r = route(box, "POST", "/api/judgments", JSON.stringify({ record_id: first.record_id, verdict: "cards", cards: [{ mode: "mentions", quote: words, decided_by: first.author, topic: "scope", open_question: "which split is usual here?" }], reason: "keep it, but ask", reviewer: "Ciki" }));
+    expect(r.status).toBe(201);
+    expect(box.ctx.engine.cards.some((c) => c.record_id === first.record_id && c.source === "human")).toBe(true);
+    const c = get(box, `/api/check?doc=${doc}`).body;
+    expect(c.records.unjudged).toBe(0);
+    expect(c.verdict.state).toBe("not_cleared");
+    expect(c.verdict.notes).toEqual([expect.stringMatching(new RegExp(`^Open question \\(Ciki, \\d+/\\d+\\) on ${first.record_id}: which split is usual here\\?$`))]);
+    // Resolving it = a new judgment for that record without the question.
+    route(box, "POST", "/api/judgments", JSON.stringify({ record_id: first.record_id, verdict: "cards", cards: [{ mode: "mentions", quote: words, decided_by: first.author, topic: "scope" }], reason: "answered", reviewer: "Ciki" }));
+    expect(get(box, `/api/check?doc=${doc}`).body.verdict.state).toBe("clear");
+  });
+
+  it("returns the superseded history for a re-judged record", () => {
+    const { box } = setup();
+    route(box, "POST", "/api/judgments", JSON.stringify({ record_id: "rec-0011", verdict: "no_decision", cards: [], reason: "hours not stated", reviewer: "Ciki" }));
+    route(box, "POST", "/api/judgments", JSON.stringify({ record_id: "rec-0011", verdict: "cards", cards: [{ mode: "decides", quote: "Ok on the extra ground hours. Approved.", decided_by: "p.nl.ria_moth", topic: "approval", open_question: "how many hours?" }], reason: "approved, hours not stated", reviewer: "Ciki" }));
+    const item = get(box, "/api/queue?job=WO-NL-01").body.confirmed.find((x: { record_id: string }) => x.record_id === "rec-0011");
+    expect(item.judgment).toMatchObject({ judgment_id: "j.rec-0011.2", supersedes: "j.rec-0011.1" });
+    expect(item.history).toEqual([expect.objectContaining({ judgment_id: "j.rec-0011.1", verdict: "no_decision", types: [], reason: "hours not stated" })]);
+    expect(item.why).toMatch(/open question: how many hours\?/);
+  });
+
   it("lists the queue for one job: needs_human, then the spot-check items", () => {
     const { box } = setup();
     const q = get(box, "/api/queue?job=WO-NL-01").body;
@@ -122,7 +176,7 @@ describe("gatekeeper API", () => {
     expect(readFileSync(join(root, "review/judgments.jsonl"), "utf8").trim().split("\n")).toHaveLength(1);
     const q = get(box, "/api/queue?job=WO-NL-01").body;
     expect(q.confirmed.map((x: { record_id: string }) => x.record_id)).toEqual(["rec-0011"]);
-    expect(q.confirmed[0].why).toMatch(/^decision confirmed by Ciki on \d{4}-\d\d-\d\d: client approves the extra hours$/);
+    expect(q.confirmed[0].why).toMatch(/^cards kept by Ciki on \d{4}-\d\d-\d\d: client approves the extra hours$/);
   });
 
   it("unknown routes are 404", () => {
