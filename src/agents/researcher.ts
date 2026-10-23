@@ -22,10 +22,34 @@ export type RawCard = {
   quote: string;
 };
 
-const SYSTEM = `You extract decision cards from one record of a repair contractor's job file.
-A card is one sentence-level statement: a client decision or rule (decides), a reason someone gives (gives_reason),
-a promise or proposal (proposes), or a report of what someone else decided (mentions).
+// The worked examples are invented (other names, trades and amounts). Never copy or paraphrase text
+// from data/records/ into them: extraction is scored on those records.
+export const SYSTEM = `You extract decision cards from one record of a repair contractor's job file.
+A card is one decision, reason, proposal or report. Its quote is the shortest exact span of the record that states it
+completely, usually one or two sentences. Do not split one decision into several cards: a one-word acceptance such as
+"Accepted." belongs in the same quote as the sentence that says what is accepted. Do not merge two different decisions
+into one card.
 A contractor's quote is only a proposal; only a client reviewer can decide.
+Modes:
+- decides: the client reviewer decides, approves, rejects, or sets or withdraws a rule. A client decision that someone
+  else reports (a note logging the client's approval on a call) is still decides, with decided_by = the client.
+- gives_reason: someone states why: why a quote was rejected, why a price changed, why something is needed. A refusal
+  that comes with its cause is a gives_reason card; add a decides card for the refusal only if it is a separate statement.
+- proposes: a promise, offer or plan about the future ("we can send the crew back on Tuesday", "I'll call you once the
+  parts arrive"), including a quote the contractor submits.
+- mentions: the writer refers to a decision, practice or state without making a new decision (including saying what
+  they have NOT approved).
+Examples (invented, not from this job file):
+- Client reviewer writes "Yes, that works. Use the cedar boards on the north side." -> one decides card, quote
+  "Yes, that works. Use the cedar boards on the north side."
+- Client reviewer writes "We can't accept the glazing quote: it charges for six panes and only two are broken." -> one
+  gives_reason card with that whole sentence as the quote.
+- Estimator writes "We'll measure the stairwell again on Monday and send a revised number by Wednesday." -> one
+  proposes card.
+- Office coordinator writes "Bea Lund told me over lunch that the repaint is approved at $2,140." -> one decides card,
+  decided_by = Bea Lund.
+- Client reviewer writes "I haven't signed off on the shed roof yet." -> one mentions card.
+- Field technician writes "Arrived 9:40, deck sanded, dust sheets left in the hallway." -> {"cards":[]}.
 Rules:
 ${RULES}
 Return JSON only: {"cards":[{"mode":"decides|mentions|gives_reason|proposes","topic":"...","facets":["..."],"scope":"job:<id>|client:<id>|global",
