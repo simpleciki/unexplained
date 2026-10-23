@@ -20,6 +20,9 @@ import { checkCards } from "../agents/skeptic.ts";
 import { relate, seatPairs } from "../agents/keeper.ts";
 import { agentContext } from "../agents/shared.ts";
 import type { Runtime } from "./runtime.ts";
+import { applyJudgments, loadJudgments } from "../review/judgments.ts";
+import { buildLedger } from "../review/ledger.ts";
+import type { Ledger } from "../review/ledger.ts";
 
 export type IngestReport = {
   complete: boolean;
@@ -40,6 +43,8 @@ export type IngestReport = {
   pairs_total: number;
   pairs_judged: number;
   edges: number;
+  // Where every record went (src/review/ledger.ts); the full list is in review-queue.json next to cards.json.
+  ledger?: Pick<Ledger, "line" | "complete" | "counts" | "unaccounted">;
 };
 
 export const extractableRecords = (records: SourceRecord[]) =>
@@ -157,7 +162,10 @@ export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, 
 
   report.cards = accepted.length;
   report.edges = edges.filter((e) => e.relation !== "UNRELATED").length;
+  const ledger = buildLedger(records, accepted, report, loadJudgments(root));
+  report.ledger = { line: ledger.line, complete: ledger.complete, counts: ledger.counts, unaccounted: ledger.unaccounted };
   mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, "review-queue.json"), JSON.stringify(ledger, null, 2) + "\n");
   writeFileSync(join(outDir, "cards.json"), JSON.stringify(accepted, null, 2) + "\n");
   writeFileSync(join(outDir, "ingest-report.json"), JSON.stringify(report, null, 2) + "\n");
   if (sample) return report;
@@ -166,9 +174,16 @@ export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, 
   return report;
 }
 
-// Cards and relations from the last ingest. The engine is built from these, never from eval/gold/.
-export function loadIngested(root: string): { cards: DecisionCard[]; edges: RelationEdge[] } {
+// Cards and relations from the last ingest, with human judgments applied (review/judgments.jsonl): a judged
+// record uses the person's cards. `modelCards` is the model's output alone: extraction scores use only that.
+// The engine is built from these, never from eval/gold/.
+export function loadIngested(root: string, data?: Dataset) {
   const f = (n: string) => join(root, "state", n);
   if (!existsSync(f("cards.json")) || !existsSync(f("edges.json"))) throw new Error("no ingested cards yet: run `npm run ingest -- --max-calls N` first");
-  return { cards: JSON.parse(readFileSync(f("cards.json"), "utf8")), edges: JSON.parse(readFileSync(f("edges.json"), "utf8")) };
+  const modelCards = JSON.parse(readFileSync(f("cards.json"), "utf8")) as DecisionCard[];
+  const modelEdges = JSON.parse(readFileSync(f("edges.json"), "utf8")) as RelationEdge[];
+  const judgments = loadJudgments(root);
+  if (!judgments.length) return { cards: modelCards, edges: modelEdges, modelCards, judgments };
+  const applied = applyJudgments(modelCards, modelEdges, judgments, (data ?? loadDataset(root)).records);
+  return { cards: applied.cards, edges: applied.edges, modelCards, judgments };
 }

@@ -30,15 +30,18 @@ export function subsetQuestions(root: string, subset: "dev" | "full"): GoldQuest
 }
 
 export async function runLive(root: string, rt: Runtime, subset: "dev" | "full", data?: Dataset) {
-  const { cards, edges } = loadIngested(root);
+  const { cards, edges, modelCards } = loadIngested(root, data);
   const engine = buildEngine(root, cards, edges, undefined, data);
   const ctx = agentContext(root, engine.data, engine.vocab);
   const questions = subsetQuestions(root, subset);
   const scores: Score[] = [];
   const results: unknown[] = [];
   let stopped: string | undefined;
-  // Model cards are scored by the gold card they match (see toGoldIds).
-  const ex = extractionScore(cards, gold<DecisionCard>(root, "gold_cards.jsonl"));
+  // Model cards are scored by the gold card they match (see toGoldIds). Extraction precision/recall is the
+  // model's alone: human-confirmed cards are never counted in it. "system" (model + human) is reported apart.
+  const goldCards = gold<DecisionCard>(root, "gold_cards.jsonl");
+  const ex = extractionScore(modelCards, goldCards);
+  const sys = extractionScore(cards, goldCards);
   for (const q of questions) {
     try {
       const r = await runAsk(engine, ctx, rt, { question_id: q.question_id, question: q.question, as_of: q.as_of });
@@ -60,6 +63,7 @@ export async function runLive(root: string, rt: Runtime, subset: "dev" | "full",
     of: questions.length,
     summary,
     extraction: { ...ex, match: Object.fromEntries(ex.match) },
+    system_extraction: { model_cards: modelCards.length, human_cards: cards.filter((c) => c.source === "human").length, cards: sys.model_cards, matched: sys.matched, precision: sys.precision, recall: sys.recall },
     relations: rel,
     failing: scores.filter((s) => s.why.length).map((s) => ({ question_id: s.question_id, why: s.why.join("; ") })),
     results,
@@ -79,8 +83,9 @@ export function printSideBySide(root: string, live: Awaited<ReturnType<typeof ru
     ["current card", oracle?.current_card, live.summary.current_card],
     ["in-effect card", oracle?.in_effect_card, live.summary.in_effect_card],
     ["reasons", oracle?.reasons_superset, live.summary.reasons_superset],
-    ["extraction precision", "1 (gold)", live.extraction.precision],
-    ["extraction recall", "1 (gold)", live.extraction.recall],
+    ["extraction precision", "1 (gold)", `${live.extraction.precision} (model only)`],
+    ["extraction recall", "1 (gold)", `${live.extraction.recall} (model only)`],
+    ["system P / R", "-", `${live.system_extraction.precision} / ${live.system_extraction.recall} (model + ${live.system_extraction.human_cards} human-confirmed cards)`],
     ["relation accuracy", "1 (gold)", live.relations.accuracy],
   ];
   console.log(`metric                     oracle (80 q)   live (${live.answered}/${live.of} q, ${live.subset})`);

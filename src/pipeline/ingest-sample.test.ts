@@ -65,7 +65,7 @@ describe("ingest sample mode", () => {
     await runIngest(root, rt, undefined, { records: SAMPLE, out: "state/sample-007" });
     for (const [f, text] of Object.entries(before)) expect(readFileSync(join(root, "state", f), "utf8")).toBe(text);
     expect(readdirSync(join(root, "state")).sort()).toEqual([...Object.keys(before), "sample-007"].sort());
-    expect(readdirSync(join(root, "state/sample-007")).sort()).toEqual(["cards.json", "ingest-report.json"]);
+    expect(readdirSync(join(root, "state/sample-007")).sort()).toEqual(["cards.json", "ingest-report.json", "review-queue.json"]);
   }, 60_000);
 
   it("refuses unknown record ids and an --out of state/ itself", async () => {

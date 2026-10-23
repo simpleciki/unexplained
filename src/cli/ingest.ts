@@ -39,12 +39,13 @@ main(async () => {
   const report = await runIngest(root, rt, data, sample);
   if (rt.client.sticky.size) console.log(`routes after fallback:\n  ${routeLines(rt).join("\n  ")}`);
   const trace = await writeTrace(root, "ingest", rt.events);
-  console.log(JSON.stringify({ ...report, records_rejected: report.records_rejected.length, records_prose_reply: report.records_prose_reply.length, pairs_prose_reply: report.pairs_prose_reply.length, cards_gate_rejected: report.cards_gate_rejected.length, cards_dropped_by_skeptic: report.cards_dropped_by_skeptic.length, records_failed_upstream: report.records_failed_upstream.map((r) => r.record_id), pairs_failed_upstream: report.pairs_failed_upstream.length }, null, 2));
+  console.log(JSON.stringify({ ...report, records_rejected: report.records_rejected.length, records_prose_reply: report.records_prose_reply.length, pairs_prose_reply: report.pairs_prose_reply.length, cards_gate_rejected: report.cards_gate_rejected.length, cards_dropped_by_skeptic: report.cards_dropped_by_skeptic.length, ledger: undefined, records_failed_upstream: report.records_failed_upstream.map((r) => r.record_id), pairs_failed_upstream: report.pairs_failed_upstream.length }, null, 2));
+  if (report.ledger) console.log(report.ledger.line);
   if (sample) {
     const out = sampleOutDir(root, sample.out);
-    console.log(`calls used ${rt.client.budget.used}/${maxCalls}; wrote ${relative(root, out)}/cards.json and ${relative(root, out)}/ingest-report.json (state/cards.json untouched); trace ${trace}`);
+    console.log(`calls used ${rt.client.budget.used}/${maxCalls}; wrote ${relative(root, out)}/cards.json, review-queue.json and ingest-report.json (state/cards.json untouched); trace ${trace}`);
     const cards = JSON.parse(readFileSync(join(out, "cards.json"), "utf8")) as DecisionCard[];
     printSampleScore(sampleScore(sample.records, cards, loadCurrentCards(root), loadGoldCards(root)));
-  } else console.log(`calls used ${rt.client.budget.used}/${maxCalls}; wrote state/cards.json, state/edges.json, state/ingest-report.json, state/seats.json, state/hmem-snapshot.json; trace ${trace}`);
+  } else console.log(`calls used ${rt.client.budget.used}/${maxCalls}; wrote state/cards.json, state/edges.json, state/review-queue.json, state/ingest-report.json, state/seats.json, state/hmem-snapshot.json; trace ${trace}`);
   if (!report.complete) console.log(`stopped early (${report.stopped_reason}); rerun with a larger --max-calls: finished records come from the cache.`);
 });

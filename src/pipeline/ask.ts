@@ -14,6 +14,8 @@ import { checkAnswer } from "../agents/skeptic.ts";
 import type { Sentence } from "../agents/skeptic.ts";
 import type { AgentContext } from "../agents/shared.ts";
 import type { Runtime } from "./runtime.ts";
+import { confirmation } from "../review/judgments.ts";
+import type { Judgment } from "../review/judgments.ts";
 
 export type AskInput = { question_id: string; question: string; as_of: string | null };
 export type AskResult = {
@@ -24,9 +26,11 @@ export type AskResult = {
   prose: string;
   sentences: Sentence[];
   unresolved: (Sentence & { why: string })[];
+  // For each cited card that a person confirmed: "<card>: confirmed by <reviewer> on <date>: <reason>".
+  confirmed: string[];
 };
 
-export async function runAsk(engine: Engine, ctx: AgentContext, rt: Runtime, input: AskInput): Promise<AskResult> {
+export async function runAsk(engine: Engine, ctx: AgentContext, rt: Runtime, input: AskInput, judgments: Judgment[] = []): Promise<AskResult> {
   const r = await route(rt.client, rt.models.router, input.question, ctx, input.as_of);
   const q = { question_id: input.question_id, question: input.question, as_of: r.as_of, seats: r.seats };
 
@@ -49,5 +53,11 @@ export async function runAsk(engine: Engine, ctx: AgentContext, rt: Runtime, inp
   const sentences = (await explain(rt.client, rt.models.explainer, input.question, findings)) ?? [];
   const checked = sentences.length ? await checkAnswer(rt.client, rt.models.skeptic, findings, sentences) : { kept: [], removed: [] };
   const prose = checked.kept.map((s) => `${s.text}${s.cites.length ? ` [${s.cites.join(", ")}]` : ""}`).join(" ");
-  return { question_id: input.question_id, route: r, judge, answer, prose, sentences: checked.kept, unresolved: checked.removed };
+  const cited = new Set(checked.kept.flatMap((s) => s.cites));
+  const confirmed = [...cited].flatMap((id) => {
+    const c = cards.get(id);
+    const line = c && confirmation(c, judgments);
+    return line ? [`${id}: ${line}`] : [];
+  });
+  return { question_id: input.question_id, route: r, judge, answer, prose, sentences: checked.kept, unresolved: checked.removed, confirmed };
 }

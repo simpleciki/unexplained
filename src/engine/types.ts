@@ -34,6 +34,8 @@ export type DecisionCard = {
   decided_at: string;
   effective: string;
   decided_by: string;
+  source?: "model" | "human"; // absent = model; "human" = from a review judgment (src/review/judgments.ts)
+  judgment_id?: string;
 };
 
 export type Relation = "REPLACES" | "SAME" | "REFINES" | "UNRELATED";
