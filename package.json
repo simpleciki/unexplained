@@ -21,7 +21,8 @@
     "sources:serve": "node --import tsx src/zetaris/source-server.ts",
     "zetaris:register": "node --env-file-if-exists=.env --import tsx scripts/zetaris-register.ts",
     "zetaris:parity": "node --env-file-if-exists=.env --import tsx scripts/zetaris-parity.ts",
-    "cache:audit": "node --import tsx scripts/cache-audit.ts"
+    "cache:audit": "node --import tsx scripts/cache-audit.ts",
+    "eval:mode-disputes": "node --import tsx scripts/mode-disputes.ts"
   },
   "devDependencies": {
     "@types/node": "^24.9.1",

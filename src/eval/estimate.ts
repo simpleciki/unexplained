@@ -11,7 +11,7 @@ import type { DecisionCard } from "../engine/types.ts";
 import { verifyCards } from "../engine/verify.ts";
 import { loadVocab } from "../engine/vocab.ts";
 import { seatPairs } from "../agents/keeper.ts";
-import { extractableRecords } from "../pipeline/ingest.ts";
+import { extractableRecords, sampleRecords } from "../pipeline/ingest.ts";
 import type { GoldQuestion } from "./scoring.ts";
 
 export type StageEstimate = { stage: string; agent: string; base: number; worst: number; basis: string };
@@ -25,21 +25,23 @@ const total = (name: string, stages: StageEstimate[], notes: string[] = []): Est
   notes,
 });
 
-export function estimateIngest(root: string): Estimate {
+// sample: only these records, and no Keeper (ingest --records).
+export function estimateIngest(root: string, sample?: string[]): Estimate {
   const data = loadDataset(root);
-  const records = extractableRecords(data.records);
-  const gold = parseJsonl<DecisionCard>(readFileSync(join(root, "eval/gold/gold_cards.jsonl"), "utf8"));
+  const records = sample ? sampleRecords(data.records, sample) : extractableRecords(data.records);
+  const ids = new Set(records.map((r) => r.record_id));
+  const gold = parseJsonl<DecisionCard>(readFileSync(join(root, "eval/gold/gold_cards.jsonl"), "utf8")).filter((c) => ids.has(c.record_id));
   const withCards = new Set(gold.map((c) => c.record_id)).size;
-  const pairs = seatPairs(verifyCards(gold, data.records, loadVocab(root)).filter((c) => c.result === "PASS")).length;
+  const pairs = sample ? 0 : seatPairs(verifyCards(gold, data.records, loadVocab(root)).filter((c) => c.result === "PASS")).length;
   const n = records.length;
   return total(
-    "ingest",
+    sample ? `ingest sample (${n} records, no Keeper)` : "ingest",
     [
       // Per record: 1 extraction (+2 retries); worst adds 2 re-extractions of 3 attempts each.
       { stage: "ingest", agent: "Researcher.extract", base: n, worst: n * 3 + n * 2 * 3, basis: `${n} messages and notes` },
       // One check per record with cards (+2 retries), up to 3 rounds.
       { stage: "ingest", agent: "Skeptic.cards", base: withCards, worst: n * 3 * 3, basis: `${withCards} records carry cards in the gold layout` },
-      { stage: "ingest", agent: "Keeper.relate", base: pairs, worst: pairs * 2, basis: `${pairs} same-seat decision pairs in the gold layout` },
+      { stage: "ingest", agent: "Keeper.relate", base: pairs, worst: pairs * 2, basis: sample ? "not run in sample mode" : `${pairs} same-seat decision pairs in the gold layout` },
     ],
     ["Card and pair counts are estimated from the gold card layout; the real counts depend on what the Researcher extracts.", "Plus one GET /v1/models to choose model ids (not a model call)."],
   );

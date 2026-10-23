@@ -2,7 +2,7 @@
 // cards are re-extracted, at most twice, then dropped) -> Keeper over every seat pair -> seat graph,
 // H-MEM and state/. A budget stop writes what it has and says so.
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { loadDataset } from "../engine/data.ts";
 import { buildEngine, saveState } from "../engine/engine.ts";
 import type { Dataset, DecisionCard, RelationEdge, SourceRecord } from "../engine/types.ts";
@@ -45,11 +45,29 @@ export type IngestReport = {
 export const extractableRecords = (records: SourceRecord[]) =>
   records.filter((r) => EXTRACT_TYPES.has(r.source_type)).sort((a, b) => a.record_id.localeCompare(b.record_id));
 
-export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset): Promise<IngestReport> {
+// Sample mode: Researcher + Skeptic over these records only, no Keeper; cards and the report go to `out`,
+// and nothing under state/ is written.
+export type IngestSample = { records: string[]; out: string };
+
+export function sampleRecords(records: SourceRecord[], ids: string[]): SourceRecord[] {
+  const all = extractableRecords(records);
+  const unknown = ids.filter((id) => !all.some((r) => r.record_id === id));
+  if (unknown.length) throw new Error(`--records: not an extractable record id: ${unknown.join(", ")}`);
+  return all.filter((r) => ids.includes(r.record_id));
+}
+
+export function sampleOutDir(root: string, out: string): string {
+  const dir = resolve(root, out);
+  if (dir === resolve(root, "state") || dir === resolve(root)) throw new Error("--out must be its own directory (for example state/sample-007), not state/ or the repo root");
+  return dir;
+}
+
+export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, sample?: IngestSample): Promise<IngestReport> {
   const data = preloaded ?? loadDataset(root);
   const vocab = loadVocab(root);
   const ctx = agentContext(root, data, vocab);
-  const records = extractableRecords(data.records);
+  const records = sample ? sampleRecords(data.records, sample.records) : extractableRecords(data.records);
+  const outDir = sample ? sampleOutDir(root, sample.out) : join(root, "state");
   const byId = new Map(data.records.map((r) => [r.record_id, r]));
   const report: IngestReport = {
     complete: false, records_total: records.length, records_done: 0, records_rejected: [], records_prose_reply: [], pairs_prose_reply: [], records_failed_upstream: [], records_failed_upstream_count: 0, pairs_failed_upstream: [], cards_gate_rejected: [],
@@ -86,7 +104,7 @@ export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset):
       await upstream(() => ingestRecord(rec), (error) => report.records_failed_upstream.push({ record_id: rec.record_id, error }));
     }
     const checked = verifyCards(accepted, data.records, vocab).filter((c) => c.result === "PASS");
-    const pairs = seatPairs(checked);
+    const pairs = sample ? [] : seatPairs(checked);
     report.pairs_total = pairs.length;
     for (const [older, newer] of pairs) {
       await upstream(
@@ -139,11 +157,11 @@ export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset):
 
   report.cards = accepted.length;
   report.edges = edges.filter((e) => e.relation !== "UNRELATED").length;
-  const dir = join(root, "state");
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, "cards.json"), JSON.stringify(accepted, null, 2) + "\n");
-  writeFileSync(join(dir, "edges.json"), JSON.stringify(edges, null, 2) + "\n");
-  writeFileSync(join(dir, "ingest-report.json"), JSON.stringify(report, null, 2) + "\n");
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, "cards.json"), JSON.stringify(accepted, null, 2) + "\n");
+  writeFileSync(join(outDir, "ingest-report.json"), JSON.stringify(report, null, 2) + "\n");
+  if (sample) return report;
+  writeFileSync(join(outDir, "edges.json"), JSON.stringify(edges, null, 2) + "\n");
   saveState(buildEngine(root, accepted, edges, undefined, data), root);
   return report;
 }

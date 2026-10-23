@@ -72,3 +72,23 @@ export function relationScore(modelEdges: RelationEdge[], goldEdges: RelationEdg
     rows,
   };
 }
+
+// "Right quote, different mode": an unmatched model card and an unmatched gold card from the same record
+// whose quotes overlap at least as much as a match needs, but whose modes differ. Either the model or
+// the gold card has the wrong mode; a person decides which (gold is never edited here).
+export function modeDisputes(model: DecisionCard[], gold: DecisionCard[], threshold = 0.8) {
+  const m = matchCards(model, gold, threshold);
+  const matchedModel = new Set(m.values());
+  const out: { model: DecisionCard; gold: DecisionCard; overlap: number }[] = [];
+  for (const c of model) {
+    if (matchedModel.has(c.card_id)) continue;
+    let best: { gold: DecisionCard; overlap: number } | null = null;
+    for (const g of gold) {
+      if (m.has(g.card_id) || g.record_id !== c.record_id || g.mode === c.mode) continue;
+      const overlap = quoteOverlap(c.quote, g.quote);
+      if (overlap >= threshold && (!best || overlap > best.overlap)) best = { gold: g, overlap };
+    }
+    if (best) out.push({ model: c, ...best });
+  }
+  return out;
+}
