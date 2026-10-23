@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>unexplained · gatekeeper</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --panel: #ffffff; --ink: #1d2328; --muted: #5d6870; --faint: #8a949b;
+    --line: #e3e1dc; --accent: #1f6f78; --accent-soft: #e3f0f1; --warn: #a3471c; --warn-soft: #fbeee6;
+    --ok: #3d6b45; --mark: #fff1b8; --shadow: 0 1px 2px rgba(20, 30, 40, 0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+  .num { font-variant-numeric: tabular-nums; }
+  header { display: flex; align-items: center; gap: 24px; padding: 14px 24px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 2; }
+  header h1 { font-size: 17px; margin: 0; font-weight: 650; white-space: nowrap; }
+  header h1 span { color: var(--muted); font-weight: 400; }
+  #ledger { flex: 1; font-size: 14px; padding: 6px 12px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-weight: 550; }
+  #ledger.bad { background: var(--warn-soft); color: var(--warn); }
+  header label { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  header input { font: inherit; width: 120px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; margin-left: 6px; }
+  .wrap { display: grid; grid-template-columns: 330px 1fr; min-height: calc(100% - 60px); }
+  nav { border-right: 1px solid var(--line); background: var(--panel); padding: 12px 0; overflow-y: auto; max-height: calc(100vh - 60px); position: sticky; top: 60px; }
+  .job { padding: 8px 18px; cursor: pointer; border-left: 3px solid transparent; }
+  .job:hover { background: #faf9f7; }
+  .job.on { border-left-color: var(--accent); background: #f3f8f8; }
+  .job .id { font-weight: 600; font-size: 14px; }
+  .job .t { color: var(--muted); font-size: 13px; }
+  .badge { display: inline-block; font-size: 12px; padding: 0 7px; border-radius: 10px; margin-left: 6px; }
+  .badge.need { background: var(--warn-soft); color: var(--warn); }
+  .badge.spot { background: #eef0f1; color: var(--muted); }
+  .badge.done { background: #e8f1ea; color: var(--ok); }
+  .docs { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 18px 10px 21px; }
+  .doc { font-size: 13px; padding: 2px 9px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: var(--panel); }
+  .doc:hover { border-color: var(--accent); }
+  .doc.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  main { padding: 22px 30px 60px; max-width: 1240px; }
+  h2 { font-size: 20px; margin: 0 0 4px; }
+  h3 { font-size: 16px; margin: 28px 0 10px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 10px 0; box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  td, th { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--muted); font-weight: 500; font-size: 13px; }
+  td.r, th.r { text-align: right; }
+  .warn { border-left: 4px solid var(--warn); }
+  .warn .p { background: var(--warn-soft); color: var(--warn); }
+  .p { display: inline-block; font-weight: 650; font-size: 13px; padding: 1px 8px; border-radius: 5px; margin-right: 8px; }
+  .clear-list { color: var(--muted); font-size: 14px; margin-top: 14px; }
+  .verdict { margin: 16px 0 6px; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); }
+  .verdict .vt { font-size: 18px; font-weight: 650; }
+  .verdict .vn { font-size: 14px; margin-top: 2px; }
+  .verdict .vi { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .verdict.warnings { border-left: 5px solid var(--warn); }
+  .verdict.warnings .vt { color: var(--warn); }
+  .verdict.not_cleared { border-left: 5px solid #b08a2e; background: #fdf8ea; }
+  .verdict.not_cleared .vt { color: #8a6a18; }
+  .verdict.clear { border-left: 5px solid var(--ok); }
+  .verdict.clear .vt { color: var(--ok); }
+  .found { margin: 8px 0 4px; font-size: 14px; }
+  .found li { margin: 2px 0; }
+  .ev { border-top: 1px dashed var(--line); padding-top: 10px; margin-top: 10px; }
+  .ev .who { font-size: 13px; color: var(--muted); }
+  .quote { font-weight: 550; }
+  .src { margin-top: 6px; padding: 8px 12px; background: #faf9f7; border-radius: 6px; font-size: 14px; white-space: pre-wrap; }
+  .src .lab { display: block; font-size: 12px; color: var(--faint); margin-bottom: 2px; }
+  mark { background: var(--mark); padding: 0 1px; border-radius: 2px; }
+  .person { color: var(--ok); font-size: 13px; font-weight: 550; }
+  details > summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+  pre.json { font-size: 12px; background: #faf9f7; padding: 8px; border-radius: 6px; overflow: auto; max-height: 260px; }
+  .item .head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .item .why { color: var(--warn); font-size: 14px; margin: 4px 0 8px; }
+  .item.spot .why { color: var(--muted); }
+  .rtext { font-size: 16px; line-height: 1.6; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fffef9; cursor: text; user-select: text; }
+  .hint { font-size: 12px; color: var(--faint); margin: 4px 0 8px; }
+  .cand { font-size: 13px; color: var(--muted); margin: 6px 0; }
+  .rows .row { display: grid; grid-template-columns: 1fr 150px 210px 130px 28px; gap: 8px; align-items: center; margin: 6px 0; font-size: 14px; }
+  .rows .row .q { background: var(--mark); padding: 3px 8px; border-radius: 4px; }
+  select, textarea, button { font: inherit; font-size: 14px; }
+  select, textarea { border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; background: #fff; }
+  textarea { width: 100%; min-height: 54px; margin-top: 6px; }
+  .actions { display: flex; gap: 10px; margin-top: 8px; align-items: center; }
+  button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 6px 14px; cursor: pointer; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button:disabled { opacity: 0.45; cursor: default; }
+  .x { border: none; background: none; color: var(--faint); font-size: 18px; padding: 0; }
+  .err { color: var(--warn); font-size: 13px; }
+  .done-line { color: var(--ok); font-size: 14px; }
+  .empty { color: var(--muted); font-size: 14px; padding: 6px 0; }
+  .spotsec > summary { font-size: 16px; font-weight: 600; color: var(--ink); margin: 28px 0 6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>unexplained <span>· the last check before it goes out</span></h1>
+  <div id="ledger">loading…</div>
+  <label>Reviewer<input id="reviewer" autocomplete="off"></label>
+</header>
+<div class="wrap">
+  <nav id="jobs"></nav>
+  <main id="main"><p class="empty">Pick a job or a document on the left.</p></main>
+</div>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const money = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(n));
+const day = (iso) => String(iso ?? "").replace("T", " ").slice(0, 16);
+const api = async (path, opts) => { const r = await fetch(path, opts); const j = await r.json(); if (!r.ok && r.status !== 400) throw new Error((j.errors || []).join("; ") || r.status); return { status: r.status, body: j }; };
+const S = { meta: null, jobs: [], job: null, doc: null, people: new Map(), drafts: {} };
+const nameOf = (id) => (S.people.get(id)?.name ? `${S.people.get(id).name}` : id);
+
+// Reviewer name: remembered in this browser only (a convenience; the judgment file is the record).
+const reviewerEl = $("#reviewer");
+try { reviewerEl.value = localStorage.getItem("unexplained.reviewer") || "Ciki"; } catch { reviewerEl.value = "Ciki"; }
+reviewerEl.addEventListener("change", () => { try { localStorage.setItem("unexplained.reviewer", reviewerEl.value.trim()); } catch {} });
+
+async function loadLedger() {
+  const { body } = await api("/api/ledger");
+  const el = $("#ledger");
+  el.textContent = body.line;
+  el.classList.toggle("bad", !body.complete);
+}
+
+async function loadJobs() {
+  S.jobs = (await api("/api/jobs")).body;
+  renderJobs();
+}
+
+function renderJobs() {
+  $("#jobs").innerHTML = S.jobs.map((j) => `
+    <div class="job ${S.job === j.job ? "on" : ""}" data-job="${esc(j.job)}">
+      <div class="id">${esc(j.job)}
+        ${j.needs_human ? `<span class="badge need">${j.needs_human} need you</span>` : ""}
+        ${j.spot_check ? `<span class="badge spot">${j.spot_check} spot-check</span>` : ""}
+        ${j.confirmed ? `<span class="badge done">${j.confirmed} confirmed</span>` : ""}
+      </div>
+      <div class="t">${esc(j.title)} · ${esc(j.client)}</div>
+    </div>
+    ${S.job === j.job ? `<div class="docs">${j.docs.map((d) => `<span class="doc num ${S.doc === d.id ? "on" : ""}" data-doc="${esc(d.id)}" title="${esc(day(d.at))} · ${money(d.total)}">${esc(d.kind === "quote" ? d.id : d.label)}</span>`).join("")}</div>` : ""}
+  `).join("");
+}
+
+$("#jobs").addEventListener("click", (e) => {
+  const d = e.target.closest("[data-doc]");
+  if (d) return openDoc(d.dataset.doc);
+  const j = e.target.closest("[data-job]");
+  if (j) return openJob(j.dataset.job);
+});
+
+async function openJob(job) {
+  S.job = job; S.doc = null; renderJobs();
+  const q = (await api(`/api/queue?job=${encodeURIComponent(job)}`)).body;
+  const j = S.jobs.find((x) => x.job === job);
+  $("#main").innerHTML = `<h2>${esc(job)} · ${esc(j.title)}</h2><div class="sub">${esc(j.client)} · ${esc(j.trade)} · pick a quote version or invoice on the left to check it</div>${queueHtml(q)}`;
+}
+
+async function openDoc(doc) {
+  S.doc = doc; renderJobs();
+  const c = (await api(`/api/check?doc=${encodeURIComponent(doc)}`)).body;
+  S.job = c.doc.job; renderJobs();
+  const fired = c.warnings.filter((w) => w.fired);
+  const other = c.warnings.filter((w) => !w.fired);
+  $("#main").innerHTML = `
+    <h2>${esc(c.doc.id)} <span class="sub">· ${c.doc.kind} for ${esc(c.doc.job)}</span></h2>
+    <div class="sub num">${esc(c.doc.at)} · total ${money(c.doc.total)} · checked as it is about to go out: ${esc(c.cutoff)}</div>
+    ${verdictHtml(c.verdict)}
+    ${linesHtml(c.doc.lines)}
+    ${fired.map(warningHtml).join("")}
+    <div class="clear-list">${other.map((w) => `<span class="p" style="background:#eef0f1;color:#5d6870">${w.pattern}</span>${esc(`${w.title}: ${w.status}`)}`).join("<br>")}</div>
+    ${queueHtml(c.queue)}`;
+}
+
+// The verdict: warnings found / not cleared (something the check depends on is open) / clear.
+function verdictHtml(v) {
+  return `<div class="verdict ${v.state}"><div class="vt">${esc(v.text)}</div>
+    ${v.notes.map((n) => `<div class="vn">${esc(n)}</div>`).join("")}
+    ${v.info ? `<div class="vi">${esc(v.info)}</div>` : ""}</div>`;
+}
+
+function linesHtml(lines) {
+  if (!lines?.length) return "";
+  return `<div class="card"><table class="num"><tr><th>kind</th><th>description</th><th class="r">qty</th><th class="r">unit</th><th class="r">amount</th></tr>
+    ${lines.map((l) => `<tr><td>${esc(l.kind ?? l.category)}</td><td>${esc(l.description)}</td><td class="r">${esc(l.qty)}</td><td class="r">${money(l.unit_price)}</td><td class="r">${money(l.amount)}</td></tr>`).join("")}</table></div>`;
+}
+
+// What the engine found, in words where the detail is a plain value or a list of plain values.
+function foundHtml(details) {
+  const out = [];
+  const seen = new Set(); // the same finding can sit at two levels of the details; show it once
+  const push = (label, valueHtml) => { if (!seen.has(valueHtml)) { seen.add(valueHtml); out.push(`${esc(label)}: ${valueHtml}`); } };
+  const walk = (obj, prefix) => {
+    for (const [k, v] of Object.entries(obj || {})) {
+      if (v === null || v === undefined || k === "cross_source" || k === "timeline") continue;
+      const label = (prefix ? prefix + " · " : "") + k.replaceAll("_", " ");
+      if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") push(label, `<b>${esc(v)}</b>`);
+      else if (Array.isArray(v) && v.length && v.every((x) => typeof x !== "object")) push(label, v.map(esc).join("; "));
+      else if (Array.isArray(v) && v.length && typeof v[0] === "object") push(label, v.map((x) => esc(Object.values(x).filter((y) => typeof y !== "object").join(" · "))).join("; "));
+      else if (!Array.isArray(v) && typeof v === "object" && prefix === "") walk(v, k.replaceAll("_", " "));
+    }
+  };
+  walk(details, "");
+  return out.length ? `<ul class="found">${out.map((x) => `<li>${x}</li>`).join("")}</ul>` : "";
+}
+
+function sourceHtml(src, quote) {
+  if (!src) return `<div class="src"><span class="lab">source record not found</span></div>`;
+  let text = esc(src.text);
+  if (quote && src.text.includes(quote)) text = text.replace(esc(quote), `<mark>${esc(quote)}</mark>`);
+  return `<div class="src"><span class="lab">${esc(src.record_id)} · ${esc(src.type.replaceAll("_", " "))} · ${esc(nameOf(src.author))} · ${esc(day(src.at))}</span>${text}</div>`;
+}
+
+function warningHtml(w) {
+  return `<div class="card warn"><div><span class="p">${w.pattern}</span><b>${esc(w.title)}</b></div>
+    ${foundHtml(w.details)}
+    ${w.evidence.map((e) => `<div class="ev">
+      ${e.kind === "card" ? `<div><span class="quote">“${esc(e.quote)}”</span></div>
+        <div class="who">${esc(e.mode.replace("_", " "))} · ${esc(nameOf(e.decided_by))} · ${esc(day(e.decided_at))} · ${e.by === "person" ? "" : "read by the model"}</div>
+        ${e.confirmed ? `<div class="person">${esc(e.confirmed)}</div>` : ""}` : `<div class="who">record</div>`}
+      ${sourceHtml(e.source, e.kind === "card" ? e.quote : null)}</div>`).join("")}
+    <details><summary>engine details</summary><pre class="json">${esc(JSON.stringify(w.details, null, 2))}</pre></details>
+  </div>`;
+}
+
+const ITEMS = new Map(); // record id -> queue item, for defaults when a quote is selected
+function queueHtml(q) {
+  for (const x of [...q.needs_human, ...q.spot_check, ...q.confirmed]) ITEMS.set(x.record_id, x);
+  return `
+    <h3>Needs your judgment (${q.needs_human.length})</h3>
+    ${q.needs_human.length ? q.needs_human.map((x) => itemHtml(x, false)).join("") : `<div class="empty">Nothing waiting on this job.</div>`}
+    <details class="spotsec"><summary>Model found nothing here — spot-check (${q.spot_check.length})</summary>
+      ${q.spot_check.length ? q.spot_check.map((x) => itemHtml(x, true)).join("") : `<div class="empty">None.</div>`}
+    </details>
+    ${q.confirmed.length ? `<h3>Confirmed by a person (${q.confirmed.length})</h3>${q.confirmed.map((x) => `<div class="card"><div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
+      <div class="done-line">${esc(x.why)}</div>${(x.judgment?.cards || []).map((c) => `<div class="cand">${esc(c.mode.replace("_", " "))} · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”</div>`).join("")}
+      <div class="rtext">${esc(x.text)}</div></div>`).join("")}` : ""}`;
+}
+
+function itemHtml(x, spot) {
+  const d = (S.drafts[x.record_id] ??= { rows: [], reason: "" });
+  return `<div class="card item ${spot ? "spot" : ""}" data-rec="${esc(x.record_id)}">
+    <div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
+    <div class="why">${esc(x.why)}</div>
+    <div class="rtext" data-text="${esc(x.record_id)}">${esc(x.text)}</div>
+    <div class="hint">Select the words that state a decision, reason, proposal or report. Each selection becomes an exact quote.</div>
+    ${x.candidates.map((c) => `<div class="cand">model candidate: ${esc(c.mode.replace("_", " "))} · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”</div>`).join("")}
+    <div class="rows">${d.rows.map((r, i) => rowHtml(r, i)).join("")}</div>
+    <textarea placeholder="Reason (required): why this is or is not a decision" data-reason="${esc(x.record_id)}">${esc(d.reason)}</textarea>
+    <div class="actions">
+      <button class="primary" data-act="cards" ${d.rows.length ? "" : "disabled"}>Confirm ${d.rows.length > 1 ? d.rows.length + " cards" : "card"}</button>
+      <button data-act="none">No decision here</button>
+      <span class="err" data-err="${esc(x.record_id)}"></span>
+    </div>
+  </div>`;
+}
+
+function rowHtml(r, i) {
+  const opts = (vals, cur, label = (v) => v) => vals.map((v) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(label(v))}</option>`).join("");
+  return `<div class="row" data-i="${i}">
+    <span class="q">“${esc(r.quote)}”</span>
+    <select data-f="mode">${opts(S.meta.modes, r.mode, (m) => m.replace("_", " "))}</select>
+    <select data-f="decided_by">${opts(S.meta.people.map((p) => p.id), r.decided_by, (id) => `${nameOf(id)} (${S.people.get(id)?.role ?? ""})`.slice(0, 48))}</select>
+    <select data-f="topic"><option value="">topic…</option>${opts(S.meta.topics, r.topic, (t) => t.replace("_", " "))}</select>
+    <button class="x" data-act="drop" title="remove">×</button>
+  </div>`;
+}
+
+function itemOf(el) { const c = el.closest("[data-rec]"); return c && c.dataset.rec; }
+// Only the quote rows and the confirm button change while a person works on an item; rebuild those in place.
+function rerenderItem(rec) {
+  const card = document.querySelector(`[data-rec="${CSS.escape(rec)}"]`);
+  if (!card) return;
+  const d = S.drafts[rec];
+  card.querySelector(".rows").innerHTML = d.rows.map((r, i) => rowHtml(r, i)).join("");
+  const b = card.querySelector('[data-act="cards"]');
+  b.disabled = !d.rows.length;
+  b.textContent = `Confirm ${d.rows.length > 1 ? d.rows.length + " cards" : "card"}`;
+}
+
+// A selection inside a record's text becomes a quote row (exact words only).
+document.addEventListener("mouseup", (e) => {
+  const box = e.target.closest?.("[data-text]");
+  if (!box) return;
+  const sel = window.getSelection().toString().replace(/\s+/g, " ").trim();
+  if (!sel) return;
+  const rec = box.dataset.text;
+  const full = box.textContent;
+  const err = document.querySelector(`[data-err="${CSS.escape(rec)}"]`);
+  if (!full.includes(sel)) { err.textContent = "Select words within one record only."; return; }
+  err.textContent = "";
+  const d = S.drafts[rec];
+  if (d.rows.some((r) => r.quote === sel)) return;
+  const item = ITEMS.get(rec);
+  const cand = item?.candidates?.find((c) => c.quote.includes(sel) || sel.includes(c.quote));
+  d.rows.push({ quote: sel, mode: cand?.mode ?? "decides", decided_by: cand?.decided_by ?? item?.author ?? S.meta.people[0].id, topic: cand?.topic ?? "" });
+  window.getSelection().removeAllRanges();
+  rerenderItem(rec);
+});
+
+document.addEventListener("change", (e) => {
+  const row = e.target.closest?.(".row");
+  const rec = itemOf(e.target);
+  if (row && rec && e.target.dataset.f) S.drafts[rec].rows[Number(row.dataset.i)][e.target.dataset.f] = e.target.value;
+});
+document.addEventListener("input", (e) => {
+  if (e.target.dataset?.reason) S.drafts[e.target.dataset.reason].reason = e.target.value;
+});
+document.addEventListener("click", async (e) => {
+  const act = e.target.dataset?.act;
+  if (!act) return;
+  const rec = itemOf(e.target);
+  if (!rec) return;
+  const d = S.drafts[rec];
+  if (act === "drop") { d.rows.splice(Number(e.target.closest(".row").dataset.i), 1); return rerenderItem(rec); }
+  const err = document.querySelector(`[data-err="${CSS.escape(rec)}"]`);
+  const reviewer = reviewerEl.value.trim();
+  if (!reviewer) { err.textContent = "Enter a reviewer name at the top."; return; }
+  if (!d.reason.trim()) { err.textContent = "A reason is required."; return; }
+  const body = act === "none"
+    ? { record_id: rec, verdict: "no_decision", cards: [], reason: d.reason, reviewer }
+    : { record_id: rec, verdict: "cards", cards: d.rows.map((r) => ({ mode: r.mode, quote: r.quote, decided_by: r.decided_by, ...(r.topic ? { topic: r.topic } : {}) })), reason: d.reason, reviewer };
+  e.target.disabled = true;
+  const r = await api("/api/judgments", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+  e.target.disabled = false;
+  if (r.status !== 201) { err.textContent = r.body.errors.join("; "); return; }
+  delete S.drafts[rec];
+  await Promise.all([loadLedger(), loadJobs()]);
+  if (S.doc) await openDoc(S.doc); else await openJob(S.job);
+});
+
+(async () => {
+  S.meta = (await api("/api/meta")).body;
+  S.people = new Map(S.meta.people.map((p) => [p.id, p]));
+  await Promise.all([loadLedger(), loadJobs()]);
+  if (S.jobs[0]) openJob(S.jobs[0].job);
+})().catch((e) => { $("#main").innerHTML = `<p class="err">${esc(e.message)}</p>`; });
+</script>
+</body>
+</html>

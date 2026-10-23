@@ -22,6 +22,8 @@
     "zetaris:register": "node --env-file-if-exists=.env --import tsx scripts/zetaris-register.ts",
     "zetaris:parity": "node --env-file-if-exists=.env --import tsx scripts/zetaris-parity.ts",
     "cache:audit": "node --import tsx scripts/cache-audit.ts",
+    "queue": "node --import tsx src/cli/queue.ts",
+    "ui": "node --import tsx src/cli/ui.ts",
     "eval:mode-disputes": "node --import tsx scripts/mode-disputes.ts"
   },
   "devDependencies": {
