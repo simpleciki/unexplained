@@ -1,0 +1,53 @@
+# unexplained
+
+The last check before a repair contractor's quote or invoice goes out: it reads the document the way
+the client will, against what this client already approved, flags what the client will push back on
+with evidence, and says "the records do not say" instead of guessing. All data in `data/` is fictional
+(see `data/README.md`).
+
+## Model runtime
+
+All model calls go through Nightshift, the Meterless Runtime on `127.0.0.1:8088`
+(`src/llm/meterless.ts`). Nightshift remains the provider; there is no other SDK or endpoint.
+
+Routing. Each agent asks for a Meterless routing mode (`meterless/auto` or `meterless/deep`). When the
+runtime routes a request to an upstream model that is retired or that this account may not use, the
+client switches to the next mode (auto, deep, text, fusion, code, judge, cluster), keeps the one that
+works for the rest of the run, and remembers dead modes for 6 hours in `state/dead-modes.json`.
+`meterless/local` and the image, video, speech and other media modes are never used.
+
+Pinning. Nightshift's auto router has picked a retired NVIDIA model, so runs pin the upstream model.
+By default every agent uses `nvidia/nemotron-3.5-lightning-30b-a3b`, then
+`nvidia/nemotron-3-super-120b-a12b` as the fallback; `nvidia/nemotron-3-ultra-550b-a55b` is never used,
+pinned or as a fallback. The order comes from the extraction prose rate measured on 2026-10-22 (replies
+that were a numbered plan instead of JSON): ultra-550b 63/63, super-vl 8/16, lightning 4/33.
+`METERLESS_MODE_ORDER` (a comma list of routing modes or NVIDIA model ids) overrides the default; the
+entries go to the same runtime endpoint with the same headers.
+
+```
+npm run ingest -- --max-calls 300
+```
+
+## Data layer: Zetaris
+
+The evidence lives in two separate systems: the **client portal** (clients, quote versions and lines,
+submission events, invoices and lines, client messages) and the **contractor job system** (work orders,
+internal notes, field notes). `npm run sources:serve` serves both, read-only, on `127.0.0.1` (port
+`SOURCE_PORT`, default 8790); Zetaris registers them as two Lightning databases (`CLIENT_PORTAL`,
+`CONTRACTOR_OPS`) of REST tables, flattens each into a SchemaStore view in the `unexplained` container,
+and adds three cross-source views (`v_quotes_by_trade`, `v_invoice_vs_approved`,
+`v_job_evidence_timeline`). `ingest`, `ask`, `eval:live` and `eval:oracle` read through Zetaris by
+default (`--source zetaris`); `npm run zetaris:parity` checks every table and both cross-source views
+against `data/`. If Zetaris is unreachable the run fails loudly, it never falls back to files.
+The engine uses the cross-source views directly: P7 (invoice vs approved version) shows the
+`v_invoice_vs_approved` row for the invoice, and P5 (unexplained rejection) shows the job's
+`v_job_evidence_timeline` across both systems. Which version was approved on a date is still worked out
+from dated records; the view's approval column is end-of-period state, shown for context only.
+
+`--source files` reads `data/` directly (the views are computed in memory). SAMPLE_MODE always uses it:
+judges replay the three sample questions without Docker or a Zetaris install.
+
+Every command that can call a model needs `--max-calls N`, prints a dry-run estimate first
+(`--dry-run` stops there), caches only replies that passed their schema, and writes a trace to `logs/`
+with the model that actually answered. The runtime token is read from `.env`
+(`METERLESS_RUNTIME_TOKEN`, see `.env.example`) and is never printed.

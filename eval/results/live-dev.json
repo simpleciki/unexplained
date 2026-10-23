@@ -1,0 +1,777 @@
+{
+  "subset": "dev",
+  "complete": true,
+  "answered": 12,
+  "of": 12,
+  "summary": {
+    "n": 12,
+    "required_warning_recall": 0.5,
+    "time_tag_accuracy": 1,
+    "time_tag_n": 1,
+    "current_card": 0,
+    "in_effect_card": 0,
+    "reasons_superset": 0.417,
+    "ctrl_false_alarms": 0,
+    "ctrl_n": 1,
+    "flag_precision_recall": {
+      "P1": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "precision": null,
+        "recall": 0
+      },
+      "P2": {
+        "tp": 5,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.625,
+        "recall": 1
+      },
+      "P3": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "P4": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "precision": null,
+        "recall": 0
+      },
+      "P5": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "precision": null,
+        "recall": 0
+      },
+      "P6": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.5,
+        "recall": 1
+      },
+      "P7": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "T2": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null
+      },
+      "T6": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null
+      },
+      "T10": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1
+      }
+    },
+    "by_question_pattern": {
+      "CTRL": {
+        "n": 1,
+        "warnings_recalled": 1,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 0
+      },
+      "P1": {
+        "n": 1,
+        "warnings_recalled": 0,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 0
+      },
+      "P2": {
+        "n": 1,
+        "warnings_recalled": 1,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 1
+      },
+      "P3": {
+        "n": 1,
+        "warnings_recalled": 1,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 1
+      },
+      "P4": {
+        "n": 1,
+        "warnings_recalled": 0,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 0
+      },
+      "P5": {
+        "n": 3,
+        "warnings_recalled": 0,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 1
+      },
+      "P6": {
+        "n": 1,
+        "warnings_recalled": 1,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 0
+      },
+      "P7": {
+        "n": 2,
+        "warnings_recalled": 1,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 0
+      },
+      "T10": {
+        "n": 1,
+        "warnings_recalled": 1,
+        "time_tags": 1,
+        "current": 0,
+        "in_effect": 0,
+        "reasons": 0
+      }
+    }
+  },
+  "extraction": {
+    "model_cards": 47,
+    "gold_cards": 100,
+    "matched": 18,
+    "precision": 0.383,
+    "recall": 0.18,
+    "unmatched_gold": [
+      "card.nl01.approve.v1",
+      "card.nl01Ground.promise",
+      "card.nl01Ground.result",
+      "card.nl01.approve.v2",
+      "card.nl01.inspector.surge",
+      "card.nl01.approve.v3",
+      "card.nl.labor.old",
+      "card.nl.labor.new",
+      "card.nl.material.keep",
+      "card.nl.cap.inforce",
+      "card.nl.cap.withdrawn",
+      "card.nl02.approve.v1",
+      "card.nl02.promise.tank",
+      "card.nl03.approve.v1",
+      "card.nl04.reject.v2",
+      "card.nl04.dispute",
+      "card.oc01.approve.v1",
+      "card.oc.rule.helenonly",
+      "card.oc01.ask.heads",
+      "card.oc01.approve.v2",
+      "card.oc01.approve.v3",
+      "card.oc.structure.old",
+      "card.oc.structure.new",
+      "card.oc.structure.until",
+      "card.oc.rule.cc.tomas",
+      "card.oc02.route.complaint",
+      "card.oc02.promise.camera",
+      "card.oc03.approve.v1",
+      "card.oc03.promise.valves",
+      "card.oc04Framing.promise",
+      "card.oc04Framing.result",
+      "card.oc04.approve.late",
+      "card.pw01.approve.late",
+      "card.pw02.approve.v1",
+      "card.pw02.promise.trap",
+      "card.pw02.ping",
+      "card.pw03.approve.v1",
+      "card.pw03.dispute",
+      "card.pw04.approve.v1",
+      "card.rm.rule.portal",
+      "card.rm01Panel.promise",
+      "card.rm01Panel.result",
+      "card.rm01.approve.v1",
+      "card.rm01.email.refuse",
+      "card.rm02.reject",
+      "card.rm03.approve.v2",
+      "card.rm04.approve.late",
+      "card.pw05.promise.scope",
+      "card.pw05.reject.v2",
+      "card.pw05.reject.v3",
+      "card.oc05.reject",
+      "card.nl.rule.notrip",
+      "card.pw01.mention.noping",
+      "card.rm02.rule.onepacket",
+      "card.oc05.hold",
+      "card.nl02.mention.allowance",
+      "card.oc04.invoice.paid",
+      "card.rm02.mention.notices",
+      "card.oc05.mention.emails",
+      "card.oc02.mention.tomas",
+      "card.rm01.mention.signer",
+      "card.nl04.mention.notyes",
+      "card.oc03.mention.nolump",
+      "card.pw04.mention.nofold",
+      "card.nl.note.split",
+      "card.nl02.note.supplier",
+      "card.nl03.note.capacitor",
+      "card.nl04.note.void",
+      "card.nl04.note.renotify",
+      "card.pw.note.split",
+      "card.pw02.note.bump",
+      "card.pw03.note.void",
+      "card.pw04.note.accounting",
+      "card.rm01.note.email",
+      "card.rm02.note.void",
+      "card.rm04.note.v2lines",
+      "card.pw05.note.void",
+      "card.pw05.note.held",
+      "card.global.note.invoicematch",
+      "card.oc03.note.invoice",
+      "card.pw04.note.invoice",
+      "card.rm04.note.invoice"
+    ],
+    "match": {
+      "card.oc02.approve.v1": "m.rec-0097.0.1",
+      "card.pw.rule.noping": "m.rec-0137.0.0",
+      "card.pw.labor.new": "m.rec-0185.0.0",
+      "card.pw.labor.old": "m.rec-0185.0.1",
+      "card.rm.labor.new": "m.rec-0200.0.0",
+      "card.rm.material.keep": "m.rec-0200.0.1",
+      "card.rm.labor.old": "m.rec-0200.0.2",
+      "card.rm02.approve.v1": "m.rec-0205.0.0",
+      "card.rm03.approve.v1": "m.rec-0228.0.0",
+      "card.rm04.promise.paint": "m.rec-0240.0.0",
+      "card.rm04.labor.new": "m.rec-0247.0.0",
+      "card.rm04.material.keep": "m.rec-0247.0.1",
+      "card.pw05.reject.v1": "m.rec-0260.0.0",
+      "card.oc02.rule.routing": "m.rec-0101.0.1",
+      "card.oc04.rule.noinvoice": "m.rec-0128.0.1",
+      "card.rm.rule.signer": "m.rec-0187.0.2",
+      "card.rm04.trip.explain": "m.rec-0300.0.0",
+      "card.nl04.note.plywood": "m.rec-0290.1.0"
+    }
+  },
+  "relations": {
+    "gold_edges": 17,
+    "comparable": 3,
+    "accuracy": 0.333,
+    "rows": [
+      {
+        "gold": "card.pw.labor.old>card.pw.labor.new",
+        "expected": "REPLACES",
+        "got": "REFINES",
+        "ok": false
+      },
+      {
+        "gold": "card.rm.labor.old>card.rm.labor.new",
+        "expected": "REPLACES",
+        "got": "REFINES",
+        "ok": false
+      },
+      {
+        "gold": "card.rm03.approve.v1>card.rm04.labor.new",
+        "expected": "UNRELATED",
+        "got": "UNRELATED",
+        "ok": true
+      }
+    ]
+  },
+  "failing": [
+    {
+      "question_id": "q-p5-heron-why",
+      "why": "missing warning P1 P4 P5; current m.rec-0260.0.0 != card.pw05.reject.v3; in_effect m.rec-0260.0.0 != card.pw05.reject.v3"
+    },
+    {
+      "question_id": "q-p5-heron-v4",
+      "why": "missing warning P1 P4 P5; current none != card.pw05.reject.v3; in_effect none != card.pw05.reject.v3"
+    },
+    {
+      "question_id": "q-p7-heron-invoice",
+      "why": "current none != card.pw05.reject.v3; in_effect none != card.pw05.reject.v3; reasons missing card.pw05.reject.v1,card.pw05.reject.v2,card.pw05.reject.v3"
+    },
+    {
+      "question_id": "q-p1-nl02-send-v3",
+      "why": "missing warning P1; current none != card.nl02.promise.tank; in_effect none != card.nl02.promise.tank; reasons missing card.nl02.promise.tank"
+    },
+    {
+      "question_id": "q-p2-nl02-heater-price",
+      "why": "current none != card.nl02.approve.v1; in_effect none != card.nl02.approve.v1"
+    },
+    {
+      "question_id": "q-p3-nl03-progress",
+      "why": "current none != card.nl03.approve.v1; in_effect none != card.nl03.approve.v1"
+    },
+    {
+      "question_id": "q-p4-nl04-cap",
+      "why": "missing warning P4; current none != card.nl.cap.inforce; in_effect none != card.nl.cap.inforce; reasons missing card.nl.cap.inforce"
+    },
+    {
+      "question_id": "q-p5-oc05-why",
+      "why": "missing warning P5; current none != card.oc05.reject; in_effect none != card.oc05.reject"
+    },
+    {
+      "question_id": "q-p6-pw03-trip",
+      "why": "current m.rec-0165.0.0 != card.pw03.approve.v1; in_effect m.rec-0165.0.0 != card.pw03.approve.v1; reasons missing card.pw03.approve.v1,card.pw01.approve.late,card.pw02.approve.v1"
+    },
+    {
+      "question_id": "q-p7-pw03-inv",
+      "why": "current none != card.pw03.approve.v1; in_effect none != card.pw03.approve.v1; reasons missing card.pw03.approve.v1"
+    },
+    {
+      "question_id": "q-t10-rm-may",
+      "why": "current m.rec-0200.0.0 != card.rm.labor.new; in_effect m.rec-0200.0.2 != card.rm.labor.old; reasons missing card.rm.labor.old,card.rm.labor.new"
+    },
+    {
+      "question_id": "q-ctrl-oc01-inv",
+      "why": "current none != card.oc01.approve.v2; in_effect none != card.oc01.approve.v2; reasons missing card.oc01.approve.v2"
+    }
+  ],
+  "results": [
+    {
+      "question_id": "q-p5-heron-why",
+      "route": {
+        "question_type": "why_rejected",
+        "seats": [
+          "job:WO-PW-05"
+        ],
+        "topic": "approval",
+        "facets": [
+          "approval.status"
+        ],
+        "as_of": "2026-06-25T09:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "Reset drain body, flash and seal",
+            "explained": false,
+            "quote": ""
+          },
+          {
+            "description": "Replace leader to first cleanout",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "Otto rejected Q-PW-05-v3 with the statement \"Not approving this one.\" and the records do not say why. [rec-0260] The findings show a P2 warning about labor quantity increases from Q-PW-05-v2 to v3 but note the client explanation is absent. [rec-0262, rec-0266] The records do not contain decisions or reasons for any other Heron Court quotes. [rec-0260]",
+      "unresolved": [],
+      "flags": [
+        "P2"
+      ]
+    },
+    {
+      "question_id": "q-p5-heron-v4",
+      "route": {
+        "question_type": "send_check",
+        "seats": [
+          "job:WO-PW-05",
+          "client:cl.pike_water"
+        ],
+        "topic": "client_rule",
+        "facets": [
+          "client_rule.submission",
+          "submission.process"
+        ],
+        "as_of": "2026-06-26T09:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "Reset drain body, flash and seal",
+            "explained": false,
+            "quote": ""
+          },
+          {
+            "description": "Replace leader to first cleanout",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "The findings show a P2 warning that labor quantities increased from Q-PW-05-v2 to v3 — \"Reset drain body, flash and seal\" from qty 4 to 7 and \"Replace leader to first cleanout\" from qty 6 to 8, total_delta 400 — with client explanation absent. [rec-0262, rec-0266] The records do not say what Otto wants changed in v4 or identify any other required fix. [rec-0260, rec-0262, rec-0266]",
+      "unresolved": [
+        {
+          "text": "Otto rejected Q-PW-05-v3 with the statement \"Not approving this one.\" and the records do not say why.",
+          "cites": [
+            "rec-0260"
+          ],
+          "why": "findings contain no record of Otto stating \"Not approving this one.\""
+        }
+      ],
+      "flags": [
+        "P2"
+      ]
+    },
+    {
+      "question_id": "q-p7-heron-invoice",
+      "route": {
+        "question_type": "send_check",
+        "seats": [
+          "job:WO-PW-05",
+          "client:cl.pike_water"
+        ],
+        "topic": "client_rule",
+        "facets": [
+          "client_rule.submission",
+          "submission.process"
+        ],
+        "as_of": "2026-06-26T09:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": null,
+      "prose": "Otto rejected a quote on WO-PW-05 with the statement \"Not approving this one.\" on 2026-05-19 (rec-0260). [rec-0260] A P7 warning linked to that decision states the reason \"no approved version to bill against\" (rec-0260), so nothing can be invoiced yet. [rec-0260]",
+      "unresolved": [
+        {
+          "text": "The findings contain no approved version or invoice for Heron Court WO-PW-05 (focus.quote and focus.invoice are null; rec-0260).",
+          "cites": [
+            "rec-0260"
+          ],
+          "why": "the records do not say Heron Court; focus.job is WO-PW-05 and focus.client is cl.pike_water"
+        }
+      ],
+      "flags": [
+        "P7"
+      ]
+    },
+    {
+      "question_id": "q-p1-nl02-send-v3",
+      "route": {
+        "question_type": "send_check",
+        "seats": [
+          "job:WO-NL-02",
+          "client:cl.north_loft"
+        ],
+        "topic": "client_rule",
+        "facets": [
+          "client_rule.submission",
+          "submission.process"
+        ],
+        "as_of": "2026-04-07T10:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "changed material \"40gal electric water heater\" (+170)",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "The findings show a P2 warning (rec-0030, rec-0033) for Q-NL-02-v3 that lists a material price increase for the 40gal electric water heater from unit_price 620 to 790, total_delta 170, with client_explanation absent. [rec-0030, rec-0033] The reasons array is empty, and no record provides a client rejection reason for the change from v2 to v3. [rec-0030, rec-0033]",
+      "unresolved": [
+        {
+          "text": "The records do not state what Ria will push back on specifically; they only flag the price increase and that the client explanation is absent.",
+          "cites": [
+            "rec-0030",
+            "rec-0033"
+          ],
+          "why": "findings do not mention Ria or what Ria will push back on"
+        }
+      ],
+      "flags": [
+        "P2"
+      ]
+    },
+    {
+      "question_id": "q-p2-nl02-heater-price",
+      "route": {
+        "question_type": "send_check",
+        "seats": [
+          "job:WO-NL-02",
+          "client:cl.north_loft"
+        ],
+        "topic": "price",
+        "facets": [
+          "price.material"
+        ],
+        "as_of": "2026-04-07T10:20:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "changed material \"40gal electric water heater\" (+170)",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "The findings show the 40gal electric water heater material moved from unit_price 620 to 790 between Q-NL-02-v2 and Q-NL-02-v3, with total_delta 170. [rec-0030, rec-0033] The records list client_explanation as \"absent\". [rec-0030, rec-0033] The reasons array is empty, so no record gives a reason for the price change. [rec-0030, rec-0033] The records do not say why the price moved from 620 to 790. [rec-0030, rec-0033]",
+      "unresolved": [],
+      "flags": [
+        "P2"
+      ]
+    },
+    {
+      "question_id": "q-p3-nl03-progress",
+      "route": {
+        "question_type": "rule_check",
+        "seats": [
+          "job:WO-NL-03",
+          "client:cl.north_loft"
+        ],
+        "topic": "scope",
+        "facets": [
+          "scope.lines",
+          "scope.structure"
+        ],
+        "as_of": "2026-05-12T11:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "added labor \"Still need to determine the cause of short cycling\" (+475)",
+            "explained": true,
+            "quote": "2. labor: Still need to determine the cause of short cycling, 5 x 95.00 = 475.00"
+          },
+          {
+            "description": "removed labor \"Need to determine the cause of short cycling\" (-380)",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "The records do not mention \"Loft 4C condenser cause\" in any version. [rec-0040, rec-0044, rec-0047, rec-0050] A P2 warning (rec-0047, rec-0050) shows that between Q-NL-03-v3 and Q-NL-03-v4 the labor line \"Need to determine the cause of short cycling\" (4 hours at $95) was replaced with \"Still need to determine the cause of short cycling\" (5 hours at $95), a $95 increase. [rec-0047, rec-0050] A P3 warning (rec-0040, rec-0044, rec-0047, rec-0050) indicates that across Q-NL-03-v1 through Q-NL-03-v4 there is no finding recorded for the cause. [rec-0040, rec-0044, rec-0047, rec-0050] Therefore, the cause determination has not progressed to a finding; the records still show the cause as undetermined. [rec-0040, rec-0044, rec-0047, rec-0050]",
+      "unresolved": [],
+      "flags": [
+        "P2",
+        "P3"
+      ]
+    },
+    {
+      "question_id": "q-p4-nl04-cap",
+      "route": {
+        "question_type": "rule_check",
+        "seats": [
+          "job:WO-NL-04",
+          "client:cl.north_loft"
+        ],
+        "topic": "client_rule",
+        "facets": [
+          "client_rule.submission",
+          "client_rule.cap",
+          "price.total"
+        ],
+        "as_of": "2026-04-14T09:22:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "changed labor \"Remove damaged step flashing at south wall\" (+510)",
+            "explained": false,
+            "quote": ""
+          },
+          {
+            "description": "changed labor \"Install new step flashing and counterflash\" (+510)",
+            "explained": false,
+            "quote": ""
+          },
+          {
+            "description": "added material \"Plywood patch at wet corner\" (+190)",
+            "explained": true,
+            "quote": "Added a plywood patch at the wet corner Cal found."
+          },
+          {
+            "description": "removed material \"Lump-sum weather allowance\" (-400)",
+            "explained": true,
+            "quote": "Weather allowance removed."
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "The records do not mention Ria's pre-note or any $2500 threshold requiring one. [rec-0290, rec-0061, rec-0066] The only stated reason for the v3 changes is that Cal found a soft corner on the flashing job, so v3 adds a plywood patch. [rec-0290] The records do not say whether Ria's pre-note is still required for Q-NL-04-v3. [rec-0290, rec-0061, rec-0066]",
+      "unresolved": [
+        {
+          "text": "The findings show a P2 warning that labor quantities increased from Q-NL-04-v2 to Q-NL-04-v3 totaling 810, with client explanation absent.",
+          "cites": [
+            "rec-0061",
+            "rec-0066"
+          ],
+          "why": "The P2 warning total_delta 810 includes material changes; labor quantity increases total 1020, not 810."
+        }
+      ],
+      "flags": [
+        "P2"
+      ]
+    },
+    {
+      "question_id": "q-p5-oc05-why",
+      "route": {
+        "question_type": "why_rejected",
+        "seats": [
+          "job:WO-OC-05",
+          "client:cl.oak_circle"
+        ],
+        "topic": "approval",
+        "facets": [
+          "approval.status"
+        ],
+        "as_of": "2026-06-12T09:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "changed material \"Bath exhaust fan, 110 CFM\" (+64)",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "The records do not say that Helen turned down the quote Q-OC-05-v2. [rec-0274, rec-0277] The client_explanation is \"absent\". [rec-0274, rec-0277] The reasons array is empty. [rec-0274, rec-0277] records_between_versions is empty. [rec-0274, rec-0277] The findings show the bath exhaust fan, 110 CFM changed from unit_price 148 to 212 between Q-OC-05-v1 and Q-OC-05-v2. [rec-0274, rec-0277] No record gives a reason for that price change or for turning down the quote. [rec-0274, rec-0277]",
+      "unresolved": [],
+      "flags": [
+        "P2"
+      ]
+    },
+    {
+      "question_id": "q-p6-pw03-trip",
+      "route": {
+        "question_type": "other",
+        "seats": [
+          "job:WO-PW-03",
+          "client:cl.pike_water"
+        ],
+        "topic": "approval",
+        "facets": [
+          "approval.status",
+          "approval.effective"
+        ],
+        "as_of": "2026-05-01T09:05:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": {
+        "lines": [
+          {
+            "description": "added labor \"Trip charge\" (+175)",
+            "explained": false,
+            "quote": ""
+          }
+        ],
+        "clientExplanation": "absent"
+      },
+      "prose": "No — Pike Water has not approved a trip charge on the EPDM quote. [rec-0165] Otto Gell approved Q-PW-03-v2 saying \"The EPDM patch is approved\" but also wrote \"No trip line.\" [rec-0165] The trip charge was added from Q-PW-03-v1 to v2 for $175 with client explanation absent, and the records between versions record \"No trip line.\" [rec-0162, rec-0166, rec-0165] The client portal does not accept the travel category; approved categories are labor and material, with the norm from Q-PW-03-v1. [rec-0166, rec-0162] The records do not show Pike Water approving a trip charge on this quote at any earlier point. [rec-0165, rec-0162, rec-0166]",
+      "unresolved": [],
+      "flags": [
+        "P2",
+        "P6"
+      ]
+    },
+    {
+      "question_id": "q-p7-pw03-inv",
+      "route": {
+        "question_type": "send_check",
+        "seats": [
+          "job:WO-PW-03",
+          "client:cl.pike_water"
+        ],
+        "topic": "client_rule",
+        "facets": [
+          "client_rule.submission"
+        ],
+        "as_of": "2026-05-19T10:20:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": null,
+      "prose": "No — do not send INV-PW-03 as it is. [rec-0169, rec-0162, m.rec-0165.0.0] The invoice bills against Q-PW-03-v2, which is voided, while the approved version is Q-PW-03-v1. [rec-0169, rec-0162, m.rec-0165.0.0] It includes a travel line \"Trip charge\" of 175 that is not in the approved version, and the approved travel total is 0. [rec-0169, rec-0162, m.rec-0165.0.0] The client portal does not accept the travel category; the approved categories are \"labor\" and \"material\". [rec-0169, rec-0162] The invoice total is 1249.00 against an approved total of 1074.00. [rec-0169, rec-0162, m.rec-0165.0.0] Before sending, re-bill against Q-PW-03-v1, remove the \"Trip charge\" travel line, and match the approved total. [rec-0169, rec-0162, m.rec-0165.0.0]",
+      "unresolved": [],
+      "flags": [
+        "P6",
+        "P7"
+      ]
+    },
+    {
+      "question_id": "q-t10-rm-may",
+      "route": {
+        "question_type": "rate_check",
+        "seats": [
+          "client:cl.red_mill"
+        ],
+        "topic": "price",
+        "facets": [
+          "price.labor"
+        ],
+        "as_of": "2026-05-20T09:00:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": null,
+      "prose": "On 20 May 2026, the Red Mill mechanical labor rate in effect is $88 per hour, as the in-effect decision states \"Until 1 June use the $88 labor on file.\" [rec-0200] The current decision sets Red Mill mechanical labor at $96 per hour, but it only applies from 1 June 2026, quoted \"From 1 June 2026 Red Mill mechanical labor is $96 per hour.\" [rec-0200] Because 20 May precedes 1 June, the $88 rate remains the applicable in-effect rate, and the $96 scheduled rate has not yet taken effect. [rec-0200]",
+      "unresolved": [],
+      "flags": [
+        "T10"
+      ]
+    },
+    {
+      "question_id": "q-ctrl-oc01-inv",
+      "route": {
+        "question_type": "send_check",
+        "seats": [
+          "client:cl.oak_circle"
+        ],
+        "topic": "client_rule",
+        "facets": [
+          "client_rule.submission",
+          "submission.process"
+        ],
+        "as_of": "2026-04-10T11:10:00-05:00",
+        "dropped": [],
+        "status": "OK"
+      },
+      "judge": null,
+      "prose": "The findings for q-ctrl-oc01-inv show no warnings, reasons, or unresolved items that would block sending an invoice. [q-ctrl-oc01-inv] The records do not mention INV-OC-01 specifically, and focus.invoice is null, so there is no invoice currently in effect. [q-ctrl-oc01-inv] Since no client rejection or pricing objection is recorded, the records do not say the client will push back on anything. [q-ctrl-oc01-inv]",
+      "unresolved": [
+        {
+          "text": "Before sending, verify that INV-OC-01 exists and matches the approved quote, as the findings do not confirm its status.",
+          "cites": [
+            "q-ctrl-oc01-inv"
+          ],
+          "why": "findings do not state INV-OC-01 exists or provide an approved quote to match against"
+        }
+      ],
+      "flags": []
+    }
+  ]
+}

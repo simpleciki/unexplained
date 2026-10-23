@@ -1,0 +1,1668 @@
+{
+  "seats": {
+    "approval|approval.status|client:cl.red_mill": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm.rule.signer",
+      "in_effect_card": "card.rm.rule.signer",
+      "coexisting": [],
+      "chain": [
+        "card.rm.rule.signer"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-NL-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl01.approve.v3",
+      "in_effect_card": "card.nl01.approve.v3",
+      "coexisting": [],
+      "chain": [
+        "card.nl01.approve.v3",
+        "card.nl01.approve.v2",
+        "card.nl01.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-NL-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-NL-02"
+      },
+      "scope_used": "job:WO-NL-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl02.approve.v1",
+      "in_effect_card": "card.nl02.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.nl02.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-NL-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-NL-03"
+      },
+      "scope_used": "job:WO-NL-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl03.approve.v1",
+      "in_effect_card": "card.nl03.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.nl03.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-NL-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-NL-04"
+      },
+      "scope_used": "job:WO-NL-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl04.dispute",
+      "in_effect_card": "card.nl04.dispute",
+      "coexisting": [
+        "card.nl04.reject.v2"
+      ],
+      "chain": [
+        "card.nl04.dispute"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc01.approve.v3",
+      "in_effect_card": "card.oc01.approve.v3",
+      "coexisting": [],
+      "chain": [
+        "card.oc01.approve.v3",
+        "card.oc01.approve.v2",
+        "card.oc01.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc02.approve.v1",
+      "in_effect_card": "card.oc02.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.oc02.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc03.approve.v1",
+      "in_effect_card": "card.oc03.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.oc03.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-04"
+      },
+      "scope_used": "job:WO-OC-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc04.invoice.paid",
+      "in_effect_card": "card.oc04.invoice.paid",
+      "coexisting": [
+        "card.oc04.approve.late"
+      ],
+      "chain": [
+        "card.oc04.invoice.paid"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-05": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-05"
+      },
+      "scope_used": "job:WO-OC-05",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc05.reject",
+      "in_effect_card": "card.oc05.reject",
+      "coexisting": [
+        "card.oc05.hold"
+      ],
+      "chain": [
+        "card.oc05.reject"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-01"
+      },
+      "scope_used": "job:WO-PW-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw01.approve.late",
+      "in_effect_card": "card.pw01.approve.late",
+      "coexisting": [],
+      "chain": [
+        "card.pw01.approve.late"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-02"
+      },
+      "scope_used": "job:WO-PW-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw02.approve.v1",
+      "in_effect_card": "card.pw02.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.pw02.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-03"
+      },
+      "scope_used": "job:WO-PW-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw03.approve.v1",
+      "in_effect_card": "card.pw03.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.pw03.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-04"
+      },
+      "scope_used": "job:WO-PW-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw04.approve.v1",
+      "in_effect_card": "card.pw04.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.pw04.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-05": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-05"
+      },
+      "scope_used": "job:WO-PW-05",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw05.reject.v3",
+      "in_effect_card": "card.pw05.reject.v3",
+      "coexisting": [],
+      "chain": [
+        "card.pw05.reject.v3",
+        "card.pw05.reject.v2",
+        "card.pw05.reject.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm01.approve.v1",
+      "in_effect_card": "card.rm01.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.rm01.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-02"
+      },
+      "scope_used": "job:WO-RM-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm02.reject",
+      "in_effect_card": "card.rm02.approve.v1",
+      "coexisting": [
+        "card.rm02.approve.v1"
+      ],
+      "chain": [
+        "card.rm02.reject"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-03"
+      },
+      "scope_used": "job:WO-RM-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm03.approve.v2",
+      "in_effect_card": "card.rm03.approve.v2",
+      "coexisting": [
+        "card.rm03.approve.v1"
+      ],
+      "chain": [
+        "card.rm03.approve.v2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm04.approve.late",
+      "in_effect_card": "card.rm04.approve.late",
+      "coexisting": [],
+      "chain": [
+        "card.rm04.approve.late"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|client_rule.submission|job:WO-NL-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-NL-04"
+      },
+      "scope_used": "job:WO-NL-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl04.reject.v2",
+      "in_effect_card": "card.nl04.reject.v2",
+      "coexisting": [],
+      "chain": [
+        "card.nl04.reject.v2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|client_rule.submission|job:WO-RM-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-RM-02"
+      },
+      "scope_used": "job:WO-RM-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm02.reject",
+      "in_effect_card": "card.rm02.reject",
+      "coexisting": [],
+      "chain": [
+        "card.rm02.reject"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|open_item.inspection|job:WO-NL-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-NL-03"
+      },
+      "scope_used": "job:WO-NL-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl03.approve.v1",
+      "in_effect_card": "card.nl03.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.nl03.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|open_item.inspection|job:WO-PW-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-PW-02"
+      },
+      "scope_used": "job:WO-PW-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw02.approve.v1",
+      "in_effect_card": "card.pw02.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.pw02.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.labor|job:WO-NL-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.labor",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl01.approve.v2",
+      "in_effect_card": "card.nl01.approve.v2",
+      "coexisting": [],
+      "chain": [
+        "card.nl01.approve.v2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.labor|job:WO-RM-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.labor",
+        "scope": "job:WO-RM-03"
+      },
+      "scope_used": "job:WO-RM-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm03.approve.v2",
+      "in_effect_card": "card.rm03.approve.v2",
+      "coexisting": [
+        "card.rm03.approve.v1"
+      ],
+      "chain": [
+        "card.rm03.approve.v2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.material|job:WO-NL-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.material",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl01.approve.v3",
+      "in_effect_card": "card.nl01.approve.v3",
+      "coexisting": [],
+      "chain": [
+        "card.nl01.approve.v3"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.material|job:WO-RM-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.material",
+        "scope": "job:WO-RM-03"
+      },
+      "scope_used": "job:WO-RM-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm03.approve.v2",
+      "in_effect_card": "card.rm03.approve.v2",
+      "coexisting": [
+        "card.rm03.approve.v1"
+      ],
+      "chain": [
+        "card.rm03.approve.v2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.total|job:WO-NL-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.total",
+        "scope": "job:WO-NL-04"
+      },
+      "scope_used": "job:WO-NL-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl04.dispute",
+      "in_effect_card": "card.nl04.dispute",
+      "coexisting": [],
+      "chain": [
+        "card.nl04.dispute"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.total|job:WO-OC-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.total",
+        "scope": "job:WO-OC-04"
+      },
+      "scope_used": "job:WO-OC-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc04.invoice.paid",
+      "in_effect_card": "card.oc04.invoice.paid",
+      "coexisting": [],
+      "chain": [
+        "card.oc04.invoice.paid"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.total|job:WO-PW-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.total",
+        "scope": "job:WO-PW-03"
+      },
+      "scope_used": "job:WO-PW-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw03.dispute",
+      "in_effect_card": "card.pw03.dispute",
+      "coexisting": [],
+      "chain": [
+        "card.pw03.dispute"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.lines|job:WO-OC-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.lines",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc01.approve.v2",
+      "in_effect_card": "card.oc01.approve.v2",
+      "coexisting": [],
+      "chain": [
+        "card.oc01.approve.v2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.structure|job:WO-NL-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.structure",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl01.approve.v1",
+      "in_effect_card": "card.nl01.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.nl01.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.structure|job:WO-OC-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.structure",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc01.approve.v1",
+      "in_effect_card": "card.oc01.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.oc01.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.structure|job:WO-OC-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.structure",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc03.approve.v1",
+      "in_effect_card": "card.oc03.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.oc03.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.structure|job:WO-PW-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.structure",
+        "scope": "job:WO-PW-03"
+      },
+      "scope_used": "job:WO-PW-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw03.dispute",
+      "in_effect_card": "card.pw03.approve.v1",
+      "coexisting": [
+        "card.pw03.approve.v1"
+      ],
+      "chain": [
+        "card.pw03.dispute"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.structure|job:WO-PW-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.structure",
+        "scope": "job:WO-PW-04"
+      },
+      "scope_used": "job:WO-PW-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw04.approve.v1",
+      "in_effect_card": "card.pw04.approve.v1",
+      "coexisting": [],
+      "chain": [
+        "card.pw04.approve.v1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.cap|client:cl.north_loft": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.cap",
+        "scope": "client:cl.north_loft"
+      },
+      "scope_used": "client:cl.north_loft",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl.cap.withdrawn",
+      "in_effect_card": "card.nl.cap.withdrawn",
+      "coexisting": [],
+      "chain": [
+        "card.nl.cap.withdrawn",
+        "card.nl.cap.inforce"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|client:cl.oak_circle": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "client:cl.oak_circle"
+      },
+      "scope_used": "client:cl.oak_circle",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc.rule.cc.tomas",
+      "in_effect_card": "card.oc.rule.cc.tomas",
+      "coexisting": [],
+      "chain": [
+        "card.oc.rule.cc.tomas",
+        "card.oc.rule.helenonly"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|client:cl.pike_water": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "client:cl.pike_water"
+      },
+      "scope_used": "client:cl.pike_water",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw.rule.noping",
+      "in_effect_card": "card.pw.rule.noping",
+      "coexisting": [],
+      "chain": [
+        "card.pw.rule.noping"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|client:cl.red_mill": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm.rule.portal",
+      "in_effect_card": "card.rm.rule.portal",
+      "coexisting": [],
+      "chain": [
+        "card.rm.rule.portal"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-OC-02": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc02.route.complaint",
+      "in_effect_card": "card.oc02.rule.routing",
+      "coexisting": [
+        "card.oc02.rule.routing"
+      ],
+      "chain": [
+        "card.oc02.route.complaint"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-PW-02": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-PW-02"
+      },
+      "scope_used": "job:WO-PW-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw02.ping",
+      "in_effect_card": "card.pw02.ping",
+      "coexisting": [],
+      "chain": [
+        "card.pw02.ping"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-RM-01": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm01.email.refuse",
+      "in_effect_card": "card.rm01.email.refuse",
+      "coexisting": [],
+      "chain": [
+        "card.rm01.email.refuse"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-RM-02": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-RM-02"
+      },
+      "scope_used": "job:WO-RM-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm02.rule.onepacket",
+      "in_effect_card": "card.rm02.rule.onepacket",
+      "coexisting": [],
+      "chain": [
+        "card.rm02.rule.onepacket"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|scope.structure|client:cl.north_loft": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "scope.structure",
+        "scope": "client:cl.north_loft"
+      },
+      "scope_used": "client:cl.north_loft",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl.rule.notrip",
+      "in_effect_card": "card.nl.rule.notrip",
+      "coexisting": [],
+      "chain": [
+        "card.nl.rule.notrip"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-NL-01": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl01Ground.result",
+      "in_effect_card": "card.nl01Ground.result",
+      "coexisting": [],
+      "chain": [
+        "card.nl01Ground.result",
+        "card.nl01Ground.promise"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-NL-02": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-NL-02"
+      },
+      "scope_used": "job:WO-NL-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl02.promise.tank",
+      "in_effect_card": "card.nl02.promise.tank",
+      "coexisting": [],
+      "chain": [
+        "card.nl02.promise.tank"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-OC-02": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc02.promise.camera",
+      "in_effect_card": "card.oc02.promise.camera",
+      "coexisting": [],
+      "chain": [
+        "card.oc02.promise.camera"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-OC-03": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc03.promise.valves",
+      "in_effect_card": "card.oc03.promise.valves",
+      "coexisting": [],
+      "chain": [
+        "card.oc03.promise.valves"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-OC-04": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-OC-04"
+      },
+      "scope_used": "job:WO-OC-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc04Framing.result",
+      "in_effect_card": "card.oc04Framing.result",
+      "coexisting": [],
+      "chain": [
+        "card.oc04Framing.result",
+        "card.oc04Framing.promise"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-PW-02": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-PW-02"
+      },
+      "scope_used": "job:WO-PW-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw02.promise.trap",
+      "in_effect_card": "card.pw02.promise.trap",
+      "coexisting": [],
+      "chain": [
+        "card.pw02.promise.trap"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-PW-05": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-PW-05"
+      },
+      "scope_used": "job:WO-PW-05",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw05.promise.scope",
+      "in_effect_card": "card.pw05.promise.scope",
+      "coexisting": [],
+      "chain": [
+        "card.pw05.promise.scope"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-RM-01": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm01Panel.result",
+      "in_effect_card": "card.rm01Panel.result",
+      "coexisting": [],
+      "chain": [
+        "card.rm01Panel.result",
+        "card.rm01Panel.promise"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-RM-04": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm04.promise.paint",
+      "in_effect_card": "card.rm04.promise.paint",
+      "coexisting": [],
+      "chain": [
+        "card.rm04.promise.paint"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|scope.lines|job:WO-NL-01": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "scope.lines",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl01Ground.result",
+      "in_effect_card": "card.nl01Ground.result",
+      "coexisting": [],
+      "chain": [
+        "card.nl01Ground.result"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|scope.lines|job:WO-OC-04": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "scope.lines",
+        "scope": "job:WO-OC-04"
+      },
+      "scope_used": "job:WO-OC-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc04Framing.result",
+      "in_effect_card": "card.oc04Framing.result",
+      "coexisting": [],
+      "chain": [
+        "card.oc04Framing.result"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|scope.lines|job:WO-RM-01": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "scope.lines",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm01Panel.result",
+      "in_effect_card": "card.rm01Panel.result",
+      "coexisting": [],
+      "chain": [
+        "card.rm01Panel.result"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|approval.effective|client:cl.north_loft": {
+      "seat": {
+        "topic": "price",
+        "facet": "approval.effective",
+        "scope": "client:cl.north_loft"
+      },
+      "scope_used": "client:cl.north_loft",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl.labor.new",
+      "in_effect_card": "card.nl.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.nl.labor.new"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|approval.effective|client:cl.pike_water": {
+      "seat": {
+        "topic": "price",
+        "facet": "approval.effective",
+        "scope": "client:cl.pike_water"
+      },
+      "scope_used": "client:cl.pike_water",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw.labor.new",
+      "in_effect_card": "card.pw.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.pw.labor.new"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|approval.effective|client:cl.red_mill": {
+      "seat": {
+        "topic": "price",
+        "facet": "approval.effective",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm.labor.new",
+      "in_effect_card": "card.rm.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.rm.labor.new"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|client:cl.north_loft": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "client:cl.north_loft"
+      },
+      "scope_used": "client:cl.north_loft",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl.labor.new",
+      "in_effect_card": "card.nl.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.nl.labor.new",
+        "card.nl.labor.old"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|client:cl.pike_water": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "client:cl.pike_water"
+      },
+      "scope_used": "client:cl.pike_water",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.pw.labor.new",
+      "in_effect_card": "card.pw.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.pw.labor.new",
+        "card.pw.labor.old"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|client:cl.red_mill": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm.labor.new",
+      "in_effect_card": "card.rm.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.rm.labor.new",
+        "card.rm.labor.old"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|job:WO-RM-04": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm04.labor.new",
+      "in_effect_card": "card.rm04.labor.new",
+      "coexisting": [],
+      "chain": [
+        "card.rm04.labor.new"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.material|client:cl.north_loft": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.material",
+        "scope": "client:cl.north_loft"
+      },
+      "scope_used": "client:cl.north_loft",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.nl.material.keep",
+      "in_effect_card": "card.nl.material.keep",
+      "coexisting": [],
+      "chain": [
+        "card.nl.material.keep"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.material|client:cl.red_mill": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.material",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm.material.keep",
+      "in_effect_card": "card.rm.material.keep",
+      "coexisting": [],
+      "chain": [
+        "card.rm.material.keep"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.material|job:WO-RM-04": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.material",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm04.material.keep",
+      "in_effect_card": "card.rm04.material.keep",
+      "coexisting": [],
+      "chain": [
+        "card.rm04.material.keep"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|approval.effective|client:cl.oak_circle": {
+      "seat": {
+        "topic": "scope",
+        "facet": "approval.effective",
+        "scope": "client:cl.oak_circle"
+      },
+      "scope_used": "client:cl.oak_circle",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc.structure.new",
+      "in_effect_card": "card.oc.structure.new",
+      "coexisting": [],
+      "chain": [
+        "card.oc.structure.new"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-OC-01": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc01.ask.heads",
+      "in_effect_card": "card.oc01.ask.heads",
+      "coexisting": [],
+      "chain": [
+        "card.oc01.ask.heads"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-RM-04": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm04.trip.explain",
+      "in_effect_card": "card.rm04.trip.explain",
+      "coexisting": [],
+      "chain": [
+        "card.rm04.trip.explain"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.structure|client:cl.oak_circle": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.structure",
+        "scope": "client:cl.oak_circle"
+      },
+      "scope_used": "client:cl.oak_circle",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.oc.structure.new",
+      "in_effect_card": "card.oc.structure.new",
+      "coexisting": [
+        "card.oc.structure.until"
+      ],
+      "chain": [
+        "card.oc.structure.new",
+        "card.oc.structure.old"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.structure|job:WO-RM-04": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.structure",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "card.rm04.trip.explain",
+      "in_effect_card": "card.rm04.trip.explain",
+      "coexisting": [],
+      "chain": [
+        "card.rm04.trip.explain"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    }
+  },
+  "cards": {
+    "card.nl01.approve.v1": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.nl01.approve.v2"
+    },
+    "card.nl01Ground.promise": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.nl01Ground.result"
+    },
+    "card.nl01Ground.result": {
+      "result": "PASS"
+    },
+    "card.nl01.approve.v2": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.nl01.approve.v3"
+    },
+    "card.nl01.approve.v3": {
+      "result": "PASS"
+    },
+    "card.nl.labor.old": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.nl.labor.new"
+    },
+    "card.nl.labor.new": {
+      "result": "PASS"
+    },
+    "card.nl.material.keep": {
+      "result": "PASS"
+    },
+    "card.nl.cap.inforce": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.nl.cap.withdrawn"
+    },
+    "card.nl.cap.withdrawn": {
+      "result": "PASS"
+    },
+    "card.nl02.approve.v1": {
+      "result": "PASS"
+    },
+    "card.nl02.promise.tank": {
+      "result": "PASS"
+    },
+    "card.nl03.approve.v1": {
+      "result": "PASS"
+    },
+    "card.nl04.reject.v2": {
+      "result": "PASS"
+    },
+    "card.nl04.dispute": {
+      "result": "PASS"
+    },
+    "card.oc01.approve.v1": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.oc01.approve.v2"
+    },
+    "card.oc.rule.helenonly": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.oc.rule.cc.tomas"
+    },
+    "card.oc01.ask.heads": {
+      "result": "PASS"
+    },
+    "card.oc01.approve.v2": {
+      "result": "PASS"
+    },
+    "card.oc01.approve.v3": {
+      "result": "PASS"
+    },
+    "card.oc.structure.old": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.oc.structure.new"
+    },
+    "card.oc.structure.new": {
+      "result": "PASS"
+    },
+    "card.oc.structure.until": {
+      "result": "PASS"
+    },
+    "card.oc.rule.cc.tomas": {
+      "result": "PASS"
+    },
+    "card.oc02.approve.v1": {
+      "result": "PASS"
+    },
+    "card.oc02.route.complaint": {
+      "result": "PASS"
+    },
+    "card.oc02.promise.camera": {
+      "result": "PASS"
+    },
+    "card.oc03.approve.v1": {
+      "result": "PASS"
+    },
+    "card.oc03.promise.valves": {
+      "result": "PASS"
+    },
+    "card.oc04Framing.promise": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.oc04Framing.result"
+    },
+    "card.oc04Framing.result": {
+      "result": "PASS"
+    },
+    "card.oc04.approve.late": {
+      "result": "PASS"
+    },
+    "card.pw01.approve.late": {
+      "result": "PASS"
+    },
+    "card.pw.rule.noping": {
+      "result": "PASS"
+    },
+    "card.pw02.approve.v1": {
+      "result": "PASS"
+    },
+    "card.pw02.promise.trap": {
+      "result": "PASS"
+    },
+    "card.pw02.ping": {
+      "result": "PASS"
+    },
+    "card.pw03.approve.v1": {
+      "result": "PASS"
+    },
+    "card.pw03.dispute": {
+      "result": "PASS"
+    },
+    "card.pw04.approve.v1": {
+      "result": "PASS"
+    },
+    "card.pw.labor.new": {
+      "result": "PASS"
+    },
+    "card.pw.labor.old": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.pw.labor.new"
+    },
+    "card.rm.rule.portal": {
+      "result": "PASS"
+    },
+    "card.rm01Panel.promise": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.rm01Panel.result"
+    },
+    "card.rm01Panel.result": {
+      "result": "PASS"
+    },
+    "card.rm01.approve.v1": {
+      "result": "PASS"
+    },
+    "card.rm01.email.refuse": {
+      "result": "PASS"
+    },
+    "card.rm.labor.new": {
+      "result": "PASS"
+    },
+    "card.rm.material.keep": {
+      "result": "PASS"
+    },
+    "card.rm.labor.old": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.rm.labor.new"
+    },
+    "card.rm02.approve.v1": {
+      "result": "PASS"
+    },
+    "card.rm02.reject": {
+      "result": "PASS"
+    },
+    "card.rm03.approve.v1": {
+      "result": "PASS"
+    },
+    "card.rm03.approve.v2": {
+      "result": "PASS"
+    },
+    "card.rm04.approve.late": {
+      "result": "PASS"
+    },
+    "card.rm04.promise.paint": {
+      "result": "PASS"
+    },
+    "card.rm04.labor.new": {
+      "result": "PASS"
+    },
+    "card.rm04.material.keep": {
+      "result": "PASS"
+    },
+    "card.pw05.promise.scope": {
+      "result": "PASS"
+    },
+    "card.pw05.reject.v1": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.pw05.reject.v2"
+    },
+    "card.pw05.reject.v2": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "card.pw05.reject.v3"
+    },
+    "card.pw05.reject.v3": {
+      "result": "PASS"
+    },
+    "card.oc05.reject": {
+      "result": "PASS"
+    },
+    "card.nl.rule.notrip": {
+      "result": "PASS"
+    },
+    "card.oc02.rule.routing": {
+      "result": "PASS"
+    },
+    "card.rm.rule.signer": {
+      "result": "PASS"
+    },
+    "card.rm02.rule.onepacket": {
+      "result": "PASS"
+    },
+    "card.oc05.hold": {
+      "result": "PASS"
+    },
+    "card.oc04.invoice.paid": {
+      "result": "PASS"
+    },
+    "card.rm04.trip.explain": {
+      "result": "PASS"
+    }
+  },
+  "links": [
+    {
+      "from": "card.nl01Ground.promise",
+      "to": "card.nl01Ground.result",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.nl01.approve.v1",
+      "to": "card.nl01.approve.v2",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.nl01.approve.v2",
+      "to": "card.nl01.approve.v3",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.nl.labor.old",
+      "to": "card.nl.labor.new",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.nl.cap.inforce",
+      "to": "card.nl.cap.withdrawn",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.oc01.approve.v1",
+      "to": "card.oc01.approve.v2",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.oc01.approve.v2",
+      "to": "card.oc01.approve.v3",
+      "relation": "SAME",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.oc.structure.old",
+      "to": "card.oc.structure.new",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.oc.rule.helenonly",
+      "to": "card.oc.rule.cc.tomas",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.oc04Framing.promise",
+      "to": "card.oc04Framing.result",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.pw.labor.old",
+      "to": "card.pw.labor.new",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "card.rm01Panel.promise",
+      "to": "card.rm01Panel.result",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.rm.labor.old",
+      "to": "card.rm.labor.new",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "card.pw05.reject.v1",
+      "to": "card.pw05.reject.v2",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "card.pw05.reject.v2",
+      "to": "card.pw05.reject.v3",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    }
+  ]
+}

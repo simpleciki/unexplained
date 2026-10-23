@@ -1,5 +1,5 @@
 {
-  "run_id": "oracle-2026-10-22T15-56-55-829Z",
+  "run_id": "oracle-2026-10-23T00-38-13-915Z",
   "mode": "oracle",
   "notes": [
     "Cards = eval/gold/gold_cards.jsonl, relations = eval/gold/gold_edges.jsonl.",
@@ -9054,6 +9054,38 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -9186,6 +9218,38 @@
                   "rec-0210"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -11776,6 +11840,26 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0069",
+                "at": "2026-04-03T12:05:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0070",
+                "at": "2026-04-03T09:19:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0071",
+                "at": "2026-04-03T09:40:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              }
             ]
           }
         },
@@ -11954,6 +12038,26 @@
                   "rec-0061"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0069",
+                "at": "2026-04-03T12:05:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0070",
+                "at": "2026-04-03T09:19:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0071",
+                "at": "2026-04-03T09:40:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
               }
             ]
           }
@@ -12194,6 +12298,38 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -12339,6 +12475,38 @@
                   "rec-0210"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -12533,6 +12701,26 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0069",
+                "at": "2026-04-03T12:05:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0070",
+                "at": "2026-04-03T09:19:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0071",
+                "at": "2026-04-03T09:40:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              }
             ]
           }
         }
@@ -12635,6 +12823,26 @@
                   "rec-0061"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0069",
+                "at": "2026-04-03T12:05:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0070",
+                "at": "2026-04-03T09:19:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0071",
+                "at": "2026-04-03T09:40:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
               }
             ]
           }
@@ -12828,6 +13036,38 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -12973,6 +13213,38 @@
                   "rec-0210"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -13167,6 +13439,26 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0069",
+                "at": "2026-04-03T12:05:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0070",
+                "at": "2026-04-03T09:19:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0071",
+                "at": "2026-04-03T09:40:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              }
             ]
           }
         }
@@ -13269,6 +13561,26 @@
                   "rec-0061"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0069",
+                "at": "2026-04-03T12:05:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0070",
+                "at": "2026-04-03T09:19:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0071",
+                "at": "2026-04-03T09:40:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
               }
             ]
           }
@@ -13462,6 +13774,38 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -13607,6 +13951,38 @@
                   "rec-0210"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0205",
+                "at": "2026-03-31T08:55:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0215",
+                "at": "2026-04-27T15:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0220",
+                "at": "2026-04-01T14:20:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0222",
+                "at": "2026-04-27T09:08:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0223",
+                "at": "2026-04-27T09:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -13940,6 +14316,56 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0249",
+                "at": "2026-04-29T14:10:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0250",
+                "at": "2026-04-30T10:20:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0254",
+                "at": "2026-05-04T09:09:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0259",
+                "at": "2026-05-06T16:15:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0260",
+                "at": "2026-05-19T16:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0261",
+                "at": "2026-05-22T11:05:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0265",
+                "at": "2026-06-10T17:45:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0270",
+                "at": "2026-06-24T16:50:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -14153,6 +14579,56 @@
                   "rec-0250"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0249",
+                "at": "2026-04-29T14:10:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0250",
+                "at": "2026-04-30T10:20:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0254",
+                "at": "2026-05-04T09:09:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0259",
+                "at": "2026-05-06T16:15:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0260",
+                "at": "2026-05-19T16:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0261",
+                "at": "2026-05-22T11:05:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0265",
+                "at": "2026-06-10T17:45:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0270",
+                "at": "2026-06-24T16:50:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -14486,6 +14962,56 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0249",
+                "at": "2026-04-29T14:10:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0250",
+                "at": "2026-04-30T10:20:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0254",
+                "at": "2026-05-04T09:09:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0259",
+                "at": "2026-05-06T16:15:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0260",
+                "at": "2026-05-19T16:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0261",
+                "at": "2026-05-22T11:05:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0265",
+                "at": "2026-06-10T17:45:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0270",
+                "at": "2026-06-24T16:50:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -14700,6 +15226,56 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0249",
+                "at": "2026-04-29T14:10:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0250",
+                "at": "2026-04-30T10:20:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0254",
+                "at": "2026-05-04T09:09:00-05:00",
+                "system": "contractor ops",
+                "type": "internal_note"
+              },
+              {
+                "record_id": "rec-0259",
+                "at": "2026-05-06T16:15:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0260",
+                "at": "2026-05-19T16:30:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0261",
+                "at": "2026-05-22T11:05:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0265",
+                "at": "2026-06-10T17:45:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0270",
+                "at": "2026-06-24T16:50:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         },
@@ -14831,7 +15407,8 @@
           ],
           "details": {
             "approved_version": null,
-            "reason": "no approved version to bill against"
+            "reason": "no approved version to bill against",
+            "cross_source": []
           }
         }
       ],
@@ -14889,7 +15466,8 @@
           ],
           "details": {
             "approved_version": null,
-            "reason": "no approved version to bill against"
+            "reason": "no approved version to bill against",
+            "cross_source": []
           }
         },
         {
@@ -15040,6 +15618,26 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0273",
+                "at": "2026-06-03T13:30:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0282",
+                "at": "2026-06-08T10:02:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0283",
+                "at": "2026-06-11T10:15:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -15162,6 +15760,26 @@
                   "rec-0277"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0273",
+                "at": "2026-06-03T13:30:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0282",
+                "at": "2026-06-08T10:02:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0283",
+                "at": "2026-06-11T10:15:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -15386,6 +16004,26 @@
                 ],
                 "inference": true
               }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0273",
+                "at": "2026-06-03T13:30:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0282",
+                "at": "2026-06-08T10:02:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0283",
+                "at": "2026-06-11T10:15:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              }
             ]
           }
         }
@@ -15508,6 +16146,26 @@
                   "rec-0277"
                 ],
                 "inference": true
+              }
+            ],
+            "timeline": [
+              {
+                "record_id": "rec-0273",
+                "at": "2026-06-03T13:30:00-05:00",
+                "system": "contractor ops",
+                "type": "field_note"
+              },
+              {
+                "record_id": "rec-0282",
+                "at": "2026-06-08T10:02:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
+              },
+              {
+                "record_id": "rec-0283",
+                "at": "2026-06-11T10:15:00-05:00",
+                "system": "client portal",
+                "type": "client_message"
               }
             ]
           }
@@ -17737,7 +18395,8 @@
             "approved_version": null,
             "mismatches": [
               "no approved version as of the invoice date"
-            ]
+            ],
+            "cross_source": []
           }
         }
       ],
@@ -17844,7 +18503,8 @@
             "approved_version": null,
             "mismatches": [
               "no approved version as of the invoice date"
-            ]
+            ],
+            "cross_source": []
           }
         },
         {
@@ -17994,6 +18654,17 @@
               "billed against Q-PW-03-v2 (voided), approved version is Q-PW-03-v1",
               "travel line \"Trip charge\" (175) is not in the approved version",
               "travel total 175, approved 0"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-PW-03",
+                "work_order_id": "WO-PW-03",
+                "trade": "roofing",
+                "billed_quote_id": "Q-PW-03-v2",
+                "approved_quote_id": "Q-PW-03-v1",
+                "invoice_total": "1249.00",
+                "approved_total": "1074.00"
+              }
             ]
           }
         }
@@ -18100,6 +18771,17 @@
               "billed against Q-PW-03-v2 (voided), approved version is Q-PW-03-v1",
               "travel line \"Trip charge\" (175) is not in the approved version",
               "travel total 175, approved 0"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-PW-03",
+                "work_order_id": "WO-PW-03",
+                "trade": "roofing",
+                "billed_quote_id": "Q-PW-03-v2",
+                "approved_quote_id": "Q-PW-03-v1",
+                "invoice_total": "1249.00",
+                "approved_total": "1074.00"
+              }
             ]
           }
         },
@@ -18222,6 +18904,17 @@
               "billed against Q-RM-02-v3, approved version is Q-RM-02-v1",
               "labor total 420, approved 168",
               "material total 138, approved 96"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-RM-02",
+                "work_order_id": "WO-RM-02",
+                "trade": "plumbing",
+                "billed_quote_id": "Q-RM-02-v3",
+                "approved_quote_id": "Q-RM-02-v1",
+                "invoice_total": "558.00",
+                "approved_total": "264.00"
+              }
             ]
           }
         }
@@ -18325,6 +19018,17 @@
               "billed against Q-RM-02-v3, approved version is Q-RM-02-v1",
               "labor total 420, approved 168",
               "material total 138, approved 96"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-RM-02",
+                "work_order_id": "WO-RM-02",
+                "trade": "plumbing",
+                "billed_quote_id": "Q-RM-02-v3",
+                "approved_quote_id": "Q-RM-02-v1",
+                "invoice_total": "558.00",
+                "approved_total": "264.00"
+              }
             ]
           }
         },
@@ -18488,6 +19192,17 @@
               "billed against Q-OC-03-v2, approved version is Q-OC-03-v1",
               "labor total 0, approved 630",
               "material total 2200, approved 626"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-OC-03",
+                "work_order_id": "WO-OC-03",
+                "trade": "hvac",
+                "billed_quote_id": "Q-OC-03-v2",
+                "approved_quote_id": "Q-OC-03-v1",
+                "invoice_total": "2200.00",
+                "approved_total": "1256.00"
+              }
             ]
           }
         }
@@ -18605,6 +19320,17 @@
               "billed against Q-OC-03-v2, approved version is Q-OC-03-v1",
               "labor total 0, approved 630",
               "material total 2200, approved 626"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-OC-03",
+                "work_order_id": "WO-OC-03",
+                "trade": "hvac",
+                "billed_quote_id": "Q-OC-03-v2",
+                "approved_quote_id": "Q-OC-03-v1",
+                "invoice_total": "2200.00",
+                "approved_total": "1256.00"
+              }
             ]
           }
         },
@@ -18758,6 +19484,17 @@
               "labor total 0, approved 1470",
               "material total 3600, approved 1962",
               "freight total 0, approved 95"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-PW-04",
+                "work_order_id": "WO-PW-04",
+                "trade": "hvac",
+                "billed_quote_id": "Q-PW-04-v2",
+                "approved_quote_id": "Q-PW-04-v1",
+                "invoice_total": "3600.00",
+                "approved_total": "3527.00"
+              }
             ]
           }
         }
@@ -18867,6 +19604,17 @@
               "labor total 0, approved 1470",
               "material total 3600, approved 1962",
               "freight total 0, approved 95"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-PW-04",
+                "work_order_id": "WO-PW-04",
+                "trade": "hvac",
+                "billed_quote_id": "Q-PW-04-v2",
+                "approved_quote_id": "Q-PW-04-v1",
+                "invoice_total": "3600.00",
+                "approved_total": "3527.00"
+              }
             ]
           }
         },
@@ -19003,6 +19751,17 @@
               "labor total 1092, approved 756",
               "material total 148, approved 102",
               "travel total 225, approved 0"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-RM-04",
+                "work_order_id": "WO-RM-04",
+                "trade": "general",
+                "billed_quote_id": "Q-RM-04-v2",
+                "approved_quote_id": "Q-RM-04-v1",
+                "invoice_total": "1465.00",
+                "approved_total": "858.00"
+              }
             ]
           }
         }
@@ -19114,6 +19873,17 @@
               "labor total 1092, approved 756",
               "material total 148, approved 102",
               "travel total 225, approved 0"
+            ],
+            "cross_source": [
+              {
+                "invoice_id": "INV-RM-04",
+                "work_order_id": "WO-RM-04",
+                "trade": "general",
+                "billed_quote_id": "Q-RM-04-v2",
+                "approved_quote_id": "Q-RM-04-v1",
+                "invoice_total": "1465.00",
+                "approved_total": "858.00"
+              }
             ]
           }
         },
@@ -22098,7 +22868,36 @@
           "details": {
             "invoice": "INV-NL-01",
             "approved_version": "Q-NL-01-v3",
-            "mismatches": []
+            "mismatches": [],
+            "cross_source": [
+              {
+                "invoice_id": "INV-NL-01",
+                "work_order_id": "WO-NL-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-NL-01-v3",
+                "approved_quote_id": "Q-NL-01-v1",
+                "invoice_total": "2156.00",
+                "approved_total": "1804.00"
+              },
+              {
+                "invoice_id": "INV-NL-01",
+                "work_order_id": "WO-NL-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-NL-01-v3",
+                "approved_quote_id": "Q-NL-01-v2",
+                "invoice_total": "2156.00",
+                "approved_total": "1988.00"
+              },
+              {
+                "invoice_id": "INV-NL-01",
+                "work_order_id": "WO-NL-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-NL-01-v3",
+                "approved_quote_id": "Q-NL-01-v3",
+                "invoice_total": "2156.00",
+                "approved_total": "2156.00"
+              }
+            ]
           }
         },
         {
@@ -22517,7 +23316,36 @@
           "details": {
             "invoice": "INV-OC-01",
             "approved_version": "Q-OC-01-v2",
-            "mismatches": []
+            "mismatches": [],
+            "cross_source": [
+              {
+                "invoice_id": "INV-OC-01",
+                "work_order_id": "WO-OC-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-OC-01-v2",
+                "approved_quote_id": "Q-OC-01-v1",
+                "invoice_total": "2030.00",
+                "approved_total": "1620.00"
+              },
+              {
+                "invoice_id": "INV-OC-01",
+                "work_order_id": "WO-OC-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-OC-01-v2",
+                "approved_quote_id": "Q-OC-01-v2",
+                "invoice_total": "2030.00",
+                "approved_total": "2030.00"
+              },
+              {
+                "invoice_id": "INV-OC-01",
+                "work_order_id": "WO-OC-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-OC-01-v2",
+                "approved_quote_id": "Q-OC-01-v3",
+                "invoice_total": "2030.00",
+                "approved_total": "2030.00"
+              }
+            ]
           }
         },
         {
@@ -22666,7 +23494,18 @@
           "details": {
             "invoice": "INV-PW-01",
             "approved_version": "Q-PW-01-v1",
-            "mismatches": []
+            "mismatches": [],
+            "cross_source": [
+              {
+                "invoice_id": "INV-PW-01",
+                "work_order_id": "WO-PW-01",
+                "trade": "electrical",
+                "billed_quote_id": "Q-PW-01-v1",
+                "approved_quote_id": "Q-PW-01-v1",
+                "invoice_total": "780.00",
+                "approved_total": "780.00"
+              }
+            ]
           }
         },
         {
@@ -22862,7 +23701,27 @@
           "details": {
             "invoice": "INV-RM-03",
             "approved_version": "Q-RM-03-v1",
-            "mismatches": []
+            "mismatches": [],
+            "cross_source": [
+              {
+                "invoice_id": "INV-RM-03",
+                "work_order_id": "WO-RM-03",
+                "trade": "hvac",
+                "billed_quote_id": "Q-RM-03-v1",
+                "approved_quote_id": "Q-RM-03-v1",
+                "invoice_total": "458.00",
+                "approved_total": "458.00"
+              },
+              {
+                "invoice_id": "INV-RM-03",
+                "work_order_id": "WO-RM-03",
+                "trade": "hvac",
+                "billed_quote_id": "Q-RM-03-v1",
+                "approved_quote_id": "Q-RM-03-v2",
+                "invoice_total": "458.00",
+                "approved_total": "490.00"
+              }
+            ]
           }
         },
         {
@@ -23028,7 +23887,18 @@
           "details": {
             "invoice": "INV-OC-04",
             "approved_version": "Q-OC-04-v1",
-            "mismatches": []
+            "mismatches": [],
+            "cross_source": [
+              {
+                "invoice_id": "INV-OC-04",
+                "work_order_id": "WO-OC-04",
+                "trade": "general",
+                "billed_quote_id": "Q-OC-04-v1",
+                "approved_quote_id": "Q-OC-04-v1",
+                "invoice_total": "1014.00",
+                "approved_total": "1014.00"
+              }
+            ]
           }
         },
         {
@@ -24357,5 +25227,5 @@
       "unresolved": []
     }
   ],
-  "trace_file": "logs/trace-oracle-2026-10-22T15-56-55-829Z.jsonl"
+  "trace_file": "logs/trace-oracle-2026-10-23T00-38-13-915Z.jsonl"
 }
