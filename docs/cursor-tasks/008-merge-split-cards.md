@@ -43,3 +43,22 @@ Also seen in the sample trace (for the README later, no action here): we request
 - The command for Ciki's next full ingest (new prompt + merge), preceded by a one-line backup of the current state so the 77-card baseline survives, e.g.
   `cp -R state "state-baseline-2026-10-22-77cards" && npm run ingest -- --max-calls 400`
   with a dry-run estimate for it (cache probe: how many extraction calls miss).
+
+## Outcome (reviewer, 2026-10-22 22:5x CDT) — not shipped
+
+Ciki's decision (22:53 CDT): revert the Task 008 code; keep this card and the result as a record.
+
+Measured with `cards:merge-check` on the 77-card full set (old prompt), no model calls:
+
+| | cards | matched | precision | recall |
+|---|---|---|---|---|
+| before | 77 | 28 | 0.364 | 0.280 |
+| after (with time-split guard) | 58 | 27 | 0.466 | 0.270 |
+| after (spec rule only) | 57 | 25 | 0.439 | 0.250 |
+
+Why it was dropped:
+1. Recall went down (one match lost); the precision gain came from 19 fewer cards, not better cards.
+2. The keys (record, mode, decider, scope, time) cannot see a decision boundary: the rule merges two separate decisions that gold keeps apart (rec-0187, rec-0283), so even a perfect extraction would score 0.96 / 0.98. A step that penalises a correct answer does not belong in the pipeline.
+3. The time-split guard was added after reading rec-0200, i.e. fitted to the evaluation data.
+
+Splitting stays a known weakness of the extraction model; the honest number comes from the next full ingest with the Task 007 prompt alone.
