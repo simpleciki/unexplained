@@ -184,6 +184,6 @@ export function loadIngested(root: string, data?: Dataset) {
   const modelEdges = JSON.parse(readFileSync(f("edges.json"), "utf8")) as RelationEdge[];
   const judgments = loadJudgments(root);
   if (!judgments.length) return { cards: modelCards, edges: modelEdges, modelCards, judgments };
-  const applied = applyJudgments(modelCards, modelEdges, judgments, (data ?? loadDataset(root)).records);
+  const applied = applyJudgments(modelCards, modelEdges, judgments, (data ?? loadDataset(root)).records, loadVocab(root));
   return { cards: applied.cards, edges: applied.edges, modelCards, judgments };
 }

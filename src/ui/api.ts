@@ -8,7 +8,7 @@ import { ms } from "../engine/docs.ts";
 import { runDetectors } from "../engine/detectors/index.ts";
 import { agentContext } from "../agents/shared.ts";
 import { loadIngested } from "../pipeline/ingest.ts";
-import { appendJudgment, confirmation, openQuestions } from "../review/judgments.ts";
+import { appendJudgment, confirmation, judgmentWarnings, openQuestions } from "../review/judgments.ts";
 import { suggestEffective } from "../review/effective.ts";
 import type { JudgmentInput } from "../review/judgments.ts";
 import { jobQueue, loadReviewView } from "../review/queue.ts";
@@ -40,7 +40,8 @@ export function ledger(ctx: Ctx) {
 
 export function meta(ctx: Ctx) {
   const people = agentContext(ctx.root, ctx.data, ctx.engine.vocab).people;
-  return { people, topics: [...ctx.engine.vocab.topics], modes: ["decides", "gives_reason", "proposes", "mentions"] };
+  // deciders: who may decide each topic; the form warns before a Decision by anyone else (it is used as Mentions).
+  return { people, topics: [...ctx.engine.vocab.topics], modes: ["decides", "gives_reason", "proposes", "mentions"], deciders: ctx.engine.vocab.deciders };
 }
 
 // Jobs, each with its quote versions and invoices. Status columns are end-of-period state, so they are not
@@ -73,11 +74,16 @@ function evidence(ctx: Ctx, id: string) {
   const rec = recs.get(card ? card.record_id : id);
   const source = rec ? { record_id: rec.record_id, type: rec.source_type, author: rec.author, at: rec.source_recorded_at, text: rec.text } : null;
   if (card) {
+    // A human card keeps the mode the person chose; the engine copy carries the mode it applies.
+    const chosen = card.source === "human" ? ctx.view.judgments.find((j) => j.judgment_id === card.judgment_id)?.cards[Number(card.card_id.split(".").at(-1))]?.mode : undefined;
+    const names = new Map(meta(ctx).people.map((p) => [p.id, p.name]));
     return {
       id,
       kind: "card" as const,
       quote: card.quote,
       mode: card.mode,
+      mode_chosen: chosen ?? card.mode,
+      mode_note: chosen && chosen !== card.mode ? `${names.get(card.decided_by) ?? card.decided_by} is not a client decider for ${card.topic}` : null,
       decided_by: card.decided_by,
       decided_at: card.decided_at,
       by: card.source === "human" ? "person" : "model",
@@ -188,11 +194,13 @@ export function queue(ctx: Ctx, job?: string) {
 }
 
 // Validate and append a judgment; returns the stored judgment, or the problems. The caller reloads ctx.
-export function postJudgment(ctx: Ctx, body: unknown): { status: 201; judgment: unknown } | { status: 400; errors: string[] } {
+export function postJudgment(ctx: Ctx, body: unknown): { status: 201; judgment: unknown; warnings: unknown[] } | { status: 400; errors: string[] } {
   if (!body || typeof body !== "object") return { status: 400, errors: ["body must be a JSON object"] };
   try {
     const j = appendJudgment(ctx.root, body as JudgmentInput, ctx.data.records, ctx.engine.vocab, ctx.view.modelCards);
-    return { status: 201, judgment: j };
+    const names = new Map(meta(ctx).people.map((p) => [p.id, p.name]));
+    const warnings = judgmentWarnings(body as JudgmentInput, ctx.engine.vocab, ctx.view.modelCards, (id) => names.get(id) ?? id);
+    return { status: 201, judgment: j, warnings };
   } catch (e) {
     const msg = (e as Error).message.replace(/^judgment rejected: /, "");
     return { status: 400, errors: msg.split("; ") };

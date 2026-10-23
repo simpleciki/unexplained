@@ -85,6 +85,9 @@
   .row2 .from { font-style: italic; }
   .typehelp { font-size: 12px; color: var(--faint); margin-top: 6px; }
   .q-open { color: #8a6a18; font-weight: 550; margin-top: 2px; }
+  .dwarn { margin-top: 8px; padding: 8px 10px; border-radius: 6px; background: #fdf8ea; color: #6f5514; font-size: 13px; }
+  .dwarn button { padding: 2px 8px; font-size: 13px; margin: 0 2px; }
+  b.used { color: #8a6a18; }
   .hist { font-size: 13px; color: var(--muted); margin-top: 4px; border-left: 2px solid var(--line); padding-left: 8px; }
   .nothing { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); }
   .nothing .hint { margin: 4px 0 0; }
@@ -229,7 +232,7 @@ function warningHtml(w) {
     ${foundHtml(w.details)}
     ${w.evidence.map((e) => `<div class="ev">
       ${e.kind === "card" ? `<div><span class="quote">“${esc(e.quote)}”</span></div>
-        <div class="who">${esc(e.mode.replace("_", " "))} · ${esc(nameOf(e.decided_by))} · ${esc(day(e.decided_at))} · ${e.by === "person" ? "" : "read by the model"}</div>
+        <div class="who">${esc(modeText(e.mode_chosen ?? e.mode, e.mode, e.mode_note))} · ${esc(nameOf(e.decided_by))} · ${esc(day(e.decided_at))} · ${e.by === "person" ? "" : "read by the model"}</div>
         ${e.confirmed ? `<div class="person">${esc(e.confirmed)}</div>` : ""}` : `<div class="who">record</div>`}
       ${sourceHtml(e.source, e.kind === "card" ? e.quote : null)}</div>`).join("")}
     <details><summary>engine details</summary><pre class="json">${esc(JSON.stringify(w.details, null, 2))}</pre></details>
@@ -260,8 +263,13 @@ function queueHtml(q) {
     ${q.confirmed.length ? `<h3>Confirmed by a person (${q.confirmed.length})</h3>${q.confirmed.map(confirmedHtml).join("")}` : ""}`;
 }
 
-function cardLine(c) {
-  return `<div class="cand"><b>${esc(typeLabel(c.mode))}</b> · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”
+// "Decision → used as Mentions (…)" when the engine's decider rule changes the mode the person chose.
+const modeText = (chosen, used, why) => used && used !== chosen
+  ? `${typeLabel(chosen)} → used as ${typeLabel(used)}${why ? ` (${why})` : ""}`
+  : typeLabel(chosen);
+
+function cardLine(c, m) {
+  return `<div class="cand"><b class="${m && m.used !== m.chosen ? "used" : ""}">${esc(modeText(c.mode, m?.used, m?.why))}</b> · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”
     ${c.effective ? ` · effective from ${esc(day(c.effective))}` : " · effective from the message time"}
     ${c.open_question ? `<div class="q-open">Open question: ${esc(c.open_question)}</div>` : ""}</div>`;
 }
@@ -271,7 +279,7 @@ function confirmedHtml(x) {
   const hist = (x.history || []).map((h) => `<div class="hist">replaces the judgment of ${esc(day(h.judged_at))} by ${esc(h.reviewer)}: ${esc(h.verdict === "cards" ? h.types.map(typeLabel).join(", ") : "nothing to keep")} — ${esc(h.reason)}</div>`).join("");
   return `<div class="card"><div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
     <div class="done-line">${j?.verdict === "no_decision" ? "Nothing to keep" : "Kept"} — ${esc(j?.reviewer)}, ${esc(day(j?.judged_at))}: ${esc(j?.reason)}</div>
-    ${(j?.cards || []).map(cardLine).join("")}
+    ${(j?.cards || []).map((c, i) => cardLine(c, x.card_modes?.[i])).join("")}
     ${hist}
     <div class="rtext">${esc(x.text)}</div>
     <details class="again"><summary>Judge this record again (the new judgment replaces this one; the history stays)</summary>${itemHtml(x, "again")}</details></div>`;
@@ -319,7 +327,20 @@ function rowHtml(r, i) {
       <label class="qlabel">Has a question <input type="text" data-f="question" placeholder="optional: what is still unclear (keeps the card, blocks Clear)" value="${esc(r.question)}"></label>
     </div>
     <div class="typehelp">${esc(t.label)}: ${esc(t.help)} <i>e.g. “${esc(t.example)}”</i></div>
+    <div class="typehelp">Has a question: blocks this job's documents from Clear until it is answered. Use it for a gap that could change this document's result.</div>
+    ${deciderWarningHtml(r)}
   </div>`;
+}
+
+// The engine reads a Decision by someone who is not a client decider for the topic as Mentions (a contractor
+// can only propose). Say so before submit and offer the two honest types; keeping it is allowed.
+function deciderWarningHtml(r) {
+  if (r.mode !== "decides") return "";
+  const d = S.meta.deciders || {};
+  const allowed = r.topic ? d[r.topic] : [...new Set(Object.values(d).flat())];
+  if (!allowed || allowed.includes(r.decided_by)) return "";
+  return `<div class="dwarn">${esc(nameOf(r.decided_by))} is not a client decider${r.topic ? ` for ${esc(r.topic.replace("_", " "))}` : ""}. The system will read this card as Mentions.
+    Choose <button data-act="tomode" data-mode="proposes">Promise / open item</button> or <button data-act="tomode" data-mode="mentions">Mentions</button> — or keep it, and it will be shown as Mentions.</div>`;
 }
 
 function itemOf(el) { const c = el.closest("[data-rec]"); return c && c.dataset.rec; }
@@ -366,7 +387,7 @@ document.addEventListener("change", (e) => {
   const r = S.drafts[rec].rows[Number(box.dataset.i)];
   r[e.target.dataset.f] = e.target.value;
   if (e.target.dataset.f === "eff_date" || e.target.dataset.f === "eff_time") r.eff_from = "your edit";
-  if (e.target.dataset.f === "mode" || e.target.dataset.f.startsWith("eff_")) rerenderItem(rec);
+  if (["mode", "topic", "decided_by"].includes(e.target.dataset.f) || e.target.dataset.f.startsWith("eff_")) rerenderItem(rec);
 });
 document.addEventListener("input", (e) => {
   if (e.target.dataset?.reason) S.drafts[e.target.dataset.reason].reason = e.target.value;
@@ -382,6 +403,7 @@ document.addEventListener("click", async (e) => {
   if (!rec) return;
   const d = S.drafts[rec];
   if (act === "drop") { d.rows.splice(Number(e.target.closest("[data-i]").dataset.i), 1); return rerenderItem(rec); }
+  if (act === "tomode") { d.rows[Number(e.target.closest("[data-i]").dataset.i)].mode = e.target.dataset.mode; return rerenderItem(rec); }
   const err = e.target.closest("[data-rec]").querySelector("[data-err]");
   const reviewer = reviewerEl.value.trim();
   if (!reviewer) { err.textContent = "Enter a reviewer name at the top."; return; }

@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadDataset } from "../engine/data.ts";
 import { extractableRecords } from "../pipeline/ingest.ts";
+import { loadIngested } from "../pipeline/ingest.ts";
 import { loadCtx } from "./api.ts";
 import { route } from "./server.ts";
 
@@ -142,6 +143,53 @@ describe("gatekeeper API", () => {
     expect(item.judgment).toMatchObject({ judgment_id: "j.rec-0011.2", supersedes: "j.rec-0011.1" });
     expect(item.history).toEqual([expect.objectContaining({ judgment_id: "j.rec-0011.1", verdict: "no_decision", types: [], reason: "hours not stated" })]);
     expect(item.why).toMatch(/open question: how many hours\?/);
+  });
+
+  it("a Decision by a non-decider is warned, stored as submitted, and loads with mode_used mentions", () => {
+    const { root, box } = setup();
+    const r = route(box, "POST", "/api/judgments", JSON.stringify({ record_id: "rec-0284", verdict: "cards", cards: [{ mode: "decides", quote: "Tallow Creek jobs only this spring.", decided_by: "p.hw.delia_vorn", topic: "client_rule" }], reason: "an office rule", reviewer: "Ciki" }));
+    expect(r.status).toBe(201);
+    const out = JSON.parse(r.body);
+    expect(out.warnings).toEqual([{ card: 0, decided_by: "p.hw.delia_vorn", topic: "client_rule", mode_used: "mentions", text: "Delia Vorn is not a client decider for client_rule. The system will read this card as Mentions." }]);
+    // Stored as the reviewer chose it.
+    const line = JSON.parse(readFileSync(join(root, "review/judgments.jsonl"), "utf8").trim().split("\n").at(-1)!);
+    expect(line.cards[0].mode).toBe("decides");
+    // Loaded: the human card keeps the chosen mode and says what the engine uses.
+    const human = loadIngested(root).cards.find((c) => c.record_id === "rec-0284")!;
+    expect(human).toMatchObject({ mode: "decides", mode_used: "mentions", source: "human" });
+    // The confirmed view carries both, with the reason.
+    const item = get(box, "/api/queue?job=WO-NL-01").body.confirmed.find((x: { record_id: string }) => x.record_id === "rec-0284");
+    expect(item.card_modes).toEqual([{ chosen: "decides", used: "mentions", why: "Delia Vorn is not a client decider for client_rule" }]);
+  });
+
+  it("a Decision by a listed client decider has no warning and no mode_used", () => {
+    const { root, box } = setup();
+    const r = route(box, "POST", "/api/judgments", JSON.stringify({ record_id: "rec-0011", verdict: "cards", cards: [{ mode: "decides", quote: "Ok on the extra ground hours. Approved.", decided_by: "p.nl.ria_moth", topic: "approval" }], reason: "client approves", reviewer: "Ciki" }));
+    expect(JSON.parse(r.body).warnings).toEqual([]);
+    const human = loadIngested(root).cards.find((c) => c.record_id === "rec-0011")!;
+    expect(human.mode).toBe("decides");
+    expect(human).not.toHaveProperty("mode_used");
+    const item = get(box, "/api/queue?job=WO-NL-01").body.confirmed.find((x: { record_id: string }) => x.record_id === "rec-0011");
+    expect(item.card_modes).toEqual([{ chosen: "decides", used: "decides", why: null }]);
+  });
+
+  it("evidence for a firing pattern shows a human card's chosen mode, the mode used and why", () => {
+    const { box } = setup();
+    const post = (b: unknown) => expect(route(box, "POST", "/api/judgments", JSON.stringify(b)).status).toBe(201);
+    // An open promise (the riser ground) on WO-NL-01 ...
+    post({ record_id: "rec-0006", verdict: "cards", reason: "a promise to check the riser", reviewer: "Ciki", cards: [{ mode: "proposes", quote: "Once he opens the gutter we'll see if the studio riser needs its own isolated ground", decided_by: "p.hw.mira_kell", topic: "open_item", facets: ["open_item.inspection"] }] });
+    // ... and a later field finding kept as a Decision by the technician: the decider rule uses it as Mentions,
+    // which makes it a follow-up of the open item, cited by P1 when v2 prices the riser ground.
+    post({ record_id: "rec-0007", verdict: "cards", reason: "the finding", reviewer: "Ciki", cards: [{ mode: "decides", quote: "Studio riser does need an isolated ground.", decided_by: "p.hw.cal_rhees", topic: "scope", facets: ["open_item.inspection"] }] });
+    const c = get(box, "/api/check?doc=Q-NL-01-v2").body;
+    const p1 = c.warnings.find((w: { pattern: string }) => w.pattern === "P1");
+    expect(p1.fired).toBe(true);
+    const ev = p1.evidence.find((e: { id: string }) => e.id === "h.j.rec-0007.1.0");
+    expect(ev).toMatchObject({ kind: "card", by: "person", mode_chosen: "decides", mode: "mentions", mode_note: "Cal Rhees is not a client decider for scope" });
+    expect(ev.source.record_id).toBe("rec-0007");
+    // The promise itself was not changed by the rule: no note.
+    const promise = p1.evidence.find((e: { id: string }) => e.id === "h.j.rec-0006.1.0");
+    expect(promise).toMatchObject({ mode_chosen: "proposes", mode: "proposes", mode_note: null });
   });
 
   it("lists the queue for one job: needs_human, then the spot-check items", () => {

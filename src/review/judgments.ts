@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { parseJsonl } from "../engine/data.ts";
 import type { CardMode, DecisionCard, RelationEdge, SourceRecord } from "../engine/types.ts";
 import type { Vocab } from "../engine/vocab.ts";
+import { applyDeciderCheck } from "../engine/vocab.ts";
 import { effectiveFromForm } from "./effective.ts";
 
 const MODES: CardMode[] = ["decides", "mentions", "gives_reason", "proposes"];
@@ -84,6 +85,27 @@ function topicFromModel(quote: string, recordId: string, modelCards: DecisionCar
   return best?.c;
 }
 
+// The engine's decider rule (applyDeciderCheck in src/engine/vocab.ts): a "decides" card from someone
+// outside deciders[topic] is used as "mentions" (a contractor can only propose). The rule stays as it is;
+// these helpers make it visible to the reviewer instead of silent.
+export function modeUsed(mode: CardMode, topic: string, decidedBy: string, vocab: Vocab): CardMode {
+  return applyDeciderCheck(vocab, { mode, topic, decided_by: decidedBy } as DecisionCard).mode;
+}
+
+export type DeciderWarning = { card: number; decided_by: string; topic: string; mode_used: CardMode; text: string };
+
+// Warnings, not errors: the judgment is stored as submitted, and the card is used as Mentions.
+export function judgmentWarnings(input: JudgmentInput, vocab: Vocab, modelCards: DecisionCard[] = [], nameOf: (id: string) => string = (id) => id): DeciderWarning[] {
+  if (input.verdict !== "cards") return [];
+  return (input.cards ?? []).flatMap((c, i) => {
+    const topic = c.topic ?? topicFromModel(c.quote, input.record_id, modelCards)?.topic;
+    if (!topic || !c.decided_by) return [];
+    const used = modeUsed(c.mode, topic, c.decided_by, vocab);
+    if (used === c.mode) return [];
+    return [{ card: i, decided_by: c.decided_by, topic, mode_used: used, text: `${nameOf(c.decided_by)} is not a client decider for ${topic}. The system will read this card as Mentions.` }];
+  });
+}
+
 // Validate and append. judged_at is this machine's local clock at the moment the person submits (not when
 // the record was written, not when the file is read), so the judgment's own time is never guessed.
 export function appendJudgment(root: string, input: JudgmentInput, records: SourceRecord[], vocab: Vocab, modelCards: DecisionCard[] = [], now = new Date()): Judgment {
@@ -127,14 +149,16 @@ export function appendJudgment(root: string, input: JudgmentInput, records: Sour
 // Human cards get no Keeper relations (that would need a model call); they enter the seat graph as
 // independent cards. Fine for now: ask and eval:live rebuild the engine with them; state/seats.json stays
 // the model's view.
-export function applyJudgments(modelCards: DecisionCard[], edges: RelationEdge[], judgments: Judgment[], records: SourceRecord[]) {
+// With vocab, a human card whose mode the decider rule changes carries mode_used (it keeps the chosen mode).
+export function applyJudgments(modelCards: DecisionCard[], edges: RelationEdge[], judgments: Judgment[], records: SourceRecord[], vocab?: Vocab) {
   const latest = latestPerRecord(judgments);
   const recs = new Map(records.map((r) => [r.record_id, r]));
   const human: DecisionCard[] = [];
   for (const j of latest.values()) {
     const rec = recs.get(j.record_id);
     if (!rec) continue;
-    j.cards.forEach((c, i) =>
+    j.cards.forEach((c, i) => {
+      const used = vocab && c.topic ? modeUsed(c.mode, c.topic, c.decided_by, vocab) : c.mode;
       human.push({
         card_id: `h.${j.judgment_id}.${i}`,
         record_id: j.record_id,
@@ -148,8 +172,9 @@ export function applyJudgments(modelCards: DecisionCard[], edges: RelationEdge[]
         decided_by: c.decided_by,
         source: "human",
         judgment_id: j.judgment_id,
-      }),
-    );
+        ...(used !== c.mode ? { mode_used: used } : {}),
+      });
+    });
   }
   const kept = modelCards.filter((c) => !latest.has(c.record_id));
   const ids = new Set(kept.map((c) => c.card_id));

@@ -8,7 +8,9 @@ import { loadDataset } from "../engine/data.ts";
 import type { Dataset, DecisionCard, SourceRecord } from "../engine/types.ts";
 import { extractableRecords } from "../pipeline/ingest.ts";
 import type { IngestReport } from "../pipeline/ingest.ts";
-import { historyOf, latestPerRecord, loadJudgments } from "./judgments.ts";
+import { loadVocab } from "../engine/vocab.ts";
+import { loadPeople } from "../agents/shared.ts";
+import { historyOf, latestPerRecord, loadJudgments, modeUsed } from "./judgments.ts";
 import type { Judgment } from "./judgments.ts";
 import { buildLedger } from "./ledger.ts";
 import type { Ledger } from "./ledger.ts";
@@ -27,6 +29,8 @@ export type QueueItem = {
   judgment?: Judgment;
   // Earlier judgments the latest one replaced, oldest first: "replaces the judgment of <date>: ...".
   history: { judgment_id: string; judged_at: string; reviewer: string; verdict: Judgment["verdict"]; types: string[]; reason: string }[];
+  // Per card of the latest judgment: the mode the person chose, the mode the engine uses, and why they differ.
+  card_modes: { chosen: string; used: string; why: string | null }[];
 };
 
 export type ReviewView = { data: Dataset; modelCards: DecisionCard[]; judgments: Judgment[]; ledger: Ledger; items: QueueItem[] };
@@ -42,6 +46,8 @@ export function loadReviewView(root: string, data: Dataset = loadDataset(root)):
   const ledger = buildLedger(records, modelCards, report, judgments);
   const byId = new Map<string, SourceRecord>(data.records.map((r) => [r.record_id, r]));
   const latest = latestPerRecord(judgments);
+  const vocab = loadVocab(root);
+  const names = new Map(loadPeople(root).map((p) => [p.id, p.name]));
   const items = ledger.items.map((x): QueueItem => {
     const r = byId.get(x.record_id)!;
     return {
@@ -53,6 +59,10 @@ export function loadReviewView(root: string, data: Dataset = loadDataset(root)):
       text: r.text,
       candidates: modelCards.filter((c) => c.record_id === x.record_id).map(({ card_id, mode, decided_by, topic, quote }) => ({ card_id, mode, decided_by, topic, quote })),
       judgment: latest.get(x.record_id),
+      card_modes: (latest.get(x.record_id)?.cards ?? []).map((c) => {
+        const used = c.topic ? modeUsed(c.mode, c.topic, c.decided_by, vocab) : c.mode;
+        return { chosen: c.mode, used, why: used !== c.mode ? `${names.get(c.decided_by) ?? c.decided_by} is not a client decider for ${c.topic}` : null };
+      }),
       history: historyOf(judgments, x.record_id).map((h) => ({ judgment_id: h.judgment_id, judged_at: h.judged_at, reviewer: h.reviewer, verdict: h.verdict, types: h.cards.map((c) => c.mode), reason: h.reason })),
     };
   });

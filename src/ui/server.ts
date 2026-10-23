@@ -43,7 +43,7 @@ export function route(box: { ctx: Ctx; html: string }, method: string, url: stri
     const r = postJudgment(box.ctx, parsed);
     if (r.status === 400) return json(400, { errors: r.errors });
     box.ctx = loadCtx(box.ctx.root, box.ctx.data);
-    return json(201, { judgment: r.judgment, ledger: ledger(box.ctx) });
+    return json(201, { judgment: r.judgment, warnings: r.warnings, ledger: ledger(box.ctx) });
   }
   return json(404, { errors: [`no route ${method} ${p}`] });
 }

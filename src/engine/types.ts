@@ -36,6 +36,7 @@ export type DecisionCard = {
   decided_by: string;
   source?: "model" | "human"; // absent = model; "human" = from a review judgment (src/review/judgments.ts)
   judgment_id?: string;
+  mode_used?: CardMode; // human cards: what the engine applies when it differs from the mode the person chose
 };
 
 export type Relation = "REPLACES" | "SAME" | "REFINES" | "UNRELATED";
