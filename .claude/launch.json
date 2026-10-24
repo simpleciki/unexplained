@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "ui"],
       "port": 8095
+    },
+    {
+      "name": "gatekeeper-ui-demo",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "ui", "--", "--demo"],
+      "port": 8095
     }
   ]
 }

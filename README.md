@@ -7,8 +7,14 @@ with evidence, and says "the records do not say" instead of guessing. All data i
 
 ## Model runtime
 
-All model calls go through Nightshift, the Meterless Runtime on `127.0.0.1:8088`
-(`src/llm/meterless.ts`). Nightshift remains the provider; there is no other SDK or endpoint.
+Nightshift, the Meterless Runtime on `127.0.0.1:8088` (`src/llm/meterless.ts`), is the default and
+primary provider. `AI_PROVIDER=nvidia-direct` is an explicit second route straight to NVIDIA's endpoint
+(`src/llm/nvidia-direct.ts`, key from `NVIDIA_API_KEY`, model `nvidia/nemotron-3.5-lightning-30b-a3b`). It
+was added after Nightshift 1.2.1 and 1.2.2 routed our pinned models to an NVIDIA function this account
+cannot use, and the full evaluation run uses it (see `docs/eval-protocol-011-amendment-2.md`). Meterless
+confirmed that calling NVIDIA directly is fine (Sam Cummings, Help Meterless, 2026-10-23). Either way,
+cached replies are reused and each trace event says which route answered (`nightshift`, `nvidia-direct`,
+or `cache` for a reused reply). The routing and pinning below apply to Nightshift.
 
 Routing. Each agent asks for a Meterless routing mode (`meterless/auto` or `meterless/deep`). When the
 runtime routes a request to an upstream model that is retired or that this account may not use, the

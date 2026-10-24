@@ -1,0 +1,39 @@
+{
+  "job": "WO-NL-01",
+  "about": "The home page story (docs/design/home-prototype.html), curated from real records of this job. Every text is an exact substring of one of its record_ids; GET /api/story checks that, the dates, the prices and the two-clock mark before serving it.",
+  "contractor": { "person": "p.hw.mira_kell", "org": "Harbor & Wick", "role": "Estimator" },
+  "client": { "person": "p.nl.ria_moth", "role": "Client reviewer" },
+  "tagline": ["Listens to both sides of the job.", "Keeps every turn on the record."],
+  "events": [
+    { "t": 0.6, "side": "contractor", "date": "4 Mar", "who": "Mira Kell · quote v1 sent", "record_ids": ["rec-0023", "rec-0002"],
+      "text": "Built v1 on the usual North Loft electrical split: two labor lines then named material.", "price": 1804, "version": "Q-NL-01-v1" },
+    { "t": 3.3, "side": "client", "date": "5 Mar", "who": "Ria Moth", "record_ids": ["rec-0005"],
+      "text": "Approved as sent at $92 an hour. Do not add trip fees.",
+      "mark": { "kind": "noted", "text": "Client rule noted: no trip fees" } },
+    { "t": 6.1, "side": "contractor", "date": "6 Mar", "who": "Mira Kell", "record_ids": ["rec-0006"],
+      "text": "Once he opens the gutter we'll see if the studio riser needs its own isolated ground. I'll tell you either way before we requote.",
+      "mark": { "kind": "open", "text": "Promise opened" } },
+    { "t": 8.9, "side": "client", "date": "10 Mar", "who": "Ria Moth", "record_ids": ["rec-0018"],
+      "text": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+      "mark": { "kind": "noted", "text": "Rule noted: over $2,500 needs her note" } },
+    { "t": 11.6, "side": "contractor", "date": "11–12 Mar", "who": "Cal Rhees, field · quote v2 sent", "record_ids": ["rec-0007", "rec-0008"],
+      "text": "Studio riser does need an isolated ground. About two hours of labor, no extra parts.", "price": 1988, "version": "Q-NL-01-v2",
+      "mark": { "kind": "noted", "text": "Promise closed by Cal's finding" } },
+    { "t": 14.3, "side": "client", "date": "13 Mar", "who": "Ria Moth", "record_ids": ["rec-0011"],
+      "text": "Ok on the extra ground hours. Approved." },
+    { "t": 17.0, "side": "contractor", "date": "16 Mar", "who": "Cal Rhees, field · city inspector's visit · quote v3 sent", "record_ids": ["rec-0012", "rec-0013"],
+      "text": "He wants a whole-house surge device on the new panel before he signs the final.", "price": 2156, "version": "Q-NL-01-v3",
+      "mark": { "kind": "noted", "text": "$2,156 is under her $2,500 line" } },
+    { "t": 19.7, "side": "client", "date": "17 Mar call", "who": "Ria Moth · logged by Jonah Prent on 20 Mar", "record_ids": ["rec-0016"],
+      "text": "Q-NL-01-v3 is approved now that the surge device from the inspector is on the quote.",
+      "mark": { "kind": "open", "text": "Said 17 Mar, written 20 Mar — dated to the call", "said": "17 Mar", "written": "20 Mar" } },
+    { "t": 22.4, "side": "contractor", "date": "3 Apr", "who": "Jonah Prent · invoice INV-NL-01, billed against v3", "record_ids": ["rec-0020"],
+      "text": "Labor 1288.00, material 868.00, total 2156.00.", "invoice": "INV-NL-01",
+      "mark": { "kind": "noted", "text": "Invoice matches the approved v3" } }
+  ],
+  "ending": {
+    "invoice": "INV-NL-01",
+    "sub": "Three versions, two surprises, two client rules — every turn on the record. Nothing lost.",
+    "link": { "text": "Not every call ends like this — Heron Court", "doc": "Q-PW-05-v3" }
+  }
+}

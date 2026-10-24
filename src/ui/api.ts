@@ -10,6 +10,9 @@ import { agentContext } from "../agents/shared.ts";
 import { loadIngested } from "../pipeline/ingest.ts";
 import { appendJudgment, confirmation, judgmentWarnings, openQuestions } from "../review/judgments.ts";
 import { suggestEffective } from "../review/effective.ts";
+import { findingSegments, plainText } from "./findings.ts";
+import { loadStoryFile, storyResponse, validateStory } from "./story.ts";
+import type { EvidenceItem } from "./findings.ts";
 import type { JudgmentInput } from "../review/judgments.ts";
 import { jobQueue, loadReviewView } from "../review/queue.ts";
 import type { ReviewView } from "../review/queue.ts";
@@ -24,7 +27,7 @@ export const WARNINGS: Record<string, string> = {
   P7: "Invoice does not match what was approved",
 };
 
-export type Ctx = { root: string; data: Dataset; view: ReviewView; engine: Engine };
+export type Ctx = { root: string; data: Dataset; view: ReviewView; engine: Engine; summary?: Summary };
 
 // Rebuilt after every judgment, so the ledger and the engine always reflect review/judgments.jsonl.
 export function loadCtx(root: string, data: Dataset): Ctx {
@@ -49,6 +52,7 @@ export function meta(ctx: Ctx) {
 export function jobs(ctx: Ctx) {
   const t = ctx.data.tables;
   const clients = new Map(t.clients.map((c) => [c.client_id, c.name]));
+  const { states } = summary(ctx);
   return t.workOrders.map((w) => {
     const q = jobQueue(ctx.view, w.work_order_id);
     return {
@@ -60,8 +64,8 @@ export function jobs(ctx: Ctx) {
       spot_check: q.spot_check.length,
       confirmed: q.confirmed.length,
       docs: [
-        ...t.quotes.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "quote" as const, id: x.quote_id, label: `v${x.version}`, at: x.submitted_at, total: Number(x.total) })),
-        ...t.invoices.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "invoice" as const, id: x.invoice_id, label: x.invoice_id, at: x.issued_at, total: Number(x.total) })),
+        ...t.quotes.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "quote" as const, id: x.quote_id, label: `v${x.version}`, at: x.submitted_at, total: Number(x.total), state: states[x.quote_id] })),
+        ...t.invoices.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "invoice" as const, id: x.invoice_id, label: x.invoice_id, at: x.issued_at, total: Number(x.total), state: states[x.invoice_id] })),
       ].sort((a, b) => ms(a.at) - ms(b.at)),
     };
   });
@@ -106,8 +110,9 @@ export function inOffsetOf(iso: string, t: number): string {
 // submitted or issued, with the document itself as the one in hand.
 // The verdict never says "clear" while anything the check depends on is open: a job record written before
 // the document that no one has judged yet (needs_human), or a P2 change only the Judge model step could
-// judge, or an open question a person left on a card they kept. Records the model read as empty are
-// reported as open for spot-check but do not block "clear".
+// judge, or an open question a person left on a card they kept, or a record the model read as empty (the
+// model's "nothing here" was wrong on 26 of 59 records we measured, so a person spot-checks it first). With no
+// records at all before the cut-off there is nothing to check against, so that is not "clear" either.
 export function check(ctx: Ctx, docId: string) {
   const t = ctx.data.tables;
   const invoice = t.invoices.find((x) => x.invoice_id === docId) ?? null;
@@ -141,9 +146,11 @@ export function check(ctx: Ctx, docId: string) {
         ? "warning"
         : needsJudge
           ? "not judged here (needs the Judge model step)"
-          : unjudged.length || questions.length
-            ? `no evidence in the ${read} of ${seen.length} records read${questions.length ? `; ${questions.length} open question${questions.length > 1 ? "s" : ""}` : ""}`
-            : "clear";
+          : seen.length === 0
+            ? "no records on file to check against"
+            : unjudged.length || questions.length || spot.length
+              ? `no evidence in the ${read} of ${seen.length} records read${questions.length ? `; ${questions.length} open question${questions.length > 1 ? "s" : ""}` : ""}${spot.length ? `; ${spot.length} read as empty, not spot-checked` : ""}`
+              : "clear";
       return {
         pattern: f.pattern,
         title: WARNINGS[f.pattern],
@@ -155,19 +162,33 @@ export function check(ctx: Ctx, docId: string) {
       };
     });
 
+  // One or two plain sentences per fired warning (src/ui/findings.ts); the raw details stay alongside.
+  const names = new Map(meta(ctx).people.map((p) => [p.id, p.name]));
+  const docLines = invoice ? t.invoiceLines.filter((l) => l.invoice_id === docId).map((l) => ({ description: l.description })) : version!.lines;
+  const fctx = { nameOf: (id: string) => names.get(id) ?? id, docKind: (invoice ? "invoice" : "quote") as "quote" | "invoice", invoiceBilledQuote: invoice?.quote_id ?? null, lines: docLines };
+  // finding_segments: the same sentences as typed segments, so the page can set names, dates and money in bold.
+  for (const w of warnings) {
+    const segs = w.fired ? findingSegments({ pattern: w.pattern, details: w.details as Record<string, unknown>, evidence: w.evidence as EvidenceItem[] }, fctx) : [];
+    Object.assign(w, { finding: segs.map(plainText), finding_segments: segs });
+  }
   const fired = warnings.filter((w) => w.fired).length;
   const openPatterns = warnings.filter((w) => w.open).map((w) => w.pattern);
+  const doc = invoice ? "invoice" : "quote";
   const notes = [
+    ...(seen.length === 0 ? [`No messages, internal notes or field notes in this job were written before this ${doc}, so nothing a client approved or asked for can be checked against it; a person has to check it by hand`] : []),
     ...(unjudged.length ? [`${unjudged.length} record${unjudged.length > 1 ? "s" : ""} in this job written before this ${invoice ? "invoice" : "quote"} ${unjudged.length > 1 ? "are" : "is"} not judged yet; the result can change`] : []),
+    ...(spot.length ? [`${spot.length} record${spot.length > 1 ? "s" : ""} the model read as empty need${spot.length > 1 ? "" : "s"} a person to spot-check before this can clear`] : []),
     ...questions.map((q) => `Open question (${q.reviewer}, ${Number(q.judged_at.slice(5, 7))}/${Number(q.judged_at.slice(8, 10))}) on ${q.record_id}: ${q.question}`),
     ...openPatterns.map((p) => `${p} (${WARNINGS[p]}) needs the Judge model step, not run here`),
   ];
-  const info = spot.length ? `${spot.length} record${spot.length > 1 ? "s" : ""} the model read as empty ${spot.length > 1 ? "are" : "is"} open for spot-check` : null;
   const verdict = fired
-    ? { state: "warnings" as const, text: `Warnings found (${fired})`, notes, info }
-    : notes.length
-      ? { state: "not_cleared" as const, text: "Not cleared", notes, info }
-      : { state: "clear" as const, text: "Clear — every record in this job is accounted for and judged", notes, info };
+    ? { state: "warnings" as const, text: `Warnings found (${fired})`, notes }
+    : seen.length === 0
+      // Nothing was read, so nothing was checked: never green.
+      ? { state: "not_cleared" as const, text: `Not cleared — no records on file before this ${doc}, so there is nothing to check it against.`, notes }
+      : notes.length
+        ? { state: "not_cleared" as const, text: "Not cleared", notes }
+        : { state: "clear" as const, text: "Clear — every record in this job is accounted for and judged", notes };
 
   const lines = invoice ? t.invoiceLines.filter((l) => l.invoice_id === docId) : version!.lines;
   const kind = invoice ? "invoice" : "quote";
@@ -177,8 +198,38 @@ export function check(ctx: Ctx, docId: string) {
     records: { seen: seen.length, read, unjudged: unjudged.length, spot_check: spot.length },
     verdict,
     warnings,
-    queue: q,
+    // Only records written by the cut-off are part of this check: they are the "Needs your judgment (N)" the
+    // verdict counts. Records written later are listed apart, never hidden and never counted.
+    queue: {
+      needs_human: q.needs_human.filter((x) => ms(x.recorded_at) <= asOf),
+      spot_check: q.spot_check.filter((x) => ms(x.recorded_at) <= asOf),
+      confirmed: q.confirmed,
+      after: [...q.needs_human, ...q.spot_check].filter((x) => ms(x.recorded_at) > asOf).sort((a, b) => ms(a.recorded_at) - ms(b.recorded_at)),
+    },
   };
+}
+
+// Every document checked, and the money in each verdict state ("checked", never "saved"). Rebuilt with the
+// context after each judgment.
+export type Summary = { documents: number; total: number; by_state: Record<"warnings" | "not_cleared" | "clear", { n: number; total: number }>; states: Record<string, "warnings" | "not_cleared" | "clear"> };
+export function summary(ctx: Ctx): Summary {
+  if (ctx.summary) return ctx.summary;
+  const t = ctx.data.tables;
+  const ids = [...t.quotes.map((x) => x.quote_id), ...t.invoices.map((x) => x.invoice_id)];
+  const by_state = { warnings: { n: 0, total: 0 }, not_cleared: { n: 0, total: 0 }, clear: { n: 0, total: 0 } };
+  const states: Summary["states"] = {};
+  let total = 0;
+  for (const id of ids) {
+    const c = check(ctx, id)!;
+    states[id] = c.verdict.state;
+    by_state[c.verdict.state].n++;
+    by_state[c.verdict.state].total += c.doc.total;
+    total += c.doc.total;
+  }
+  const r2 = (n: number) => Math.round(n * 100) / 100;
+  for (const s of Object.values(by_state)) s.total = r2(s.total);
+  ctx.summary = { documents: ids.length, total: r2(total), by_state, states };
+  return ctx.summary;
 }
 
 // Prefill for "Effective from" on a quote the person selected: a time phrase in the words, else the message time.
@@ -187,6 +238,16 @@ export function effective(ctx: Ctx, recordId: string, quote: string) {
   if (!rec) return null;
   const s = suggestEffective(quote, rec.source_recorded_at);
   return { ...s, local: inOffsetOf(s.iso, ms(s.iso)) };
+}
+
+// The home page story for a job, served only when every check passes (src/ui/story.ts).
+export function story(ctx: Ctx, job: string): { status: 200; body: unknown } | { status: 404 | 500; errors: string[] } {
+  const s = loadStoryFile(ctx.root, job);
+  if (!s) return { status: 404, errors: [`no story for ${job}`] };
+  const people = meta(ctx).people;
+  const problems = validateStory(s, job, ctx.data, ctx.engine.cards, people);
+  if (problems.length) return { status: 500, errors: problems };
+  return { status: 200, body: storyResponse(s, ctx.data, people) };
 }
 
 export function queue(ctx: Ctx, job?: string) {

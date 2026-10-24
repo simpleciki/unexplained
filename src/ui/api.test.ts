@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { loadDataset } from "../engine/data.ts";
 import { extractableRecords } from "../pipeline/ingest.ts";
 import { loadIngested } from "../pipeline/ingest.ts";
-import { loadCtx } from "./api.ts";
+import { loadCtx, summary } from "./api.ts";
 import { route } from "./server.ts";
 
 const repo = join(import.meta.dirname, "../..");
@@ -66,7 +66,7 @@ describe("gatekeeper API", () => {
     expect(before.records.unjudged).toBeGreaterThan(0);
     expect(before.verdict.state).toBe("not_cleared");
     expect(before.verdict.notes[0]).toMatch(/not judged yet; the result can change/);
-    expect(before.warnings.find((w: { pattern: string }) => w.pattern === "P1").status).toBe(`no evidence in the ${before.records.read} of ${before.records.seen} records read`);
+    expect(before.warnings.find((w: { pattern: string }) => w.pattern === "P1").status).toBe(`no evidence in the ${before.records.read} of ${before.records.seen} records read; ${before.records.spot_check} read as empty, not spot-checked`);
     expect(before.cutoff).toBe("records up to 09:14, just before this quote was submitted");
     expect(before.doc.at).toBe("2026-03-04 09:15");
     const cutoff = Date.parse("2026-03-04T09:15:00-06:00");
@@ -76,8 +76,19 @@ describe("gatekeeper API", () => {
       const r = route(box, "POST", "/api/judgments", JSON.stringify({ record_id: x.record_id, verdict: "no_decision", cards: [], reason: "read it: no decision here", reviewer: "Ciki" }));
       expect(r.status).toBe(201);
     }
+    // Judged, but records the model read as empty are still open: not clear until a person spot-checks them.
+    const mid = get(box, `/api/check?doc=${doc}`).body;
+    expect(mid.records.unjudged).toBe(0);
+    expect(mid.records.spot_check).toBeGreaterThan(0);
+    expect(mid.verdict.state).toBe("not_cleared");
+    expect(mid.verdict.notes).toEqual([`${mid.records.spot_check} record${mid.records.spot_check > 1 ? "s" : ""} the model read as empty need${mid.records.spot_check > 1 ? "" : "s"} a person to spot-check before this can clear`]);
+    expect(mid.warnings.find((w: { pattern: string }) => w.pattern === "P1").status).toMatch(/; \d+ read as empty, not spot-checked$/);
+    for (const x of mid.queue.spot_check) {
+      const r = route(box, "POST", "/api/judgments", JSON.stringify({ record_id: x.record_id, verdict: "no_decision", cards: [], reason: "spot-checked: a work log, no decision", reviewer: "Ciki" }));
+      expect(r.status).toBe(201);
+    }
     const after = get(box, `/api/check?doc=${doc}`).body;
-    expect(after.records.unjudged).toBe(0);
+    expect(after.records).toMatchObject({ unjudged: 0, spot_check: 0 });
     expect(after.verdict.state).toBe("clear");
     expect(after.verdict.text).toBe("Clear — every record in this job is accounted for and judged");
     expect(after.warnings.every((w: { status: string }) => w.status === "clear")).toBe(true);
@@ -122,6 +133,7 @@ describe("gatekeeper API", () => {
     const open = get(box, `/api/check?doc=${doc}`).body.queue.needs_human.filter((x: { recorded_at: string }) => Date.parse(x.recorded_at) < Date.parse("2026-03-04T09:15:00-06:00"));
     const [first, ...rest] = open;
     for (const x of rest) route(box, "POST", "/api/judgments", JSON.stringify({ record_id: x.record_id, verdict: "no_decision", cards: [], reason: "read it", reviewer: "Ciki" }));
+    for (const x of get(box, `/api/check?doc=${doc}`).body.queue.spot_check) route(box, "POST", "/api/judgments", JSON.stringify({ record_id: x.record_id, verdict: "no_decision", cards: [], reason: "spot-checked", reviewer: "Ciki" }));
     const words = first.text.split(/(?<=\.)\s/)[0];
     const r = route(box, "POST", "/api/judgments", JSON.stringify({ record_id: first.record_id, verdict: "cards", cards: [{ mode: "mentions", quote: words, decided_by: first.author, topic: "scope", open_question: "which split is usual here?" }], reason: "keep it, but ask", reviewer: "Ciki" }));
     expect(r.status).toBe(201);
@@ -190,6 +202,68 @@ describe("gatekeeper API", () => {
     // The promise itself was not changed by the rule: no note.
     const promise = p1.evidence.find((e: { id: string }) => e.id === "h.j.rec-0006.1.0");
     expect(promise).toMatchObject({ mode_chosen: "proposes", mode: "proposes", mode_note: null });
+  });
+
+  it("zero records is not clear: a document with no records before its cut-off is Not cleared and says why", () => {
+    const { box } = setup();
+    const c = get(box, "/api/check?doc=Q-OC-02-v1").body;
+    expect(c.records.seen).toBe(0);
+    expect(c.verdict).toMatchObject({ state: "not_cleared", text: "Not cleared — no records on file before this quote, so there is nothing to check it against." });
+    expect(c.verdict.notes[0]).toMatch(/^No messages, internal notes or field notes in this job were written before this quote/);
+    expect(c.verdict.text).not.toMatch(/accounted for and judged/);
+    expect(summary(box.ctx).states["Q-OC-02-v1"]).toBe("not_cleared");
+    expect(c.warnings.every((w: { status: string }) => w.status === "no records on file to check against")).toBe(true);
+  });
+
+  it("records written after the cut-off are not counted in Needs your judgment; they are listed apart", () => {
+    const { box } = setup();
+    for (const doc of ["Q-OC-02-v1", "Q-PW-05-v3", "Q-NL-01-v3"]) {
+      const c = get(box, `/api/check?doc=${doc}`).body;
+      const t = box.ctx.data.tables;
+      const cut = Date.parse(t.quotes.find((x) => x.quote_id === doc)?.submitted_at ?? t.invoices.find((x) => x.invoice_id === doc)!.issued_at);
+      // The count in the verdict notes and the panel agree.
+      expect(c.queue.needs_human.length).toBe(c.records.unjudged);
+      expect(c.queue.spot_check.length).toBe(c.records.spot_check);
+      expect(c.queue.spot_check.every((x: { recorded_at: string }) => Date.parse(x.recorded_at) < cut)).toBe(true);
+      expect(c.queue.needs_human.every((x: { recorded_at: string }) => Date.parse(x.recorded_at) < cut)).toBe(true);
+      expect(c.queue.after.every((x: { recorded_at: string }) => Date.parse(x.recorded_at) >= cut)).toBe(true);
+      const all = get(box, `/api/queue?job=${c.doc.job}`).body;
+      expect(c.queue.needs_human.length + c.queue.spot_check.length + c.queue.after.length).toBe(all.needs_human.length + all.spot_check.length);
+    }
+    const oc = get(box, "/api/check?doc=Q-OC-02-v1").body;
+    expect(oc.queue.needs_human).toEqual([]);
+    expect(oc.queue.after.map((x: { record_id: string }) => x.record_id)).toContain("rec-0107");
+  });
+
+  it("fired warnings stay Warnings with their evidence; open spot-check records are listed in the notes", () => {
+    const { box } = setup();
+    const c = get(box, "/api/check?doc=INV-NL-04").body;
+    const fired = c.warnings.filter((w: { fired: boolean }) => w.fired);
+    expect(fired.length).toBeGreaterThan(0);
+    expect(c.verdict).toMatchObject({ state: "warnings", text: `Warnings found (${fired.length})` });
+    for (const w of fired) expect(w.evidence.length).toBeGreaterThan(0);
+    if (c.records.spot_check) expect(c.verdict.notes.join()).toMatch(/read as empty needs? a person to spot-check/);
+  });
+
+  it("no document is Clear with zero records or with a spot-check record open", () => {
+    const { box } = setup();
+    for (const [id, state] of Object.entries(summary(box.ctx).states)) {
+      if (state !== "clear") continue;
+      const c = get(box, `/api/check?doc=${id}`).body;
+      expect(c.records.seen).toBeGreaterThan(0);
+      expect(c.records.spot_check).toBe(0);
+    }
+  });
+
+  it("summarises every document and the money in each verdict state", () => {
+    const { box } = setup();
+    const s = get(box, "/api/summary").body;
+    expect(s.documents).toBe(58);
+    const b = s.by_state;
+    expect(b.warnings.n + b.not_cleared.n + b.clear.n).toBe(58);
+    expect(Math.round((b.warnings.total + b.not_cleared.total + b.clear.total) * 100) / 100).toBe(s.total);
+    const jobs = get(box, "/api/jobs").body;
+    expect(jobs.flatMap((j: { docs: { state: string }[] }) => j.docs).every((d: { state: string }) => ["warnings", "not_cleared", "clear"].includes(d.state))).toBe(true);
   });
 
   it("lists the queue for one job: needs_human, then the spot-check items", () => {

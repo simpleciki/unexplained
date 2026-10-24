@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>unexplained · the call</title>
+<style>
+  /* Home: "the call" (docs/design/home-prototype.html, approved 2026-10-23). One job told as a phone call between
+     the contractor's side and the client; the line between them is the price, swinging while the deal is
+     unsettled and going straight when it is agreed. Every sentence comes from GET /api/story, which serves the
+     story only after checking it word for word against the records. 1920x1080 stage scaled to fit.
+     render(t) is pure; window.__seek(t) freezes a frame; window.__ready on the first tick; no loop while
+     window.__recording is set. */
+  :root {
+    --bg: #f5f5f7; --ink: #1d1d1f; --ink2: #6e6e73; --ink3: #8e8e93; --hair: #d2d2d7;
+    --client: #0a63d1; --green: #248a3d; --greenbg: #e3f5e8; --amber: #a05a00; --amberbg: #fff1db;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); overflow: hidden; font-family: var(--font); color: var(--ink); }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .brand { position: absolute; left: 96px; top: 52px; font-size: 44px; font-weight: 700; letter-spacing: -.03em; display: flex; align-items: center; gap: 14px; }
+  .brand .glyph { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); display: flex; align-items: center; justify-content: center; flex: none; }
+  .ctx { position: absolute; left: 154px; top: 112px; font-size: 18px; color: var(--ink2); }
+  .tagline { position: absolute; right: 96px; top: 66px; font-size: 17px; color: var(--ink2); text-align: right; line-height: 1.45; }
+  /* The only way into the check page: it must look clickable. */
+  .outbox { position: absolute; right: 96px; bottom: 48px; display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px 14px 26px;
+    border-radius: 999px; background: var(--client); color: #fff; font-size: 18px; font-weight: 600; text-decoration: none;
+    box-shadow: 0 1px 2px rgba(10,99,209,.25), 0 8px 24px rgba(10,99,209,.22); transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s; }
+  .outbox .arr { transition: transform .2s; }
+  .outbox:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(10,99,209,.3), 0 14px 32px rgba(10,99,209,.3); }
+  .outbox:hover .arr { transform: translateX(3px); }
+  .outbox:focus-visible { outline: 3px solid rgba(10,99,209,.45); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .outbox:hover, .outbox:hover .arr { transform: none; } }
+
+  .person { position: absolute; top: 470px; width: 220px; text-align: center; }
+  .person .av { width: 112px; height: 112px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center;
+    justify-content: center; font-size: 42px; font-weight: 600; color: #fff; position: relative; }
+  .person .name { font-size: 21px; font-weight: 600; }
+  .person .org { font-size: 15px; color: var(--ink2); margin-top: 3px; line-height: 1.35; }
+  .person .ph { position: absolute; right: -6px; bottom: -2px; width: 38px; height: 38px; border-radius: 50%; background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.18); display: flex; align-items: center; justify-content: center; }
+  #contractor { left: 40px; } #contractor .av { background: #8e8e93; }
+  #client { right: 40px; } #client .av { background: var(--client); }
+
+  svg#line { position: absolute; left: 0; top: 0; overflow: visible; }
+
+  .bubble { position: absolute; width: 440px; padding: 16px 20px 18px; border-radius: 20px; font-size: 21px; line-height: 1.38;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.06); transform-origin: 50% 100%; will-change: transform, opacity; }
+  .bubble .who { font-size: 14px; color: var(--ink2); margin-bottom: 6px; }
+  .bubble.c { background: var(--client); color: #fff; transform-origin: 50% 100%; }
+  .bubble.c .who { color: rgba(255,255,255,.78); }
+  .bubble.k { background: #fff; color: var(--ink); transform-origin: 50% 0; }
+
+  .price { position: absolute; left: 0; right: 0; top: 930px; text-align: center; font-size: 56px; font-weight: 700; letter-spacing: -.02em; }
+  .price small { display: block; font-size: 16px; font-weight: 500; color: var(--ink2); letter-spacing: 0; margin-top: 4px; }
+
+  .mark { position: absolute; display: flex; align-items: center; gap: 8px; padding: 7px 14px 7px 10px; border-radius: 999px;
+    font-size: 15px; font-weight: 500; white-space: nowrap; transform-origin: 0 50%; }
+  .mark.g { background: var(--greenbg); color: var(--green); }
+  .mark.a { background: var(--amberbg); color: var(--amber); }
+  .mark svg { flex: none; }
+  .mark span { display: inline-block; overflow: hidden; white-space: nowrap; }
+  .date.v { color: var(--ink); font-weight: 600; font-size: 15px; }
+  .date { position: absolute; font-size: 13px; color: var(--ink3); transform: translateX(-50%); white-space: nowrap; }
+
+  .end { position: absolute; left: 0; right: 0; top: 720px; text-align: center; }
+  .end .big { font-size: 46px; font-weight: 700; letter-spacing: -.02em; }
+  .end .big span { color: var(--green); }
+  .end .sub { font-size: 20px; color: var(--ink2); margin-top: 10px; }
+  .end a { display: inline-block; margin-top: 26px; font-size: 18px; color: var(--client); text-decoration: none; }
+  .error { position: absolute; left: 96px; top: 200px; font-size: 18px; color: #c8151b; max-width: 1400px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="brand"><span class="glyph" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 26 26"><path d="M2 13c3-9 6-9 8 0s5 9 8 0 4-4 6-2" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg></span>unexplained</div>
+  <div class="ctx" id="ctx"></div>
+  <div class="tagline" id="tagline"></div>
+
+  <div class="person" id="contractor"><div class="av"><b id="k-initials"></b><span class="ph"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#1d1d1f" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></span></div>
+    <div class="name" id="k-name"></div><div class="org" id="k-org"></div></div>
+  <div class="person" id="client"><div class="av"><b id="c-initials"></b><span class="ph"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#0a63d1" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></span></div>
+    <div class="name" id="c-name"></div><div class="org" id="c-org"></div></div>
+
+  <svg id="line" width="1920" height="1080" viewBox="0 0 1920 1080">
+    <path id="track" fill="none" stroke="#d2d2d7" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round"/>
+    <path id="wave" fill="none" stroke="#1d1d1f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <g id="dots"></g>
+    <circle id="head" r="9" fill="#1d1d1f"/>
+  </svg>
+  <div id="layer"></div>
+  <div class="price num" id="price"></div>
+  <div class="end" id="end">
+    <div class="big num" id="agreed"></div>
+    <div class="sub" id="sub"></div>
+    <a href="#" id="heron"></a>
+  </div>
+  <a class="outbox" id="outbox" href="/outbox">Open the outbox <span class="arr" aria-hidden="true">→</span></a>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const springOut = (x) => { x = clamp(x); const c1 = 1.25, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const easeInOut = (x) => { x = clamp(x); return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+const fmt = (n) => "$" + Math.round(n).toLocaleString("en-US");
+const initials = (name) => name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+const CHECK = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const CLOCK = '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 5v3.2l2 1.3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+const X0 = 232, X1 = 1688, MID = 540;           // the line runs from one phone to the other
+const AMPS = [230, 205, 180, 155, 125, 95, 65, 38, 16];
+let EVENTS = [], MARKS = [], DURATION = 29, END_AT = 24.4, total = 0;
+const stage = $("stage"), wave = $("wave"), track = $("track"), head = $("head"), layer = $("layer"), readout = $("price"), endEl = $("end");
+
+// calm: 1 while the deal is open; falls toward 0 as it is agreed, flattening every swing.
+const yOf = (e, calm) => MID + e.amp * calm;
+function pathD(calm) {
+  const P = EVENTS.map((e) => [e.x, yOf(e, calm)]);
+  let d = `M ${X0} ${MID} C ${X0 + 80} ${MID}, ${P[0][0] - 70} ${P[0][1]}, ${P[0][0]} ${P[0][1]}`;
+  for (let i = 1; i < P.length; i++) { const h = (P[i][0] - P[i - 1][0]) * 0.5; d += ` C ${P[i - 1][0] + h} ${P[i - 1][1]}, ${P[i][0] - h} ${P[i][1]}, ${P[i][0]} ${P[i][1]}`; }
+  const L = P[P.length - 1]; d += ` C ${L[0] + 90} ${L[1]}, ${X1 - 90} ${MID}, ${X1} ${MID}`;
+  return d;
+}
+
+// The story from the API -> the stage. Nothing about the job is written in this file.
+function setup(s) {
+  $("ctx").textContent = `${s.job} · ${s.title} · ${s.client_name}`;
+  $("tagline").innerHTML = s.tagline.map(esc).join("<br>");
+  $("k-initials").textContent = initials(s.contractor.name);
+  $("k-name").textContent = s.contractor.name;
+  $("k-org").innerHTML = `${esc(s.contractor.org)}<br>${esc(s.contractor.role)}`;
+  $("c-initials").textContent = initials(s.client.name);
+  $("c-name").textContent = s.client.name;
+  $("c-org").innerHTML = `${esc(s.client.org)}<br>${esc(s.client.role)}`;
+  $("agreed").innerHTML = `Agreed · <span>${fmt(s.ending.price)}</span> · invoice ${esc(s.ending.invoice_status)}`;
+  $("sub").textContent = s.ending.sub;
+  $("heron").textContent = s.ending.link.text;
+  $("heron").href = `/outbox#doc=${encodeURIComponent(s.ending.link.doc)}`;
+  EVENTS = s.events.map((e, i) => ({
+    ...e,
+    side: e.side === "client" ? "c" : "k",
+    label: e.version ? e.version.replace(/^.*-(v\d+)$/, "$1") : null,
+    mark: e.mark ? { k: e.mark.kind === "open" ? "a" : "g", text: e.mark.text } : null,
+    amp: (e.side === "client" ? -1 : 1) * AMPS[Math.min(i, AMPS.length - 1)],
+  }));
+  EVENTS.forEach((e, i) => { e.x = X0 + 150 + i * ((X1 - X0 - 330) / Math.max(1, EVENTS.length - 1)); });
+  MARKS = EVENTS.filter((e) => e.mark);
+  END_AT = EVENTS[EVENTS.length - 1].t + 2;
+  DURATION = END_AT + 4.6;
+}
+
+function build() {
+  const d = pathD(1);
+  wave.setAttribute("d", d); track.setAttribute("d", d);
+  total = wave.getTotalLength();
+  const samples = [];
+  for (let s = 0; s <= total; s += 2) samples.push([s, wave.getPointAtLength(s).x]);
+  const lenAtX = (x) => { for (const [s, px] of samples) if (px >= x) return s; return total; };
+  EVENTS.forEach((e) => {
+    e.len = lenAtX(e.x);
+    const y = yOf(e, 1);
+    const b = document.createElement("div");
+    b.className = "bubble " + e.side;
+    b.innerHTML = `<div class="who">${esc(e.date)} · ${esc(e.who)}</div>${esc(e.text)}`;
+    b.style.left = clamp(e.x - 220, 250, 1920 - 250 - 440) + "px";
+    if (e.side === "c") b.style.bottom = (1080 - (y - 40)) + "px"; else b.style.top = (y + 40) + "px";
+    layer.appendChild(b); e.bubble = b;
+    const dt = document.createElement("div");
+    dt.className = "date num"; dt.textContent = e.price ? `${e.date} · ${fmt(e.price)}` : e.date;
+    if (e.price) dt.classList.add("v");
+    dt.style.left = e.x + "px"; layer.appendChild(dt); e.dateEl = dt;
+    if (e.mark) {
+      const m = document.createElement("div");
+      m.className = "mark " + e.mark.k;
+      m.innerHTML = (e.mark.k === "g" ? CHECK : CLOCK) + `<span>${esc(e.mark.text)}</span>`;
+      layer.appendChild(m); e.markEl = m; e.markText = m.querySelector("span");
+    }
+  });
+}
+
+// Pure: same t -> same frame.
+function render(t) {
+  const agreed = clamp((t - END_AT) / 1.6);
+  const calm = 1 - 0.92 * easeInOut(agreed);
+  if (agreed > 0) { const d = pathD(calm); wave.setAttribute("d", d); track.setAttribute("d", d); }
+  else if (wave.dataset.calm !== "1") { const d = pathD(1); wave.setAttribute("d", d); track.setAttribute("d", d); }
+  wave.dataset.calm = agreed > 0 ? "0" : "1";
+
+  // the head travels node to node, arriving at each node at its time
+  let len;
+  if (t <= EVENTS[0].t) len = EVENTS[0].len * easeInOut(t / EVENTS[0].t);
+  else if (t >= END_AT) len = total;
+  else {
+    const i = EVENTS.findIndex((e) => e.t > t);
+    if (i === -1) { const L = EVENTS[EVENTS.length - 1]; len = L.len + (total - L.len) * easeInOut((t - L.t) / (END_AT - L.t)); }
+    else { const a = EVENTS[i - 1], b = EVENTS[i]; len = a.len + (b.len - a.len) * easeInOut((t - a.t) / (b.t - a.t)); }
+  }
+  const tl = agreed > 0 ? wave.getTotalLength() : total;
+  wave.setAttribute("stroke-dasharray", `${agreed > 0 ? tl : len} ${tl}`);
+  const p = wave.getPointAtLength(agreed > 0 ? tl : len);
+  head.setAttribute("cx", p.x); head.setAttribute("cy", p.y);
+  const ink = agreed > 0.35 ? "#248a3d" : "#1d1d1f";
+  wave.setAttribute("stroke", ink); head.setAttribute("fill", ink);
+  head.setAttribute("r", 9 * (1 - agreed));
+
+  // bubbles: the latest per side springs in; the earlier one on that side steps back
+  ["k", "c"].forEach((side) => {
+    const mine = EVENTS.filter((e) => e.side === side);
+    mine.forEach((e, j) => {
+      const next = mine[j + 1];
+      const inP = springOut((t - e.t) / 0.5);
+      const outP = next ? clamp((t - next.t) / 0.3) : clamp((t - END_AT) / 0.5);
+      e.bubble.style.opacity = t >= e.t ? clamp((t - e.t) / 0.18) * (1 - outP) : 0;
+      e.bubble.style.transform = `scale(${0.86 + 0.14 * inP}) translateY(${(1 - Math.min(1, inP)) * (side === "c" ? 10 : -10)}px)`;
+    });
+  });
+
+  // dates (with the price at each quote version) and gatekeeper marks follow the line as it calms
+  EVENTS.forEach((e) => {
+    const y = yOf(e, calm);
+    e.dateEl.style.top = (e.side === "c" ? y - 30 : y + 12) + "px";
+    e.dateEl.style.opacity = t >= e.t ? clamp((t - e.t) / 0.3) * (1 - 0.7 * agreed) : 0;
+  });
+  MARKS.forEach((e, j) => {
+    const y = yOf(e, calm), mt = e.t + 0.55, k = springOut((t - mt) / 0.32);
+    const next = MARKS[j + 1];
+    // only the newest mark keeps its words; earlier ones fold into their icon, so nothing piles up
+    const fold = next ? clamp((t - (next.t + 0.55)) / 0.35) : clamp((t - END_AT) / 0.6);
+    e.markEl.style.left = (e.x - 18) + "px";
+    e.markEl.style.top = (e.side === "c" ? y + 14 : y - 48) + "px";
+    e.markEl.style.opacity = t >= mt ? clamp((t - mt) / 0.12) : 0;
+    e.markEl.style.transform = `scale(${0.6 + 0.4 * k})`;
+    e.markText.style.maxWidth = (1 - fold) * 420 + "px";
+    e.markText.style.opacity = 1 - fold;
+    e.markEl.style.paddingRight = (6 + 8 * (1 - fold)) + "px";
+  });
+
+  // the live price, under the call like a call timer
+  const versions = EVENTS.filter((e) => e.price);
+  let vi = 0; versions.forEach((v, i) => { if (t >= v.t) vi = i; });
+  const cur = versions[vi], from = vi > 0 ? versions[vi - 1].price : cur.price;
+  const k = t >= cur.t ? Math.min(1, springOut((t - cur.t) / 0.7)) : 0;
+  const shown = from + (cur.price - from) * k;
+  readout.innerHTML = `${fmt(shown)}<small>${agreed > 0 ? "agreed" : "on the line · quote " + esc(cur.label)}</small>`;
+  readout.style.opacity = 1 - agreed;
+
+  endEl.style.opacity = clamp((t - END_AT - 0.6) / 0.8);
+  endEl.style.transform = `translateY(${(1 - springOut(clamp((t - END_AT - 0.6) / 0.8))) * 16}px)`;
+  endEl.style.pointerEvents = t > END_AT + 0.6 ? "auto" : "none";
+}
+
+function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(${(innerWidth - 1920 * s) / 2}px, ${(innerHeight - 1080 * s) / 2}px) scale(${s})`; }
+addEventListener("resize", fit);
+let t0 = null;
+// __seek freezes the clock on that frame (for frame grabs); __play() resumes from the start.
+window.__seek = (t) => { window.__held = true; render(clamp(t, 0, DURATION)); };
+window.__play = () => { window.__held = false; t0 = null; };
+function tick(now) {
+  if (window.__held) { requestAnimationFrame(tick); return; }
+  if (t0 === null) { t0 = now; window.__ready = true; }
+  let t = (now - t0) / 1000;
+  if (t > DURATION) { if (window.__recording) { render(DURATION); return; } t0 = now; t = 0; }
+  render(t);
+  requestAnimationFrame(tick);
+}
+// Click replays (links keep working).
+stage.addEventListener("click", (ev) => { if (!ev.target.closest("a")) { window.__held = false; t0 = null; } });
+
+fetch("/api/story") // the server picks the curated story
+  .then(async (r) => { const j = await r.json(); if (!r.ok) throw new Error(`The story did not pass its checks, so it is not shown:\n${(j.errors || []).join("\n")}`); return j; })
+  .then((s) => document.fonts.ready.then(() => { setup(s); fit(); build(); render(0); requestAnimationFrame(tick); }))
+  .catch((e) => { fit(); const d = document.createElement("div"); d.className = "error"; d.textContent = e.message; stage.appendChild(d); });
+</script>
+</body>
+</html>

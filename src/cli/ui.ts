@@ -1,4 +1,4 @@
-// npm run ui [-- --source files|zetaris]: the gatekeeper screen on http://127.0.0.1:${UI_PORT:-8095}/.
+// npm run ui [-- --source files|zetaris] [--demo]: the gatekeeper screen on http://127.0.0.1:${UI_PORT:-8095}/.
 // Never calls a model (see src/ui/server.ts).
 import { startServer } from "../ui/server.ts";
 import { main, root } from "./args.ts";

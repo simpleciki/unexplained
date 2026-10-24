@@ -3,243 +3,453 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>unexplained · gatekeeper</title>
+<title>unexplained · outbox</title>
 <style>
+  /* Design system from docs/design/detail-prototype.html (approved 2026-10-23): Apple system look, one
+     status colour per state, client blue for actions. Status text uses darker shades for 4.5:1 contrast. */
   :root {
-    --bg: #f6f5f2; --panel: #ffffff; --ink: #1d2328; --muted: #5d6870; --faint: #8a949b;
-    --line: #e3e1dc; --accent: #1f6f78; --accent-soft: #e3f0f1; --warn: #a3471c; --warn-soft: #fbeee6;
-    --ok: #3d6b45; --mark: #fff1b8; --shadow: 0 1px 2px rgba(20, 30, 40, 0.06);
+    --red: #ff3b30; --amber: #ff9f0a; --green: #34c759; --blue: #0a63d1;
+    --red-ink: #c8151b; --amber-ink: #9a5200; --green-ink: #1d7a35;
+    --ink: #1d1d1f; --ink2: #4f4f57; --ink3: #6e6e76;
+    --sep: #e2e2e8; --sep2: #ececf0;
+    --bg: #f5f5f7; --card: #ffffff; --sidebar: rgba(246, 246, 248, 0.72);
+    --mark: rgba(255, 159, 10, 0.24);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+    --mono: "SF Mono", ui-monospace, Menlo, monospace;
+    --spring: cubic-bezier(.2, .8, .2, 1);
   }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
-  body { background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: var(--font); font-size: 14px; line-height: 1.45; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; overflow: hidden; }
   .num { font-variant-numeric: tabular-nums; }
-  header { display: flex; align-items: center; gap: 24px; padding: 14px 24px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 2; }
-  header h1 { font-size: 17px; margin: 0; font-weight: 650; white-space: nowrap; }
-  header h1 span { color: var(--muted); font-weight: 400; }
-  #ledger { flex: 1; font-size: 14px; padding: 6px 12px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-weight: 550; }
-  #ledger.bad { background: var(--warn-soft); color: var(--warn); }
-  header label { font-size: 13px; color: var(--muted); white-space: nowrap; }
-  header input { font: inherit; width: 120px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; margin-left: 6px; }
-  .wrap { display: grid; grid-template-columns: 330px 1fr; min-height: calc(100% - 60px); }
-  nav { border-right: 1px solid var(--line); background: var(--panel); padding: 12px 0; overflow-y: auto; max-height: calc(100vh - 60px); position: sticky; top: 60px; }
-  .job { padding: 8px 18px; cursor: pointer; border-left: 3px solid transparent; }
-  .job:hover { background: #faf9f7; }
-  .job.on { border-left-color: var(--accent); background: #f3f8f8; }
-  .job .id { font-weight: 600; font-size: 14px; }
-  .job .t { color: var(--muted); font-size: 13px; }
-  .badge { display: inline-block; font-size: 12px; padding: 0 7px; border-radius: 10px; margin-left: 6px; }
-  .badge.need { background: var(--warn-soft); color: var(--warn); }
-  .badge.spot { background: #eef0f1; color: var(--muted); }
-  .badge.done { background: #e8f1ea; color: var(--ok); }
-  .docs { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 18px 10px 21px; }
-  .doc { font-size: 13px; padding: 2px 9px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: var(--panel); }
-  .doc:hover { border-color: var(--accent); }
-  .doc.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  main { padding: 22px 30px 60px; max-width: 1240px; }
-  h2 { font-size: 20px; margin: 0 0 4px; }
-  h3 { font-size: 16px; margin: 28px 0 10px; }
-  .sub { color: var(--muted); font-size: 14px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 10px 0; box-shadow: var(--shadow); }
-  table { border-collapse: collapse; width: 100%; font-size: 14px; }
-  td, th { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; }
-  th { color: var(--muted); font-weight: 500; font-size: 13px; }
-  td.r, th.r { text-align: right; }
-  .warn { border-left: 4px solid var(--warn); }
-  .warn .p { background: var(--warn-soft); color: var(--warn); }
-  .p { display: inline-block; font-weight: 650; font-size: 13px; padding: 1px 8px; border-radius: 5px; margin-right: 8px; }
-  .clear-list { color: var(--muted); font-size: 14px; margin-top: 14px; }
-  .verdict { margin: 16px 0 6px; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); }
-  .verdict .vt { font-size: 18px; font-weight: 650; }
-  .verdict .vn { font-size: 14px; margin-top: 2px; }
-  .verdict .vi { font-size: 13px; color: var(--muted); margin-top: 4px; }
-  .verdict.warnings { border-left: 5px solid var(--warn); }
-  .verdict.warnings .vt { color: var(--warn); }
-  .verdict.not_cleared { border-left: 5px solid #b08a2e; background: #fdf8ea; }
-  .verdict.not_cleared .vt { color: #8a6a18; }
-  .verdict.clear { border-left: 5px solid var(--ok); }
-  .verdict.clear .vt { color: var(--ok); }
-  .found { margin: 8px 0 4px; font-size: 14px; }
-  .found li { margin: 2px 0; }
-  .ev { border-top: 1px dashed var(--line); padding-top: 10px; margin-top: 10px; }
-  .ev .who { font-size: 13px; color: var(--muted); }
-  .quote { font-weight: 550; }
-  .src { margin-top: 6px; padding: 8px 12px; background: #faf9f7; border-radius: 6px; font-size: 14px; white-space: pre-wrap; }
-  .src .lab { display: block; font-size: 12px; color: var(--faint); margin-bottom: 2px; }
-  mark { background: var(--mark); padding: 0 1px; border-radius: 2px; }
-  .person { color: var(--ok); font-size: 13px; font-weight: 550; }
-  details > summary { cursor: pointer; color: var(--muted); font-size: 13px; }
-  pre.json { font-size: 12px; background: #faf9f7; padding: 8px; border-radius: 6px; overflow: auto; max-height: 260px; }
-  .item .head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-  .item .why { color: var(--warn); font-size: 14px; margin: 4px 0 8px; }
-  .item.spot .why { color: var(--muted); }
-  .rtext { font-size: 16px; line-height: 1.6; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fffef9; cursor: text; user-select: text; }
-  .hint { font-size: 12px; color: var(--faint); margin: 4px 0 8px; }
-  .cand { font-size: 13px; color: var(--muted); margin: 6px 0; }
-  .rowbox { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 8px 0; background: #fcfcfb; }
-  .rows .row { display: grid; grid-template-columns: 1fr 170px 230px 130px 28px; gap: 8px; align-items: center; font-size: 14px; }
-  .row2 { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 8px; font-size: 13px; color: var(--muted); }
-  .row2 input { font: inherit; font-size: 13px; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
-  .row2 .qlabel { flex: 1; display: flex; gap: 6px; align-items: center; }
-  .row2 .qlabel input { flex: 1; min-width: 260px; }
-  .row2 .from { font-style: italic; }
-  .typehelp { font-size: 12px; color: var(--faint); margin-top: 6px; }
-  .q-open { color: #8a6a18; font-weight: 550; margin-top: 2px; }
-  .dwarn { margin-top: 8px; padding: 8px 10px; border-radius: 6px; background: #fdf8ea; color: #6f5514; font-size: 13px; }
-  .dwarn button { padding: 2px 8px; font-size: 13px; margin: 0 2px; }
-  b.used { color: #8a6a18; }
-  .hist { font-size: 13px; color: var(--muted); margin-top: 4px; border-left: 2px solid var(--line); padding-left: 8px; }
-  .nothing { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line); }
-  .nothing .hint { margin: 4px 0 0; }
-  .again { margin-top: 10px; }
-  .again .item { margin-top: 8px; }
-  .rows .row .q { background: var(--mark); padding: 3px 8px; border-radius: 4px; }
-  select, textarea, button { font: inherit; font-size: 14px; }
-  select, textarea { border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; background: #fff; }
-  textarea { width: 100%; min-height: 54px; margin-top: 6px; }
-  .actions { display: flex; gap: 10px; margin-top: 8px; align-items: center; }
-  button { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 6px 14px; cursor: pointer; }
-  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  button:disabled { opacity: 0.45; cursor: default; }
-  .x { border: none; background: none; color: var(--faint); font-size: 18px; padding: 0; }
-  .err { color: var(--warn); font-size: 13px; }
-  .done-line { color: var(--ok); font-size: 14px; }
-  .empty { color: var(--muted); font-size: 14px; padding: 6px 0; }
-  .spotsec > summary { font-size: 16px; font-weight: 600; color: var(--ink); margin: 28px 0 6px; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+
+  /* Top bar */
+  .topbar { height: 50px; display: flex; align-items: center; gap: 26px; padding: 0 24px; background: rgba(255, 255, 255, 0.82); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--sep2); position: relative; z-index: 20; }
+  .brand { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; }
+  .tab { font-size: 13px; font-weight: 500; color: var(--ink3); cursor: pointer; padding: 14px 0 12px; border-bottom: 2px solid transparent; transition: color 200ms var(--spring); }
+  .tab:hover { color: var(--ink); }
+  .tab.on { color: var(--blue); border-bottom-color: var(--blue); }
+  .tab .count { font-variant-numeric: tabular-nums; margin-left: 4px; color: inherit; opacity: 0.85; }
+  #ledger { margin-left: auto; font-size: 12px; color: var(--ink3); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #ledger.bad { color: var(--red-ink); font-weight: 600; }
+  .reviewer { font-size: 12px; color: var(--ink3); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .reviewer input { width: 96px; font-size: 13px; padding: 3px 8px; border: 1px solid var(--sep); border-radius: 6px; background: #fff; }
+
+  /* Value strip */
+  .value { padding: 14px 24px 12px; background: var(--card); border-bottom: 1px solid var(--sep2); }
+  .value-line { font-size: 14px; color: var(--ink2); margin-bottom: 9px; }
+  .value-line strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .bar { height: 6px; border-radius: 3px; overflow: hidden; display: flex; background: var(--sep2); }
+  .bar div { height: 100%; transition: width 400ms var(--spring); }
+  .legend { display: flex; gap: 22px; margin-top: 8px; flex-wrap: wrap; }
+  .legend span { font-size: 12px; color: var(--ink2); display: inline-flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+  .dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: 290px minmax(0, 1fr) 360px; height: calc(100vh - 50px - var(--value-h, 76px)); }
+  .sidebar { background: var(--sidebar); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-right: 1px solid var(--sep2); overflow-y: auto; padding: 10px 0 30px; }
+  main { overflow-y: auto; padding: 24px 30px 60px; }
+  .right { border-left: 1px solid var(--sep2); overflow-y: auto; padding: 20px 20px 60px; background: var(--card); }
+  main, .right { transition: opacity 180ms var(--spring); }
+  .fading { opacity: 0; }
+
+  /* Sidebar */
+  .side-label { padding: 6px 16px 8px; font-size: 12px; font-weight: 600; color: var(--ink3); }
+  .job { padding: 9px 16px; cursor: pointer; transition: background 220ms var(--spring); }
+  .job:hover { background: rgba(0, 0, 0, 0.04); }
+  .job.on { background: rgba(10, 99, 209, 0.07); }
+  .job-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .job-id { font: 600 12px/1.4 var(--mono); }
+  .job-need { font-size: 12px; color: var(--amber-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .job-title { font-size: 12px; color: var(--ink2); line-height: 1.35; margin-top: 1px; }
+  .docs { padding: 2px 0 8px; }
+  .doc { display: flex; align-items: center; gap: 8px; padding: 6px 16px 6px 28px; cursor: pointer; transition: background 220ms var(--spring); }
+  .doc:hover { background: rgba(0, 0, 0, 0.04); }
+  .doc.on { background: rgba(10, 99, 209, 0.1); }
+  .doc-id { font: 500 12px/1 var(--mono); flex: 1; }
+  .doc-amt { font-size: 12px; color: var(--ink2); font-variant-numeric: tabular-nums; }
+
+  /* Pills: one status colour per state */
+  .pill { display: inline-block; font: 600 12px/1 var(--font); padding: 4px 8px; border-radius: 6px; white-space: nowrap; }
+  .pill.warnings { background: rgba(255, 59, 48, 0.1); color: var(--red-ink); }
+  .pill.not_cleared { background: rgba(255, 159, 10, 0.13); color: var(--amber-ink); }
+  .pill.clear { background: rgba(52, 199, 89, 0.12); color: var(--green-ink); }
+  .sdot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .sdot.warnings { background: var(--red); } .sdot.not_cleared { background: var(--amber); } .sdot.clear { background: var(--green); }
+
+  /* Main: document */
+  .crumb { font-size: 12px; color: var(--ink3); margin-bottom: 8px; }
+  .crumb i { font-style: normal; opacity: 0.6; margin: 0 5px; }
+  .doc-head { display: flex; align-items: baseline; gap: 16px; }
+  .doc-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .doc-total { font-size: 22px; font-weight: 700; margin-left: auto; font-variant-numeric: tabular-nums; }
+  .cutoff { font-size: 13px; color: var(--ink3); margin: 3px 0 18px; }
+
+  .verdict { border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; border: 1px solid; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+  .verdict.warnings { background: rgba(255, 59, 48, 0.05); border-color: rgba(255, 59, 48, 0.2); }
+  .verdict.not_cleared { background: rgba(255, 159, 10, 0.06); border-color: rgba(255, 159, 10, 0.25); }
+  .verdict.clear { background: rgba(52, 199, 89, 0.06); border-color: rgba(52, 199, 89, 0.24); }
+  .verdict-text { font-size: 16px; font-weight: 600; margin: 8px 0 4px; }
+  .verdict-note { font-size: 13px; color: var(--ink2); margin-top: 3px; }
+
+  .section-label { font-size: 12px; font-weight: 600; color: var(--ink3); margin: 22px 0 8px; }
+  .pattern { border-radius: 12px; border: 1px solid var(--sep2); background: var(--card); padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
+  .pattern-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .code { font: 600 12px/1 var(--mono); color: var(--ink2); background: var(--bg); border: 1px solid var(--sep); border-radius: 5px; padding: 3px 7px; }
+  .pattern-title { font-size: 14px; font-weight: 600; }
+  .finding { font-size: 14px; color: var(--ink); margin: 6px 0 10px; max-width: 72ch; }
+  .finding .fl { display: block; }
+  b { font-weight: 600; }
+  .said { display: block; margin: 4px 0 6px; padding: 6px 10px; border-left: 3px solid var(--sep); background: var(--bg); border-radius: 0 6px 6px 0; color: var(--ink); }
+  .docid { font: 12px var(--mono); color: var(--ink2); }
+  .qb-who { color: var(--ink); margin-bottom: 4px; white-space: normal; }
+  .quote-block { margin-top: 10px; background: var(--bg); border-radius: 8px; padding: 10px 12px; font-size: 13px; color: var(--ink2); border-left: 3px solid var(--sep); white-space: pre-wrap; }
+  .quote-src { font-size: 12px; color: var(--ink3); margin-top: 6px; white-space: normal; }
+  mark { background: var(--mark); color: var(--ink); border-radius: 2px; padding: 0 1px; }
+  .used { color: var(--amber-ink); font-weight: 600; }
+  .person { color: var(--green-ink); font-weight: 600; }
+  details.engine { margin-top: 10px; }
+  details.engine summary, details summary { cursor: pointer; font-size: 12px; color: var(--ink3); }
+  pre.json { font: 12px/1.4 var(--mono); background: var(--bg); padding: 8px; border-radius: 6px; overflow: auto; max-height: 240px; margin-top: 6px; }
+
+  .quiet { display: flex; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--sep2); font-size: 13px; color: var(--ink2); }
+  .quiet:last-child { border-bottom: none; }
+  .quiet .code { flex: none; }
+
+  table.lines { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.lines td { padding: 7px 0; border-top: 1px solid var(--sep2); vertical-align: top; }
+  table.lines td.k { color: var(--ink3); font: 12px var(--mono); padding-right: 12px; white-space: nowrap; }
+  table.lines td.d { color: var(--ink2); }
+  table.lines td.q { color: var(--ink3); text-align: right; padding: 7px 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.lines td.a { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.lines tr.total td { border-top: 1px solid var(--ink2); font-weight: 600; color: var(--ink); padding-top: 10px; }
+
+  /* Right panel */
+  .rp-label { font-size: 12px; font-weight: 600; color: var(--ink3); margin: 4px 0 12px; }
+  .rp-label.later { margin-top: 22px; }
+  .timeline { margin-bottom: 24px; }
+  .ev { position: relative; padding: 0 0 16px 20px; }
+  .ev::before { content: ""; position: absolute; left: 3px; top: 5px; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink3); background: var(--card); }
+  .ev.alert::before { border-color: var(--red); }
+  .ev::after { content: ""; position: absolute; left: 7px; top: 16px; bottom: 0; width: 1px; background: var(--sep2); }
+  .ev:last-child::after { display: none; }
+  .ev-meta { font-size: 12px; color: var(--ink3); }
+  .ev-sum { font-size: 13px; margin-top: 1px; }
+  .ev-who { font-size: 12px; color: var(--ink3); margin-top: 2px; }
+  .toggle { font-size: 12px; color: var(--blue); cursor: pointer; display: inline-block; margin-top: 3px; background: none; border: none; padding: 0; }
+  .ev-full { display: none; font-size: 13px; color: var(--ink2); background: var(--bg); border-radius: 8px; padding: 8px 10px; margin-top: 6px; white-space: pre-wrap; }
+  .ev.open .ev-full { display: block; }
+  .empty { font-size: 13px; color: var(--ink3); }
+
+  .nh { border: 1px solid var(--sep2); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: var(--card); }
+  .nh-id { font: 500 12px/1.3 var(--mono); color: var(--ink3); margin-bottom: 5px; }
+  .nh-text { font-size: 13px; margin-bottom: 6px; }
+  .nh-why { font-size: 12px; color: var(--amber-ink); }
+  .nh.spot .nh-why, .nh.done .nh-why { color: var(--ink3); }
+  .nh .done-line { font-size: 13px; color: var(--green-ink); margin-bottom: 4px; }
+  .nh .cand { font-size: 12px; color: var(--ink2); margin-top: 4px; }
+  .nh .hist { font-size: 12px; color: var(--ink3); margin-top: 4px; border-left: 2px solid var(--sep); padding-left: 8px; }
+  .q-open { color: var(--amber-ink); font-weight: 600; }
+  .btn { font-size: 13px; font-weight: 500; border: 1px solid var(--sep); border-radius: 7px; padding: 5px 12px; background: var(--card); cursor: pointer; transition: background 160ms var(--spring), border-color 160ms var(--spring); }
+  .btn:hover { border-color: var(--blue); }
+  .btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .btn.primary:hover { background: #0857b8; }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .nh .btn { margin-top: 10px; }
+  details.group { margin-top: 18px; }
+  details.group > summary { font-size: 12px; font-weight: 600; color: var(--ink3); margin-bottom: 10px; list-style: none; }
+  details.group > summary::before { content: "›"; display: inline-block; margin-right: 6px; transition: transform 200ms var(--spring); }
+  details.group[open] > summary::before { transform: rotate(90deg); }
+  .later-box { opacity: 0.72; }
+
+  /* Lists in main (Needs you, Ledger, job view) */
+  .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .page-sub { font-size: 13px; color: var(--ink3); margin: 3px 0 18px; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+  table.ledger { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px var(--sep2); }
+  table.ledger th, table.ledger td { padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--sep2); }
+  table.ledger th { font-size: 12px; color: var(--ink3); font-weight: 600; }
+  table.ledger td.n, table.ledger th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .doclist .doc { padding: 10px 14px; border-radius: 10px; background: var(--card); margin-bottom: 8px; box-shadow: 0 0 0 1px var(--sep2); }
+
+  /* The judgment sheet: slides in from the right, over the right panel */
+  .backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.12); opacity: 0; pointer-events: none; transition: opacity 260ms var(--spring); z-index: 40; }
+  .backdrop.on { opacity: 1; pointer-events: auto; }
+  .sheet { position: fixed; top: 0; right: 0; bottom: 0; width: min(620px, 92vw); background: rgba(255, 255, 255, 0.96); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); box-shadow: -12px 0 40px rgba(0, 0, 0, 0.12); transform: translateX(104%); transition: transform 340ms var(--spring); z-index: 50; overflow-y: auto; padding: 22px 24px 60px; }
+  .sheet.on { transform: none; }
+  .sheet-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .sheet-title { font-size: 17px; font-weight: 600; }
+  .sheet-close { margin-left: auto; }
+  .sheet .meta { font-size: 12px; color: var(--ink3); }
+  .sheet .why { font-size: 13px; color: var(--amber-ink); margin: 6px 0 12px; }
+  .rtext { font-size: 15px; line-height: 1.6; padding: 12px 14px; border: 1px solid var(--sep); border-radius: 10px; background: #fffef9; cursor: text; user-select: text; }
+  .hint { font-size: 12px; color: var(--ink3); margin: 6px 0 8px; }
+  .sheet .cand { font-size: 12px; color: var(--ink2); margin: 4px 0; }
+  .rowbox { border: 1px solid var(--sep); border-radius: 10px; padding: 10px 12px; margin: 10px 0; background: #fcfcfd; }
+  .row { display: grid; grid-template-columns: 1fr 150px 24px; gap: 8px; align-items: start; }
+  .row .q { background: var(--mark); padding: 3px 8px; border-radius: 5px; font-size: 13px; }
+  .row-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .rowbox label { font-size: 12px; color: var(--ink3); display: flex; flex-direction: column; gap: 3px; }
+  .rowbox select, .rowbox input, .sheet textarea { font-size: 13px; border: 1px solid var(--sep); border-radius: 7px; padding: 5px 8px; background: #fff; }
+  .rowbox .eff { display: flex; gap: 6px; }
+  .rowbox .from { font-size: 12px; color: var(--ink3); font-style: italic; }
+  .typehelp { font-size: 12px; color: var(--ink3); margin-top: 6px; }
+  .dwarn { margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: rgba(255, 159, 10, 0.1); color: var(--amber-ink); font-size: 13px; }
+  .dwarn .btn { padding: 2px 8px; font-size: 12px; margin: 0 2px; }
+  .x { border: none; background: none; color: var(--ink3); font-size: 18px; cursor: pointer; line-height: 1; }
+  .sheet textarea { width: 100%; min-height: 64px; margin-top: 10px; }
+  .actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+  .err { color: var(--red-ink); font-size: 13px; }
+  .nothing { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--sep); }
+  .nothing .hint { margin-bottom: 0; }
 </style>
 </head>
 <body>
-<header>
-  <h1>unexplained <span>· the last check before it goes out</span></h1>
+<div class="topbar">
+  <a class="brand" href="/" title="The call: one job, start to finish">unexplained</a>
+  <div class="tab on" data-tab="outbox">Outbox</div>
+  <div class="tab" data-tab="needs">Needs you<span class="count" id="needs-count"></span></div>
+  <div class="tab" data-tab="ledger">Ledger</div>
   <div id="ledger">loading…</div>
-  <label>Reviewer<input id="reviewer" autocomplete="off"></label>
-</header>
-<div class="wrap">
-  <nav id="jobs"></nav>
-  <main id="main"><p class="empty">Pick a job or a document on the left.</p></main>
+  <label class="reviewer">Reviewer <input id="reviewer" autocomplete="off"></label>
 </div>
+<div class="value" id="value"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main id="main"></main>
+  <section class="right" id="right"></section>
+</div>
+<div class="backdrop" id="backdrop"></div>
+<aside class="sheet" id="sheet" aria-hidden="true"></aside>
 <script>
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const money = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(n));
+const money = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: Number(n) % 1 ? 2 : 0 }).format(Number(n));
+const money2 = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(n));
 const day = (iso) => String(iso ?? "").replace("T", " ").slice(0, 16);
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const shortDate = (iso) => (iso ? `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}` : "");
 const api = async (path, opts) => { const r = await fetch(path, opts); const j = await r.json(); if (!r.ok && r.status !== 400) throw new Error((j.errors || []).join("; ") || r.status); return { status: r.status, body: j }; };
-const S = { meta: null, jobs: [], job: null, doc: null, people: new Map(), drafts: {} };
-const nameOf = (id) => (S.people.get(id)?.name ? `${S.people.get(id).name}` : id);
+const S = { meta: null, jobs: [], job: null, doc: null, tab: "outbox", people: new Map(), drafts: {}, sheet: null };
+const nameOf = (id) => S.people.get(id)?.name ?? id;
+const STATE = { warnings: "Hold", not_cleared: "Not cleared", clear: "Clear" };
+const pill = (s) => (s ? `<span class="pill ${s}">${STATE[s]}</span>` : "");
 
 // Reviewer name: remembered in this browser only (a convenience; the judgment file is the record).
 const reviewerEl = $("#reviewer");
 try { reviewerEl.value = localStorage.getItem("unexplained.reviewer") || "Ciki"; } catch { reviewerEl.value = "Ciki"; }
 reviewerEl.addEventListener("change", () => { try { localStorage.setItem("unexplained.reviewer", reviewerEl.value.trim()); } catch {} });
 
+// ---------- top bar, value strip, sidebar ----------
+
 async function loadLedger() {
   const { body } = await api("/api/ledger");
   const el = $("#ledger");
   el.textContent = body.line;
+  el.title = body.line;
   el.classList.toggle("bad", !body.complete);
+  $("#needs-count").textContent = body.counts.needs_human ? ` ${body.counts.needs_human}` : "";
+  S.ledger = body;
+}
+
+// Documents checked and the money in each verdict state. "Checked", never "saved".
+async function loadValue() {
+  const s = (await api("/api/summary")).body;
+  const pct = (n) => (s.total ? (n / s.total) * 100 : 0);
+  const b = s.by_state;
+  $("#value").innerHTML = `
+    <div class="value-line"><strong>${s.documents} documents · ${money(s.total)}</strong> checked before they went out</div>
+    <div class="bar"><div style="width:${pct(b.warnings.total)}%;background:var(--red)"></div><div style="width:${pct(b.not_cleared.total)}%;background:var(--amber)"></div><div style="width:${pct(b.clear.total)}%;background:var(--green)"></div></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--red)"></i>Issues found before sending · ${b.warnings.n} · ${money(b.warnings.total)}</span>
+      <span><i class="dot" style="background:var(--amber)"></i>Not cleared, a person has to check · ${b.not_cleared.n} · ${money(b.not_cleared.total)}</span>
+      <span><i class="dot" style="background:var(--green)"></i>Cleared · ${b.clear.n} · ${money(b.clear.total)}</span>
+    </div>`;
+  document.documentElement.style.setProperty("--value-h", `${$("#value").offsetHeight}px`);
 }
 
 async function loadJobs() {
   S.jobs = (await api("/api/jobs")).body;
-  renderJobs();
+  renderSidebar();
 }
 
-function renderJobs() {
-  $("#jobs").innerHTML = S.jobs.map((j) => `
-    <div class="job ${S.job === j.job ? "on" : ""}" data-job="${esc(j.job)}">
-      <div class="id">${esc(j.job)}
-        ${j.needs_human ? `<span class="badge need">${j.needs_human} need you</span>` : ""}
-        ${j.spot_check ? `<span class="badge spot">${j.spot_check} spot-check</span>` : ""}
-        ${j.confirmed ? `<span class="badge done">${j.confirmed} confirmed</span>` : ""}
-      </div>
-      <div class="t">${esc(j.title)} · ${esc(j.client)}</div>
+function renderSidebar() {
+  $("#sidebar").innerHTML = `<div class="side-label">Jobs and their documents</div>` + S.jobs.map((j) => `
+    <div class="job ${S.job === j.job && !S.doc ? "on" : ""}" data-job="${esc(j.job)}">
+      <div class="job-row"><span class="job-id">${esc(j.job)}</span>${j.needs_human ? `<span class="job-need">${j.needs_human} need you</span>` : ""}</div>
+      <div class="job-title">${esc(j.title)} · ${esc(j.client)}</div>
     </div>
-    ${S.job === j.job ? `<div class="docs">${j.docs.map((d) => `<span class="doc num ${S.doc === d.id ? "on" : ""}" data-doc="${esc(d.id)}" title="${esc(day(d.at))} · ${money(d.total)}">${esc(d.kind === "quote" ? d.id : d.label)}</span>`).join("")}</div>` : ""}
-  `).join("");
+    ${S.job === j.job ? `<div class="docs">${j.docs.map((d) => `<div class="doc ${S.doc === d.id ? "on" : ""}" data-doc="${esc(d.id)}" title="${esc(day(d.at))}">
+      <i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span><span class="doc-amt">${money2(d.total)}</span></div>`).join("")}</div>` : ""}`).join("");
+  $("#sidebar .doc.on, #sidebar .job.on")?.scrollIntoView({ block: "nearest" });
 }
 
-$("#jobs").addEventListener("click", (e) => {
+$("#sidebar").addEventListener("click", (e) => {
   const d = e.target.closest("[data-doc]");
-  if (d) return openDoc(d.dataset.doc);
+  if (d) return go({ tab: "outbox", doc: d.dataset.doc });
   const j = e.target.closest("[data-job]");
-  if (j) return openJob(j.dataset.job);
+  if (j) return go({ tab: "outbox", job: j.dataset.job });
 });
 
-async function openJob(job) {
-  S.job = job; S.doc = null; renderJobs();
-  const q = (await api(`/api/queue?job=${encodeURIComponent(job)}`)).body;
-  const j = S.jobs.find((x) => x.job === job);
-  $("#main").innerHTML = `<h2>${esc(job)} · ${esc(j.title)}</h2><div class="sub">${esc(j.client)} · ${esc(j.trade)} · pick a quote version or invoice on the left to check it</div>${queueHtml(q)}`;
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => go({ tab: t.dataset.tab })));
+
+// One place that switches what is shown, with the calm cross-fade.
+async function go(to) {
+  closeSheet();
+  if (to.tab) S.tab = to.tab;
+  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("on", t.dataset.tab === S.tab));
+  if (to.doc !== undefined) { S.doc = to.doc; }
+  if (to.job !== undefined) { S.job = to.job; S.doc = null; }
+  const panes = [$("main"), $(".right")];
+  panes.forEach((p) => p.classList.add("fading"));
+  await new Promise((r) => setTimeout(r, 160));
+  try {
+    if (S.tab === "needs") await showNeeds();
+    else if (S.tab === "ledger") await showLedger();
+    else if (S.doc) await showDoc(S.doc);
+    else await showJob(S.job ?? S.jobs[0]?.job);
+  } finally {
+    renderSidebar();
+    panes.forEach((p) => p.classList.remove("fading"));
+  }
+  try { history.replaceState(null, "", S.doc && S.tab === "outbox" ? `#doc=${S.doc}` : location.pathname); } catch {}
 }
 
-async function openDoc(doc) {
-  S.doc = doc; renderJobs();
-  const c = (await api(`/api/check?doc=${encodeURIComponent(doc)}`)).body;
-  S.job = c.doc.job; renderJobs();
+// ---------- document check ----------
+
+async function showDoc(id) {
+  const c = (await api(`/api/check?doc=${encodeURIComponent(id)}`)).body;
+  S.job = c.doc.job;
+  S.check = c;
+  const j = S.jobs.find((x) => x.job === c.doc.job);
   const fired = c.warnings.filter((w) => w.fired);
-  const other = c.warnings.filter((w) => !w.fired);
-  $("#main").innerHTML = `
-    <h2>${esc(c.doc.id)} <span class="sub">· ${c.doc.kind} for ${esc(c.doc.job)}</span></h2>
-    <div class="sub num">${esc(c.doc.at)} · total ${money(c.doc.total)} · checked as it is about to go out: ${esc(c.cutoff)}</div>
-    ${verdictHtml(c.verdict)}
-    ${linesHtml(c.doc.lines)}
-    ${fired.map(warningHtml).join("")}
-    <div class="clear-list">${other.map((w) => `<span class="p" style="background:#eef0f1;color:#5d6870">${w.pattern}</span>${esc(`${w.title}: ${w.status}`)}`).join("<br>")}</div>
-    ${queueHtml(c.queue)}`;
+  const quiet = c.warnings.filter((w) => !w.fired);
+  const title = c.doc.kind === "invoice" ? `Invoice ${c.doc.id}` : `Quote ${c.doc.id}`;
+  $("main").innerHTML = `
+    <div class="crumb">${esc(c.doc.job)}<i>·</i>${esc(j?.title)}<i>·</i>${esc(j?.client)}</div>
+    <div class="doc-head"><div class="doc-title">${esc(title)}</div><div class="doc-total">${money2(c.doc.total)}</div></div>
+    <div class="cutoff">${esc(c.doc.at)} · Checked as it is about to go out — ${esc(c.cutoff)}</div>
+    <div class="verdict ${c.verdict.state}">${pill(c.verdict.state)}
+      <div class="verdict-text">${esc(c.verdict.text)}</div>
+      ${c.verdict.notes.map((n) => `<div class="verdict-note">${emph(n)}</div>`).join("")}
+    </div>
+    ${fired.length ? `<div class="section-label">Triggered rules</div>${fired.map(patternHtml).join("")}` : ""}
+    <div class="section-label">Patterns that did not fire</div>
+    ${quiet.map((w) => `<div class="quiet"><span class="code">${w.pattern}</span><span>${esc(w.title)} — ${esc(w.status)}</span></div>`).join("")}
+    <div class="section-label">Document lines</div>
+    ${linesHtml(c.doc.lines, c.doc.total)}`;
+  $(".right").innerHTML = evidenceHtml(fired) + queuePanel(c.queue, true);
 }
 
-// The verdict: warnings found / not cleared (something the check depends on is open) / clear.
-function verdictHtml(v) {
-  return `<div class="verdict ${v.state}"><div class="vt">${esc(v.text)}</div>
-    ${v.notes.map((n) => `<div class="vn">${esc(n)}</div>`).join("")}
-    ${v.info ? `<div class="vi">${esc(v.info)}</div>` : ""}</div>`;
+// Person, date and money in bold (money in tabular figures); only those tokens, never whole sentences.
+const B = (v) => `<b>${esc(v)}</b>`;
+const BM = (v) => `<b class="num">${esc(v)}</b>`;
+
+// A finding sentence from its segments. A quote a person said goes on its own line under the name and
+// date, in the quote style; other quoted words stay inline.
+function segHtml(segs) {
+  const lines = [[]];
+  for (const x of segs) {
+    if (x.k === "quote" && x.said) { lines.push({ said: x.v }); lines.push([]); continue; }
+    const cur = lines[lines.length - 1];
+    if (x.k === "person" || x.k === "date") cur.push(B(x.v));
+    else if (x.k === "money") cur.push(BM(x.v));
+    else if (x.k === "doc") cur.push(`<span class="docid">${esc(x.v)}</span>`);
+    else if (x.k === "quote") cur.push(`“${esc(x.v)}”`);
+    else cur.push(esc(x.v));
+  }
+  return lines.map((l) => (Array.isArray(l) ? (l.join("").trim() ? `<span class="fl">${l.join("").trim()}</span>` : "") : `<span class="said">“${esc(l.said)}”</span>`)).join("");
 }
 
-function linesHtml(lines) {
-  if (!lines?.length) return "";
-  return `<div class="card"><table class="num"><tr><th>kind</th><th>description</th><th class="r">qty</th><th class="r">unit</th><th class="r">amount</th></tr>
-    ${lines.map((l) => `<tr><td>${esc(l.kind ?? l.category)}</td><td>${esc(l.description)}</td><td class="r">${esc(l.qty)}</td><td class="r">${money(l.unit_price)}</td><td class="r">${money(l.amount)}</td></tr>`).join("")}</table></div>`;
+// Free text from the API (verdict notes): names, dates, money and numbers in bold, ids left alone. Works on the
+// raw text and escapes each piece, so an escaped character is never split.
+function emph(text) {
+  const names = [...new Set([...S.people.values()].map((p) => p.name).concat([reviewerEl.value.trim()]).filter(Boolean))].sort((a, b) => b.length - a.length);
+  const nameAlt = names.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+  const re = new RegExp(`([−+]?\\$[\\d,]+(?:\\.\\d+)?)|(\\b\\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\b)|((?<![\\w-])\\d{1,2}\\/\\d{1,2}(?![\\w-]))|((?<![\\w.$-])\\d+(?![\\w.-]))${nameAlt ? `|\\b(${nameAlt})\\b` : ""}`, "g");
+  let out = "", last = 0;
+  for (const m of String(text ?? "").matchAll(re)) {
+    out += esc(text.slice(last, m.index)) + (m[1] ? BM(m[0]) : B(m[0]));
+    last = m.index + m[0].length;
+  }
+  return out + esc(String(text ?? "").slice(last));
 }
 
-// What the engine found, in words where the detail is a plain value or a list of plain values.
-function foundHtml(details) {
-  const out = [];
-  const seen = new Set(); // the same finding can sit at two levels of the details; show it once
-  const push = (label, valueHtml) => { if (!seen.has(valueHtml)) { seen.add(valueHtml); out.push(`${esc(label)}: ${valueHtml}`); } };
-  const walk = (obj, prefix) => {
-    for (const [k, v] of Object.entries(obj || {})) {
-      if (v === null || v === undefined || k === "cross_source" || k === "timeline") continue;
-      const label = (prefix ? prefix + " · " : "") + k.replaceAll("_", " ");
-      if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") push(label, `<b>${esc(v)}</b>`);
-      else if (Array.isArray(v) && v.length && v.every((x) => typeof x !== "object")) push(label, v.map(esc).join("; "));
-      else if (Array.isArray(v) && v.length && typeof v[0] === "object") push(label, v.map((x) => esc(Object.values(x).filter((y) => typeof y !== "object").join(" · "))).join("; "));
-      else if (!Array.isArray(v) && typeof v === "object" && prefix === "") walk(v, k.replaceAll("_", " "));
-    }
-  };
-  walk(details, "");
-  return out.length ? `<ul class="found">${out.map((x) => `<li>${x}</li>`).join("")}</ul>` : "";
+// The source record with the quoted words marked: the gatekeeper always sees where a claim comes from.
+function marked(text, quote) {
+  const t = esc(text);
+  return quote && text.includes(quote) ? t.replace(esc(quote), `<mark>${esc(quote)}</mark>`) : t;
 }
 
-function sourceHtml(src, quote) {
-  if (!src) return `<div class="src"><span class="lab">source record not found</span></div>`;
-  let text = esc(src.text);
-  if (quote && src.text.includes(quote)) text = text.replace(esc(quote), `<mark>${esc(quote)}</mark>`);
-  return `<div class="src"><span class="lab">${esc(src.record_id)} · ${esc(src.type.replaceAll("_", " "))} · ${esc(nameOf(src.author))} · ${esc(day(src.at))}</span>${text}</div>`;
+// The quiet line under a quote: what kind of statement it is and who read it.
+function kindLine(e) {
+  if (e.kind !== "card") return "";
+  return `<span class="${e.mode_chosen && e.mode_chosen !== e.mode ? "used" : ""}">${esc(modeText(e.mode_chosen ?? e.mode, e.mode, e.mode_note))}</span> · ${e.by === "person" ? `<span class="person">confirmed by a person</span>` : "read by the model"}`;
 }
 
-function warningHtml(w) {
-  return `<div class="card warn"><div><span class="p">${w.pattern}</span><b>${esc(w.title)}</b></div>
-    ${foundHtml(w.details)}
-    ${w.evidence.map((e) => `<div class="ev">
-      ${e.kind === "card" ? `<div><span class="quote">“${esc(e.quote)}”</span></div>
-        <div class="who">${esc(modeText(e.mode_chosen ?? e.mode, e.mode, e.mode_note))} · ${esc(nameOf(e.decided_by))} · ${esc(day(e.decided_at))} · ${e.by === "person" ? "" : "read by the model"}</div>
-        ${e.confirmed ? `<div class="person">${esc(e.confirmed)}</div>` : ""}` : `<div class="who">record</div>`}
-      ${sourceHtml(e.source, e.kind === "card" ? e.quote : null)}</div>`).join("")}
-    <details><summary>engine details</summary><pre class="json">${esc(JSON.stringify(w.details, null, 2))}</pre></details>
+function patternHtml(w) {
+  const cards = w.evidence.filter((e) => e.kind === "card" && e.source).slice(0, 2);
+  return `<div class="pattern">
+    <div class="pattern-head"><span class="code">${w.pattern}</span><span class="pattern-title">${esc(w.title)}</span></div>
+    ${(w.finding_segments || []).map((f) => `<p class="finding">${segHtml(f)}</p>`).join("")}
+    ${cards.map((e) => `<div class="quote-block"><div class="qb-who">${B(nameOf(e.decided_by))} · ${B(shortDate(e.decided_at))}</div>${marked(e.source.text, e.quote)}
+      <div class="quote-src">${kindLine(e)} · ${esc(e.source.record_id)}${e.confirmed ? ` · <span class="person">${esc(e.confirmed)}</span>` : ""}</div></div>`).join("")}
+    <details class="engine"><summary>Engine details</summary><pre class="json">${esc(JSON.stringify(w.details, null, 2))}</pre></details>
   </div>`;
 }
 
-const ITEMS = new Map(); // record id -> queue item, for defaults when a quote is selected
+function linesHtml(lines, total) {
+  if (!lines?.length) return `<div class="empty">No lines.</div>`;
+  return `<table class="lines">${lines.map((l) => `<tr><td class="k">${esc(l.kind ?? l.category)}</td><td class="d">${esc(l.description)}</td><td class="q">${esc(l.qty)} × ${money2(l.unit_price)}</td><td class="a">${money2(l.amount)}</td></tr>`).join("")}
+    <tr class="total"><td colspan="3">Total</td><td class="a">${money2(total)}</td></tr></table>`;
+}
+
+// Evidence of the triggered rules, one entry per source, in time order; the full text opens in place.
+function evidenceHtml(fired) {
+  const items = new Map();
+  for (const w of fired) for (const e of w.evidence) {
+    if (!e.source) continue;
+    const key = `${e.source.record_id}|${e.kind === "card" ? e.id : ""}`;
+    if (!items.has(key)) items.set(key, { ...e, patterns: [w.pattern] });
+    else items.get(key).patterns.push(w.pattern);
+  }
+  const list = [...items.values()].sort((a, b) => Date.parse(a.source.at) - Date.parse(b.source.at));
+  return `<div class="rp-label">Evidence, in order</div><div class="timeline">${list.length ? list.map((e, i) => `
+    <div class="ev alert" id="ev-${i}">
+      <div class="ev-meta">${B(shortDate(e.source.at))} · ${B(nameOf(e.source.author))} · ${esc(e.source.type.replaceAll("_", " "))} · ${e.patterns.join(" ")}</div>
+      <div class="ev-sum">${e.kind === "card" ? `<span class="said">“${esc(e.quote)}”</span>` : esc(e.source.text.length > 110 ? e.source.text.slice(0, 108) + "…" : e.source.text)}</div>
+      ${e.kind === "card" ? `<div class="ev-who">${kindLine(e)}</div>` : ""}
+      <button class="toggle" data-ev="${i}">Show full text</button>
+      <div class="ev-full">${marked(e.source.text, e.kind === "card" ? e.quote : null)}<div class="quote-src">${esc(e.source.record_id)} · ${esc(day(e.source.at))}</div></div>
+    </div>`).join("") : `<div class="empty">No rule fired, so there is no evidence to show.</div>`}</div>`;
+}
+
+// ---------- queue: needs you / spot-check / confirmed / written after ----------
+
+const ITEMS = new Map(); // record id -> queue item, for the sheet and for defaults when a quote is selected
+
+function queuePanel(q, forDoc) {
+  for (const x of [...q.needs_human, ...q.spot_check, ...q.confirmed, ...(q.after || [])]) ITEMS.set(x.record_id, x);
+  const later = q.after || [];
+  return `
+    <div class="rp-label">Needs your judgment (${q.needs_human.length})</div>
+    ${q.needs_human.length ? q.needs_human.map((x) => nhHtml(x, "need")).join("") : `<div class="empty">${forDoc ? "No record before this document is waiting for a decision." : "Nothing waiting on this job."}</div>`}
+    <details class="group"><summary>Model found nothing here — spot-check (${q.spot_check.length})</summary>
+      ${q.spot_check.length ? q.spot_check.map((x) => nhHtml(x, "spot")).join("") : `<div class="empty">None.</div>`}
+    </details>
+    ${q.confirmed.length ? `<details class="group" open><summary>Confirmed by a person (${q.confirmed.length})</summary>${q.confirmed.map(confirmedHtml).join("")}</details>` : ""}
+    ${later.length ? `<div class="later-box"><div class="rp-label later">Written after this document (${later.length}) — not part of this check</div>
+      ${later.map((x) => nhHtml(x, x.bucket === "auto_empty" ? "spot" : "need")).join("")}</div>` : ""}`;
+}
+
+function nhHtml(x, kind) {
+  return `<div class="nh ${kind}"><div class="nh-id">${B(shortDate(x.recorded_at))} · ${B(nameOf(x.author))} · ${esc(x.source_type.replaceAll("_", " "))} · ${esc(x.record_id)}</div>
+    <div class="nh-text">${esc(x.text)}</div>
+    <div class="nh-why">${esc(x.why)}</div>
+    ${x.candidates.map((c) => `<div class="cand">model candidate: ${esc(typeLabel(c.mode))} · ${B(nameOf(c.decided_by))}<span class="said">“${esc(c.quote)}”</span></div>`).join("")}
+    <button class="btn" data-judge="${esc(x.record_id)}">Judge</button></div>`;
+}
 
 // The four card types in plain words. The examples are the invented ones from the Researcher prompt
 // (src/agents/researcher.ts), never text from the job records.
@@ -250,18 +460,6 @@ const TYPES = {
   mentions: { label: "Mentions", help: "Refers to an existing practice, decision or state without making a new one.", example: "I haven't signed off on the shed roof yet." },
 };
 const typeLabel = (m) => TYPES[m]?.label ?? m;
-const shortDay = (iso) => `${Number(iso.slice(5, 7))}/${Number(iso.slice(8, 10))}`;
-
-function queueHtml(q) {
-  for (const x of [...q.needs_human, ...q.spot_check, ...q.confirmed]) ITEMS.set(x.record_id, x);
-  return `
-    <h3>Needs your judgment (${q.needs_human.length})</h3>
-    ${q.needs_human.length ? q.needs_human.map((x) => itemHtml(x, "need")).join("") : `<div class="empty">Nothing waiting on this job.</div>`}
-    <details class="spotsec"><summary>Model found nothing here — spot-check (${q.spot_check.length})</summary>
-      ${q.spot_check.length ? q.spot_check.map((x) => itemHtml(x, "spot")).join("") : `<div class="empty">None.</div>`}
-    </details>
-    ${q.confirmed.length ? `<h3>Confirmed by a person (${q.confirmed.length})</h3>${q.confirmed.map(confirmedHtml).join("")}` : ""}`;
-}
 
 // "Decision → used as Mentions (…)" when the engine's decider rule changes the mode the person chose.
 const modeText = (chosen, used, why) => used && used !== chosen
@@ -269,41 +467,59 @@ const modeText = (chosen, used, why) => used && used !== chosen
   : typeLabel(chosen);
 
 function cardLine(c, m) {
-  return `<div class="cand"><b class="${m && m.used !== m.chosen ? "used" : ""}">${esc(modeText(c.mode, m?.used, m?.why))}</b> · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”
-    ${c.effective ? ` · effective from ${esc(day(c.effective))}` : " · effective from the message time"}
+  return `<div class="cand"><div><span class="${m && m.used !== m.chosen ? "used" : ""}">${esc(modeText(c.mode, m?.used, m?.why))}</span> · ${B(nameOf(c.decided_by))} · ${esc(c.topic)} · effective from ${c.effective ? B(day(c.effective)) : "the message time"}</div>
+    <span class="said">“${esc(c.quote)}”</span>
     ${c.open_question ? `<div class="q-open">Open question: ${esc(c.open_question)}</div>` : ""}</div>`;
+}
+
+function historyHtml(x) {
+  return (x.history || []).map((h) => `<div class="hist">replaces the judgment of ${B(day(h.judged_at))} by ${B(h.reviewer)}: ${esc(h.verdict === "cards" ? h.types.map(typeLabel).join(", ") : "nothing to keep")} — ${esc(h.reason)}</div>`).join("");
 }
 
 function confirmedHtml(x) {
   const j = x.judgment;
-  const hist = (x.history || []).map((h) => `<div class="hist">replaces the judgment of ${esc(day(h.judged_at))} by ${esc(h.reviewer)}: ${esc(h.verdict === "cards" ? h.types.map(typeLabel).join(", ") : "nothing to keep")} — ${esc(h.reason)}</div>`).join("");
-  return `<div class="card"><div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
-    <div class="done-line">${j?.verdict === "no_decision" ? "Nothing to keep" : "Kept"} — ${esc(j?.reviewer)}, ${esc(day(j?.judged_at))}: ${esc(j?.reason)}</div>
+  return `<div class="nh done"><div class="nh-id">${B(shortDate(x.recorded_at))} · ${B(nameOf(x.author))} · ${esc(x.record_id)}</div>
+    <div class="done-line">${j?.verdict === "no_decision" ? "Nothing to keep" : "Kept"} — ${B(j?.reviewer)}, ${B(day(j?.judged_at))}: ${esc(j?.reason)}</div>
     ${(j?.cards || []).map((c, i) => cardLine(c, x.card_modes?.[i])).join("")}
-    ${hist}
-    <div class="rtext">${esc(x.text)}</div>
-    <details class="again"><summary>Judge this record again (the new judgment replaces this one; the history stays)</summary>${itemHtml(x, "again")}</details></div>`;
+    ${historyHtml(x)}
+    <button class="btn" data-judge="${esc(x.record_id)}">Judge this record again</button></div>`;
 }
 
-function itemHtml(x, kind) {
-  const d = (S.drafts[x.record_id] ??= { rows: [], reason: "" });
-  const head = kind === "again" ? "" : `<div class="head"><b>${esc(x.record_id)}</b><span class="sub">${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}</span></div>
-    <div class="why">${esc(x.why)}</div>`;
-  return `<div class="${kind === "again" ? "" : "card "}item ${kind === "spot" ? "spot" : ""}" data-rec="${esc(x.record_id)}">
-    ${head}
-    <div class="rtext" data-text="${esc(x.record_id)}">${esc(x.text)}</div>
+// ---------- the judgment sheet ----------
+
+function openSheet(rec) {
+  const x = ITEMS.get(rec);
+  if (!x) return;
+  S.sheet = rec;
+  const d = (S.drafts[rec] ??= { rows: [], reason: "" });
+  const again = x.bucket === "human_confirmed";
+  $("#sheet").innerHTML = `<div data-rec="${esc(rec)}">
+    <div class="sheet-head"><div class="sheet-title">${again ? "Judge this record again" : "Your judgment"}</div><button class="btn sheet-close" data-close>Close</button></div>
+    <div class="meta">${esc(x.record_id)} · ${esc(x.source_type.replaceAll("_", " "))} · ${esc(nameOf(x.author))} · ${esc(day(x.recorded_at))}${x.job ? ` · ${esc(x.job)}` : ""}</div>
+    <div class="why">${esc(again ? "The new judgment replaces the current one; the history stays." : x.why)}</div>
+    ${again ? `<div class="nh done">${(x.judgment?.cards || []).map((c, i) => cardLine(c, x.card_modes?.[i])).join("") || `<div class="cand">Nothing kept.</div>`}${historyHtml(x)}</div>` : ""}
+    <div class="rtext" data-text="${esc(rec)}">${esc(x.text)}</div>
     <div class="hint" data-hint>${hintText(d)}</div>
     ${x.candidates.map((c) => `<div class="cand">model candidate: ${esc(typeLabel(c.mode))} · ${esc(nameOf(c.decided_by))} · ${esc(c.topic)}: “${esc(c.quote)}”</div>`).join("")}
     <div class="rows">${d.rows.map((r, i) => rowHtml(r, i)).join("")}</div>
-    <textarea placeholder="Reason (required): what you read in this record and why" data-reason="${esc(x.record_id)}">${esc(d.reason)}</textarea>
-    <div class="actions">
-      <button class="primary" data-act="cards" ${d.rows.length ? "" : "disabled"}>${confirmLabel(d)}</button>
-      <span class="err" data-err="${esc(x.record_id)}"></span>
-    </div>
-    <div class="nothing"><button data-act="none">Nothing to keep in this record</button>
+    <textarea placeholder="Reason (required): what you read in this record and why" data-reason="${esc(rec)}">${esc(d.reason)}</textarea>
+    <div class="actions"><button class="btn primary" data-act="cards" ${d.rows.length ? "" : "disabled"}>${confirmLabel(d)}</button><span class="err" data-err></span></div>
+    <div class="nothing"><button class="btn" data-act="none">Nothing to keep in this record</button>
       <div class="hint">Use this only when the record holds no decision, reason, promise or reference.</div></div>
   </div>`;
+  $("#sheet").classList.add("on");
+  $("#sheet").setAttribute("aria-hidden", "false");
+  $("#backdrop").classList.add("on");
 }
+
+function closeSheet() {
+  S.sheet = null;
+  $("#sheet").classList.remove("on");
+  $("#sheet").setAttribute("aria-hidden", "true");
+  $("#backdrop").classList.remove("on");
+}
+$("#backdrop").addEventListener("click", closeSheet);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSheet(); });
 
 const hintText = (d) => d.rows.length
   ? "Select more words for another card — one record can hold several decisions."
@@ -314,17 +530,15 @@ function rowHtml(r, i) {
   const opts = (vals, cur, label = (v) => v) => vals.map((v) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(label(v))}</option>`).join("");
   const t = TYPES[r.mode];
   return `<div class="rowbox" data-i="${i}">
-    <div class="row" data-i="${i}">
-      <span class="q">“${esc(r.quote)}”</span>
-      <select data-f="mode">${opts(Object.keys(TYPES), r.mode, typeLabel)}</select>
-      <select data-f="decided_by">${opts(S.meta.people.map((p) => p.id), r.decided_by, (id) => `${nameOf(id)} (${S.people.get(id)?.role ?? ""})`.slice(0, 48))}</select>
-      <select data-f="topic"><option value="">topic…</option>${opts(S.meta.topics, r.topic, (t) => t.replace("_", " "))}</select>
-      <button class="x" data-act="drop" title="remove">×</button>
-    </div>
-    <div class="row2" data-i="${i}">
-      <label>Effective from <input type="date" data-f="eff_date" value="${esc(r.eff_date)}"> <input type="time" data-f="eff_time" value="${esc(r.eff_time)}"></label>
-      <span class="from">${r.eff_from === "your edit" ? "set by you" : r.eff_from ? `prefilled from ${esc(r.eff_from)}` : "…"}</span>
-      <label class="qlabel">Has a question <input type="text" data-f="question" placeholder="optional: what is still unclear (keeps the card, blocks Clear)" value="${esc(r.question)}"></label>
+    <div class="row"><span class="q">“${esc(r.quote)}”</span>
+      <select data-f="mode" aria-label="Type">${opts(Object.keys(TYPES), r.mode, typeLabel)}</select>
+      <button class="x" data-act="drop" title="Remove">×</button></div>
+    <div class="row-fields">
+      <label>Who decided<select data-f="decided_by">${opts(S.meta.people.map((p) => p.id), r.decided_by, (id) => `${nameOf(id)} (${S.people.get(id)?.role ?? ""})`.slice(0, 52))}</select></label>
+      <label>Topic<select data-f="topic"><option value="">choose…</option>${opts(S.meta.topics, r.topic, (t) => t.replace("_", " "))}</select></label>
+      <label>Effective from<span class="eff"><input type="date" data-f="eff_date" value="${esc(r.eff_date)}"><input type="time" data-f="eff_time" value="${esc(r.eff_time)}"></span>
+        <span class="from">${r.eff_from === "your edit" ? "set by you" : r.eff_from ? `prefilled from ${esc(r.eff_from)}` : "…"}</span></label>
+      <label>Has a question<input type="text" data-f="question" placeholder="optional: what is still unclear" value="${esc(r.question)}"></label>
     </div>
     <div class="typehelp">${esc(t.label)}: ${esc(t.help)} <i>e.g. “${esc(t.example)}”</i></div>
     <div class="typehelp">Has a question: blocks this job's documents from Clear until it is answered. Use it for a gap that could change this document's result.</div>
@@ -340,23 +554,23 @@ function deciderWarningHtml(r) {
   const allowed = r.topic ? d[r.topic] : [...new Set(Object.values(d).flat())];
   if (!allowed || allowed.includes(r.decided_by)) return "";
   return `<div class="dwarn">${esc(nameOf(r.decided_by))} is not a client decider${r.topic ? ` for ${esc(r.topic.replace("_", " "))}` : ""}. The system will read this card as Mentions.
-    Choose <button data-act="tomode" data-mode="proposes">Promise / open item</button> or <button data-act="tomode" data-mode="mentions">Mentions</button> — or keep it, and it will be shown as Mentions.</div>`;
+    Choose <button class="btn" data-act="tomode" data-mode="proposes">Promise / open item</button> or <button class="btn" data-act="tomode" data-mode="mentions">Mentions</button> — or keep it, and it will be shown as Mentions.</div>`;
 }
 
 function itemOf(el) { const c = el.closest("[data-rec]"); return c && c.dataset.rec; }
-// Only the quote rows, the hint and the keep button change while a person works on an item; rebuild in place.
+// Only the quote rows, the hint and the keep button change while a person works; rebuild them in place.
 function rerenderItem(rec) {
   const d = S.drafts[rec];
-  for (const card of document.querySelectorAll(`[data-rec="${CSS.escape(rec)}"]`)) {
-    card.querySelector(".rows").innerHTML = d.rows.map((r, i) => rowHtml(r, i)).join("");
-    card.querySelector("[data-hint]").textContent = hintText(d);
-    const b = card.querySelector('[data-act="cards"]');
-    b.disabled = !d.rows.length;
-    b.textContent = confirmLabel(d);
-  }
+  const card = document.querySelector(`#sheet [data-rec="${CSS.escape(rec)}"]`);
+  if (!card) return;
+  card.querySelector(".rows").innerHTML = d.rows.map((r, i) => rowHtml(r, i)).join("");
+  card.querySelector("[data-hint]").textContent = hintText(d);
+  const b = card.querySelector('[data-act="cards"]');
+  b.disabled = !d.rows.length;
+  b.textContent = confirmLabel(d);
 }
 
-// A selection inside a record's text becomes a quote row (exact words only), with "effective from"
+// A selection inside the record's text becomes a quote row (exact words only), with "effective from"
 // prefilled from a time phrase in those words, or the message time.
 document.addEventListener("mouseup", async (e) => {
   const box = e.target.closest?.("[data-text]");
@@ -396,15 +610,26 @@ document.addEventListener("input", (e) => {
     S.drafts[rec].rows[Number(e.target.closest("[data-i]").dataset.i)].question = e.target.value;
   }
 });
+
 document.addEventListener("click", async (e) => {
-  const act = e.target.dataset?.act;
+  const t = e.target.closest?.("button, [data-judge], [data-close], .toggle, [data-goto]");
+  if (!t) return;
+  if (t.dataset.close !== undefined) return closeSheet();
+  if (t.dataset.judge) return openSheet(t.dataset.judge);
+  if (t.dataset.goto) return go({ tab: "outbox", doc: t.dataset.goto });
+  if (t.classList.contains("toggle")) {
+    const open = t.closest(".ev").classList.toggle("open");
+    t.textContent = open ? "Hide" : "Show full text";
+    return;
+  }
+  const act = t.dataset.act;
   if (!act) return;
-  const rec = itemOf(e.target);
+  const rec = itemOf(t);
   if (!rec) return;
   const d = S.drafts[rec];
-  if (act === "drop") { d.rows.splice(Number(e.target.closest("[data-i]").dataset.i), 1); return rerenderItem(rec); }
-  if (act === "tomode") { d.rows[Number(e.target.closest("[data-i]").dataset.i)].mode = e.target.dataset.mode; return rerenderItem(rec); }
-  const err = e.target.closest("[data-rec]").querySelector("[data-err]");
+  if (act === "drop") { d.rows.splice(Number(t.closest("[data-i]").dataset.i), 1); return rerenderItem(rec); }
+  if (act === "tomode") { d.rows[Number(t.closest("[data-i]").dataset.i)].mode = t.dataset.mode; return rerenderItem(rec); }
+  const err = t.closest("[data-rec]").querySelector("[data-err]");
   const reviewer = reviewerEl.value.trim();
   if (!reviewer) { err.textContent = "Enter a reviewer name at the top."; return; }
   if (!d.reason.trim()) { err.textContent = "A reason is required."; return; }
@@ -416,21 +641,70 @@ document.addEventListener("click", async (e) => {
         ...(r.eff_date ? { effective: `${r.eff_date}T${r.eff_time || "00:00"}` } : {}),
         ...(r.question.trim() ? { open_question: r.question.trim() } : {}),
       })) };
-  e.target.disabled = true;
+  t.disabled = true;
   const r = await api("/api/judgments", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-  e.target.disabled = false;
+  t.disabled = false;
   if (r.status !== 201) { err.textContent = r.body.errors.join("; "); return; }
   delete S.drafts[rec];
-  await Promise.all([loadLedger(), loadJobs()]);
-  if (S.doc) await openDoc(S.doc); else await openJob(S.job);
+  closeSheet();
+  // The judgment changes the ledger, the money by state and this document's verdict: re-run the check.
+  await Promise.all([loadLedger(), loadJobs(), loadValue()]);
+  await go({});
+});
+
+// ---------- job, Needs you, Ledger ----------
+
+async function showJob(job) {
+  if (!job) return;
+  S.job = job;
+  const j = S.jobs.find((x) => x.job === job);
+  const q = (await api(`/api/queue?job=${encodeURIComponent(job)}`)).body;
+  $("main").innerHTML = `<div class="crumb">${esc(job)}<i>·</i>${esc(j.client)}<i>·</i>${esc(j.trade)}</div>
+    <div class="page-title">${esc(j.title)}</div>
+    <div class="page-sub">Pick a document to check it as it was about to go out.</div>
+    <div class="doclist">${j.docs.map((d) => `<div class="doc" data-goto="${esc(d.id)}"><i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span><span class="doc-amt">${esc(day(d.at))}</span><span class="doc-amt">${money2(d.total)}</span>${pill(d.state)}</div>`).join("")}</div>`;
+  $(".right").innerHTML = queuePanel(q, false);
+}
+
+async function showNeeds() {
+  const q = (await api("/api/queue")).body;
+  for (const x of [...q.needs_human, ...q.spot_check, ...q.confirmed]) ITEMS.set(x.record_id, x);
+  const byJob = new Map();
+  for (const x of q.needs_human) byJob.set(x.job ?? "(no job)", [...(byJob.get(x.job ?? "(no job)") ?? []), x]);
+  $("main").innerHTML = `<div class="page-title">Needs you</div>
+    <div class="page-sub">${q.needs_human.length} records the system cannot vouch for, with their original text. Judging one moves it to confirmed.</div>
+    ${[...byJob].map(([job, xs]) => `<div class="section-label">${esc(job)} · ${esc(S.jobs.find((j) => j.job === job)?.title ?? "")}</div><div class="grid2">${xs.map((x) => nhHtml(x, "need")).join("")}</div>`).join("")}`;
+  $(".right").innerHTML = `<div class="rp-label">The ledger</div><div class="empty">${esc(S.ledger?.line ?? "")}</div>
+    <details class="group"><summary>Model found nothing here — spot-check (${q.spot_check.length})</summary>${q.spot_check.map((x) => nhHtml(x, "spot")).join("")}</details>`;
+}
+
+async function showLedger() {
+  const l = S.ledger ?? (await api("/api/ledger")).body;
+  $("main").innerHTML = `<div class="page-title">Ledger</div>
+    <div class="page-sub">Every record lands in exactly one place. Nothing is dropped silently.</div>
+    <div class="verdict ${l.complete ? "clear" : "warnings"}"><div class="verdict-text">${esc(l.line)}</div></div>
+    <table class="ledger"><tr><th>Job</th><th>Client</th><th class="n">Need you</th><th class="n">Spot-check</th><th class="n">Confirmed</th><th class="n">Documents</th></tr>
+      ${S.jobs.map((j) => `<tr><td><span class="job-id">${esc(j.job)}</span> ${esc(j.title)}</td><td>${esc(j.client)}</td><td class="n">${j.needs_human}</td><td class="n">${j.spot_check}</td><td class="n">${j.confirmed}</td><td class="n">${j.docs.length}</td></tr>`).join("")}</table>`;
+  $(".right").innerHTML = `<div class="rp-label">Where records go</div>
+    <div class="nh"><div class="nh-text"><b>auto</b> — the model made cards that passed the quote gate and the checker.</div></div>
+    <div class="nh"><div class="nh-text"><b>empty</b> — a field note with no decision; open for spot-check.</div></div>
+    <div class="nh"><div class="nh-text"><b>need you</b> — anything the system cannot vouch for: a failed or prose reply, a rejected card, or no decision found in a client message or office note.</div></div>
+    <div class="nh"><div class="nh-text"><b>confirmed</b> — a person judged it; the latest judgment wins and the history stays.</div></div>`;
+}
+
+// A link to #doc=<id> (for example from the home page) opens that document's check.
+window.addEventListener("hashchange", () => {
+  const doc = location.hash.match(/doc=([\w-]+)/)?.[1];
+  if (doc && doc !== S.doc) go({ tab: "outbox", doc });
 });
 
 (async () => {
   S.meta = (await api("/api/meta")).body;
   S.people = new Map(S.meta.people.map((p) => [p.id, p]));
-  await Promise.all([loadLedger(), loadJobs()]);
-  if (S.jobs[0]) openJob(S.jobs[0].job);
-})().catch((e) => { $("#main").innerHTML = `<p class="err">${esc(e.message)}</p>`; });
+  await Promise.all([loadLedger(), loadJobs(), loadValue()]);
+  const hash = location.hash.match(/doc=([\w-]+)/)?.[1];
+  await go(hash ? { tab: "outbox", doc: hash } : { tab: "outbox", job: S.jobs[0]?.job });
+})().catch((e) => { $("main").innerHTML = `<p class="err">${esc(e.message)}</p>`; });
 </script>
 </body>
 </html>

@@ -10,3 +10,4 @@ logs/
 state/
 cache/*
 !cache/samples/
+.demo/
