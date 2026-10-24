@@ -82,7 +82,9 @@ describe("finding sentences", () => {
   it("keep the exact wording (pinned with the gold cards) and mark what a person said", () => {
     const { out } = allFindings(goldRoot());
     const get = (doc: string, p: string) => out.find((r) => r.doc === doc && r.pattern === p)!;
-    expect(get("Q-NL-02-v1", "P6").sentences).toEqual(["Ria Moth approved quotes with labor and material lines (Q-NL-01-v1 and Q-NL-01-v2). This quote has a freight line, which no quote this client approved has had."]);
+    // Two approved quotes are too few to judge structure (task 017): no P6 on Q-NL-02-v1; with four it speaks.
+    expect(out.find((r) => r.doc === "Q-NL-02-v1" && r.pattern === "P6")).toBeUndefined();
+    expect(get("Q-NL-03-v1", "P6").sentences).toEqual(["Ria Moth approved quotes with labor, material and freight lines (Q-NL-01-v1, Q-NL-01-v2, Q-NL-01-v3 and Q-NL-02-v1). This quote has only 3 lines, where approved quotes have at least 4."]);
     expect(get("Q-NL-02-v2", "P1").sentences).toEqual(["Mira Kell promised on 19 Mar: “Said Nora will open the closet Friday and we would tell her then if the tank has to come out”. No result is on record before this quote. The line “Expansion tank if needed after second look” uses “tank” from the promise."]);
     expect(get("Q-NL-03-v2", "P3").sentences).toEqual(["Q-NL-03-v1 and Q-NL-03-v2 still say “Need to determine the cause before naming parts”, and no finding is on record before this quote. The question has not moved across 2 versions."]);
     expect(get("Q-NL-04-v3", "P4").sentences).toEqual(["Ria Moth set a rule on 10 Mar: “Anything over $2500 needs a one-line note from me before you submit”. It is still in force, and this quote breaks it: its total is above the $2,500 limit that needs a note first."]);

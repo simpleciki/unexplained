@@ -10,6 +10,10 @@ import { categoryTotals } from "../docs.ts";
 import type { DetectCtx } from "./context.ts";
 import { uniq } from "./context.ts";
 
+// Approved quotes of the client needed before its usual structure is judged (categories never approved, the
+// labor/material split, the line count, line shapes). With fewer, one or two quotes would set the "norm" and
+// normal quotes get flagged. The portal's accepted categories are a fixed rule, checked regardless.
+export const MIN_STRUCTURE_NORM_VERSIONS = 3;
 // Approved quotes needed in a (client, trade) before an amount norm exists.
 export const MIN_AMOUNT_NORM_VERSIONS = 2;
 // A category total this far outside the approved range is off the amount norm.
@@ -72,16 +76,19 @@ export function detectP6(ctx: DetectCtx): Flag {
 
   const structureOff: string[] = [];
   const docCats = [...new Set(lines.map((l) => l.category))];
+  const enough = s.approved.length >= MIN_STRUCTURE_NORM_VERSIONS;
   for (const cat of docCats) {
     if (s.portal && !s.portal.has(cat)) structureOff.push(`${cat}: the client portal does not accept this category`);
-    else if (s.approved.length && !s.categories.has(cat)) structureOff.push(`${cat}: never in an approved quote of this client`);
+    else if (enough && !s.categories.has(cat)) structureOff.push(`${cat}: never in an approved quote of this client`);
   }
-  const hasLabor = docCats.includes("labor");
-  const hasMaterial = docCats.includes("material");
-  if (s.split && (!hasLabor || !hasMaterial) && !allowLump) structureOff.push("labor and material not shown apart");
-  if (s.approved.length && lines.length < s.minLines && !allowLump) structureOff.push(`${lines.length} line(s); approved quotes have at least ${s.minLines}`);
-  for (const sh of shapes(lines)) {
-    if (!s.shapes.has(sh) && !(sh === "lump_sum" && allowLump)) structureOff.push(`${sh} line never seen in an approved quote`);
+  if (enough) {
+    const hasLabor = docCats.includes("labor");
+    const hasMaterial = docCats.includes("material");
+    if (s.split && (!hasLabor || !hasMaterial) && !allowLump) structureOff.push("labor and material not shown apart");
+    if (lines.length < s.minLines && !allowLump) structureOff.push(`${lines.length} line(s); approved quotes have at least ${s.minLines}`);
+    for (const sh of shapes(lines)) {
+      if (!s.shapes.has(sh) && !(sh === "lump_sum" && allowLump)) structureOff.push(`${sh} line never seen in an approved quote`);
+    }
   }
 
   const a = amountNorm(ctx, exclude);
@@ -108,6 +115,7 @@ export function detectP6(ctx: DetectCtx): Flag {
         approved_categories: [...s.categories],
         norm_from: s.approved.map((x) => x.version.quote_id),
         structure_instruction: allowLump,
+        ...(enough ? {} : { status: `not enough history to judge this client's usual structure (${s.approved.length} of ${MIN_STRUCTURE_NORM_VERSIONS} approved quotes)` }),
         off: structureOff,
       },
       amount: a.ranges

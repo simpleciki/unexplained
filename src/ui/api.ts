@@ -27,7 +27,8 @@ export const WARNINGS: Record<string, string> = {
   P7: "Invoice does not match what was approved",
 };
 
-export type Ctx = { root: string; data: Dataset; view: ReviewView; engine: Engine; summary?: Summary };
+export type View = "all" | "curated";
+export type Ctx = { root: string; data: Dataset; view: ReviewView; engine: Engine; summaries?: Partial<Record<View, Summary>> };
 
 // Rebuilt after every judgment, so the ledger and the engine always reflect review/judgments.jsonl.
 export function loadCtx(root: string, data: Dataset): Ctx {
@@ -112,7 +113,9 @@ export function inOffsetOf(iso: string, t: number): string {
 // the document that no one has judged yet (needs_human), or a P2 change only the Judge model step could
 // judge, or an open question a person left on a card they kept, or a record the model read as empty (the
 // model's "nothing here" was wrong on 26 of 59 records we measured, so a person spot-checks it first). With no
-// records at all before the cut-off there is nothing to check against, so that is not "clear" either.
+// records at all before the cut-off there is nothing to check against, so that is not "clear" either; the one
+// exception is a job's first quote, checked against the client's rules and usual quotes when the client has
+// rules on file and enough approved quotes to judge its usual structure, and nothing fired.
 export function check(ctx: Ctx, docId: string) {
   const t = ctx.data.tables;
   const invoice = t.invoices.find((x) => x.invoice_id === docId) ?? null;
@@ -136,6 +139,12 @@ export function check(ctx: Ctx, docId: string) {
   const read = seen.length - unjudged.length;
   const seenIds = new Set(seen.map((x) => x.record_id));
   const questions = openQuestions(ctx.view.judgments).filter((q) => seenIds.has(q.record_id));
+  // First quote on a job with no records yet: only client-level history can vouch for it.
+  const p4 = flags.find((f) => f.pattern === "P4");
+  const p6 = flags.find((f) => f.pattern === "P6");
+  const clientRules = ((p4?.details as { rules_checked?: string[] } | undefined)?.rules_checked ?? []).length;
+  const structureStatus = (p6?.details as { structure?: { status?: string } } | undefined)?.structure?.status ?? null;
+  const firstQuote = !invoice && seen.length === 0 && clientRules > 0 && !!p6 && !structureStatus;
 
   const warnings = flags
     .filter((f) => f.pattern in WARNINGS)
@@ -146,8 +155,10 @@ export function check(ctx: Ctx, docId: string) {
         ? "warning"
         : needsJudge
           ? "not judged here (needs the Judge model step)"
-          : seen.length === 0
-            ? "no records on file to check against"
+          : f.pattern === "P6" && structureStatus
+            ? structureStatus
+            : seen.length === 0
+            ? firstQuote && (f.pattern === "P4" || f.pattern === "P6") ? "clear" : "no records on file to check against"
             : unjudged.length || questions.length || spot.length
               ? `no evidence in the ${read} of ${seen.length} records read${questions.length ? `; ${questions.length} open question${questions.length > 1 ? "s" : ""}` : ""}${spot.length ? `; ${spot.length} read as empty, not spot-checked` : ""}`
               : "clear";
@@ -175,7 +186,7 @@ export function check(ctx: Ctx, docId: string) {
   const openPatterns = warnings.filter((w) => w.open).map((w) => w.pattern);
   const doc = invoice ? "invoice" : "quote";
   const notes = [
-    ...(seen.length === 0 ? [`No messages, internal notes or field notes in this job were written before this ${doc}, so nothing a client approved or asked for can be checked against it; a person has to check it by hand`] : []),
+    ...(seen.length === 0 && !firstQuote ? [`No messages, internal notes or field notes in this job were written before this ${doc}, so nothing a client approved or asked for can be checked against it; a person has to check it by hand`] : []),
     ...(unjudged.length ? [`${unjudged.length} record${unjudged.length > 1 ? "s" : ""} in this job written before this ${invoice ? "invoice" : "quote"} ${unjudged.length > 1 ? "are" : "is"} not judged yet; the result can change`] : []),
     ...(spot.length ? [`${spot.length} record${spot.length > 1 ? "s" : ""} the model read as empty need${spot.length > 1 ? "" : "s"} a person to spot-check before this can clear`] : []),
     ...questions.map((q) => `Open question (${q.reviewer}, ${Number(q.judged_at.slice(5, 7))}/${Number(q.judged_at.slice(8, 10))}) on ${q.record_id}: ${q.question}`),
@@ -183,9 +194,11 @@ export function check(ctx: Ctx, docId: string) {
   ];
   const verdict = fired
     ? { state: "warnings" as const, text: `Warnings found (${fired})`, notes }
-    : seen.length === 0
+    : seen.length === 0 && !firstQuote
       // Nothing was read, so nothing was checked: never green.
       ? { state: "not_cleared" as const, text: `Not cleared — no records on file before this ${doc}, so there is nothing to check it against.`, notes }
+      : seen.length === 0 && !notes.length
+        ? { state: "clear" as const, text: "Clear — first quote on this job; checked against the client's rules and usual quotes only.", notes }
       : notes.length
         ? { state: "not_cleared" as const, text: "Not cleared", notes }
         : { state: "clear" as const, text: "Clear — every record in this job is accounted for and judged", notes };
@@ -209,13 +222,41 @@ export function check(ctx: Ctx, docId: string) {
   };
 }
 
-// Every document checked, and the money in each verdict state ("checked", never "saved"). Rebuilt with the
-// context after each judgment.
-export type Summary = { documents: number; total: number; by_state: Record<"warnings" | "not_cleared" | "clear", { n: number; total: number }>; states: Record<string, "warnings" | "not_cleared" | "clear"> };
-export function summary(ctx: Ctx): Summary {
-  if (ctx.summary) return ctx.summary;
+// The curated view: one representative problem document per pattern, picked from the gold questions, plus
+// every document designed clean. Most quotes in real work are fine (about 2 in 10 have a problem), so this
+// view shows that mix; "All documents" stays the default and is the whole record.
+export const CURATED_PROBLEMS: { pattern: string; doc: string; question: string; why: string }[] = [
+  { pattern: "P1", doc: "Q-OC-02-v2", question: "q-p1-oc02-camera", why: "a promised camera check never closed; only P1 fires" },
+  { pattern: "P2", doc: "Q-RM-01-v2", question: "q-p2-rm01-homerun", why: "the price changed from v1 with no client-facing reason; P2 needs the Judge model step, so it shows as open" },
+  { pattern: "P3", doc: "Q-NL-03-v3", question: "q-p3-nl03-progress", why: "versions repeat the same open question; only P3 fires" },
+  { pattern: "P4", doc: "Q-NL-04-v3", question: "q-p4-nl04-cap", why: "over Ria's $2,500 pre-note rule; fires only once the rule is on a card (model or person)" },
+  { pattern: "P5", doc: "Q-PW-05-v3", question: "q-p5-heron-why", why: "the hero case: three rejections, no reason ever stated" },
+  { pattern: "P6", doc: "Q-PW-03-v2", question: "q-p6-pw03-trip", why: "a trip line on a client portal that does not accept travel; a fixed rule, not history" },
+  { pattern: "P7", doc: "INV-RM-02", question: "q-p7-rm02-inv", why: "the invoice does not match what was approved; only P7 fires" },
+];
+
+// Designed clean = the generator's end-of-window outcome: a quote approved as sent, an invoice paid. Used only
+// to choose what the curated view lists, never for a verdict (a verdict reads dated records).
+export function designedClean(ctx: Ctx): string[] {
   const t = ctx.data.tables;
-  const ids = [...t.quotes.map((x) => x.quote_id), ...t.invoices.map((x) => x.invoice_id)];
+  return [...t.quotes.filter((x) => x.status === "approved").map((x) => x.quote_id), ...t.invoices.filter((x) => x.status === "paid").map((x) => x.invoice_id)];
+}
+
+export function viewIds(ctx: Ctx, view: View): string[] {
+  const t = ctx.data.tables;
+  const all = [...t.quotes.map((x) => x.quote_id), ...t.invoices.map((x) => x.invoice_id)];
+  if (view === "all") return all;
+  const keep = new Set([...CURATED_PROBLEMS.map((p) => p.doc), ...designedClean(ctx)]);
+  return all.filter((id) => keep.has(id));
+}
+
+// Every document in the view checked, and the money in each verdict state ("checked", never "saved"). Rebuilt
+// with the context after each judgment.
+export type Summary = { view: View; documents: number; total: number; by_state: Record<"warnings" | "not_cleared" | "clear", { n: number; total: number }>; states: Record<string, "warnings" | "not_cleared" | "clear"> };
+export function summary(ctx: Ctx, view: View = "all"): Summary {
+  const cached = ctx.summaries?.[view];
+  if (cached) return cached;
+  const ids = viewIds(ctx, view);
   const by_state = { warnings: { n: 0, total: 0 }, not_cleared: { n: 0, total: 0 }, clear: { n: 0, total: 0 } };
   const states: Summary["states"] = {};
   let total = 0;
@@ -228,8 +269,9 @@ export function summary(ctx: Ctx): Summary {
   }
   const r2 = (n: number) => Math.round(n * 100) / 100;
   for (const s of Object.values(by_state)) s.total = r2(s.total);
-  ctx.summary = { documents: ids.length, total: r2(total), by_state, states };
-  return ctx.summary;
+  const out: Summary = { view, documents: ids.length, total: r2(total), by_state, states };
+  ctx.summaries = { ...ctx.summaries, [view]: out };
+  return out;
 }
 
 // Prefill for "Effective from" on a quote the person selected: a time phrase in the words, else the message time.

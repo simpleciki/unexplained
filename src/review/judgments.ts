@@ -106,6 +106,12 @@ export function judgmentWarnings(input: JudgmentInput, vocab: Vocab, modelCards:
   });
 }
 
+// The form asks for a topic, not facets. A topic with one meaning implies its facet, so a person's card is read
+// like a model card: a client's approval kept by a person counts as an approval (P7 and the seats need
+// approval.status). Topics with several facets (price, scope, client_rule) imply none.
+const TOPIC_FACETS: Record<string, string[]> = { approval: ["approval.status"], open_item: ["open_item.inspection"] };
+export const impliedFacets = (topic: string | undefined): string[] => (topic ? TOPIC_FACETS[topic] ?? [] : []);
+
 // Validate and append. judged_at is this machine's local clock at the moment the person submits (not when
 // the record was written, not when the file is read), so the judgment's own time is never guessed.
 export function appendJudgment(root: string, input: JudgmentInput, records: SourceRecord[], vocab: Vocab, modelCards: DecisionCard[] = [], now = new Date()): Judgment {
@@ -123,7 +129,7 @@ export function appendJudgment(root: string, input: JudgmentInput, records: Sour
         return {
           ...rest,
           topic: c.topic ?? m!.topic,
-          facets: c.facets ?? m?.facets ?? [],
+          facets: c.facets?.length ? c.facets : m?.facets?.length ? m.facets : impliedFacets(c.topic ?? m!.topic),
           ...(effective !== undefined ? { effective: effectiveFromForm(effective, rec.source_recorded_at)! } : {}),
           ...(question ? { open_question: question } : {}),
         };
@@ -165,7 +171,7 @@ export function applyJudgments(modelCards: DecisionCard[], edges: RelationEdge[]
         quote: c.quote,
         mode: c.mode,
         topic: c.topic ?? "",
-        facets: c.facets ?? [],
+        facets: c.facets?.length ? c.facets : impliedFacets(c.topic),
         scope: c.scope ?? (rec.thread_id ? `job:${rec.thread_id}` : "global"),
         decided_at: rec.source_recorded_at, // when it was said
         effective: c.effective ?? rec.source_recorded_at, // when it applies; older judgments have no effective

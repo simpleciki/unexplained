@@ -45,6 +45,11 @@
   .legend { display: flex; gap: 22px; margin-top: 8px; flex-wrap: wrap; }
   .legend span { font-size: 12px; color: var(--ink2); display: inline-flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
   .dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .viewsw { display: inline-flex; margin-left: 14px; border: 1px solid var(--sep2); border-radius: 8px; overflow: hidden; vertical-align: 1px; }
+  .viewsw button { font: inherit; font-size: 12px; padding: 3px 10px; background: none; border: none; color: var(--ink2); cursor: pointer; }
+  .viewsw button.on { background: var(--blue); color: #fff; }
+  .curated-note { display: inline-block; font-size: 12px; font-weight: 600; color: var(--amber-ink); background: rgba(255, 159, 10, 0.13); border-radius: 6px; padding: 3px 8px; margin-bottom: 8px; }
+  .pick { font-size: 11px; font-weight: 600; color: var(--red-ink); margin-left: 6px; }
 
   /* Layout */
   .layout { display: grid; grid-template-columns: 290px minmax(0, 1fr) 360px; height: calc(100vh - 50px - var(--value-h, 76px)); }
@@ -231,7 +236,7 @@ const day = (iso) => String(iso ?? "").replace("T", " ").slice(0, 16);
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const shortDate = (iso) => (iso ? `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}` : "");
 const api = async (path, opts) => { const r = await fetch(path, opts); const j = await r.json(); if (!r.ok && r.status !== 400) throw new Error((j.errors || []).join("; ") || r.status); return { status: r.status, body: j }; };
-const S = { meta: null, jobs: [], job: null, doc: null, tab: "outbox", people: new Map(), drafts: {}, sheet: null };
+const S = { meta: null, jobs: [], job: null, doc: null, tab: "outbox", people: new Map(), drafts: {}, sheet: null, view: "all", viewIds: null, picks: new Map() };
 const nameOf = (id) => S.people.get(id)?.name ?? id;
 const STATE = { warnings: "Hold", not_cleared: "Not cleared", clear: "Clear" };
 const pill = (s) => (s ? `<span class="pill ${s}">${STATE[s]}</span>` : "");
@@ -254,12 +259,18 @@ async function loadLedger() {
 }
 
 // Documents checked and the money in each verdict state. "Checked", never "saved".
+// The view switch: "All documents" (the default) or the curated mix, labelled as curated on screen.
 async function loadValue() {
-  const s = (await api("/api/summary")).body;
+  const s = (await api(`/api/summary?view=${S.view}`)).body;
+  S.viewIds = S.view === "curated" ? new Set(s.ids) : null;
+  S.picks = new Map((s.picks || []).map((p) => [p.doc, p]));
+  const sw = (v, label) => `<button data-view="${v}" class="${S.view === v ? "on" : ""}">${label}</button>`;
   const pct = (n) => (s.total ? (n / s.total) * 100 : 0);
   const b = s.by_state;
   $("#value").innerHTML = `
-    <div class="value-line"><strong>${s.documents} documents · ${money(s.total)}</strong> checked before they went out</div>
+    <div class="value-line"><strong>${s.documents} documents · ${money(s.total)}</strong> checked before they went out
+      <span class="viewsw">${sw("all", "All documents")}${sw("curated", "Curated: one example per problem + all clean documents")}</span></div>
+    ${S.view === "curated" ? `<div class="curated-note">Curated view — ${S.picks.size} problem examples (one per pattern, P1–P7) and ${s.documents - S.picks.size} documents designed clean. Not the whole outbox.</div>` : ""}
     <div class="bar"><div style="width:${pct(b.warnings.total)}%;background:var(--red)"></div><div style="width:${pct(b.not_cleared.total)}%;background:var(--amber)"></div><div style="width:${pct(b.clear.total)}%;background:var(--green)"></div></div>
     <div class="legend">
       <span><i class="dot" style="background:var(--red)"></i>Issues found before sending · ${b.warnings.n} · ${money(b.warnings.total)}</span>
@@ -274,14 +285,24 @@ async function loadJobs() {
   renderSidebar();
 }
 
+$("#value").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-view]");
+  if (!b || b.dataset.view === S.view) return;
+  S.view = b.dataset.view;
+  await loadValue();
+  renderSidebar();
+});
+
 function renderSidebar() {
-  $("#sidebar").innerHTML = `<div class="side-label">Jobs and their documents</div>` + S.jobs.map((j) => `
+  const docsOf = (j) => (S.viewIds ? j.docs.filter((d) => S.viewIds.has(d.id)) : j.docs);
+  const jobs = S.jobs.filter((j) => docsOf(j).length);
+  $("#sidebar").innerHTML = `<div class="side-label">${S.viewIds ? "Curated: the jobs and documents in this view" : "Jobs and their documents"}</div>` + jobs.map((j) => `
     <div class="job ${S.job === j.job && !S.doc ? "on" : ""}" data-job="${esc(j.job)}">
       <div class="job-row"><span class="job-id">${esc(j.job)}</span>${j.needs_human ? `<span class="job-need">${j.needs_human} need you</span>` : ""}</div>
       <div class="job-title">${esc(j.title)} · ${esc(j.client)}</div>
     </div>
-    ${S.job === j.job ? `<div class="docs">${j.docs.map((d) => `<div class="doc ${S.doc === d.id ? "on" : ""}" data-doc="${esc(d.id)}" title="${esc(day(d.at))}">
-      <i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span><span class="doc-amt">${money2(d.total)}</span></div>`).join("")}</div>` : ""}`).join("");
+    ${S.job === j.job || S.viewIds ? `<div class="docs">${docsOf(j).map((d) => `<div class="doc ${S.doc === d.id ? "on" : ""}" data-doc="${esc(d.id)}" title="${esc(day(d.at))}">
+      <i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span>${S.picks.has(d.id) ? `<span class="pick" title="${esc(S.picks.get(d.id).why)}">${esc(S.picks.get(d.id).pattern)}</span>` : ""}<span class="doc-amt">${money2(d.total)}</span></div>`).join("")}</div>` : ""}`).join("");
   $("#sidebar .doc.on, #sidebar .job.on")?.scrollIntoView({ block: "nearest" });
 }
 

@@ -91,7 +91,9 @@ describe("gatekeeper API", () => {
     expect(after.records).toMatchObject({ unjudged: 0, spot_check: 0 });
     expect(after.verdict.state).toBe("clear");
     expect(after.verdict.text).toBe("Clear — every record in this job is accounted for and judged");
-    expect(after.warnings.every((w: { status: string }) => w.status === "clear")).toBe(true);
+    // This fixture has no approved quote, so P6 says it cannot judge the client's usual structure (task 017).
+    expect(after.warnings.find((w: { pattern: string }) => w.pattern === "P6").status).toMatch(/^not enough history to judge this client's usual structure/);
+    expect(after.warnings.filter((w: { pattern: string }) => w.pattern !== "P6").every((w: { status: string }) => w.status === "clear")).toBe(true);
   });
 
   it("an open P2 (needs the Judge) also keeps the verdict from Clear", () => {
@@ -212,7 +214,7 @@ describe("gatekeeper API", () => {
     expect(c.verdict.notes[0]).toMatch(/^No messages, internal notes or field notes in this job were written before this quote/);
     expect(c.verdict.text).not.toMatch(/accounted for and judged/);
     expect(summary(box.ctx).states["Q-OC-02-v1"]).toBe("not_cleared");
-    expect(c.warnings.every((w: { status: string }) => w.status === "no records on file to check against")).toBe(true);
+    expect(c.warnings.filter((w: { pattern: string }) => w.pattern !== "P6").every((w: { status: string }) => w.status === "no records on file to check against")).toBe(true);
   });
 
   it("records written after the cut-off are not counted in Needs your judgment; they are listed apart", () => {
@@ -253,6 +255,26 @@ describe("gatekeeper API", () => {
       expect(c.records.seen).toBeGreaterThan(0);
       expect(c.records.spot_check).toBe(0);
     }
+  });
+
+  it("the curated view: one problem example per pattern plus every designed-clean document, totals by state", () => {
+    const { box } = setup();
+    const c = get(box, "/api/summary?view=curated").body;
+    expect(c.view).toBe("curated");
+    expect(c.picks.map((p: { pattern: string }) => p.pattern)).toEqual(["P1", "P2", "P3", "P4", "P5", "P6", "P7"]);
+    const t = box.ctx.data.tables;
+    const clean = [...t.quotes.filter((x) => x.status === "approved"), ...t.invoices.filter((x) => x.status === "paid")];
+    expect(clean).toHaveLength(25);
+    expect(c.documents).toBe(32);
+    expect(new Set(c.ids)).toEqual(new Set([...c.picks.map((p: { doc: string }) => p.doc), ...clean.map((x) => ("invoice_id" in x ? x.invoice_id : x.quote_id))]));
+    const b = c.by_state;
+    expect(b.warnings.n + b.not_cleared.n + b.clear.n).toBe(32);
+    expect(Math.round((b.warnings.total + b.not_cleared.total + b.clear.total) * 100) / 100).toBe(c.total);
+    // The same documents keep the same state in both views.
+    const all = summary(box.ctx).states;
+    for (const [id, st] of Object.entries(summary(box.ctx, "curated").states)) expect(st).toBe(all[id]);
+    expect(get(box, "/api/summary").body.view).toBe("all");
+    expect(get(box, "/api/summary?view=some").status).toBe(400);
   });
 
   it("summarises every document and the money in each verdict state", () => {
