@@ -14,6 +14,7 @@ export type RouteResult = {
   as_of: string | null;
   dropped: string[];
   status: "OK" | "NOT_FOUND";
+  no_reply?: string; // set when the Router had no usable reply (prose after retries, invalid shape)
 };
 
 const SYSTEM = `You route a question from a repair contractor's office gatekeeper to the records it is about.
@@ -55,7 +56,7 @@ export async function route(
     1,
   );
   const empty: RouteResult = { question_type: "other", seats: [], topic: null, facets: [], as_of: asOfGiven, dropped: [], status: "NOT_FOUND" };
-  if (!r.value) return empty;
+  if (!r.value) return { ...empty, no_reply: r.error ?? "no usable reply" };
   const v = r.value;
   const seats = v.seats.filter((s) => ctx.vocab.scopes.has(s));
   const topic = v.topic && ctx.vocab.topics.has(v.topic) ? v.topic : null;

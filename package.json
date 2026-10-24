@@ -17,6 +17,7 @@
     "ingest": "node --env-file-if-exists=.env --import tsx src/cli/ingest.ts",
     "ask": "node --env-file-if-exists=.env --import tsx src/cli/ask.ts",
     "eval:live": "node --env-file-if-exists=.env --import tsx src/cli/eval-live.ts",
+    "eval:compare": "node --env-file-if-exists=.env --import tsx src/cli/eval-compare.ts",
     "record:samples": "node --env-file-if-exists=.env --import tsx src/cli/record-samples.ts",
     "sources:serve": "node --import tsx src/zetaris/source-server.ts",
     "zetaris:register": "node --env-file-if-exists=.env --import tsx scripts/zetaris-register.ts",

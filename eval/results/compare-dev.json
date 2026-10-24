@@ -1,0 +1,962 @@
+{
+  "subset": "dev",
+  "protocol": [
+    "docs/eval-protocol-011.md",
+    "docs/eval-protocol-011-amendment-1.md"
+  ],
+  "questions": 12,
+  "route": "nightshift",
+  "groups": {
+    "a": {
+      "counts": {
+        "correct": 0,
+        "confidently_wrong": 3,
+        "handed_to_person": 5,
+        "unscorable": 4
+      },
+      "passed_while_abstaining": 0,
+      "answered": 12,
+      "calls": 13,
+      "models": {
+        "nvidia/nemotron-3.5-lightning-30b-a3b": 10
+      },
+      "unrequested_model_calls": 0,
+      "results": [
+        {
+          "question_id": "q-p5-heron-why",
+          "group": "a",
+          "records_given": 297,
+          "model": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: upstream failure: {\"error\":{\"message\":\"The model sent no first token within the cloud first-token limit, so the lane was stopped. Raise Preferences > Routing > ",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-heron-v4",
+          "group": "a",
+          "records_given": 299,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "The records up to 2026-06-26T09:00:00-05:00 contain no Heron Court v4 quote version. The latest Heron Court quote is Q-PW-05-v3 (rec-0266, sent 2026-06-15), which Otto rejected on 2026-06-24 (rec-0270) without a stated reason. An internal note (rec-0271, dated 2026-06-25) states that v3 is on hold until Otto signs, and an unbilled stop-gap from 6 May (rec-0259, rec-0271) remains off any quote. No record gives Otto's reasons for rejection or defines what Heron Court v4 should fix."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: The records up to 2026-06-26T09:00:00-05:00 contain no Heron Court v4 quote version. The latest Heron Court quote is Q-PW-05-v3 (rec-0266, sent 2026-06-15), which Otto rejected on 2026-06-24 (rec-0270) without a stated reason. An internal note (rec-0271, dated 2026-06-25) states that v3 is on hold until Otto signs, and an unbilled stop-gap from 6 May (rec-0259, rec-0271) remains off any quote. No record gives Otto's reasons for rejection or defines what Heron Court v4 should fix.",
+          "score": {
+            "question_id": "q-p5-heron-v4",
+            "pattern": "P5",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P1 P2 P4 P5",
+              "current none != card.pw05.reject.v3",
+              "in_effect none != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-heron-invoice",
+          "group": "a",
+          "records_given": 299,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "warn",
+            "flags": [
+              "P1"
+            ],
+            "current": {
+              "record_id": "rec-0271",
+              "quote": "Heron Court: Wes's stop-gap from 6 May ($280, 3 hours and the temporary cover) is still unbilled, and the rebuild, $2,026 on v3, is on hold until Otto signs something. Crew is off the job.",
+              "mode": "mentions"
+            },
+            "in_effect": null,
+            "reasons": [
+              {
+                "record_id": "rec-0271",
+                "quote": "Heron Court: Wes's stop-gap from 6 May ($280, 3 hours and the temporary cover) is still unbilled, and the rebuild, $2,026 on v3, is on hold until Otto signs something. Crew is off the job.",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0270",
+                "quote": "Rejected.",
+                "mode": "gives_reason"
+              },
+              {
+                "record_id": "rec-0265",
+                "quote": "Not this version either.",
+                "mode": "gives_reason"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "missing warning P7",
+          "score": {
+            "question_id": "q-p7-heron-invoice",
+            "pattern": "P7",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1"
+            ],
+            "expected_flags": [
+              "P7"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "missing warning P7",
+              "current a.current != card.pw05.reject.v3",
+              "in_effect none != card.pw05.reject.v3",
+              "reasons missing card.pw05.reject.v1,card.pw05.reject.v2,card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p1-nl02-send-v3",
+          "group": "a",
+          "records_given": 113,
+          "model": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: upstream failure: {\"error\":{\"message\":\"The model sent no first token within the cloud first-token limit, so the lane was stopped. Raise Preferences > Routing > ",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-nl02-heater-price",
+          "group": "a",
+          "records_given": 115,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "The records show the 40gal electric water heater line item increased from 620.00 in Q-NL-02-v2 (rec-0030) to 790.00 in Q-NL-02-v3 (rec-0033), but no record explains why the price for that specific material line changed. The expansion tank, supply stops, and freight line items remain unchanged between versions, and no record provides a reason for the heater material cost increase."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: The records show the 40gal electric water heater line item increased from 620.00 in Q-NL-02-v2 (rec-0030) to 790.00 in Q-NL-02-v3 (rec-0033), but no record explains why the price for that specific material line changed. The expansion tank, supply stops, and freight line items remain unchanged between versions, and no record provides a reason for the heater material cost increase.",
+          "score": {
+            "question_id": "q-p2-nl02-heater-price",
+            "pattern": "P2",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2",
+              "current none != card.nl02.approve.v1",
+              "in_effect none != card.nl02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-nl03-progress",
+          "group": "a",
+          "records_given": 229,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [
+              "P3"
+            ],
+            "current": null,
+            "in_effect": null,
+            "reasons": [
+              {
+                "record_id": "rec-0040",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Need to determine the cause of short cycling, 2 x 95.00 = 190.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00 Cover note: \"Diagnostic visit only; cause not yet named.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0044",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Need to determine the cause of short cycling, 4 x 95.00 = 380.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00 Cover note: \"We still need to determine the cause of the short cycling.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0047",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Need to determine the cause of short cycling, 4 x 95.00 = 380.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00; 4. material: Contingency capacitor if that is the cause, 1 x 64.00 = 64.00 Cover note: \"Included a capacitor in case that turns out to be the cause.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0050",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Still need to determine the cause of short cycling, 5 x 95.00 = 475.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00; 4. material: Contingency capacitor if that is the cause, 1 x 64.00 = 64.00 Cover note: \"Still working to determine the cause of the short cycling.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0055",
+                "quote": "Wes thinks it might be the capacitor but he has not confirmed it. Do not put that in front of Ria yet.",
+                "mode": "mentions"
+              }
+            ],
+            "cannot_tell_because": "The records show four quote versions (Q-NL-03-v1 through v4) for WO-NL-03 (Loft 4C condenser), all stating the cause must be determined before naming parts, with no version naming or confirming the actual cause. Only quantitative changes appear (labor diagnostic hours increase from 2x to 4x to 5x, and a conditional \"Contingency capacitor\" line is added in v3/v4), but the fundamental status of the cause remaining undetermined repeats across all versions. No record provides a confirmed or determined cause for the short cycling."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: The records show four quote versions (Q-NL-03-v1 through v4) for WO-NL-03 (Loft 4C condenser), all stating the cause must be determined before naming parts, with no version naming or confirming the actual cause. Only quantitative changes appear (labor diagnostic hours increase from 2x to 4x to 5x, and a conditional \"Contingency capacitor\" line is added in v3/v4), but the fundamental status of the cause remaining undetermined repeats across all versions. No record provides a confirmed or determined cause for the short cycling.",
+          "score": {
+            "question_id": "q-p3-nl03-progress",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.nl03.approve.v1",
+              "in_effect none != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-nl04-cap",
+          "group": "a",
+          "records_given": 142,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "clear",
+            "flags": [],
+            "current": {
+              "record_id": "rec-0066",
+              "quote": "Labor 2210.00, material 430.00, total 2640.00",
+              "mode": "mentions"
+            },
+            "in_effect": {
+              "record_id": "rec-0189",
+              "quote": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+              "mode": "gives_reason"
+            },
+            "reasons": [
+              {
+                "record_id": "rec-0189",
+                "quote": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+                "mode": "gives_reason"
+              },
+              {
+                "record_id": "rec-0066",
+                "quote": "Labor 2210.00, material 430.00, total 2640.00",
+                "mode": "mentions"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "missing warning P4",
+          "score": {
+            "question_id": "q-p4-nl04-cap",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P4",
+              "current a.current != card.nl.cap.inforce",
+              "in_effect a.in_effect != card.nl.cap.inforce",
+              "reasons missing card.nl.cap.inforce"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-oc05-why",
+          "group": "a",
+          "records_given": 292,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "Records show Helen Bray rejecting the unit 7 fan quote version on 2026-06-11 (rec-0283) with \"I can't approve this version. Please hold off until you hear from me,\" but no record provides the reason for the rejection. Rec-0282 notes Tomas Frey's confusion about which version is the real one for the unit 7 fan, and Helen's format instructions (rec-0091, rec-0131) are documented, but the specific grounds for her rejection are absent from the records up to 2026-06-12T09:00:00-05:00."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: Records show Helen Bray rejecting the unit 7 fan quote version on 2026-06-11 (rec-0283) with \"I can't approve this version. Please hold off until you hear from me,\" but no record provides the reason for the rejection. Rec-0282 notes Tomas Frey's confusion about which version is the real one for the unit 7 fan, and Helen's format instructions (rec-0091, rec-0131) are documented, but the specific grounds for her rejection are absent from the records up to 2026-06-12T09:00:00-05:00.",
+          "score": {
+            "question_id": "q-p5-oc05-why",
+            "pattern": "P5",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2 P5",
+              "current none != card.oc05.reject",
+              "in_effect none != card.oc05.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-pw03-trip",
+          "group": "a",
+          "records_given": 194,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "No record in the provided logs shows Pike Water (p.pw.otto_gell) approving a trip charge on any prior quote, including EPDM quotes. The only trip charge (rec-0165, Q-PW-03-v2) appears on the quote being sent at the question timestamp, with no accompanying client approval message. Prior Pike Water quotes (Q-PW-01-v1, Q-PW-02-v1/2, Q-PW-04-v1) contain no trip charge line, and no client message from p.pw.otto_gell explicitly approves such a charge."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: No record in the provided logs shows Pike Water (p.pw.otto_gell) approving a trip charge on any prior quote, including EPDM quotes. The only trip charge (rec-0165, Q-PW-03-v2) appears on the quote being sent at the question timestamp, with no accompanying client approval message. Prior Pike Water quotes (Q-PW-01-v1, Q-PW-02-v1/2, Q-PW-04-v1) contain no trip charge line, and no client message from p.pw.otto_gell explicitly approves such a charge.",
+          "score": {
+            "question_id": "q-p6-pw03-trip",
+            "pattern": "P6",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P6",
+              "current none != card.pw03.approve.v1",
+              "in_effect none != card.pw03.approve.v1",
+              "reasons missing card.pw03.approve.v1,card.pw01.approve.late,card.pw02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-pw03-inv",
+          "group": "a",
+          "records_given": 248,
+          "model": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: upstream failure: {\"error\":{\"message\":\"The model sent no first token within the cloud first-token limit, so the lane was stopped. Raise Preferences > Routing > ",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-rm-may",
+          "group": "a",
+          "records_given": 249,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "clear",
+            "flags": [],
+            "current": {
+              "record_id": "rec-0200",
+              "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour. Material prices already approved stay as they are. Until 1 June use the $88 labor on file.",
+              "mode": "gives_reason"
+            },
+            "in_effect": {
+              "record_id": "rec-0200",
+              "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour. Material prices already approved stay as they are. Until 1 June use the $88 labor on file.",
+              "mode": "gives_reason"
+            },
+            "reasons": [
+              {
+                "record_id": "rec-0200",
+                "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour. Material prices already approved stay as they are. Until 1 June use the $88 labor on file.",
+                "mode": "gives_reason"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current a.current != card.rm.labor.new",
+          "score": {
+            "question_id": "q-t10-rm-may",
+            "pattern": "T10",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T10"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current a.current != card.rm.labor.new",
+              "in_effect a.in_effect != card.rm.labor.old",
+              "reasons missing card.rm.labor.old,card.rm.labor.new"
+            ],
+            "time_tag_why": "time tags -T10"
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc01-inv",
+          "group": "a",
+          "records_given": 133,
+          "model": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: upstream failure: {\"error\":{\"message\":\"The model sent no first token within the cloud first-token limit, so the lane was stopped. Raise Preferences > Routing > ",
+          "score": null
+        }
+      ]
+    },
+    "c": {
+      "counts": {
+        "correct": 1,
+        "confidently_wrong": 1,
+        "handed_to_person": 8,
+        "unscorable": 2
+      },
+      "passed_while_abstaining": 0,
+      "answered": 12,
+      "calls": 21,
+      "models": {
+        "nvidia/nemotron-3.5-lightning-30b-a3b": 31,
+        "nvidia/nemotron-3.5-super-vl-120b-a12b": 11
+      },
+      "unrequested_model_calls": 0,
+      "results": [
+        {
+          "question_id": "q-p5-heron-why",
+          "group": "c",
+          "records_given": 297,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0254",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0254: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-heron-why",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "expected_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.pw05.reject.v3",
+              "in_effect none != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-heron-v4",
+          "group": "c",
+          "records_given": 299,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0254",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0271",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0254: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-heron-v4",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "expected_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0136.0.1 != card.pw05.reject.v3",
+              "in_effect m.rec-0136.0.1 != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-heron-invoice",
+          "group": "c",
+          "records_given": 299,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0254",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0271",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: upstream failure: {\"error\":{\"message\":\"The model sent no first token within the cloud first-token limit, so the lane was stopped. Raise Preferences > Routing > ",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-nl02-send-v3",
+          "group": "c",
+          "records_given": 112,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0029",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0038",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0029: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p1-nl02-send-v3",
+            "pattern": "P1",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P1",
+              "P2"
+            ],
+            "additional_warnings": [
+              "P6"
+            ],
+            "why": [
+              "missing warning P1",
+              "current none != card.nl02.promise.tank",
+              "in_effect none != card.nl02.promise.tank",
+              "reasons missing card.nl02.promise.tank"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-nl02-heater-price",
+          "group": "c",
+          "records_given": 115,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0029",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0038",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0029: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p2-nl02-heater-price",
+            "pattern": "P2",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P2"
+            ],
+            "additional_warnings": [
+              "P6"
+            ],
+            "why": [
+              "current none != card.nl02.approve.v1",
+              "in_effect none != card.nl02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-nl03-progress",
+          "group": "c",
+          "records_given": 229,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0055",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0055: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-nl03-progress",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current m.rec-0043.0.1 != card.nl03.approve.v1",
+              "in_effect m.rec-0043.0.1 != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-nl04-cap",
+          "group": "c",
+          "records_given": 142,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p4-nl04-cap",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2"
+            ],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "missing warning P4",
+              "current m.rec-0069.0.1 != card.nl.cap.inforce",
+              "in_effect m.rec-0069.0.1 != card.nl.cap.inforce",
+              "reasons missing card.nl.cap.inforce"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-oc05-why",
+          "group": "c",
+          "records_given": 292,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0282",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0282: the model found no decision in this client message; a person should confirm",
+          "score": {
+            "question_id": "q-p5-oc05-why",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P5"
+            ],
+            "expected_flags": [
+              "P2",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0283.0.0 != card.oc05.reject",
+              "in_effect m.rec-0283.0.0 != card.oc05.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-pw03-trip",
+          "group": "c",
+          "records_given": 194,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current m.rec-0165.0.0 != card.pw03.approve.v1",
+          "score": {
+            "question_id": "q-p6-pw03-trip",
+            "pattern": "P6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current m.rec-0165.0.0 != card.pw03.approve.v1",
+              "in_effect m.rec-0165.0.0 != card.pw03.approve.v1",
+              "reasons missing card.pw03.approve.v1,card.pw02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-pw03-inv",
+          "group": "c",
+          "records_given": 248,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0171",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: upstream failure: {\"error\":{\"message\":\"The model sent no first token within the cloud first-token limit, so the lane was stopped. Raise Preferences > Routing > ",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-rm-may",
+          "group": "c",
+          "records_given": 249,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "correct",
+          "abstained": false,
+          "why": "all checks pass",
+          "score": {
+            "question_id": "q-t10-rm-may",
+            "pattern": "T10",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": true,
+            "in_effect_ok": true,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "T10"
+            ],
+            "expected_flags": [
+              "T10"
+            ],
+            "additional_warnings": [],
+            "why": [],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc01-inv",
+          "group": "c",
+          "records_given": 133,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0078",
+              "text": "the model answered in prose instead of cards, after retries"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0079",
+              "text": "the model service failed: Meterless provider request failed."
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0083",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0078: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-ctrl-oc01-inv",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc01.approve.v2",
+              "in_effect none != card.oc01.approve.v2",
+              "reasons missing card.oc01.approve.v2"
+            ],
+            "time_tag_why": null
+          }
+        }
+      ]
+    }
+  }
+}
