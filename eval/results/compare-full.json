@@ -1,0 +1,4243 @@
+{
+  "subset": "full",
+  "protocol": [
+    "docs/eval-protocol-011.md",
+    "docs/eval-protocol-011-amendment-1.md"
+  ],
+  "questions": 80,
+  "route": "nvidia-direct",
+  "groups": {
+    "a": {
+      "counts": {
+        "correct": 0,
+        "confidently_wrong": 4,
+        "handed_to_person": 5,
+        "unscorable": 71
+      },
+      "passed_while_abstaining": 0,
+      "answered": 80,
+      "calls": 214,
+      "models": {
+        "nvidia/nemotron-3.5-lightning-30b-a3b": 435
+      },
+      "unrequested_model_calls": 0,
+      "results": [
+        {
+          "question_id": "q-p1-nl02-send-v3",
+          "group": "a",
+          "records_given": 113,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-nl02-tank-result",
+          "group": "a",
+          "records_given": 268,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-pw02-camera",
+          "group": "a",
+          "records_given": 264,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-pw02-trap",
+          "group": "a",
+          "records_given": 266,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-oc03-valves",
+          "group": "a",
+          "records_given": 246,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-oc02-camera",
+          "group": "a",
+          "records_given": 252,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-rm04-paint",
+          "group": "a",
+          "records_given": 231,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-nl03-cause",
+          "group": "a",
+          "records_given": 224,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-nl02-heater-price",
+          "group": "a",
+          "records_given": 115,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "The records show the 40gal electric water heater line item increased from 620.00 in Q-NL-02-v2 (rec-0030) to 790.00 in Q-NL-02-v3 (rec-0033), but no record explains why the price for that specific material line changed. The expansion tank, supply stops, and freight line items remain unchanged between versions, and no record provides a reason for the heater material cost increase."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: The records show the 40gal electric water heater line item increased from 620.00 in Q-NL-02-v2 (rec-0030) to 790.00 in Q-NL-02-v3 (rec-0033), but no record explains why the price for that specific material line changed. The expansion tank, supply stops, and freight line items remain unchanged between versions, and no record provides a reason for the heater material cost increase.",
+          "score": {
+            "question_id": "q-p2-nl02-heater-price",
+            "pattern": "P2",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2",
+              "current none != card.nl02.approve.v1",
+              "in_effect none != card.nl02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-nl03-hours",
+          "group": "a",
+          "records_given": 227,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-pw02-hours",
+          "group": "a",
+          "records_given": 211,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-pw04-fold",
+          "group": "a",
+          "records_given": 239,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-rm01-homerun",
+          "group": "a",
+          "records_given": 137,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-oc03-lump-delta",
+          "group": "a",
+          "records_given": 246,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-nl04-v3-hours",
+          "group": "a",
+          "records_given": 142,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-rm04-trip-price",
+          "group": "a",
+          "records_given": 233,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-nl03-progress",
+          "group": "a",
+          "records_given": 229,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [
+              "P3"
+            ],
+            "current": null,
+            "in_effect": null,
+            "reasons": [
+              {
+                "record_id": "rec-0040",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Need to determine the cause of short cycling, 2 x 95.00 = 190.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00 Cover note: \"Diagnostic visit only; cause not yet named.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0044",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Need to determine the cause of short cycling, 4 x 95.00 = 380.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00 Cover note: \"We still need to determine the cause of the short cycling.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0047",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Need to determine the cause of short cycling, 4 x 95.00 = 380.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00; 4. material: Contingency capacitor if that is the cause, 1 x 64.00 = 64.00 Cover note: \"Included a capacitor in case that turns out to be the cause.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0050",
+                "quote": "Scope: Find why the condenser will not hold cool. Need to determine the cause before naming parts. Lines: 1. labor: Recover and gauge condenser, 3 x 95.00 = 285.00; 2. labor: Still need to determine the cause of short cycling, 5 x 95.00 = 475.00; 3. material: Gauge manifold consumables, 1 x 28.00 = 28.00; 4. material: Contingency capacitor if that is the cause, 1 x 64.00 = 64.00 Cover note: \"Still working to determine the cause of the short cycling.\"",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0055",
+                "quote": "Wes thinks it might be the capacitor but he has not confirmed it. Do not put that in front of Ria yet.",
+                "mode": "mentions"
+              }
+            ],
+            "cannot_tell_because": "The records show four quote versions (Q-NL-03-v1 through v4) for WO-NL-03 (Loft 4C condenser), all stating the cause must be determined before naming parts, with no version naming or confirming the actual cause. Only quantitative changes appear (labor diagnostic hours increase from 2x to 4x to 5x, and a conditional \"Contingency capacitor\" line is added in v3/v4), but the fundamental status of the cause remaining undetermined repeats across all versions. No record provides a confirmed or determined cause for the short cycling."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: The records show four quote versions (Q-NL-03-v1 through v4) for WO-NL-03 (Loft 4C condenser), all stating the cause must be determined before naming parts, with no version naming or confirming the actual cause. Only quantitative changes appear (labor diagnostic hours increase from 2x to 4x to 5x, and a conditional \"Contingency capacitor\" line is added in v3/v4), but the fundamental status of the cause remaining undetermined repeats across all versions. No record provides a confirmed or determined cause for the short cycling.",
+          "score": {
+            "question_id": "q-p3-nl03-progress",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.nl03.approve.v1",
+              "in_effect none != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-nl03-v4",
+          "group": "a",
+          "records_given": 225,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-pw02-progress",
+          "group": "a",
+          "records_given": 266,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-pw02-v3",
+          "group": "a",
+          "records_given": 211,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-rm02-hiss",
+          "group": "a",
+          "records_given": 221,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-rm02-v4",
+          "group": "a",
+          "records_given": 219,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-nl03-reread",
+          "group": "a",
+          "records_given": 300,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p3-pw02-reread",
+          "group": "a",
+          "records_given": 300,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-oc02-board",
+          "group": "a",
+          "records_given": 127,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-oc02-after-withdraw",
+          "group": "a",
+          "records_given": 256,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-rm01-email",
+          "group": "a",
+          "records_given": 137,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-rm01-portal-still",
+          "group": "a",
+          "records_given": 290,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-nl04-cap",
+          "group": "a",
+          "records_given": 142,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "clear",
+            "flags": [],
+            "current": {
+              "record_id": "rec-0066",
+              "quote": "Labor 2210.00, material 430.00, total 2640.00",
+              "mode": "mentions"
+            },
+            "in_effect": {
+              "record_id": "rec-0189",
+              "quote": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+              "mode": "gives_reason"
+            },
+            "reasons": [
+              {
+                "record_id": "rec-0189",
+                "quote": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+                "mode": "gives_reason"
+              },
+              {
+                "record_id": "rec-0066",
+                "quote": "Labor 2210.00, material 430.00, total 2640.00",
+                "mode": "mentions"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "missing warning P4",
+          "score": {
+            "question_id": "q-p4-nl04-cap",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P4",
+              "current a.current != card.nl.cap.inforce",
+              "in_effect a.in_effect != card.nl.cap.inforce",
+              "reasons missing card.nl.cap.inforce"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-nl-cap-june",
+          "group": "a",
+          "records_given": 271,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-pw02-ping",
+          "group": "a",
+          "records_given": 154,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-pw-quiet-still",
+          "group": "a",
+          "records_given": 290,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-nl04-why",
+          "group": "a",
+          "records_given": 107,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-rm02-why",
+          "group": "a",
+          "records_given": 190,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-nl04-void",
+          "group": "a",
+          "records_given": 107,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-rm02-ids",
+          "group": "a",
+          "records_given": 190,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-nl04-not-price",
+          "group": "a",
+          "records_given": 107,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-rm02-not-price",
+          "group": "a",
+          "records_given": 190,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-heron-why",
+          "group": "a",
+          "records_given": 297,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-heron-v4",
+          "group": "a",
+          "records_given": 299,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "The records up to 2026-06-26T09:00:00-05:00 contain no Heron Court v4 quote version. The latest Heron Court quote is Q-PW-05-v3 (rec-0266, sent 2026-06-15), which Otto rejected on 2026-06-24 (rec-0270) without a stated reason. An internal note (rec-0271, dated 2026-06-25) states that v3 is on hold until Otto signs, and an unbilled stop-gap from 6 May (rec-0259, rec-0271) remains off any quote. No record gives Otto's reasons for rejection or defines what Heron Court v4 should fix."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: The records up to 2026-06-26T09:00:00-05:00 contain no Heron Court v4 quote version. The latest Heron Court quote is Q-PW-05-v3 (rec-0266, sent 2026-06-15), which Otto rejected on 2026-06-24 (rec-0270) without a stated reason. An internal note (rec-0271, dated 2026-06-25) states that v3 is on hold until Otto signs, and an unbilled stop-gap from 6 May (rec-0259, rec-0271) remains off any quote. No record gives Otto's reasons for rejection or defines what Heron Court v4 should fix.",
+          "score": {
+            "question_id": "q-p5-heron-v4",
+            "pattern": "P5",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P1 P2 P4 P5",
+              "current none != card.pw05.reject.v3",
+              "in_effect none != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-heron-invoice",
+          "group": "a",
+          "records_given": 299,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "warn",
+            "flags": [
+              "P1"
+            ],
+            "current": {
+              "record_id": "rec-0271",
+              "quote": "Heron Court: Wes's stop-gap from 6 May ($280, 3 hours and the temporary cover) is still unbilled, and the rebuild, $2,026 on v3, is on hold until Otto signs something. Crew is off the job.",
+              "mode": "mentions"
+            },
+            "in_effect": null,
+            "reasons": [
+              {
+                "record_id": "rec-0271",
+                "quote": "Heron Court: Wes's stop-gap from 6 May ($280, 3 hours and the temporary cover) is still unbilled, and the rebuild, $2,026 on v3, is on hold until Otto signs something. Crew is off the job.",
+                "mode": "mentions"
+              },
+              {
+                "record_id": "rec-0270",
+                "quote": "Rejected.",
+                "mode": "gives_reason"
+              },
+              {
+                "record_id": "rec-0265",
+                "quote": "Not this version either.",
+                "mode": "gives_reason"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "missing warning P7",
+          "score": {
+            "question_id": "q-p7-heron-invoice",
+            "pattern": "P7",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1"
+            ],
+            "expected_flags": [
+              "P7"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "missing warning P7",
+              "current a.current != card.pw05.reject.v3",
+              "in_effect none != card.pw05.reject.v3",
+              "reasons missing card.pw05.reject.v1,card.pw05.reject.v2,card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-oc05-why",
+          "group": "a",
+          "records_given": 292,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "Records show Helen Bray rejecting the unit 7 fan quote version on 2026-06-11 (rec-0283) with \"I can't approve this version. Please hold off until you hear from me,\" but no record provides the reason for the rejection. Rec-0282 notes Tomas Frey's confusion about which version is the real one for the unit 7 fan, and Helen's format instructions (rec-0091, rec-0131) are documented, but the specific grounds for her rejection are absent from the records up to 2026-06-12T09:00:00-05:00."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: Records show Helen Bray rejecting the unit 7 fan quote version on 2026-06-11 (rec-0283) with \"I can't approve this version. Please hold off until you hear from me,\" but no record provides the reason for the rejection. Rec-0282 notes Tomas Frey's confusion about which version is the real one for the unit 7 fan, and Helen's format instructions (rec-0091, rec-0131) are documented, but the specific grounds for her rejection are absent from the records up to 2026-06-12T09:00:00-05:00.",
+          "score": {
+            "question_id": "q-p5-oc05-why",
+            "pattern": "P5",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2 P5",
+              "current none != card.oc05.reject",
+              "in_effect none != card.oc05.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-oc05-resend",
+          "group": "a",
+          "records_given": 292,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p6-oc03-lump",
+          "group": "a",
+          "records_given": 246,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p6-pw04-fold",
+          "group": "a",
+          "records_given": 239,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p6-rm04-trip",
+          "group": "a",
+          "records_given": 233,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p6-nl04-weather",
+          "group": "a",
+          "records_given": 102,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p6-oc03-after-june",
+          "group": "a",
+          "records_given": 279,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p6-pw03-trip",
+          "group": "a",
+          "records_given": 194,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "cannot_tell",
+            "flags": [],
+            "current": null,
+            "in_effect": null,
+            "reasons": [],
+            "cannot_tell_because": "No record in the provided logs shows Pike Water (p.pw.otto_gell) approving a trip charge on any prior quote, including EPDM quotes. The only trip charge (rec-0165, Q-PW-03-v2) appears on the quote being sent at the question timestamp, with no accompanying client approval message. Prior Pike Water quotes (Q-PW-01-v1, Q-PW-02-v1/2, Q-PW-04-v1) contain no trip charge line, and no client message from p.pw.otto_gell explicitly approves such a charge."
+          },
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "cannot tell: No record in the provided logs shows Pike Water (p.pw.otto_gell) approving a trip charge on any prior quote, including EPDM quotes. The only trip charge (rec-0165, Q-PW-03-v2) appears on the quote being sent at the question timestamp, with no accompanying client approval message. Prior Pike Water quotes (Q-PW-01-v1, Q-PW-02-v1/2, Q-PW-04-v1) contain no trip charge line, and no client message from p.pw.otto_gell explicitly approves such a charge.",
+          "score": {
+            "question_id": "q-p6-pw03-trip",
+            "pattern": "P6",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P6",
+              "current none != card.pw03.approve.v1",
+              "in_effect none != card.pw03.approve.v1",
+              "reasons missing card.pw03.approve.v1,card.pw01.approve.late,card.pw02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-nl04-inv",
+          "group": "a",
+          "records_given": 206,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p7-pw03-inv",
+          "group": "a",
+          "records_given": 248,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p7-rm02-inv",
+          "group": "a",
+          "records_given": 243,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p7-oc03-inv",
+          "group": "a",
+          "records_given": 268,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p7-pw04-inv",
+          "group": "a",
+          "records_given": 271,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p7-rm04-inv",
+          "group": "a",
+          "records_given": 290,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t2-oc04-asof",
+          "group": "a",
+          "records_given": 174,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t2-nl01-asof",
+          "group": "a",
+          "records_given": 55,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t2-pw01-asof",
+          "group": "a",
+          "records_given": 64,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t2-rm04-asof",
+          "group": "a",
+          "records_given": 170,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t6-rm03-rates",
+          "group": "a",
+          "records_given": 279,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t6-nl-labor",
+          "group": "a",
+          "records_given": 197,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "clear",
+            "flags": [],
+            "current": {
+              "record_id": "rec-0170",
+              "quote": "Electrical labor for North Loft is $98 per hour from 1 May 2026. Leave material pricing as already approved.",
+              "mode": "gives_reason"
+            },
+            "in_effect": {
+              "record_id": "rec-0170",
+              "quote": "Electrical labor for North Loft is $98 per hour from 1 May 2026. Leave material pricing as already approved.",
+              "mode": "gives_reason"
+            },
+            "reasons": [
+              {
+                "record_id": "rec-0170",
+                "quote": "Electrical labor for North Loft is $98 per hour from 1 May 2026. Leave material pricing as already approved.",
+                "mode": "gives_reason"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current a.current != card.nl.labor.new",
+          "score": {
+            "question_id": "q-t6-nl-labor",
+            "pattern": "T6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current a.current != card.nl.labor.new",
+              "in_effect a.in_effect != card.nl.labor.new",
+              "reasons missing card.nl.labor.new,card.nl.material.keep"
+            ],
+            "time_tag_why": "time tags -T6"
+          }
+        },
+        {
+          "question_id": "q-t6-rm04-gallery",
+          "group": "a",
+          "records_given": 252,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t6-rm-keep-mat",
+          "group": "a",
+          "records_given": 279,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-rm-may",
+          "group": "a",
+          "records_given": 249,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": {
+            "verdict": "clear",
+            "flags": [],
+            "current": {
+              "record_id": "rec-0200",
+              "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour. Material prices already approved stay as they are. Until 1 June use the $88 labor on file.",
+              "mode": "gives_reason"
+            },
+            "in_effect": {
+              "record_id": "rec-0200",
+              "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour. Material prices already approved stay as they are. Until 1 June use the $88 labor on file.",
+              "mode": "gives_reason"
+            },
+            "reasons": [
+              {
+                "record_id": "rec-0200",
+                "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour. Material prices already approved stay as they are. Until 1 June use the $88 labor on file.",
+                "mode": "gives_reason"
+              }
+            ],
+            "cannot_tell_because": null
+          },
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current a.current != card.rm.labor.new",
+          "score": {
+            "question_id": "q-t10-rm-may",
+            "pattern": "T10",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T10"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current a.current != card.rm.labor.new",
+              "in_effect a.in_effect != card.rm.labor.old",
+              "reasons missing card.rm.labor.old,card.rm.labor.new"
+            ],
+            "time_tag_why": "time tags -T10"
+          }
+        },
+        {
+          "question_id": "q-t10-rm-june",
+          "group": "a",
+          "records_given": 268,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-oc-may",
+          "group": "a",
+          "records_given": 250,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-pw-june10",
+          "group": "a",
+          "records_given": 290,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-nl01-send",
+          "group": "a",
+          "records_given": 48,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-nl01-inv",
+          "group": "a",
+          "records_given": 106,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-oc01-v2",
+          "group": "a",
+          "records_given": 68,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-oc01-inv",
+          "group": "a",
+          "records_given": 133,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-pw01-inv",
+          "group": "a",
+          "records_given": 85,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-rm03-inv",
+          "group": "a",
+          "records_given": 158,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-oc04-inv",
+          "group": "a",
+          "records_given": 222,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-oc03-v3-reason",
+          "group": "a",
+          "records_given": 279,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-nl-cap-after",
+          "group": "a",
+          "records_given": 290,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-rm03-v2-reason",
+          "group": "a",
+          "records_given": 274,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-nl01-ground",
+          "group": "a",
+          "records_given": 36,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-oc04-framing",
+          "group": "a",
+          "records_given": 165,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-rm01-panel",
+          "group": "a",
+          "records_given": 28,
+          "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+          "reply": null,
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        }
+      ]
+    },
+    "c": {
+      "counts": {
+        "correct": 4,
+        "confidently_wrong": 11,
+        "handed_to_person": 50,
+        "unscorable": 15
+      },
+      "passed_while_abstaining": 2,
+      "answered": 80,
+      "calls": 355,
+      "models": {
+        "nvidia/nemotron-3.5-lightning-30b-a3b": 585,
+        "nvidia/nemotron-3.5-super-vl-120b-a12b": 8
+      },
+      "unrequested_model_calls": 0,
+      "results": [
+        {
+          "question_id": "q-p1-nl02-send-v3",
+          "group": "c",
+          "records_given": 112,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0029",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0038",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0029: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p1-nl02-send-v3",
+            "pattern": "P1",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P1",
+              "P2"
+            ],
+            "additional_warnings": [
+              "P6"
+            ],
+            "why": [
+              "missing warning P1",
+              "current none != card.nl02.promise.tank",
+              "in_effect none != card.nl02.promise.tank",
+              "reasons missing card.nl02.promise.tank"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p1-nl02-tank-result",
+          "group": "c",
+          "records_given": 268,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0029",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0038",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0029: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p1-nl02-tank-result",
+            "pattern": "P1",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P1"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P1",
+              "current card.nl02.approve.v1 != card.nl02.promise.tank",
+              "in_effect card.nl02.approve.v1 != card.nl02.promise.tank"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p1-pw02-camera",
+          "group": "c",
+          "records_given": 263,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0160",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0159: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p1-pw02-camera",
+            "pattern": "P1",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1",
+              "P3"
+            ],
+            "expected_flags": [
+              "P1",
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.pw02.promise.trap",
+              "in_effect none != card.pw02.promise.trap",
+              "reasons missing card.pw02.promise.trap"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p1-pw02-trap",
+          "group": "c",
+          "records_given": 266,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0160",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-oc03-valves",
+          "group": "c",
+          "records_given": 246,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0116",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-oc02-camera",
+          "group": "c",
+          "records_given": 252,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.oc02.promise.camera",
+          "score": {
+            "question_id": "q-p1-oc02-camera",
+            "pattern": "P1",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1"
+            ],
+            "expected_flags": [
+              "P1"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc02.promise.camera",
+              "in_effect none != card.oc02.promise.camera",
+              "reasons missing card.oc02.promise.camera"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p1-rm04-paint",
+          "group": "c",
+          "records_given": 230,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p1-nl03-cause",
+          "group": "c",
+          "records_given": 224,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0055",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-nl02-heater-price",
+          "group": "c",
+          "records_given": 115,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0029",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0038",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0029: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p2-nl02-heater-price",
+            "pattern": "P2",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P2"
+            ],
+            "additional_warnings": [
+              "P6"
+            ],
+            "why": [
+              "current none != card.nl02.approve.v1",
+              "in_effect none != card.nl02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-nl03-hours",
+          "group": "c",
+          "records_given": 227,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0055",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0055: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p2-nl03-hours",
+            "pattern": "P2",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3"
+            ],
+            "expected_flags": [
+              "P2",
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2",
+              "current none != card.nl03.approve.v1",
+              "in_effect none != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-pw02-hours",
+          "group": "c",
+          "records_given": 211,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0160",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-pw04-fold",
+          "group": "c",
+          "records_given": 239,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0183",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p2-rm01-homerun",
+          "group": "c",
+          "records_given": 137,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0188",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0199",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0289",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0188: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p2-rm01-homerun",
+            "pattern": "P2",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2",
+              "P4"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2 P4",
+              "current none != card.rm01.approve.v1",
+              "in_effect none != card.rm01.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-oc03-lump-delta",
+          "group": "c",
+          "records_given": 246,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0116",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0116: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-p2-oc03-lump-delta",
+            "pattern": "P2",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2",
+              "P6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2 P6",
+              "current none != card.oc03.approve.v1",
+              "in_effect none != card.oc03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-nl04-v3-hours",
+          "group": "c",
+          "records_given": 142,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p2-nl04-v3-hours",
+            "pattern": "P2",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P2",
+              "P4"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P2 P4",
+              "current none != card.nl04.reject.v2",
+              "in_effect none != card.nl04.reject.v2"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p2-rm04-trip-price",
+          "group": "c",
+          "records_given": 233,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm04.approve.late",
+          "score": {
+            "question_id": "q-p2-rm04-trip-price",
+            "pattern": "P2",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P2",
+              "P6"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "current none != card.rm04.approve.late",
+              "in_effect none != card.rm04.approve.late"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-nl03-progress",
+          "group": "c",
+          "records_given": 229,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0055",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0055: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-nl03-progress",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0043.0.1 != card.nl03.approve.v1",
+              "in_effect m.rec-0043.0.1 != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-nl03-v4",
+          "group": "c",
+          "records_given": 224,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0055",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0055: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-nl03-v4",
+            "pattern": "P3",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3"
+            ],
+            "expected_flags": [
+              "P1",
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P1",
+              "current none != card.nl03.approve.v1",
+              "in_effect none != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-pw02-progress",
+          "group": "c",
+          "records_given": 266,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0160",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "correct",
+          "abstained": true,
+          "why": "passed while not cleared (2 open; first rec-0159: the model found no decision in this internal note; a person should confirm)",
+          "score": {
+            "question_id": "q-p3-pw02-progress",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": true,
+            "in_effect_ok": true,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P3"
+            ],
+            "expected_flags": [
+              "P1",
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-pw02-v3",
+          "group": "c",
+          "records_given": 211,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0160",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0159: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-pw02-v3",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "current card.pw02.approve.v1 != card.pw02.promise.trap",
+              "in_effect card.pw02.approve.v1 != card.pw02.promise.trap"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-rm02-hiss",
+          "group": "c",
+          "records_given": 221,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0222",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0223",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0222: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-rm02-hiss",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm02.reject",
+              "in_effect none != card.rm02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-rm02-v4",
+          "group": "c",
+          "records_given": 218,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0222",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0223",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0222: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-rm02-v4",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P3",
+              "P5"
+            ],
+            "expected_flags": [
+              "P3",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm02.reject",
+              "in_effect none != card.rm02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-nl03-reread",
+          "group": "c",
+          "records_given": 300,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0055",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0055: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-nl03-reread",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current none != card.nl03.approve.v1",
+              "in_effect none != card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p3-pw02-reread",
+          "group": "c",
+          "records_given": 300,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0160",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0159: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p3-pw02-reread",
+            "pattern": "P3",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P3"
+            ],
+            "expected_flags": [
+              "P3"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "current none != card.pw02.approve.v1",
+              "in_effect none != card.pw02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-oc02-board",
+          "group": "c",
+          "records_given": 127,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "missing warning P4",
+          "score": {
+            "question_id": "q-p4-oc02-board",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1"
+            ],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "missing warning P4",
+              "current card.oc02.approve.v1 != card.oc.rule.helenonly",
+              "in_effect card.oc02.approve.v1 != card.oc.rule.helenonly",
+              "reasons missing card.oc.rule.helenonly"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-oc02-after-withdraw",
+          "group": "c",
+          "records_given": 256,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0107",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0107: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p4-oc02-after-withdraw",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P1"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P1",
+              "current none != card.oc.rule.cc.tomas",
+              "in_effect none != card.oc.rule.cc.tomas",
+              "reasons missing card.oc.rule.cc.tomas"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-rm01-email",
+          "group": "c",
+          "records_given": 137,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0188",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0199",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0289",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0188: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p4-rm01-email",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2"
+            ],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "missing warning P4",
+              "current m.rec-0187.0.1 != card.rm.rule.portal",
+              "in_effect m.rec-0187.0.1 != card.rm.rule.portal",
+              "reasons missing card.rm.rule.portal"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-rm01-portal-still",
+          "group": "c",
+          "records_given": 290,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm.rule.portal",
+          "score": {
+            "question_id": "q-p4-rm01-portal-still",
+            "pattern": "P4",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm.rule.portal",
+              "in_effect none != card.rm.rule.portal",
+              "reasons missing card.rm.rule.portal"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-nl04-cap",
+          "group": "c",
+          "records_given": 142,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p4-nl04-cap",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P4",
+              "current m.rec-0069.0.1 != card.nl.cap.inforce",
+              "in_effect m.rec-0069.0.1 != card.nl.cap.inforce",
+              "reasons missing card.nl.cap.inforce"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-nl-cap-june",
+          "group": "c",
+          "records_given": 271,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p4-pw02-ping",
+          "group": "c",
+          "records_given": 154,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0159",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0159: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p4-pw02-ping",
+            "pattern": "P4",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P4"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P4",
+              "current none != card.pw.rule.noping",
+              "in_effect none != card.pw.rule.noping",
+              "reasons missing card.pw.rule.noping"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p4-pw-quiet-still",
+          "group": "c",
+          "records_given": 290,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-nl04-why",
+          "group": "c",
+          "records_given": 107,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-nl04-why",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P5",
+              "P6"
+            ],
+            "expected_flags": [
+              "P5"
+            ],
+            "additional_warnings": [
+              "P2",
+              "P6"
+            ],
+            "why": [
+              "current none != card.nl04.reject.v2",
+              "in_effect none != card.nl04.reject.v2",
+              "reasons missing card.nl04.reject.v2"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-rm02-why",
+          "group": "c",
+          "records_given": 190,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0222",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0223",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0222: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-rm02-why",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P5"
+            ],
+            "expected_flags": [
+              "P5"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current none != card.rm02.reject",
+              "in_effect none != card.rm02.approve.v1",
+              "reasons missing card.rm02.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-nl04-void",
+          "group": "c",
+          "records_given": 107,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-nl04-void",
+            "pattern": "P5",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P5",
+              "current none != card.nl04.reject.v2",
+              "in_effect none != card.nl04.reject.v2",
+              "reasons missing card.nl04.reject.v2"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-rm02-ids",
+          "group": "c",
+          "records_given": 190,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0222",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0223",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0222: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-rm02-ids",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P5"
+            ],
+            "expected_flags": [
+              "P5"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current none != card.rm02.reject",
+              "in_effect none != card.rm02.approve.v1",
+              "reasons missing card.rm02.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-nl04-not-price",
+          "group": "c",
+          "records_given": 107,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-p5-rm02-not-price",
+          "group": "c",
+          "records_given": 190,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0222",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0223",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0222: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-rm02-not-price",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P5"
+            ],
+            "expected_flags": [
+              "P5"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current none != card.rm02.reject",
+              "in_effect none != card.rm02.approve.v1",
+              "reasons missing card.rm02.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-heron-why",
+          "group": "c",
+          "records_given": 297,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0254",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0254: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-heron-why",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "expected_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.pw05.reject.v3",
+              "in_effect none != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-heron-v4",
+          "group": "c",
+          "records_given": 299,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0254",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0271",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0254: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p5-heron-v4",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "expected_flags": [
+              "P1",
+              "P2",
+              "P4",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0136.0.1 != card.pw05.reject.v3",
+              "in_effect m.rec-0136.0.1 != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-heron-invoice",
+          "group": "c",
+          "records_given": 299,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0254",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0271",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0254: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p7-heron-invoice",
+            "pattern": "P7",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P7"
+            ],
+            "expected_flags": [
+              "P7"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0136.0.1 != card.pw05.reject.v3",
+              "in_effect m.rec-0136.0.1 != card.pw05.reject.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-oc05-why",
+          "group": "c",
+          "records_given": 292,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0282",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0282: the model found no decision in this client message; a person should confirm",
+          "score": {
+            "question_id": "q-p5-oc05-why",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P5"
+            ],
+            "expected_flags": [
+              "P2",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0283.0.0 != card.oc05.reject",
+              "in_effect m.rec-0283.0.0 != card.oc05.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p5-oc05-resend",
+          "group": "c",
+          "records_given": 292,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0282",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0282: the model found no decision in this client message; a person should confirm",
+          "score": {
+            "question_id": "q-p5-oc05-resend",
+            "pattern": "P5",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P2",
+              "P5"
+            ],
+            "expected_flags": [
+              "P2",
+              "P5"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc05.reject",
+              "in_effect none != card.oc05.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-oc03-lump",
+          "group": "c",
+          "records_given": 246,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0116",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0116: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-p6-oc03-lump",
+            "pattern": "P6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P6",
+              "T10"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current m.rec-0112.0.0 != card.oc03.approve.v1",
+              "in_effect m.rec-0112.0.0 != card.oc.structure.until",
+              "reasons missing card.oc03.approve.v1,card.oc01.approve.v1,card.oc.structure.until"
+            ],
+            "time_tag_why": "time tags -T10"
+          }
+        },
+        {
+          "question_id": "q-p6-pw04-fold",
+          "group": "c",
+          "records_given": 239,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0183",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0183: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p6-pw04-fold",
+            "pattern": "P6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P6"
+            ],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.pw04.approve.v1",
+              "in_effect none != card.pw04.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-rm04-trip",
+          "group": "c",
+          "records_given": 233,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm04.approve.late",
+          "score": {
+            "question_id": "q-p6-rm04-trip",
+            "pattern": "P6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1",
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [
+              "P1",
+              "P2"
+            ],
+            "why": [
+              "current none != card.rm04.approve.late",
+              "in_effect none != card.rm04.approve.late",
+              "reasons missing card.rm04.approve.late"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-nl04-weather",
+          "group": "c",
+          "records_given": 102,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p6-nl04-weather",
+            "pattern": "P6",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": true,
+            "in_effect_ok": true,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P6",
+              "reasons missing card.nl01.approve.v1,card.nl02.approve.v1,card.nl03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-oc03-after-june",
+          "group": "c",
+          "records_given": 279,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0116",
+              "text": "the model answered in prose instead of cards, after retries"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0291",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0116: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-p6-oc03-after-june",
+            "pattern": "P6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc.structure.new",
+              "in_effect none != card.oc.structure.new",
+              "reasons missing card.oc.structure.new"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p6-pw03-trip",
+          "group": "c",
+          "records_given": 194,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current m.rec-0165.0.0 != card.pw03.approve.v1",
+          "score": {
+            "question_id": "q-p6-pw03-trip",
+            "pattern": "P6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [
+              "P6"
+            ],
+            "additional_warnings": [
+              "P2"
+            ],
+            "why": [
+              "current m.rec-0165.0.0 != card.pw03.approve.v1",
+              "in_effect m.rec-0165.0.0 != card.pw03.approve.v1",
+              "reasons missing card.pw03.approve.v1,card.pw02.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-nl04-inv",
+          "group": "c",
+          "records_given": 206,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0070",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0071",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0070: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p7-nl04-inv",
+            "pattern": "P7",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P6",
+              "P7"
+            ],
+            "expected_flags": [
+              "P7"
+            ],
+            "additional_warnings": [
+              "P6"
+            ],
+            "why": [
+              "current none != card.nl04.reject.v2",
+              "in_effect none != card.nl04.reject.v2",
+              "reasons missing card.nl04.reject.v2"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-pw03-inv",
+          "group": "c",
+          "records_given": 248,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0171",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0171: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p7-pw03-inv",
+            "pattern": "P7",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P6",
+              "P7"
+            ],
+            "expected_flags": [
+              "P7"
+            ],
+            "additional_warnings": [
+              "P6"
+            ],
+            "why": [
+              "current m.rec-0136.0.1 != card.pw03.approve.v1",
+              "in_effect m.rec-0136.0.1 != card.pw03.approve.v1",
+              "reasons missing card.pw03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-rm02-inv",
+          "group": "c",
+          "records_given": 243,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0222",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0223",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0222: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p7-rm02-inv",
+            "pattern": "P7",
+            "warnings_recalled": false,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "P7"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "missing warning P7",
+              "current none != card.rm02.reject",
+              "in_effect none != card.rm02.approve.v1",
+              "reasons missing card.rm02.approve.v1,card.rm02.reject"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-oc03-inv",
+          "group": "c",
+          "records_given": 268,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0116",
+              "text": "the model answered in prose instead of cards, after retries"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0291",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0116: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-p7-oc03-inv",
+            "pattern": "P7",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P6",
+              "P7"
+            ],
+            "expected_flags": [
+              "P6",
+              "P7"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current m.rec-0112.0.0 != card.oc03.approve.v1",
+              "in_effect m.rec-0112.0.0 != card.oc03.approve.v1",
+              "reasons missing card.oc03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-pw04-inv",
+          "group": "c",
+          "records_given": 271,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0183",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0292",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0299",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0183: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p7-pw04-inv",
+            "pattern": "P7",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "P6",
+              "P7"
+            ],
+            "expected_flags": [
+              "P6",
+              "P7"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.pw04.approve.v1",
+              "in_effect none != card.pw04.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-p7-rm04-inv",
+          "group": "c",
+          "records_given": 290,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0293",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0293: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-p7-rm04-inv",
+            "pattern": "P7",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P6",
+              "P7"
+            ],
+            "expected_flags": [
+              "P6",
+              "P7"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm04.approve.late",
+              "in_effect none != card.rm04.approve.late",
+              "reasons missing card.rm04.approve.late"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-t2-oc04-asof",
+          "group": "c",
+          "records_given": 174,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0123",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0123: the model found no decision in this client message; a person should confirm",
+          "score": {
+            "question_id": "q-t2-oc04-asof",
+            "pattern": "T2",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T2"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc04.approve.late",
+              "in_effect none != card.oc04.approve.late",
+              "reasons missing card.oc04.approve.late"
+            ],
+            "time_tag_why": "time tags -T2"
+          }
+        },
+        {
+          "question_id": "q-t2-nl01-asof",
+          "group": "c",
+          "records_given": 55,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "open_question",
+              "record_id": "rec-0006",
+              "text": "open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0011",
+              "text": "open question (Ciki): how many extra hours needs to be stated and if it's regular hour or overnight, that will affect the final quote."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0284",
+              "text": "open question (Ciki): What's the exact deadline?"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t2-pw01-asof",
+          "group": "c",
+          "records_given": 64,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0140",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0140: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-t2-pw01-asof",
+            "pattern": "T2",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T2"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.pw01.approve.late",
+              "in_effect none != card.pw01.approve.late",
+              "reasons missing card.pw01.approve.late"
+            ],
+            "time_tag_why": "time tags -T2"
+          }
+        },
+        {
+          "question_id": "q-t2-rm04-asof",
+          "group": "c",
+          "records_given": 170,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm04.approve.late",
+          "score": {
+            "question_id": "q-t2-rm04-asof",
+            "pattern": "T2",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T2"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm04.approve.late",
+              "in_effect none != card.rm04.approve.late",
+              "reasons missing card.rm04.approve.late"
+            ],
+            "time_tag_why": "time tags -T2"
+          }
+        },
+        {
+          "question_id": "q-t6-rm03-rates",
+          "group": "c",
+          "records_given": 279,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0232",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t6-nl-labor",
+          "group": "c",
+          "records_given": 197,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t6-rm04-gallery",
+          "group": "c",
+          "records_given": 252,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm04.labor.new",
+          "score": {
+            "question_id": "q-t6-rm04-gallery",
+            "pattern": "T6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P1"
+            ],
+            "expected_flags": [
+              "T6"
+            ],
+            "additional_warnings": [
+              "P1"
+            ],
+            "why": [
+              "current none != card.rm04.labor.new",
+              "in_effect none != card.rm04.labor.new",
+              "reasons missing card.rm04.labor.new,card.rm04.material.keep"
+            ],
+            "time_tag_why": "time tags -T6"
+          }
+        },
+        {
+          "question_id": "q-t6-rm-keep-mat",
+          "group": "c",
+          "records_given": 279,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0232",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0232: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-t6-rm-keep-mat",
+            "pattern": "T6",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "T6"
+            ],
+            "expected_flags": [
+              "T6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current card.rm.labor.new != card.rm.material.keep",
+              "in_effect card.rm.labor.new != card.rm.material.keep"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-t10-rm-may",
+          "group": "c",
+          "records_given": 249,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "correct",
+          "abstained": false,
+          "why": "all checks pass",
+          "score": {
+            "question_id": "q-t10-rm-may",
+            "pattern": "T10",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": true,
+            "in_effect_ok": true,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "T10"
+            ],
+            "expected_flags": [
+              "T10"
+            ],
+            "additional_warnings": [],
+            "why": [],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-t10-rm-june",
+          "group": "c",
+          "records_given": 268,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-oc-may",
+          "group": "c",
+          "records_given": 250,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-t10-pw-june10",
+          "group": "c",
+          "records_given": 290,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "correct",
+          "abstained": false,
+          "why": "all checks pass",
+          "score": {
+            "question_id": "q-t10-pw-june10",
+            "pattern": "T10",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": true,
+            "in_effect_ok": true,
+            "reasons_ok": true,
+            "predicted_flags": [
+              "T10"
+            ],
+            "expected_flags": [
+              "T10"
+            ],
+            "additional_warnings": [],
+            "why": [],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-nl01-send",
+          "group": "c",
+          "records_given": 47,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "open_question",
+              "record_id": "rec-0006",
+              "text": "open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0011",
+              "text": "open question (Ciki): how many extra hours needs to be stated and if it's regular hour or overnight, that will affect the final quote."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0284",
+              "text": "open question (Ciki): What's the exact deadline?"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0006: open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up.",
+          "score": {
+            "question_id": "q-ctrl-nl01-send",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.nl01.approve.v2",
+              "in_effect none != card.nl01.approve.v2",
+              "reasons missing card.nl01.inspector.surge"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-nl01-inv",
+          "group": "c",
+          "records_given": 106,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "open_question",
+              "record_id": "rec-0006",
+              "text": "open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0011",
+              "text": "open question (Ciki): how many extra hours needs to be stated and if it's regular hour or overnight, that will affect the final quote."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0284",
+              "text": "open question (Ciki): What's the exact deadline?"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0006: open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up.",
+          "score": {
+            "question_id": "q-ctrl-nl01-inv",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.nl01.approve.v3",
+              "in_effect none != card.nl01.approve.v3",
+              "reasons missing card.nl01.approve.v3"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc01-v2",
+          "group": "c",
+          "records_given": 67,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0078",
+              "text": "the model answered in prose instead of cards, after retries"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0079",
+              "text": "the model service failed: Meterless provider request failed."
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0078: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-ctrl-oc01-v2",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc01.approve.v1",
+              "in_effect none != card.oc01.approve.v1",
+              "reasons missing card.oc01.ask.heads"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc01-inv",
+          "group": "c",
+          "records_given": 133,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0078",
+              "text": "the model answered in prose instead of cards, after retries"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0079",
+              "text": "the model service failed: Meterless provider request failed."
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0083",
+              "text": "the model answered in prose instead of cards, after retries"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 3 open; first rec-0078: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-ctrl-oc01-inv",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.oc01.approve.v2",
+              "in_effect none != card.oc01.approve.v2",
+              "reasons missing card.oc01.approve.v2"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-pw01-inv",
+          "group": "c",
+          "records_given": 85,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0140",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "correct",
+          "abstained": true,
+          "why": "passed while not cleared (1 open; first rec-0140: the model found no decision in this internal note; a person should confirm)",
+          "score": {
+            "question_id": "q-ctrl-pw01-inv",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": true,
+            "in_effect_ok": true,
+            "reasons_ok": true,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-rm03-inv",
+          "group": "c",
+          "records_given": 158,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm03.approve.v1",
+          "score": {
+            "question_id": "q-ctrl-rm03-inv",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm03.approve.v1",
+              "in_effect none != card.rm03.approve.v1",
+              "reasons missing card.rm03.approve.v1"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc04-inv",
+          "group": "c",
+          "records_given": 222,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0123",
+              "text": "the model found no decision in this client message; a person should confirm"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0128",
+              "text": "the model service failed: every routing mode is dead or unavailable: nvidia/nemotron-3.5-lightning-30b-a3b -> nvidia/nemotron-3-nano-30b-a3b (dead"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0123: the model found no decision in this client message; a person should confirm",
+          "score": {
+            "question_id": "q-ctrl-oc04-inv",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": true,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P7"
+            ],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "CTRL false alarm P7",
+              "current none != card.oc04.approve.late",
+              "in_effect none != card.oc04.approve.late",
+              "reasons missing card.oc04.approve.late"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc03-v3-reason",
+          "group": "c",
+          "records_given": 279,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0116",
+              "text": "the model answered in prose instead of cards, after retries"
+            },
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0291",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0116: the model answered in prose instead of cards, after retries",
+          "score": {
+            "question_id": "q-ctrl-oc03-v3-reason",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": true,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [
+              "P2",
+              "P6"
+            ],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "CTRL false alarm P2 P6",
+              "current none != card.oc.structure.new",
+              "in_effect none != card.oc.structure.new",
+              "reasons missing card.oc.structure.new"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-nl-cap-after",
+          "group": "c",
+          "records_given": 290,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.nl.cap.withdrawn",
+          "score": {
+            "question_id": "q-ctrl-nl-cap-after",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.nl.cap.withdrawn",
+              "in_effect none != card.nl.cap.withdrawn",
+              "reasons missing card.nl.cap.withdrawn"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-rm03-v2-reason",
+          "group": "c",
+          "records_given": 274,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [],
+          "outcome": "confidently_wrong",
+          "abstained": false,
+          "why": "current none != card.rm03.approve.v1",
+          "score": {
+            "question_id": "q-ctrl-rm03-v2-reason",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": false,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [
+              "T6"
+            ],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm03.approve.v1",
+              "in_effect none != card.rm.labor.new",
+              "reasons missing card.rm.labor.new,card.rm.material.keep"
+            ],
+            "time_tag_why": "time tags -T6"
+          }
+        },
+        {
+          "question_id": "q-ctrl-nl01-ground",
+          "group": "c",
+          "records_given": 35,
+          "model": null,
+          "human_cards_cited": 1,
+          "open_items": [
+            {
+              "kind": "open_question",
+              "record_id": "rec-0006",
+              "text": "open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up."
+            },
+            {
+              "kind": "open_question",
+              "record_id": "rec-0284",
+              "text": "open question (Ciki): What's the exact deadline?"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 2 open; first rec-0006: open question (Ciki): whether the studio riser needs its own isolated ground still needs Cal's follow up.",
+          "score": {
+            "question_id": "q-ctrl-nl01-ground",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.nl01.approve.v1",
+              "in_effect none != card.nl01.approve.v1",
+              "reasons missing card.nl01Ground.promise,card.nl01Ground.result"
+            ],
+            "time_tag_why": null
+          }
+        },
+        {
+          "question_id": "q-ctrl-oc04-framing",
+          "group": "c",
+          "records_given": 164,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0123",
+              "text": "the model found no decision in this client message; a person should confirm"
+            }
+          ],
+          "outcome": "unscorable",
+          "abstained": false,
+          "why": "no usable reply: reply was prose, not JSON",
+          "score": null
+        },
+        {
+          "question_id": "q-ctrl-rm01-panel",
+          "group": "c",
+          "records_given": 27,
+          "model": null,
+          "human_cards_cited": 0,
+          "open_items": [
+            {
+              "kind": "needs_human",
+              "record_id": "rec-0188",
+              "text": "the model found no decision in this internal note; a person should confirm"
+            }
+          ],
+          "outcome": "handed_to_person",
+          "abstained": true,
+          "why": "not cleared, 1 open; first rec-0188: the model found no decision in this internal note; a person should confirm",
+          "score": {
+            "question_id": "q-ctrl-rm01-panel",
+            "pattern": "CTRL",
+            "warnings_recalled": true,
+            "ctrl_false_alarm": false,
+            "time_tags_ok": true,
+            "current_ok": false,
+            "in_effect_ok": false,
+            "reasons_ok": false,
+            "predicted_flags": [],
+            "expected_flags": [],
+            "additional_warnings": [],
+            "why": [
+              "current none != card.rm01Panel.result",
+              "in_effect none != card.rm01Panel.result",
+              "reasons missing card.rm01Panel.promise,card.rm01Panel.result"
+            ],
+            "time_tag_why": null
+          }
+        }
+      ]
+    }
+  }
+}
