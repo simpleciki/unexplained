@@ -111,8 +111,10 @@ describe("pinned provider model ids", () => {
     const client = new ModelClient(null, new MemoryCache(), new CallBudget(0));
     const models = { researcher: "meterless/auto", router: "meterless/auto", explainer: "meterless/auto", keeper: "meterless/deep", judge: "meterless/deep", skeptic: "meterless/deep" };
     const rt: Runtime = { client, models, events: [], sampleMode: false, modeOrder: ["nvidia/nemotron-3.5-lightning-30b-a3b"], orderSource: "env" };
-    expect(routeLines(rt)[0]).toBe("Researcher.extract: nvidia/nemotron-3.5-lightning-30b-a3b (pinned by METERLESS_MODE_ORDER)");
-    expect(routeLines({ ...rt, orderSource: "default" })[0]).toBe("Researcher.extract: nvidia/nemotron-3.5-lightning-30b-a3b (default order)");
+    // The first line names the provider; the agents follow.
+    expect(routeLines({ ...rt, route: "nightshift" })[0]).toBe("provider: nightshift (Meterless Runtime, the default)");
+    expect(routeLines(rt)[1]).toBe("Researcher.extract: nvidia/nemotron-3.5-lightning-30b-a3b (pinned by METERLESS_MODE_ORDER)");
+    expect(routeLines({ ...rt, orderSource: "default" })[1]).toBe("Researcher.extract: nvidia/nemotron-3.5-lightning-30b-a3b (default order)");
     client.sticky.set("Keeper.relate", "meterless/judge");
     expect(routeLines({ ...rt, modeOrder: undefined })).toContain("Keeper.relate: meterless/judge (after a fallback)");
     expect(routeLines({ ...rt, modeOrder: undefined })).toContain("Router: meterless/auto");

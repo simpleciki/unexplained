@@ -59,6 +59,8 @@ export type CallEvent = {
   latency_ms: number;
   model_answered: string;
   outcome: "ok" | "invalid" | "error";
+  route?: string; // nightshift | nvidia-direct | cache (the reply came from the cache)
+  requested?: string; // the routing mode or model id this attempt asked for
 };
 
 export type CallSpec = { stage: string; agent: string; model: string; system: string; user: string };
@@ -73,6 +75,7 @@ export type ClientOptions = {
   deadModes?: DeadModes; // state/dead-modes.json in real runs
   warn?: (line: string) => void;
   sleep?: (ms: number) => Promise<void>; // injectable for tests
+  route?: string; // which provider route this run uses, recorded on every event
 };
 
 // Waits before re-asking a route that worked earlier in the run and then failed upstream.
@@ -108,7 +111,7 @@ export class ModelClient {
     const base = { stage: spec.stage, agent: spec.agent, prompt_hash, retry_count: retry };
     const hit = cacheUse.read ? this.cache.get(key) : undefined;
     if (hit) {
-      this.onEvent({ ...base, cache: "hit", latency_ms: 0, model_answered: hit.model, outcome: "ok" });
+      this.onEvent({ ...base, cache: "hit", latency_ms: 0, model_answered: hit.model, outcome: "ok", route: "cache", requested: spec.model });
       return { text: hit.text, model: hit.model, mode: hit.mode ?? spec.model, fromCache: true };
     }
     if (!this.provider) throw new ProviderError("unauthorized", "needs model credentials");
@@ -128,10 +131,10 @@ export class ModelClient {
           this.succeeded.add(mode);
           this.opts.deadModes?.markAlive(mode);
           if (mode !== intended) this.recordFallback(spec, base, intended, dead, mode, r.model);
-          this.onEvent({ ...base, cache: "miss", latency_ms: r.latencyMs, model_answered: r.model, outcome: "ok" });
+          this.onEvent({ ...base, cache: "miss", latency_ms: r.latencyMs, model_answered: r.model, outcome: "ok", route: this.opts.route ?? this.provider.id, requested: mode });
           return { text: r.text, model: r.model, mode, fromCache: false };
         } catch (e) {
-          this.onEvent({ ...base, cache: "miss", latency_ms: 0, model_answered: "", outcome: "error" });
+          this.onEvent({ ...base, cache: "miss", latency_ms: 0, model_answered: "", outcome: "error", route: this.opts.route ?? this.provider.id, requested: mode });
           if (!(e instanceof ProviderError) || (e.kind !== "route_dead" && e.kind !== "route_unavailable")) throw e;
           // A route that already answered in this run and now says "not found for account" is having a
           // transient upstream fault: same route again after 3 s, then 10 s, before moving on.
@@ -183,7 +186,7 @@ export class ModelClient {
         value = parse(extractJson(r.text));
       } catch (e) {
         lastError = (e as Error).message;
-        this.onEvent({ stage: spec.stage, agent: spec.agent, prompt_hash: sha(user), cache: r.fromCache ? "hit" : "miss", retry_count: attempt, latency_ms: 0, model_answered: model, outcome: "invalid" });
+        this.onEvent({ stage: spec.stage, agent: spec.agent, prompt_hash: sha(user), cache: r.fromCache ? "hit" : "miss", retry_count: attempt, latency_ms: 0, model_answered: model, outcome: "invalid", route: r.fromCache ? "cache" : (this.opts.route ?? this.provider?.id), requested: r.mode });
         user = `${spec.user}\n\nAttempt ${attempt + 2}. Your previous reply could not be used: ${lastError}. Reply with the JSON object only.`;
         continue;
       }

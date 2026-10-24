@@ -1,7 +1,7 @@
 // npm run eval:live -- --subset dev|full --max-calls N [--dry-run]
 import { estimateQuestions, printEstimate } from "../eval/estimate.ts";
 import { printSideBySide, runLive, subsetQuestions } from "../eval/live.ts";
-import { makeRuntime, routeLines, writeTrace } from "../pipeline/runtime.ts";
+import { makeRuntime, providerLine, routeFromEnv, routeLines, writeTrace } from "../pipeline/runtime.ts";
 import { loadData, traceZetaris } from "../adapters/zetaris.ts";
 import type { QueryEvent } from "../zetaris/client.ts";
 import { main, parseArgs, requireMaxCalls, root } from "./args.ts";
@@ -10,6 +10,7 @@ main(async () => {
   const args = parseArgs(process.argv.slice(2));
   const subset = args.subset ?? (() => { throw new Error("--subset dev|full is required"); })();
   const maxCalls = requireMaxCalls(args);
+  console.log(providerLine(routeFromEnv()));
   printEstimate(estimateQuestions(root, subsetQuestions(root, subset), `eval:live --subset ${subset}`), maxCalls);
   if (args.dryRun) return;
   const zEvents: QueryEvent[] = [];

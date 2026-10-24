@@ -72,6 +72,7 @@ describe("pipeline with a fake provider", () => {
     expect(report.cards_gate_rejected).toEqual([]);
     const live = await runLive(root, rt, "dev");
     expect(live.answered).toBe(12);
+    expect(live.route).toBe("fake"); // the results name the provider route that answered
     expect(live.extraction.recall).toBe(1);
     expect(live.extraction.precision).toBe(1);
     expect(live.relations.accuracy).toBe(1);

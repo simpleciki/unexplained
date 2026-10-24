@@ -57,6 +57,7 @@ export async function runLive(root: string, rt: Runtime, subset: "dev" | "full",
   const summary = summarise(scores);
   const out = {
     subset,
+    route: rt.route ?? null, // nightshift | nvidia-direct: which provider answered this run
     complete: !stopped && scores.length === questions.length,
     stopped_reason: stopped,
     answered: scores.length,

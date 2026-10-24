@@ -1,8 +1,11 @@
-// Builds the model client for a run: Meterless Runtime with the token from .env, or (SAMPLE_MODE) no
-// provider at all and the recorded responses in cache/samples/. Also chooses model ids and writes the trace.
+// Builds the model client for a run: Meterless Runtime (Nightshift) with the token from .env, or (SAMPLE_MODE)
+// no provider at all and the recorded responses in cache/samples/. AI_PROVIDER=nvidia-direct switches to the
+// explicit NVIDIA fallback route (src/llm/nvidia-direct.ts); nothing else does. Also chooses model ids and
+// writes the trace.
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, relative } from "node:path";
 import { MeterlessRuntime } from "../llm/meterless.ts";
+import { NVIDIA_DIRECT_ID, NVIDIA_DIRECT_ORDER, NvidiaDirect } from "../llm/nvidia-direct.ts";
 import { FileCache } from "../llm/cache.ts";
 import { DEFAULT_MODE_ORDER, FileDeadModes, parseModeOrder } from "../llm/modes.ts";
 import type { CallEvent } from "../llm/client.ts";
@@ -12,7 +15,26 @@ import { createTraceLogger } from "../trace.ts";
 import { MODELS } from "../agents/shared.ts";
 import type { ModelIds } from "../agents/shared.ts";
 
-export type Runtime = { client: ModelClient; models: ModelIds; events: CallEvent[]; sampleMode: boolean; modeOrder?: string[]; orderSource?: "env" | "default" };
+export type Route = "nightshift" | "nvidia-direct";
+export type Runtime = { client: ModelClient; models: ModelIds; events: CallEvent[]; sampleMode: boolean; modeOrder?: string[]; orderSource?: "env" | "default" | "nvidia-direct"; route?: Route | string };
+
+// AI_PROVIDER: "nightshift" (the default, also when unset) or "nvidia-direct". Anything else is an error, so a
+// typo never silently changes the route.
+export function routeFromEnv(value = process.env.AI_PROVIDER): Route {
+  const v = (value ?? "").trim().toLowerCase();
+  if (v === "" || v === "nightshift") return "nightshift";
+  if (v === NVIDIA_DIRECT_ID) return "nvidia-direct";
+  throw new Error(`AI_PROVIDER must be nightshift (the default) or nvidia-direct, not "${value}"`);
+}
+
+// The first line of every route printout: which provider this run talks to.
+export function providerLine(route: Route | string | undefined): string {
+  return route === "nvidia-direct"
+    ? "provider: nvidia-direct (Nightshift is NOT used in this run)"
+    : route === "nightshift"
+      ? "provider: nightshift (Meterless Runtime, the default)"
+      : `provider: ${route ?? "none"}`;
+}
 
 // Which call names each role uses (the agent field of a call).
 const AGENTS: Record<keyof ModelIds, string[]> = {
@@ -26,14 +48,15 @@ const AGENTS: Record<keyof ModelIds, string[]> = {
 
 // The route each agent really uses: a fallback that stuck, else the pinned order, else its own mode.
 export function routeLines(rt: Runtime): string[] {
-  return (Object.keys(AGENTS) as (keyof ModelIds)[]).flatMap((role) =>
+  const order = rt.orderSource === "env" ? "pinned by METERLESS_MODE_ORDER" : rt.orderSource === "nvidia-direct" ? "the nvidia-direct order" : "default order";
+  return [providerLine(rt.route), ...(Object.keys(AGENTS) as (keyof ModelIds)[]).flatMap((role) =>
     AGENTS[role].map((agent) => {
       const stuck = rt.client.sticky.get(agent);
       if (stuck) return `${agent}: ${stuck} (after a fallback)`;
-      if (rt.modeOrder?.length) return `${agent}: ${rt.modeOrder.join(" > ")} (${rt.orderSource === "env" ? "pinned by METERLESS_MODE_ORDER" : "default order"})`;
+      if (rt.modeOrder?.length) return `${agent}: ${rt.modeOrder.join(" > ")} (${order})`;
       return `${agent}: ${rt.models[role]}`;
     }),
-  );
+  )];
 }
 
 export const samplesDir = (root: string) => join(root, "cache/samples");
@@ -52,16 +75,25 @@ export async function makeRuntime(root: string, opts: { maxCalls: number; sample
     const client = new ModelClient(null, new FileCache(samplesDir(root), { readOnly: true }), new CallBudget(0), (e) => events.push(e));
     return { client, models, events, sampleMode: true };
   }
-  // METERLESS_MODE_ORDER wins when set (validated before any request); otherwise the default pinned order.
-  const fromEnv = parseModeOrder(process.env.METERLESS_MODE_ORDER);
-  const modeOrder = fromEnv ?? DEFAULT_MODE_ORDER;
-  const orderSource = fromEnv ? "env" : "default";
   let provider = opts.provider;
   if (!provider) {
-    const token = process.env.METERLESS_RUNTIME_TOKEN ?? "";
-    if (!token) throw new Error("METERLESS_RUNTIME_TOKEN is not set: create .env from .env.example, then run with node --env-file=.env");
-    provider = new MeterlessRuntime({ token, baseUrl: process.env.METERLESS_BASE_URL, appId: process.env.METERLESS_APP_ID });
+    if (routeFromEnv() === "nvidia-direct") {
+      const apiKey = process.env.NVIDIA_API_KEY ?? "";
+      if (!apiKey) throw new Error("AI_PROVIDER=nvidia-direct needs NVIDIA_API_KEY in .env");
+      provider = new NvidiaDirect({ apiKey, disableThinking: process.env.NVIDIA_DISABLE_THINKING === "1" });
+    } else {
+      const token = process.env.METERLESS_RUNTIME_TOKEN ?? "";
+      if (!token) throw new Error("METERLESS_RUNTIME_TOKEN is not set: create .env from .env.example, then run with node --env-file=.env");
+      provider = new MeterlessRuntime({ token, baseUrl: process.env.METERLESS_BASE_URL, appId: process.env.METERLESS_APP_ID });
+    }
   }
+  const direct = provider.id === NVIDIA_DIRECT_ID;
+  const route = direct ? "nvidia-direct" : provider.id === "meterless" ? "nightshift" : provider.id;
+  // Nightshift: METERLESS_MODE_ORDER wins when set (validated before any request), else the default pinned
+  // order. The direct route has its own fixed order (lightning only); METERLESS_MODE_ORDER does not apply.
+  const fromEnv = direct ? undefined : parseModeOrder(process.env.METERLESS_MODE_ORDER);
+  const modeOrder = direct ? NVIDIA_DIRECT_ORDER : (fromEnv ?? DEFAULT_MODE_ORDER);
+  const orderSource = direct ? "nvidia-direct" : fromEnv ? "env" : "default";
   const available = await provider.listModels();
   const models = chooseModels(available);
   const cache = new FileCache(join(root, "cache"), { tee: opts.teeSamples ? samplesDir(root) : undefined });
@@ -69,12 +101,17 @@ export async function makeRuntime(root: string, opts: { maxCalls: number; sample
     mkdirSync(samplesDir(root), { recursive: true });
     writeFileSync(join(samplesDir(root), "models.json"), JSON.stringify(models, null, 2) + "\n");
   }
+  // The cache key is the prompt plus the mode the agent asked for (meterless/auto, meterless/deep), not the
+  // route or the model that answered, so replies cached through Nightshift still hit on the direct route.
   const client = new ModelClient(provider, cache, new CallBudget(opts.maxCalls), (e) => events.push(e), {
     availableModels: available,
     modeOrder,
-    deadModes: new FileDeadModes(join(root, "state/dead-modes.json")),
+    // Each route remembers its own dead models: lightning being dead through Nightshift says nothing about
+    // lightning called directly.
+    deadModes: new FileDeadModes(join(root, direct ? "state/dead-modes-nvidia-direct.json" : "state/dead-modes.json")),
+    route,
   });
-  return { client, models, events, sampleMode: false, modeOrder, orderSource };
+  return { client, models, events, sampleMode: false, modeOrder, orderSource, route };
 }
 
 // One trace line per model call. The model that answered goes into outcome; no prompt text, no token.
@@ -91,7 +128,7 @@ export async function writeTrace(root: string, name: string, events: CallEvent[]
       outcome:
         e.action === "route_fallback"
           ? `requested=${e.requested_mode};dead=${e.dead_model};used=${e.mode_used};model=${e.model_answered}`
-          : `${e.outcome};cache=${e.cache};model=${e.model_answered || "none"}`,
+          : `${e.outcome};cache=${e.cache};route=${e.route ?? "none"};requested=${e.requested ?? "none"};model=${e.model_answered || "none"}`,
       retry_count: e.retry_count,
       latency_ms: e.latency_ms,
     });
