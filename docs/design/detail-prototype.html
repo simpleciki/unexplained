@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>unexplained</title>
+<style>
+:root {
+  --sys-red: #FF3B30; --sys-amber: #FF9F0A; --sys-green: #34C759; --sys-blue: #007AFF;
+  --label: #1b1b1f; --label2: #55555f; --label3: #8e8e93;
+  --sep: #e2e2e8; --sep2: #ececf0;
+  --bg: #f5f5f7; --bg-card: #fff;
+  --sidebar-bg: rgba(246,246,248,.72);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+  --mono: "SF Mono", ui-monospace, "Cascadia Code", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: var(--font); font-size: 14px; color: var(--label); background: var(--bg); -webkit-font-smoothing: antialiased; }
+
+/* ── Top bar ── */
+.topbar {
+  height: 48px; display: flex; align-items: center; gap: 28px;
+  padding: 0 24px; background: rgba(255,255,255,.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--sep2); position: sticky; top: 0; z-index: 20;
+}
+.topbar-brand { font-size: 15px; font-weight: 600; letter-spacing: -.02em; }
+.topbar-tab { font-size: 13px; font-weight: 500; color: var(--label3); cursor: pointer;
+  padding: 6px 0; border-bottom: 2px solid transparent; transition: color 200ms; }
+.topbar-tab.on { color: var(--sys-blue); border-bottom-color: var(--sys-blue); }
+.topbar-ledger { margin-left: auto; font-size: 12px; color: var(--label3); font-variant-numeric: tabular-nums; }
+
+/* ── Value strip ── */
+.value-strip {
+  padding: 16px 24px 14px; border-bottom: 1px solid var(--sep2); background: var(--bg-card);
+}
+.value-line { font-size: 14px; color: var(--label2); margin-bottom: 10px; }
+.value-line strong { color: var(--label); font-variant-numeric: tabular-nums; }
+.bar-track { height: 6px; border-radius: 3px; overflow: hidden; display: flex; }
+.bar-seg { height: 100%; transition: width 400ms cubic-bezier(.2,.8,.2,1); }
+.bar-legend { display: flex; gap: 22px; margin-top: 9px; flex-wrap: wrap; }
+.bar-legend-item { font-size: 12px; color: var(--label2); display: flex; align-items: center; gap: 5px; font-variant-numeric: tabular-nums; }
+.bar-dot { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+
+/* ── Layout ── */
+.layout {
+  display: grid; grid-template-columns: 280px 1fr 320px;
+  height: calc(100vh - 48px - 77px); overflow: hidden;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  background: var(--sidebar-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-right: 1px solid var(--sep2); overflow-y: auto; padding: 12px 0;
+}
+.sidebar-label {
+  padding: 0 16px 8px; font-size: 11px; font-weight: 600; color: var(--label3);
+  letter-spacing: 0; text-transform: none;
+}
+.sidebar-item {
+  padding: 10px 16px; cursor: pointer; border-radius: 0;
+  transition: background 220ms cubic-bezier(.2,.8,.2,1);
+}
+.sidebar-item:hover { background: rgba(0,0,0,.04); }
+.sidebar-item.on { background: rgba(0,122,255,.08); }
+.si-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+.si-id { font-size: 13px; font-weight: 600; font-family: var(--mono); }
+.si-amount { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--label2); }
+.si-row2 { font-size: 12px; color: var(--label2); line-height: 1.35; }
+.si-row3 { margin-top: 5px; }
+
+/* ── Status pills ── */
+.pill {
+  display: inline-block; font: 500 11px/1 var(--mono);
+  padding: 3px 7px; border-radius: 5px; letter-spacing: .01em;
+}
+.pill-hold { background: rgba(255,59,48,.1); color: var(--sys-red); }
+.pill-wait { background: rgba(255,159,10,.1); color: var(--sys-amber); }
+.pill-clear { background: rgba(52,199,89,.1); color: var(--sys-green); }
+
+/* ── Main panel ── */
+.main-panel { overflow-y: auto; padding: 24px 28px; }
+.crumb { font-size: 12px; color: var(--label3); margin-bottom: 10px; }
+.crumb span { opacity: .5; margin: 0 4px; }
+.doc-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 4px; }
+.doc-title { font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+.doc-amount { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; margin-left: auto; }
+.doc-cutoff { font-size: 13px; color: var(--label3); margin-bottom: 20px; margin-top: 2px; }
+
+/* ── Verdict card ── */
+.verdict-card {
+  border-radius: 10px; padding: 16px 18px; margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 0 0 1px rgba(0,0,0,.05);
+}
+.verdict-card.c-hold { background: rgba(255,59,48,.05); border: 1px solid rgba(255,59,48,.18); }
+.verdict-card.c-wait { background: rgba(255,159,10,.05); border: 1px solid rgba(255,159,10,.2); }
+.verdict-card.c-clear { background: rgba(52,199,89,.05); border: 1px solid rgba(52,199,89,.2); }
+.verdict-label { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.c-hold .verdict-label { color: var(--sys-red); }
+.c-wait .verdict-label { color: var(--sys-amber); }
+.c-clear .verdict-label { color: var(--sys-green); }
+.verdict-text { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.verdict-note { font-size: 13px; color: var(--label2); line-height: 1.4; margin-top: 4px; }
+.verdict-caveat { font-size: 13px; color: var(--label2); font-style: italic; margin-top: 8px; }
+
+/* ── Pattern cards (fired) ── */
+.pattern-card {
+  border-radius: 10px; border: 1px solid var(--sep2); background: var(--bg-card);
+  padding: 16px 18px; margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+.pattern-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.pattern-code { font: 600 11px/1 var(--mono); color: var(--label2); background: var(--bg); border: 1px solid var(--sep); border-radius: 4px; padding: 3px 7px; }
+.pattern-title { font-size: 14px; font-weight: 600; }
+.pattern-explain { font-size: 13px; color: var(--label2); line-height: 1.5; }
+.pattern-quote {
+  margin-top: 10px; background: var(--bg); border-radius: 6px;
+  padding: 10px 12px; font-size: 13px; color: var(--label2); line-height: 1.45;
+  border-left: 3px solid var(--sep);
+}
+.pattern-quote mark { background: rgba(255,159,10,.22); color: var(--label); font-style: normal; }
+.pattern-quote-source { font-size: 11px; color: var(--label3); margin-top: 6px; }
+
+/* ── Quiet patterns ── */
+.quiet-section { margin-bottom: 20px; }
+.quiet-label { font-size: 11px; font-weight: 600; color: var(--label3); letter-spacing: .03em;
+  text-transform: none; margin-bottom: 8px; }
+.quiet-item { display: flex; align-items: center; gap: 10px; padding: 6px 0;
+  border-bottom: 1px solid var(--sep2); font-size: 13px; }
+.quiet-item:last-child { border-bottom: none; }
+.quiet-code { font: 500 11px/1 var(--mono); color: var(--label3); min-width: 28px; }
+.quiet-status { color: var(--label3); }
+
+/* ── Document lines ── */
+.lines-section { margin-top: 8px; }
+.lines-label { font-size: 11px; font-weight: 600; color: var(--label3); letter-spacing: .03em;
+  text-transform: none; margin-bottom: 8px; }
+.lines-table { width: 100%; border-collapse: collapse; }
+.lines-table td { padding: 7px 0; border-top: 1px solid var(--sep2); font-size: 13px; vertical-align: top; }
+.lines-table td.lkind { color: var(--label3); font-family: var(--mono); font-size: 11px; text-transform: none; padding-right: 12px; padding-top: 9px; white-space: nowrap; }
+.lines-table td.ldesc { color: var(--label2); }
+.lines-table td.lamt { text-align: right; font-variant-numeric: tabular-nums; color: var(--label); white-space: nowrap; }
+.lines-table tr.total-row td { border-top: 1px solid var(--label2); padding-top: 10px; font-weight: 600; }
+.lines-table td.total-label { color: var(--label); font-size: 13px; font-family: var(--mono); text-transform: none; letter-spacing: .03em; }
+.lines-table td.total-amt { font-variant-numeric: tabular-nums; }
+
+/* ── Right panel ── */
+.right-panel { border-left: 1px solid var(--sep2); overflow-y: auto; padding: 20px 20px; background: var(--bg-card); }
+.rp-label { font-size: 11px; font-weight: 600; color: var(--label3); letter-spacing: .03em;
+  text-transform: none; margin-bottom: 14px; }
+.ev-timeline { margin-bottom: 24px; }
+.ev-item { position: relative; padding-left: 20px; padding-bottom: 16px; }
+.ev-item::before { content: ""; position: absolute; left: 4px; top: 4px; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--label3); background: var(--bg-card); }
+.ev-item.alert::before { border-color: var(--sys-red); }
+.ev-item::after { content: ""; position: absolute; left: 7px; top: 14px; bottom: 0; width: 1px; background: var(--sep2); }
+.ev-item:last-child::after { display: none; }
+.ev-meta { font-size: 11px; color: var(--label3); margin-bottom: 2px; }
+.ev-summary { font-size: 13px; line-height: 1.4; }
+.ev-full {
+  display: none; font-size: 12px; color: var(--label2); background: var(--bg);
+  border-radius: 6px; padding: 8px 10px; margin-top: 6px; line-height: 1.45;
+}
+.ev-item.expanded .ev-full { display: block; }
+.ev-toggle { font-size: 11px; color: var(--sys-blue); cursor: pointer; margin-top: 3px; display: inline-block; }
+.ev-empty { font-size: 13px; color: var(--label3); font-style: italic; }
+
+/* ── Needs human ── */
+.nh-section { margin-top: 4px; }
+.nh-item { border: 1px solid var(--sep2); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+.nh-id { font: 500 11px/1 var(--mono); color: var(--label3); margin-bottom: 5px; }
+.nh-text { font-size: 13px; color: var(--label); line-height: 1.45; margin-bottom: 8px; }
+.nh-why { font-size: 12px; color: var(--label3); }
+.nh-btn { margin-top: 10px; font-size: 12px; font-weight: 500; color: var(--label3);
+  border: 1px solid var(--sep); border-radius: 6px; padding: 5px 12px;
+  background: var(--bg); cursor: default; opacity: .6; }
+.nh-empty { font-size: 13px; color: var(--label3); font-style: italic; }
+
+/* ── Transitions ── */
+.main-panel, .right-panel { transition: opacity 180ms cubic-bezier(.2,.8,.2,1); }
+.fading { opacity: 0; }
+.nh-later { opacity: .62; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">unexplained</div>
+  <div class="topbar-tab on">Outbox</div>
+  <div class="topbar-tab">Needs you</div>
+  <div class="topbar-tab">Ledger</div>
+  <div class="topbar-ledger">116 records — 46 auto · 34 spot-check · 31 need you · 5 confirmed</div>
+</div>
+
+<div class="value-strip">
+  <div class="value-line"><strong>58 documents · $77,114</strong> checked before they went out</div>
+  <div class="bar-track">
+    <div class="bar-seg" style="width:66.1%;background:var(--sys-red);opacity:.75"></div>
+    <div class="bar-seg" style="width:25.1%;background:var(--sys-amber);opacity:.8"></div>
+    <div class="bar-seg" style="width:8.8%;background:var(--sys-green);opacity:.75"></div>
+  </div>
+  <div class="bar-legend">
+    <div class="bar-legend-item"><div class="bar-dot" style="background:var(--sys-red)"></div>Issues found before sending · 35 · $50,971</div>
+    <div class="bar-legend-item"><div class="bar-dot" style="background:var(--sys-amber)"></div>Waiting on a person · 16 · $19,381</div>
+    <div class="bar-legend-item"><div class="bar-dot" style="background:var(--sys-green)"></div>Cleared · 7 · $6,762</div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main-panel" id="main"></div>
+  <div class="right-panel" id="right"></div>
+</div>
+
+<script>
+// ── Real engine output, 2026-10-23. Numbers trace to records. ──
+const DATA = {
+  docs: [
+    {
+      id: 'Q-PW-05-v3', kind: 'quote', label: 'Quote v3',
+      job: 'WO-PW-05', jobTitle: 'Heron Court roof drain rebuild', client: 'Pike Water Commons',
+      at: '2026-06-15 09:30', total: 2026, state: 'warnings',
+      cutoff: 'records up to 09:29, just before this quote was submitted',
+      verdict: {
+        text: 'Hold before sending — 2 things to resolve first',
+        notes: [
+          '1 record in this job written before this quote is not judged yet; the result can change',
+          'P2 (Unexplained change between versions) needs the Judge model step, not run here'
+        ]
+      },
+      lines: [
+        { kind: 'labor', desc: 'Remove cracked strainer and clamp ring', amount: 160 },
+        { kind: 'labor', desc: 'Reset drain body, flash and seal', amount: 560 },
+        { kind: 'labor', desc: 'Replace leader to first cleanout', amount: 640 },
+        { kind: 'material', desc: 'Cast drain strainer and clamp ring', amount: 228 },
+        { kind: 'material', desc: 'Flashing membrane and sealant', amount: 96 },
+        { kind: 'material', desc: '4-inch cast leader and couplings', amount: 342 }
+      ],
+      fired: [
+        {
+          code: 'P1', title: 'A promise never closed',
+          explain: 'On 30 Apr Mira Kell promised to scope the leader before committing to replace it. No result was ever recorded — but v3 prices the replacement.',
+          quote: 'Otto, before we commit to replacing the leader we want to run a scope down it to the first cleanout. We\'ll check that first and tell you what we find.',
+          quoteSource: 'Mira Kell · rec-0250 · 30 Apr',
+          highlight: 'We\'ll check that first and tell you what we find'
+        },
+        {
+          code: 'P5', title: 'Rejection blamed on price by default',
+          explain: 'Otto gave no reason either time. The records show a voided-and-resent v1 within 3 minutes, a cover note naming a different quote id, and the same quote announced 3 times.',
+          quote: 'Not approving this one.\n\nNot this version either.',
+          quoteSource: 'Otto Gell · rec-0260, 19 May · rec-0265, 10 Jun',
+          highlight: null
+        }
+      ],
+      quiet: [
+        { code: 'P2', status: 'Not judged here — needs the Judge model step' },
+        { code: 'P3', status: 'No evidence in the 6 of 7 records read' },
+        { code: 'P4', status: 'No evidence in the 6 of 7 records read' },
+        { code: 'P6', status: 'No evidence in the 6 of 7 records read' },
+        { code: 'P7', status: 'No evidence in the 6 of 7 records read' }
+      ],
+      evidence: [
+        { at: '30 Apr', author: 'Mira Kell', type: 'client message', summary: 'Promise: scope the leader first', full: 'Otto, before we commit to replacing the leader we want to run a scope down it to the first cleanout. We\'ll check that first and tell you what we find.', alert: true },
+        { at: '19 May', author: 'Otto Gell', type: 'client message', summary: '"Not approving this one."', full: 'Not approving this one.', alert: true },
+        { at: '10 Jun', author: 'Otto Gell', type: 'client message', summary: '"Not this version either."', full: 'Not this version either.', alert: true }
+      ],
+      needsHuman: [
+        { id: 'rec-0254', at: '4 May', author: 'Jonah Prent', type: 'internal note', text: 'Voided Heron Court v1, the strainer line had the wrong bowl size. Re-sending the corrected PDF now.', why: 'No decision found in this internal note; a person should confirm' },
+        { after: true, id: 'rec-0271', at: '25 Jun', author: 'Delia Vorn', type: 'internal note', text: 'Heron Court: Wes\'s stop-gap from 6 May ($280, 3 hours and the temporary cover) is still unbilled, and the rebuild, $2,026 on v3, is on hold until Otto signs something. Crew is off the job.', why: 'No decision found in this internal note; a person should confirm' }
+      ]
+    },
+    {
+      id: 'INV-NL-04', kind: 'invoice', label: 'Invoice',
+      job: 'WO-NL-04', jobTitle: 'South roof step flashing at Loft 1A', client: 'North Loft Holdings',
+      at: '2026-05-04 10:30', total: 1830, state: 'warnings',
+      cutoff: 'records up to 10:29, just before this invoice was issued',
+      verdict: {
+        text: 'Hold before sending — 2 things to resolve first',
+        notes: [
+          '2 records in this job written before this invoice are not judged yet; the result can change'
+        ]
+      },
+      lines: [
+        { kind: 'labor', desc: 'Remove damaged step flashing at south wall', amount: 510 },
+        { kind: 'labor', desc: 'Install new step flashing and counterflash', amount: 680 },
+        { kind: 'material', desc: 'Step flashing and sealant', amount: 240 },
+        { kind: 'lump sum', desc: 'Lump-sum weather allowance', amount: 400 }
+      ],
+      fired: [
+        {
+          code: 'P6', title: 'Off the client\'s normal structure',
+          explain: 'Ria Moth approved quotes in this job with labor and material only (from Q-NL-01-v1 and Q-NL-01-v3). This invoice adds a lump-sum weather allowance — a line type never seen in an approved quote for this client.',
+          quote: 'Approved as sent at $92 an hour. Do not add trip fees.',
+          quoteSource: 'Ria Moth · 5 Mar',
+          highlight: 'Do not add trip fees'
+        },
+        {
+          code: 'P7', title: 'Invoice does not match what was approved',
+          explain: 'No approved version of Q-NL-04 was found as of the invoice date. The invoice was billed against Q-NL-04-v2, but no record shows Ria approving that quote.',
+          quote: null, quoteSource: null, highlight: null
+        }
+      ],
+      quiet: [
+        { code: 'P1', status: 'No evidence in the records read' },
+        { code: 'P2', status: 'No evidence in the records read' },
+        { code: 'P3', status: 'No evidence in the records read' },
+        { code: 'P4', status: 'No evidence in the records read' },
+        { code: 'P5', status: 'No evidence in the records read' }
+      ],
+      evidence: [
+        { at: '5 Mar', author: 'Ria Moth', type: 'client message', summary: 'Approved Q-NL-01 at $92/hr — no trip fees', full: 'Approved as sent at $92 an hour. Do not add trip fees.', alert: false },
+        { at: '20 Mar', author: 'Jonah Prent', type: 'internal note', summary: 'Ria approved Q-NL-01-v3 on 17 Mar call', full: 'Writing this down three days late: Ria said on the 17th call that Q-NL-01-v3 is approved now that the surge device from the inspector is on the quote.', alert: false },
+        { at: '4 May', author: 'Jonah Prent', type: 'invoice', summary: 'INV-NL-04 issued against Q-NL-04-v2', full: 'Invoice INV-NL-04 for WO-NL-04, issued 2026-05-04 by Jonah Prent, billed against Q-NL-04-v2 (version 2). Labor 1190.00, material 240.00, lump sum 400.00, total 1830.00.', alert: true }
+      ],
+      needsHuman: [
+        { id: 'rec-0070', at: '3 Apr', author: 'Jonah Prent', type: 'internal note', text: 'Voided v1 because the PDF header still showed last year\'s logo. Recreating immediately.', why: 'No decision found in this internal note; a person should confirm' },
+        { id: 'rec-0071', at: '3 Apr', author: 'system note', type: 'internal note', text: 'Jonah re-notified Ria twice more after she did not reply in ten minutes.', why: 'No decision found in this internal note; a person should confirm' }
+      ]
+    },
+    {
+      id: 'Q-NL-01-v3', kind: 'quote', label: 'Quote v3',
+      job: 'WO-NL-01', jobTitle: 'Replace 200A house panel at Loft 1A', client: 'North Loft Holdings',
+      at: '2026-03-16 16:30', total: 2156, state: 'not_cleared',
+      cutoff: 'records up to 16:29, just before this quote was submitted',
+      verdict: {
+        text: 'Not cleared — open questions remain',
+        notes: [
+          'rec-0006: whether the studio riser needs its own isolated ground still needs Cal\'s follow-up',
+          'rec-0011: how many extra hours, and whether they\'re regular or overnight, will affect the final quote',
+          'rec-0284: exact deadline?',
+          'P2 (Unexplained change between versions) needs the Judge model step, not run here'
+        ]
+      },
+      lines: [
+        { kind: 'labor', desc: 'Safe-off and disconnect existing 150A panel', amount: 368 },
+        { kind: 'labor', desc: 'Install 200A load center and ground bus', amount: 736 },
+        { kind: 'labor', desc: 'Add isolated ground for studio riser — extra 2 hours as discussed after opening the gutter', amount: 184 },
+        { kind: 'material', desc: '200A 30-space load center', amount: 486 },
+        { kind: 'material', desc: 'Breaker kit and ground bar', amount: 214 },
+        { kind: 'material', desc: 'Surge device required by city inspector note 3/16', amount: 168 }
+      ],
+      fired: [],
+      quiet: [
+        { code: 'P1', status: 'No evidence in the records read' },
+        { code: 'P2', status: 'Not judged here — needs the Judge model step' },
+        { code: 'P3', status: 'No evidence in the records read' },
+        { code: 'P4', status: 'No evidence in the records read' },
+        { code: 'P5', status: 'No evidence in the records read' },
+        { code: 'P6', status: 'No evidence in the records read' },
+        { code: 'P7', status: 'No evidence in the records read' }
+      ],
+      evidence: [
+        { at: '4 Mar', author: 'Jonah Prent', type: 'quote', summary: 'Quote v1 sent, $1,804', full: 'Quote Q-NL-01-v1 (version 1) for WO-NL-01. Labor 1104.00, material 700.00, total 1804.00.', alert: false },
+        { at: '5 Mar', author: 'Ria Moth', type: 'client message', summary: 'Approved as sent at $92/hr — no trip fees', full: 'Approved as sent at $92 an hour. Do not add trip fees.', alert: false },
+        { at: '16 Mar', author: 'Jonah Prent', type: 'quote', summary: 'Quote v3 submitted, $2,156', full: 'Quote Q-NL-01-v3 (version 3). Includes surge device required by city inspector note 3/16. Total 2156.00.', alert: false }
+      ],
+      needsHuman: []
+    },
+    {
+      id: 'Q-OC-02-v1', kind: 'quote', label: 'Quote v1',
+      job: 'WO-OC-02', jobTitle: 'Unit 12 stack leak', client: 'Oak Circle Residences',
+      at: '2026-03-17 14:00', total: 1014, state: 'clear',
+      cutoff: 'records up to 13:59, just before this quote was submitted',
+      noRecords: true,
+      verdict: {
+        text: 'Clear — every record in this job is accounted for and judged',
+        notes: []
+      },
+      lines: [
+        { kind: 'labor', desc: 'Site protect unit 12 floors', amount: 82 },
+        { kind: 'labor', desc: 'Open stack and replace failed section', amount: 574 },
+        { kind: 'material', desc: 'Cast section and couplings', amount: 310 },
+        { kind: 'material', desc: 'Test balls and wrap', amount: 48 }
+      ],
+      fired: [],
+      quiet: [
+        { code: 'P1', status: 'No records on file to check against' },
+        { code: 'P2', status: 'No records on file to check against' },
+        { code: 'P3', status: 'No records on file to check against' },
+        { code: 'P4', status: 'No records on file to check against' },
+        { code: 'P5', status: 'No records on file to check against' },
+        { code: 'P6', status: 'No records on file to check against' },
+        { code: 'P7', status: 'No records on file to check against' }
+      ],
+      evidence: [],
+      needsHuman: [
+        { after: true, id: 'rec-0107', at: 'unknown', author: 'unknown', type: 'internal note', text: 'Re-sending unit 12 today so Tomas has a copy.', why: 'No decision found in this internal note; a person should confirm' }
+      ]
+    }
+  ]
+};
+
+// ── Utilities ──
+const fmtAmt = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const stateClass = s => ({ warnings: 'pill-hold', not_cleared: 'pill-wait', clear: 'pill-clear' }[s]);
+const statePill = s => ({ warnings: 'Hold', not_cleared: 'Not cleared', clear: 'Clear' }[s]);
+const verdictClass = s => ({ warnings: 'c-hold', not_cleared: 'c-wait', clear: 'c-clear' }[s]);
+
+function highlightQuote(text, hl) {
+  if (!hl) return esc(text).replace(/\n/g,'<br>');
+  const idx = text.toLowerCase().indexOf(hl.toLowerCase());
+  if (idx < 0) return esc(text);
+  return esc(text.slice(0, idx)) + '<mark>' + esc(text.slice(idx, idx + hl.length)) + '</mark>' + esc(text.slice(idx + hl.length));
+}
+
+// ── Render sidebar ──
+function renderSidebar(active) {
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = '<div class="sidebar-label">Selected documents</div>' +
+    DATA.docs.map((d, i) =>
+      `<div class="sidebar-item${i === active ? ' on' : ''}" data-idx="${i}">
+        <div class="si-row1">
+          <div class="si-id">${esc(d.id)}</div>
+          <div class="si-amount">${fmtAmt(d.total)}</div>
+        </div>
+        <div class="si-row2">${esc(d.jobTitle)} · ${esc(d.client)}</div>
+        <div class="si-row3"><span class="pill ${stateClass(d.state)}">${statePill(d.state)}</span></div>
+      </div>`
+    ).join('');
+  sb.querySelectorAll('.sidebar-item').forEach(el =>
+    el.addEventListener('click', () => select(+el.dataset.idx))
+  );
+}
+
+// ── Render center ──
+function renderMain(d) {
+  const m = document.getElementById('main');
+  let html = `
+    <div class="crumb">${esc(d.job)}<span>·</span>${esc(d.jobTitle)}<span>·</span>${esc(d.client)}</div>
+    <div class="doc-head">
+      <div class="doc-title">${esc(d.label)}</div>
+      <div class="doc-amount">${fmtAmt(d.total)}</div>
+    </div>
+    <div class="doc-cutoff">Checked as it is about to go out — ${esc(d.cutoff)}</div>`;
+
+  // Verdict card
+  const vc = verdictClass(d.state);
+  html += `<div class="verdict-card ${vc}">
+    <div class="verdict-label">${statePill(d.state)}</div>
+    <div class="verdict-text">${esc(d.verdict.text)}</div>
+    ${d.verdict.notes.map(n => `<div class="verdict-note">${esc(n)}</div>`).join('')}
+    ${d.noRecords ? '<div class="verdict-caveat">No records on file before this quote — nothing to check against.</div>' : ''}
+  </div>`;
+
+  // Fired patterns
+  if (d.fired.length > 0) {
+    d.fired.forEach(p => {
+      html += `<div class="pattern-card">
+        <div class="pattern-head">
+          <span class="pattern-code">${esc(p.code)}</span>
+          <span class="pattern-title">${esc(p.title)}</span>
+        </div>
+        <div class="pattern-explain">${esc(p.explain)}</div>`;
+      if (p.quote) {
+        html += `<div class="pattern-quote">${highlightQuote(p.quote, p.highlight)}
+          <div class="pattern-quote-source">${esc(p.quoteSource)}</div>
+        </div>`;
+      }
+      html += `</div>`;
+    });
+  }
+
+  // Quiet patterns
+  html += `<div class="quiet-section">
+    <div class="quiet-label">Patterns that did not fire</div>
+    ${d.quiet.map(p => `<div class="quiet-item">
+      <span class="quiet-code">${esc(p.code)}</span>
+      <span class="quiet-status">${esc(p.status)}</span>
+    </div>`).join('')}
+  </div>`;
+
+  // Document lines
+  html += `<div class="lines-section">
+    <div class="lines-label">Document lines</div>
+    <table class="lines-table">
+      ${d.lines.map(l => `<tr>
+        <td class="lkind">${esc(l.kind)}</td>
+        <td class="ldesc">${esc(l.desc)}</td>
+        <td class="lamt">${fmtAmt(l.amount)}</td>
+      </tr>`).join('')}
+      <tr class="total-row">
+        <td colspan="2" class="total-label">Total</td>
+        <td class="lamt total-amt">${fmtAmt(d.total)}</td>
+      </tr>
+    </table>
+  </div>`;
+
+  m.innerHTML = html;
+}
+
+// ── Render right panel ──
+function renderRight(d) {
+  const r = document.getElementById('right');
+  let html = '';
+
+  // Evidence timeline
+  html += `<div class="rp-label">Evidence, in order</div><div class="ev-timeline">`;
+  if (d.evidence.length === 0) {
+    html += `<div class="ev-empty">No records on file before this document was submitted.</div>`;
+  } else {
+    d.evidence.forEach((e, i) => {
+      html += `<div class="ev-item${e.alert ? ' alert' : ''}" id="ev-${i}">
+        <div class="ev-meta">${esc(e.at)} · ${esc(e.author)} · ${esc(e.type)}</div>
+        <div class="ev-summary">${esc(e.summary)}</div>
+        <span class="ev-toggle" data-ev="${i}">Show full text</span>
+        <div class="ev-full">${esc(e.full)}</div>
+      </div>`;
+    });
+  }
+  html += `</div>`;
+
+  // Needs judgment
+  // Only records written before the document's cut-off count for this check; later ones are shown apart, never hidden.
+  const before = d.needsHuman.filter(nh => !nh.after);
+  const later = d.needsHuman.filter(nh => nh.after);
+  const nhCount = before.length;
+  html += `<div class="nh-section">
+    <div class="rp-label">Needs your judgment (${nhCount})</div>`;
+  if (nhCount === 0) {
+    html += `<div class="nh-empty">No records before this document are waiting for a decision.</div>`;
+  } else {
+    before.forEach(nh => {
+      html += `<div class="nh-item">
+        <div class="nh-id">${esc(nh.id)} · ${esc(nh.at)} · ${esc(nh.author)}</div>
+        <div class="nh-text">${esc(nh.text)}</div>
+        <div class="nh-why">${esc(nh.why)}</div>
+        <div><button class="nh-btn" disabled>Judge</button></div>
+      </div>`;
+    });
+  }
+  html += `</div>`;
+  if (later.length) {
+    html += `<div class="nh-section nh-later"><div class="rp-label">Written after this document (${later.length})</div>
+      <div class="nh-empty">Not part of this check — the gatekeeper could not have seen ${later.length === 1 ? 'it' : 'them'} when it went out.</div>`;
+    later.forEach(nh => { html += `<div class="nh-item"><div class="nh-id">${esc(nh.id)} · ${esc(nh.at)} · ${esc(nh.author)}</div><div class="nh-text">${esc(nh.text)}</div></div>`; });
+    html += `</div>`;
+  }
+
+  r.innerHTML = html;
+
+  // Toggle evidence expansion
+  r.querySelectorAll('.ev-toggle').forEach(btn =>
+    btn.addEventListener('click', () => {
+      const item = document.getElementById('ev-' + btn.dataset.ev);
+      const expanded = item.classList.toggle('expanded');
+      btn.textContent = expanded ? 'Hide' : 'Show full text';
+    })
+  );
+}
+
+// ── Selection ──
+let current = 0;
+function select(idx) {
+  if (idx === current) return;
+  const main = document.getElementById('main');
+  const right = document.getElementById('right');
+  main.classList.add('fading');
+  right.classList.add('fading');
+  setTimeout(() => {
+    current = idx;
+    renderSidebar(idx);
+    renderMain(DATA.docs[idx]);
+    renderRight(DATA.docs[idx]);
+    main.classList.remove('fading');
+    right.classList.remove('fading');
+  }, 180);
+}
+
+// ── Init ──
+renderSidebar(0);
+renderMain(DATA.docs[0]);
+renderRight(DATA.docs[0]);
+</script>
+</body>
+</html>
