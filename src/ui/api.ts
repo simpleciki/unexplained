@@ -8,7 +8,7 @@ import { ms } from "../engine/docs.ts";
 import { runDetectors } from "../engine/detectors/index.ts";
 import { agentContext } from "../agents/shared.ts";
 import { loadIngested } from "../pipeline/ingest.ts";
-import { appendJudgment, confirmation, judgmentWarnings, openQuestions } from "../review/judgments.ts";
+import { appendDocJudgment, appendJudgment, confirmation, judgmentWarnings, openQuestions } from "../review/judgments.ts";
 import { suggestEffective } from "../review/effective.ts";
 import { findingSegments, plainText } from "./findings.ts";
 import { loadStoryFile, storyResponse, validateStory } from "./story.ts";
@@ -17,6 +17,7 @@ import type { JudgmentInput } from "../review/judgments.ts";
 import { jobQueue, loadReviewView } from "../review/queue.ts";
 import { designedInvoice, designedQuote } from "../eval/value-metrics.ts";
 import { sampleDay } from "./sample.ts";
+import { recallClient } from "./client-memory.ts";
 import type { ReviewView } from "../review/queue.ts";
 
 export const WARNINGS: Record<string, string> = {
@@ -189,8 +190,12 @@ export function check(ctx: Ctx, docId: string) {
   const fired = warnings.filter((w) => w.fired).length;
   const openPatterns = warnings.filter((w) => w.open).map((w) => w.pattern);
   const doc = invoice ? "invoice" : "quote";
+  // Nothing on file to check a document against (no job records, not enough client history). For a first quote a
+  // person can confirm it against what the client told us before (a document-level judgment); the latest wins.
+  const unchecked = seen.length === 0 && !firstQuote;
+  const personOk = unchecked && !invoice ? ctx.view.docJudgments.filter((j) => j.doc_id === docId).at(-1) ?? null : null;
   const notes = [
-    ...(seen.length === 0 && !firstQuote ? [`No messages, internal notes or field notes in this job were written before this ${doc}, so nothing a client approved or asked for can be checked against it; a person has to check it by hand`] : []),
+    ...(unchecked && !personOk ? [`No messages, internal notes or field notes in this job were written before this ${doc}, so nothing a client approved or asked for can be checked against it; a person has to check it by hand`] : []),
     ...(unjudged.length ? [`${unjudged.length} record${unjudged.length > 1 ? "s" : ""} in this job written before this ${invoice ? "invoice" : "quote"} ${unjudged.length > 1 ? "are" : "is"} not judged yet; the result can change`] : []),
     ...(spot.length ? [`${spot.length} record${spot.length > 1 ? "s" : ""} the model read as empty need${spot.length > 1 ? "" : "s"} a person to spot-check before this can clear`] : []),
     ...questions.map((q) => `Open question (${q.reviewer}, ${Number(q.judged_at.slice(5, 7))}/${Number(q.judged_at.slice(8, 10))}) on ${q.record_id}: ${q.question}`),
@@ -198,11 +203,11 @@ export function check(ctx: Ctx, docId: string) {
   ];
   const verdict = fired
     ? { state: "warnings" as const, text: `Warnings found (${fired})`, notes }
-    : seen.length === 0 && !firstQuote
+    : unchecked && !personOk
       // Nothing was read, so nothing was checked: never green.
       ? { state: "not_cleared" as const, text: `Not cleared — no records on file before this ${doc}, so there is nothing to check it against.`, notes }
       : seen.length === 0 && !notes.length
-        ? { state: "clear" as const, text: "Clear — first quote on this job; checked against the client's rules and usual quotes only.", notes }
+        ? { state: "clear" as const, text: personOk ? personOk.memory_items === 0 ? `Clear — first quote, confirmed by ${personOk.reviewer} by hand (no earlier word from this client on file).` : `Clear — first quote, confirmed by ${personOk.reviewer} against the client's history.` : "Clear — first quote on this job; checked against the client's rules and usual quotes only.", notes }
       : notes.length
         ? { state: "not_cleared" as const, text: "Not cleared", notes }
         : { state: "clear" as const, text: "Clear — every record in this job is accounted for and judged", notes };
@@ -215,7 +220,7 @@ export function check(ctx: Ctx, docId: string) {
   // stays in judge_open), and a document with warnings needs a fix, not a confirmation, so it has none.
   const recItem = (x: (typeof seen)[number], k: "needs_human" | "spot_check") => ({ kind: k, record_id: x.record_id, author: x.author, at: x.recorded_at, source_type: x.source_type, text: x.text, why: k === "spot_check" ? "The model read this record as empty; a person spot-checks it before the document can clear." : x.why });
   const toConfirm = verdict.state !== "not_cleared" ? [] : [
-    ...(seen.length === 0 && !firstQuote ? [{ kind: "first_quote" as const, why: `No records in this job before this ${kind}, and not enough client history to check it against: confirm this first ${kind} by hand.` }] : []),
+    ...(unchecked && !personOk ? [{ kind: "first_quote" as const, why: `No records in this job before this ${kind}, and not enough client history to check it against: confirm this first ${kind} by hand.` }] : []),
     ...unjudged.map((x) => recItem(x, "needs_human")),
     ...spot.map((x) => recItem(x, "spot_check")),
     ...questions.map((q) => {
@@ -231,6 +236,10 @@ export function check(ctx: Ctx, docId: string) {
     warnings,
     to_confirm: toConfirm,
     judge_open: openPatterns,
+    // The person's confirmation of a first quote, when there is one (the latest).
+    confirmed_by_person: personOk,
+    // "What this client told us before", recalled from H-MEM (display only; the verdict above never reads it).
+    client_memory: clientMemory(ctx, client, asOf, at),
     // Only records written by the cut-off are part of this check: they are the "Needs your judgment (N)" the
     // verdict counts. Records written later are listed apart, never hidden and never counted.
     queue: {
@@ -239,6 +248,34 @@ export function check(ctx: Ctx, docId: string) {
       confirmed: q.confirmed,
       after: [...q.needs_human, ...q.spot_check].filter((x) => ms(x.recorded_at) > asOf).sort((a, b) => ms(a.recorded_at) - ms(b.recorded_at)),
     },
+  };
+}
+
+// H-MEM recall for the check page (src/ui/client-memory.ts), with each item's record and time in the document's
+// own clock.
+export function clientMemory(ctx: Ctx, client: string | null, asOf: number, docAt: string) {
+  if (!client) return { items: [], recalled: 0, dropped: { other_scope: 0, after_cutoff: 0, superseded: 0 } };
+  const t = ctx.data.tables;
+  const jobsOf = t.workOrders.filter((w) => w.client_id === client).map((w) => w.work_order_id);
+  const clientName = t.clients.find((c) => c.client_id === client)?.name ?? client;
+  const recs = new Map(ctx.data.records.map((r) => [r.record_id, r]));
+  const cards = new Map(ctx.engine.cards.map((c) => [c.card_id, c]));
+  const status = ctx.engine.graph.cardStatus();
+  const memOf = ctx.engine.memory.memOf;
+  const r = recallClient({
+    hmem: ctx.engine.memory.hmem,
+    client,
+    jobs: jobsOf,
+    asOf,
+    query: `${clientName} rules approvals rejections`,
+    cardOf: (id) => cards.get(id),
+    recordAt: (id) => recs.get(id)?.source_recorded_at,
+    seatSuccessor: (id) => { const next = status[id]?.replaced_by; return next ? memOf.get(next) : undefined; },
+  });
+  const names = new Map(meta(ctx).people.map((p) => [p.id, p.name]));
+  return {
+    ...r,
+    items: r.items.map((x) => ({ ...x, who_name: x.who ? names.get(x.who) ?? x.who : null, learned: inOffsetOf(docAt, x.learned_at), source_type: recs.get(x.record_id)?.source_type ?? null, record_text: recs.get(x.record_id)?.text ?? null })),
   };
 }
 
@@ -341,9 +378,19 @@ export function queue(ctx: Ctx, job?: string) {
 }
 
 // Validate and append a judgment; returns the stored judgment, or the problems. The caller reloads ctx.
+// A body with doc_id is a document-level judgment (a person confirms a first quote against the client's history);
+// otherwise a record judgment, as before. Same endpoint, same file.
 export function postJudgment(ctx: Ctx, body: unknown): { status: 201; judgment: unknown; warnings: unknown[] } | { status: 400; errors: string[] } {
   if (!body || typeof body !== "object") return { status: 400, errors: ["body must be a JSON object"] };
   try {
+    if ("doc_id" in body) {
+      const t = ctx.data.tables;
+      const ids = new Set([...t.quotes.map((x) => x.quote_id), ...t.invoices.map((x) => x.invoice_id)]);
+      const c = check(ctx, String((body as { doc_id: unknown }).doc_id));
+      // Only a document whose open item is "confirm this first quote" can be confirmed this way.
+      if (c && (c.doc.kind !== "quote" || !c.to_confirm.some((x) => x.kind === "first_quote"))) return { status: 400, errors: ["only a first quote with nothing on file to check it against can be confirmed this way"] };
+      return { status: 201, judgment: appendDocJudgment(ctx.root, body as Parameters<typeof appendDocJudgment>[1], ids), warnings: [] };
+    }
     const j = appendJudgment(ctx.root, body as JudgmentInput, ctx.data.records, ctx.engine.vocab, ctx.view.modelCards);
     const names = new Map(meta(ctx).people.map((p) => [p.id, p.name]));
     const warnings = judgmentWarnings(body as JudgmentInput, ctx.engine.vocab, ctx.view.modelCards, (id) => names.get(id) ?? id);

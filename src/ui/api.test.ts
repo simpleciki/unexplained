@@ -9,6 +9,7 @@ import { extractableRecords } from "../pipeline/ingest.ts";
 import { loadIngested } from "../pipeline/ingest.ts";
 import { loadCtx, summary } from "./api.ts";
 import { route } from "./server.ts";
+import { prepareDemoRoot } from "./demo.ts";
 
 const repo = join(import.meta.dirname, "../..");
 
@@ -25,6 +26,11 @@ function setup() {
   writeFileSync(join(root, "state/ingest-report.json"), JSON.stringify({ records_total: records.length, records_done: records.length, records_rejected: [], records_prose_reply: [], records_failed_upstream: [], cards_gate_rejected: [], cards_dropped_by_skeptic: [] }));
   return { root, box: { ctx: loadCtx(root, data), html: "<html>ui</html>" }, records };
 }
+const post = (box: Parameters<typeof route>[0], body: unknown) => {
+  const r = route(box, "POST", "/api/judgments", JSON.stringify(body));
+  return { status: r.status, body: JSON.parse(r.body) };
+};
+const fileLines = (f: string) => (existsSync(f) ? readFileSync(f, "utf8").split("\n").filter(Boolean) : []);
 const get = (box: Parameters<typeof route>[0], url: string) => {
   const r = route(box, "GET", url);
   return { status: r.status, body: r.type === "json" ? JSON.parse(r.body) : r.body };
@@ -92,6 +98,54 @@ describe("gatekeeper API", () => {
     for (const id of s.ids) by[get(box, `/api/check?doc=${id}`).body.verdict.state]++;
     expect(by).toEqual({ warnings: s.by_state.warnings.n, not_cleared: s.by_state.not_cleared.n, clear: s.by_state.clear.n });
     expect(get(box, "/api/summary?view=nope").status).toBe(400);
+  });
+
+  it("lets a person confirm a first quote against the client's history; written as a document judgment", () => {
+    const { root, box } = setup();
+    const doc = "Q-NL-02-v1"; // no job records before it and no client rules on a card here: nothing to check against
+    const before = get(box, `/api/check?doc=${doc}`).body;
+    expect(before.verdict.state).toBe("not_cleared");
+    expect(before.to_confirm.map((x: { kind: string }) => x.kind)).toEqual(["first_quote"]);
+    const lines0 = fileLines(join(root, "review/judgments.jsonl")).length;
+    expect(post(box, { doc_id: doc, verdict: "document_ok", reason: "", reviewer: "Ciki" }).status).toBe(400); // a reason is required
+    const r = post(box, { doc_id: doc, verdict: "document_ok", reason: "Checked against what this client told us before (4 items).", reviewer: "Ciki", memory_items: 4 });
+    expect(r.status).toBe(201);
+    expect(r.body.judgment).toMatchObject({ judgment_id: `j.doc.${doc}.1`, doc_id: doc, verdict: "document_ok", reviewer: "Ciki" });
+    expect(fileLines(join(root, "review/judgments.jsonl")).length).toBe(lines0 + 1);
+    const after = get(box, `/api/check?doc=${doc}`).body;
+    expect(after.verdict.state).toBe("clear");
+    expect(after.verdict.text).toBe("Clear — first quote, confirmed by Ciki against the client's history.");
+    expect(after.to_confirm).toEqual([]);
+    expect(after.confirmed_by_person.reviewer).toBe("Ciki");
+    // Once clear, there is nothing left to confirm this way.
+    expect(post(box, { doc_id: doc, verdict: "document_ok", reason: "again", reviewer: "Bea", memory_items: 4 }).status).toBe(400);
+    // Record judgments and the ledger do not see the document line.
+    expect(get(box, "/api/ledger").body.complete).toBe(true);
+  });
+
+  it("does not let a document judgment clear anything else that is open", () => {
+    const { box } = setup();
+    // A quote whose open items are records to judge, not "confirm this first quote".
+    const open = get(box, "/api/check?doc=Q-NL-01-v1").body;
+    expect(open.to_confirm.some((x: { kind: string }) => x.kind === "first_quote")).toBe(false);
+    expect(post(box, { doc_id: "Q-NL-01-v1", verdict: "document_ok", reason: "looks fine", reviewer: "Ciki" }).status).toBe(400);
+    expect(get(box, "/api/check?doc=Q-NL-01-v1").body.verdict.state).toBe("not_cleared");
+    // A document with warnings needs a fix, and an invoice is not a first quote.
+    expect(post(box, { doc_id: "INV-NL-04", verdict: "document_ok", reason: "looks fine", reviewer: "Ciki" }).status).toBe(400);
+    expect(post(box, { doc_id: "Q-XX-99", verdict: "document_ok", reason: "x", reviewer: "Ciki" }).body.errors).toEqual(["unknown document Q-XX-99"]);
+  });
+
+  it("writes a first-quote confirmation to the copy in demo mode, never to the real file", () => {
+    const { root } = setup();
+    const real = join(root, "review/judgments.jsonl");
+    const before = existsSync(real) ? readFileSync(real, "utf8") : "";
+    const demoRoot = prepareDemoRoot(root);
+    const box = { ctx: loadCtx(demoRoot, loadDataset(root)), html: "" };
+    expect(post(box, { doc_id: "Q-NL-02-v1", verdict: "document_ok", reason: "checked by hand", reviewer: "Ciki", memory_items: 0 }).status).toBe(201);
+    // With nothing recalled on screen, the verdict says the person checked it by hand, not "against the client's history".
+    expect(get({ ctx: loadCtx(demoRoot, loadDataset(root)), html: "" }, "/api/check?doc=Q-NL-02-v1").body.verdict.text).toBe("Clear — first quote, confirmed by Ciki by hand (no earlier word from this client on file).");
+    expect(readFileSync(join(demoRoot, "review/judgments.jsonl"), "utf8")).toMatch(/"doc_id":"Q-NL-02-v1"/);
+    expect(existsSync(real) ? readFileSync(real, "utf8") : "").toBe(before);
   });
 
   it("never says Clear while a job record before the document is unjudged; does once they are all judged", () => {

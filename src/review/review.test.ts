@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import type { DecisionCard, SourceRecord } from "../engine/types.ts";
 import { loadVocab } from "../engine/vocab.ts";
 import { extractionScore } from "../eval/extraction-score.ts";
-import { appendJudgment, applyJudgments, confirmation, latestPerRecord, loadJudgments, localIso, validateJudgment } from "./judgments.ts";
+import { appendDocJudgment, appendJudgment, applyJudgments, confirmation, latestPerRecord, loadDocJudgments, loadJudgments, localIso, validateJudgment } from "./judgments.ts";
 import type { Judgment } from "./judgments.ts";
 import { buildLedger, tally } from "./ledger.ts";
 import { routeRecord } from "./routing.ts";
@@ -139,5 +139,20 @@ describe("judgments", () => {
     const model = [card("rec-0002", "Supplier is late.")];
     const j: Judgment = { judgment_id: "j.rec-0002.1", record_id: "rec-0002", verdict: "no_decision", cards: [], reason: "status only", reviewer: "Ciki", judged_at: JUDGED };
     expect(applyJudgments(model, [], [j], records).cards).toEqual([]);
+  });
+});
+
+describe("document-level judgments", () => {
+  it("share the file with record judgments; each reader sees only its own kind, and old lines stay valid", () => {
+    const root = mkdtempSync(join(tmpdir(), "unexplained-docj-"));
+    const records = [rec("rec-0001", "client_message", "Approved as sent.")];
+    appendJudgment(root, { record_id: "rec-0001", verdict: "no_decision", cards: [], reason: "status only", reviewer: "Ciki" }, records, vocab);
+    const d1 = appendDocJudgment(root, { doc_id: "Q-NL-02-v1", reason: "checked by hand", reviewer: "Ciki" }, new Set(["Q-NL-02-v1"]));
+    const d2 = appendDocJudgment(root, { doc_id: "Q-NL-02-v1", reason: "checked again", reviewer: "Ciki", memory_items: 4 }, new Set(["Q-NL-02-v1"]));
+    expect(loadJudgments(root).map((j) => j.judgment_id)).toEqual(["j.rec-0001.1"]);
+    expect(loadDocJudgments(root).map((j) => [j.judgment_id, j.supersedes ?? null])).toEqual([[d1.judgment_id, null], [d2.judgment_id, "j.doc.Q-NL-02-v1.1"]]);
+    expect(readFileSync(join(root, "review/judgments.jsonl"), "utf8").trim().split("\n")).toHaveLength(3);
+    expect(() => appendDocJudgment(root, { doc_id: "Q-NL-02-v1", reason: " ", reviewer: "Ciki" }, new Set(["Q-NL-02-v1"]))).toThrow(/a reason is required/);
+    expect(() => appendDocJudgment(root, { doc_id: "Q-ZZ", reason: "x", reviewer: "Ciki" }, new Set(["Q-NL-02-v1"]))).toThrow(/unknown document/);
   });
 });

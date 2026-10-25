@@ -10,8 +10,8 @@ import { extractableRecords } from "../pipeline/ingest.ts";
 import type { IngestReport } from "../pipeline/ingest.ts";
 import { loadVocab } from "../engine/vocab.ts";
 import { loadPeople } from "../agents/shared.ts";
-import { historyOf, latestPerRecord, loadJudgments, modeUsed } from "./judgments.ts";
-import type { Judgment } from "./judgments.ts";
+import { historyOf, latestPerRecord, loadDocJudgments, loadJudgments, modeUsed } from "./judgments.ts";
+import type { DocJudgment, Judgment } from "./judgments.ts";
 import { buildLedger } from "./ledger.ts";
 import type { Ledger } from "./ledger.ts";
 import type { Bucket } from "./routing.ts";
@@ -33,7 +33,8 @@ export type QueueItem = {
   card_modes: { chosen: string; used: string; why: string | null }[];
 };
 
-export type ReviewView = { data: Dataset; modelCards: DecisionCard[]; judgments: Judgment[]; ledger: Ledger; items: QueueItem[] };
+// docJudgments: document-level confirmations (a first quote a person checked against the client history).
+export type ReviewView = { data: Dataset; modelCards: DecisionCard[]; judgments: Judgment[]; docJudgments: DocJudgment[]; ledger: Ledger; items: QueueItem[] };
 
 export function loadReviewView(root: string, data: Dataset = loadDataset(root)): ReviewView {
   const state = (n: string) => join(root, "state", n);
@@ -66,7 +67,7 @@ export function loadReviewView(root: string, data: Dataset = loadDataset(root)):
       history: historyOf(judgments, x.record_id).map((h) => ({ judgment_id: h.judgment_id, judged_at: h.judged_at, reviewer: h.reviewer, verdict: h.verdict, types: h.cards.map((c) => c.mode), reason: h.reason })),
     };
   });
-  return { data, modelCards, judgments, ledger, items };
+  return { data, modelCards, judgments, docJudgments: loadDocJudgments(root), ledger, items };
 }
 
 export function jobQueue(view: ReviewView, job?: string) {

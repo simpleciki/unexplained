@@ -30,9 +30,63 @@ export type JudgmentInput = Omit<Judgment, "judgment_id" | "judged_at" | "supers
 
 export const judgmentsPath = (root: string) => join(root, "review", "judgments.jsonl");
 
+// Record judgments only: a document-level judgment (below) has a doc_id and no record_id, so every reader of
+// record judgments (ledger, cards, open questions) is unchanged by it.
 export function loadJudgments(root: string): Judgment[] {
+  return readLines(root).filter((j): j is Judgment => typeof (j as Judgment).record_id === "string");
+}
+
+const readLines = (root: string): (Judgment | DocJudgment)[] => {
   const f = judgmentsPath(root);
-  return existsSync(f) ? parseJsonl<Judgment>(readFileSync(f, "utf8")) : [];
+  return existsSync(f) ? parseJsonl<Judgment | DocJudgment>(readFileSync(f, "utf8")) : [];
+};
+
+// A document-level judgment, in the same append-only file: a person confirmed a document that has no record of
+// its own to judge (a first quote with nothing on file to check it against), against what the client told us
+// before. memory_items: how many recalled items were on screen when they confirmed. The latest per document wins.
+export type DocJudgment = {
+  judgment_id: string;
+  doc_id: string;
+  verdict: "document_ok";
+  reason: string;
+  reviewer: string;
+  judged_at: string;
+  memory_items?: number;
+  supersedes?: string;
+};
+export type DocJudgmentInput = Pick<DocJudgment, "doc_id" | "reason" | "reviewer"> & { verdict?: "document_ok"; memory_items?: number };
+
+export function loadDocJudgments(root: string): DocJudgment[] {
+  return readLines(root).filter((j): j is DocJudgment => typeof (j as DocJudgment).doc_id === "string" && (j as DocJudgment).verdict === "document_ok");
+}
+
+export function validateDocJudgment(input: DocJudgmentInput, docIds: Set<string>): string[] {
+  const out: string[] = [];
+  if (!docIds.has(input.doc_id)) return [`unknown document ${input.doc_id}`];
+  if (input.verdict !== undefined && input.verdict !== "document_ok") out.push(`verdict must be "document_ok"`);
+  if (!input.reason?.trim()) out.push("a reason is required");
+  if (!input.reviewer?.trim()) out.push("a reviewer name is required");
+  if (input.memory_items !== undefined && !(Number.isInteger(input.memory_items) && input.memory_items >= 0)) out.push("memory_items must be a whole number");
+  return out;
+}
+
+export function appendDocJudgment(root: string, input: DocJudgmentInput, docIds: Set<string>, now = new Date()): DocJudgment {
+  const problems = validateDocJudgment(input, docIds);
+  if (problems.length) throw new Error(`judgment rejected: ${problems.join("; ")}`);
+  const all = loadDocJudgments(root).filter((j) => j.doc_id === input.doc_id);
+  const j: DocJudgment = {
+    judgment_id: `j.doc.${input.doc_id}.${all.length + 1}`,
+    doc_id: input.doc_id,
+    verdict: "document_ok",
+    reason: input.reason.trim(),
+    reviewer: input.reviewer.trim(),
+    judged_at: localIso(now),
+    ...(input.memory_items !== undefined ? { memory_items: input.memory_items } : {}),
+    ...(all.length ? { supersedes: all.at(-1)!.judgment_id } : {}),
+  };
+  mkdirSync(join(root, "review"), { recursive: true });
+  appendFileSync(judgmentsPath(root), JSON.stringify(j) + "\n");
+  return j;
 }
 
 // Latest judgment per record (file order is time order: the file is append-only).

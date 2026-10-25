@@ -57,3 +57,32 @@ Every command that can call a model needs `--max-calls N`, prints a dry-run esti
 (`--dry-run` stops there), caches only replies that passed their schema, and writes a trace to `logs/`
 with the model that actually answered. The runtime token is read from `.env`
 (`METERLESS_RUNTIME_TOKEN`, see `.env.example`) and is never printed.
+
+## Memory: Meterless H-MEM
+
+**What is written.** Every accepted card (model or person) is written into H-MEM with its provenance:
+the exact quote, the source record, when it was learned, and the card id (`src/engine/memory.ts`). H-MEM
+also guesses on its own which memory supersedes which, from the wording. Those guesses are checked against
+the seat table, which is the authority. Every override is logged in H-MEM's trust ledger, and every
+remaining drift is reported. `npm run ingest` saves the store to `state/hmem-snapshot.json`
+(`saveState` in `src/engine/engine.ts`); the no-model oracle saves its own copy under `eval/results/oracle-state/`.
+
+**What is read.** The check page's "What this client told us before" panel (`src/ui/client-memory.ts`,
+called from `src/ui/api.ts`). For the document's client, it recalls with H-MEM's own `query()`, with no
+score threshold and no top-N cut, so a relevance score never drops anything. It then keeps memories that:
+- belong to this client or one of its work orders,
+- were learned by the document's cut-off, with the source record written by then,
+- are not superseded by a memory learned by the cut-off.
+
+Every item shows who, when, the exact words and a link to the source record. Rules come first, then
+approvals and rejections, newest first in each. Where H-MEM and the seat table disagree about a
+supersession, the item is shown with a "memory and decision table disagree" mark, never hidden. The
+panel says how many memories it left out and why.
+
+The same panel is where a person confirms a first quote that has nothing on file to check it against:
+"Checked against this client's history — OK to send". This writes a document-level judgment to
+`review/judgments.jsonl`, or to the copy under `--demo`, with the reviewer, the time and a required reason
+(`src/review/judgments.ts`).
+
+**What H-MEM does not decide.** The verdict. Warnings, "not cleared" and "clear" come from the seat table
+and the detectors only. The check gives the same verdict with an empty H-MEM store; a test checks this.

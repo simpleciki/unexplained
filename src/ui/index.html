@@ -223,6 +223,14 @@
   .obx-row:hover { background: rgba(0, 0, 0, 0.03); }
   .obx-row .doc-id { flex: none; width: 104px; }
   .obx-row .what { flex: 1; font-size: 13px; color: var(--ink2); }
+  .mem { border-left: 3px solid var(--sep2); padding: 6px 0 6px 12px; margin-top: 8px; }
+  .mem.rule { border-color: var(--blue); } .mem.decision { border-color: var(--amber); }
+  .mem-meta { font-size: 12px; color: var(--ink3); }
+  .mem-kind { font-weight: 600; color: var(--ink2); }
+  .mem .said { display: block; margin: 2px 0; }
+  .mem .disagree { color: var(--red-ink); font-weight: 600; }
+  .mem-src { font-size: 12px; color: var(--ink3); margin-top: 2px; white-space: pre-wrap; }
+  .tc input.reason { width: 100%; margin: 6px 0; font: inherit; font-size: 13px; padding: 5px 8px; border: 1px solid var(--sep2); border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -390,6 +398,7 @@ async function showDoc(id) {
       ${c.verdict.notes.map((n) => `<div class="verdict-note">${emph(n)}</div>`).join("")}
       ${c.to_confirm.map(toConfirmHtml).join("")}
     </div>
+    ${clientMemoryHtml(c)}
     ${fired.length ? `<div class="section-label">Triggered rules</div>${fired.map(patternHtml).join("")}` : ""}
     <div class="section-label">Patterns that did not fire</div>
     ${quiet.map((w) => `<div class="quiet"><span class="code">${w.pattern}</span><span>${esc(w.title)} — ${esc(w.status)}</span></div>`).join("")}
@@ -403,14 +412,37 @@ async function showDoc(id) {
 // reason it records says it was a quick check from the outbox); anything else opens the usual form.
 const QUICK_REASON = "Quick check from the outbox: read the record, nothing to keep.";
 function toConfirmHtml(x) {
-  if (x.kind === "first_quote") return `<div class="tc"><div class="tc-why">${esc(x.why)}</div>
-    <div class="tc-meta">The judgment form covers records, not a document itself, so this one is confirmed outside the app.</div></div>`;
+  if (x.kind === "first_quote") {
+    // Confirmed in place against what this client told us before (recalled from H-MEM, listed below); the reason
+    // is prefilled and editable, and required.
+    const n = S.check.client_memory.items.length;
+    const reason = n ? `Checked against what this client told us before (${n} item${n === 1 ? "" : "s"}).` : "No earlier word from this client on file; checked the quote by hand.";
+    return `<div class="tc" data-firstq="${esc(S.check.doc.id)}" data-n="${n}"><div class="tc-why">${esc(x.why)}</div>
+      <div class="tc-meta">${n ? `${n} thing${n === 1 ? "" : "s"} this client told us before are listed under “What this client told us before”.` : "Nothing this client told us before is on file by this quote's cut-off."}</div>
+      <input class="reason" data-firstq-reason value="${esc(reason)}" aria-label="Reason">
+      <button class="btn primary" data-confirm-first="${esc(S.check.doc.id)}">${n ? "Checked against this client's history — OK to send" : "Checked by hand — OK to send"}</button><span class="err" data-err></span></div>`;
+  }
   for (const q of [S.check.queue.needs_human, S.check.queue.spot_check, S.check.queue.confirmed]) for (const it of q) ITEMS.set(it.record_id, it);
   const actions = x.kind === "open_question"
     ? `<button class="btn" data-judge="${esc(x.record_id)}">Judge this record again</button><span class="tc-meta">Answer the question, then keep the cards without it.</span>`
     : `<button class="btn primary" data-quick="${esc(x.record_id)}">Looks fine — nothing to keep</button><button class="btn" data-judge="${esc(x.record_id)}">This holds a decision…</button>`;
   return `<div class="tc" data-rec="${esc(x.record_id)}"><div class="tc-meta">${B(shortDate(x.at))} · ${B(nameOf(x.author))} · ${esc(x.source_type.replaceAll("_", " "))} · ${esc(x.record_id)}</div>
     <div class="tc-text">${esc(x.text)}</div><div class="tc-why">${esc(x.why)}</div>${actions}<span class="err" data-err></span></div>`;
+}
+
+// "What this client told us before": recalled from Meterless H-MEM for this client and its jobs, by the cut-off,
+// not superseded by then. Rules first, then approvals and rejections, then the rest; newest first in each.
+const MEM_KIND = { rule: "Rule", decision: "Approval / rejection", other: "Other" };
+function clientMemoryHtml(c) {
+  const m = c.client_memory;
+  const d = m.dropped;
+  return `<div class="section-label">What this client told us before (${m.items.length})</div>
+    <div class="hint">Recalled from H-MEM: ${m.recalled} memories ranked; shown are this client's and its jobs', learned by the cut-off and not superseded by then (left out: ${d.other_scope} other clients, ${d.after_cutoff} later, ${d.superseded} superseded). It informs the person; it does not decide the verdict.</div>
+    ${m.items.length ? m.items.map((x) => `<div class="mem ${x.kind}">
+      <div class="mem-meta"><span class="mem-kind">${esc(MEM_KIND[x.kind])}</span> · ${x.who_name ? B(x.who_name) : "—"} · ${B(x.learned)} · ${esc(x.scope)}${x.disagree ? ` · <span class="disagree">memory and decision table disagree</span>` : ""}</div>
+      <span class="said">“${esc(x.text)}”</span>
+      <details><summary class="mem-meta">Source ${esc(x.record_id)}${x.source_type ? ` · ${esc(x.source_type.replaceAll("_", " "))}` : ""}</summary><div class="mem-src">${marked(x.record_text ?? "", x.text)}</div></details>
+    </div>`).join("") : `<div class="empty">Nothing from this client on file by this document's cut-off.</div>`}`;
 }
 
 // Person, date and money in bold (money in tabular figures); only those tokens, never whole sentences.
@@ -686,6 +718,19 @@ document.addEventListener("click", async (e) => {
   const t = e.target.closest?.("button, [data-judge], [data-close], .toggle, [data-goto]");
   if (!t) return;
   if (t.dataset.close !== undefined) return closeSheet();
+  if (t.dataset.confirmFirst) {
+    const box = t.closest(".tc");
+    const err = box.querySelector("[data-err]");
+    const reviewer = reviewerEl.value.trim();
+    const reason = box.querySelector("[data-firstq-reason]").value.trim();
+    if (!reviewer) { err.textContent = "Enter a reviewer name at the top."; return; }
+    if (!reason) { err.textContent = "A reason is required."; return; }
+    t.disabled = true;
+    const r = await api("/api/judgments", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ doc_id: t.dataset.confirmFirst, verdict: "document_ok", reason, reviewer, memory_items: Number(box.dataset.n) }) });
+    if (r.status !== 201) { t.disabled = false; err.textContent = r.body.errors.join("; "); return; }
+    await Promise.all([loadLedger(), loadJobs(), loadValue()]);
+    return go({});
+  }
   if (t.dataset.quick) {
     const err = t.closest(".tc").querySelector("[data-err]");
     const reviewer = reviewerEl.value.trim();
