@@ -1,10 +1,10 @@
 {
   "definitions": "docs/value-metrics.md (pre-registered 2026-10-25, commit 36483de)",
-  "code_commit": "db734d90cc9a43883315951de3f489b76eb91ee3",
+  "code_commit": "802a58a84903ab19d69fddd5702a55c67266674d",
   "working_tree_uncommitted": [
-    "?? eval/results/value-metrics.json"
+    "M eval/results/value-metrics.json"
   ],
-  "computed_at": "2026-10-25T07:05:58-05:00",
+  "computed_at": "2026-10-25T07:42:28-05:00",
   "inputs": {
     "data": "data/ (files)",
     "state_cards": 78,
@@ -2713,6 +2713,535 @@
           "text": "Rejected.",
           "reason_given": false
         }
+      }
+    ]
+  },
+  "amendment_1": "docs/value-metrics-amendment-1.md (commit e309034)",
+  "metric_4_items_to_confirm": {
+    "total_items_all_documents": 58,
+    "total_items_designed_clean": 46,
+    "not_cleared": {
+      "documents": 27,
+      "items": 58,
+      "median": 1,
+      "min": 1,
+      "max": 7,
+      "need_1": 15,
+      "need_2": 6,
+      "need_3": 1,
+      "need_more": 5,
+      "need_0": 0,
+      "by_kind": {
+        "spot_check": 26,
+        "open_question": 9,
+        "first_quote": 9,
+        "needs_human": 14
+      }
+    },
+    "not_cleared_by_designed": {
+      "problem": {
+        "documents": 6,
+        "items": 12,
+        "median": 1.5,
+        "min": 1,
+        "max": 5,
+        "need_1": 3,
+        "need_2": 2,
+        "need_3": 0,
+        "need_more": 1,
+        "need_0": 0,
+        "by_kind": {
+          "needs_human": 5,
+          "spot_check": 7
+        }
+      },
+      "clean": {
+        "documents": 21,
+        "items": 46,
+        "median": 1,
+        "min": 1,
+        "max": 7,
+        "need_1": 12,
+        "need_2": 4,
+        "need_3": 1,
+        "need_more": 4,
+        "need_0": 0,
+        "by_kind": {
+          "spot_check": 19,
+          "open_question": 9,
+          "first_quote": 9,
+          "needs_human": 9
+        }
+      }
+    },
+    "warnings_need_a_fix": {
+      "documents": 30,
+      "ids": [
+        "Q-NL-02-v2",
+        "Q-NL-02-v3",
+        "Q-NL-03-v1",
+        "Q-NL-03-v2",
+        "Q-NL-03-v3",
+        "Q-NL-03-v4",
+        "Q-NL-04-v1",
+        "Q-NL-04-v2",
+        "Q-NL-04-v3",
+        "Q-OC-02-v2",
+        "Q-OC-02-v3",
+        "Q-OC-03-v2",
+        "Q-OC-03-v3",
+        "Q-PW-02-v2",
+        "Q-PW-02-v3",
+        "Q-PW-02-v4",
+        "Q-PW-03-v2",
+        "Q-PW-04-v2",
+        "Q-RM-02-v4",
+        "Q-RM-04-v2",
+        "Q-PW-05-v2",
+        "Q-PW-05-v3",
+        "INV-NL-04",
+        "INV-OC-01",
+        "INV-OC-03",
+        "INV-OC-04",
+        "INV-PW-03",
+        "INV-PW-04",
+        "INV-RM-02",
+        "INV-RM-04"
+      ]
+    },
+    "p2_needs_judge_not_a_persons_item": {
+      "not_cleared_documents_with_p2_open": [
+        "Q-NL-01-v2",
+        "Q-NL-01-v3",
+        "Q-OC-01-v2",
+        "Q-RM-01-v2",
+        "Q-RM-02-v2",
+        "Q-RM-02-v3",
+        "Q-RM-03-v2",
+        "Q-OC-05-v2"
+      ]
+    },
+    "per_document": [
+      {
+        "id": "Q-NL-01-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 2,
+        "kinds": [
+          "spot_check",
+          "open_question"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-NL-01-v2",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 5,
+        "kinds": [
+          "spot_check",
+          "spot_check",
+          "spot_check",
+          "open_question",
+          "open_question"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-NL-01-v3",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 6,
+        "kinds": [
+          "spot_check",
+          "spot_check",
+          "spot_check",
+          "open_question",
+          "open_question",
+          "open_question"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-NL-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-01-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-01-v2",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 3,
+        "kinds": [
+          "needs_human",
+          "needs_human",
+          "spot_check"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-OC-01-v3",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 5,
+        "kinds": [
+          "needs_human",
+          "needs_human",
+          "needs_human",
+          "spot_check",
+          "spot_check"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-03-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-04-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 2,
+        "kinds": [
+          "needs_human",
+          "spot_check"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-PW-01-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "needs_human"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-PW-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-PW-03-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-PW-04-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-RM-01-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 2,
+        "kinds": [
+          "needs_human",
+          "spot_check"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-RM-01-v2",
+        "designed": "problem",
+        "state": "not_cleared",
+        "items": 5,
+        "kinds": [
+          "needs_human",
+          "needs_human",
+          "needs_human",
+          "spot_check",
+          "spot_check"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-RM-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-RM-02-v2",
+        "designed": "problem",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "spot_check"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-RM-02-v3",
+        "designed": "problem",
+        "state": "not_cleared",
+        "items": 2,
+        "kinds": [
+          "needs_human",
+          "spot_check"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-RM-03-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "first_quote"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-RM-03-v2",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "spot_check"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "Q-PW-05-v1",
+        "designed": "problem",
+        "state": "not_cleared",
+        "items": 2,
+        "kinds": [
+          "needs_human",
+          "spot_check"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-05-v1",
+        "designed": "problem",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "spot_check"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "Q-OC-05-v2",
+        "designed": "problem",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "spot_check"
+        ],
+        "p2_open": true
+      },
+      {
+        "id": "INV-NL-01",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 7,
+        "kinds": [
+          "spot_check",
+          "spot_check",
+          "spot_check",
+          "spot_check",
+          "open_question",
+          "open_question",
+          "open_question"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "INV-PW-01",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 2,
+        "kinds": [
+          "needs_human",
+          "spot_check"
+        ],
+        "p2_open": false
+      },
+      {
+        "id": "INV-RM-03",
+        "designed": "clean",
+        "state": "not_cleared",
+        "items": 1,
+        "kinds": [
+          "spot_check"
+        ],
+        "p2_open": false
+      }
+    ],
+    "clicks_note": "Clicks in the interface are measured separately in the demo and reported as observed, not part of this count."
+  },
+  "metric_5_sample_day": {
+    "seed": 20261027,
+    "rule": "2 of the designed-problem and 8 of the designed-clean documents, uniform without replacement, each list sorted by id, mulberry32 (src/ui/sample.ts)",
+    "documents": [
+      {
+        "id": "Q-NL-04-v3",
+        "designed": "problem",
+        "state": "warnings",
+        "outcome": "caught",
+        "total": 2640,
+        "fired": [
+          "P5"
+        ],
+        "to_confirm": 0,
+        "judge_open": [
+          "P2"
+        ]
+      },
+      {
+        "id": "Q-PW-05-v2",
+        "designed": "problem",
+        "state": "warnings",
+        "outcome": "caught",
+        "total": 1626,
+        "fired": [
+          "P1",
+          "P5"
+        ],
+        "to_confirm": 0,
+        "judge_open": [
+          "P2"
+        ]
+      },
+      {
+        "id": "Q-OC-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 1014,
+        "fired": [],
+        "to_confirm": 1,
+        "judge_open": []
+      },
+      {
+        "id": "Q-RM-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 264,
+        "fired": [],
+        "to_confirm": 1,
+        "judge_open": []
+      },
+      {
+        "id": "Q-NL-03-v1",
+        "designed": "clean",
+        "state": "warnings",
+        "outcome": "false_alarm",
+        "total": 503,
+        "fired": [
+          "P6"
+        ],
+        "to_confirm": 0,
+        "judge_open": []
+      },
+      {
+        "id": "Q-PW-04-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 3527,
+        "fired": [],
+        "to_confirm": 1,
+        "judge_open": []
+      },
+      {
+        "id": "Q-NL-02-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 1443,
+        "fired": [],
+        "to_confirm": 1,
+        "judge_open": []
+      },
+      {
+        "id": "INV-PW-01",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 780,
+        "fired": [],
+        "to_confirm": 2,
+        "judge_open": []
+      },
+      {
+        "id": "Q-PW-01-v1",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 780,
+        "fired": [],
+        "to_confirm": 1,
+        "judge_open": []
+      },
+      {
+        "id": "Q-NL-01-v2",
+        "designed": "clean",
+        "state": "not_cleared",
+        "outcome": "needs_person",
+        "total": 1988,
+        "fired": [],
+        "to_confirm": 5,
+        "judge_open": [
+          "P2"
+        ]
       }
     ]
   },
