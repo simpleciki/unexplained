@@ -15,6 +15,8 @@ import { loadStoryFile, storyResponse, validateStory } from "./story.ts";
 import type { EvidenceItem } from "./findings.ts";
 import type { JudgmentInput } from "../review/judgments.ts";
 import { jobQueue, loadReviewView } from "../review/queue.ts";
+import { designedInvoice, designedQuote } from "../eval/value-metrics.ts";
+import { sampleDay } from "./sample.ts";
 import type { ReviewView } from "../review/queue.ts";
 
 export const WARNINGS: Record<string, string> = {
@@ -27,7 +29,8 @@ export const WARNINGS: Record<string, string> = {
   P7: "Invoice does not match what was approved",
 };
 
-export type View = "all" | "curated";
+export type View = "all" | "curated" | "sample";
+export const VIEWS: View[] = ["sample", "all", "curated"];
 export type Ctx = { root: string; data: Dataset; view: ReviewView; engine: Engine; summaries?: Partial<Record<View, Summary>> };
 
 // Rebuilt after every judgment, so the ledger and the engine always reflect review/judgments.jsonl.
@@ -53,7 +56,8 @@ export function meta(ctx: Ctx) {
 export function jobs(ctx: Ctx) {
   const t = ctx.data.tables;
   const clients = new Map(t.clients.map((c) => [c.client_id, c.name]));
-  const { states } = summary(ctx);
+  const { states, to_confirm } = summary(ctx);
+  const left = (id: string) => to_confirm.per_doc[id] ?? 0;
   return t.workOrders.map((w) => {
     const q = jobQueue(ctx.view, w.work_order_id);
     return {
@@ -65,8 +69,8 @@ export function jobs(ctx: Ctx) {
       spot_check: q.spot_check.length,
       confirmed: q.confirmed.length,
       docs: [
-        ...t.quotes.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "quote" as const, id: x.quote_id, label: `v${x.version}`, at: x.submitted_at, total: Number(x.total), state: states[x.quote_id] })),
-        ...t.invoices.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "invoice" as const, id: x.invoice_id, label: x.invoice_id, at: x.issued_at, total: Number(x.total), state: states[x.invoice_id] })),
+        ...t.quotes.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "quote" as const, id: x.quote_id, label: `v${x.version}`, at: x.submitted_at, total: Number(x.total), state: states[x.quote_id], left: left(x.quote_id) })),
+        ...t.invoices.filter((x) => x.work_order_id === w.work_order_id).map((x) => ({ kind: "invoice" as const, id: x.invoice_id, label: x.invoice_id, at: x.issued_at, total: Number(x.total), state: states[x.invoice_id], left: left(x.invoice_id) })),
       ].sort((a, b) => ms(a.at) - ms(b.at)),
     };
   });
@@ -205,12 +209,28 @@ export function check(ctx: Ctx, docId: string) {
 
   const lines = invoice ? t.invoiceLines.filter((l) => l.invoice_id === docId) : version!.lines;
   const kind = invoice ? "invoice" : "quote";
+
+  // What a person has to confirm before a not-cleared document can clear (docs/value-metrics-amendment-1.md
+  // section 4): the same open things the verdict notes count, one item each. P2 is not a person's item (it
+  // stays in judge_open), and a document with warnings needs a fix, not a confirmation, so it has none.
+  const recItem = (x: (typeof seen)[number], k: "needs_human" | "spot_check") => ({ kind: k, record_id: x.record_id, author: x.author, at: x.recorded_at, source_type: x.source_type, text: x.text, why: k === "spot_check" ? "The model read this record as empty; a person spot-checks it before the document can clear." : x.why });
+  const toConfirm = verdict.state !== "not_cleared" ? [] : [
+    ...(seen.length === 0 && !firstQuote ? [{ kind: "first_quote" as const, why: `No records in this job before this ${kind}, and not enough client history to check it against: confirm this first ${kind} by hand.` }] : []),
+    ...unjudged.map((x) => recItem(x, "needs_human")),
+    ...spot.map((x) => recItem(x, "spot_check")),
+    ...questions.map((q) => {
+      const x = seen.find((s) => s.record_id === q.record_id)!;
+      return { kind: "open_question" as const, record_id: q.record_id, author: x.author, at: x.recorded_at, source_type: x.source_type, text: x.text, why: `Open question (${q.reviewer}): ${q.question}` };
+    }),
+  ];
   return {
     doc: { id: docId, kind, job, client, at: inOffsetOf(at, ms(at)), total: invoice ? Number(invoice.total) : version!.total, lines },
     cutoff: `records up to ${inOffsetOf(at, asOf).slice(11)}, just before this ${kind} was ${invoice ? "issued" : "submitted"}`,
     records: { seen: seen.length, read, unjudged: unjudged.length, spot_check: spot.length },
     verdict,
     warnings,
+    to_confirm: toConfirm,
+    judge_open: openPatterns,
     // Only records written by the cut-off are part of this check: they are the "Needs your judgment (N)" the
     // verdict counts. Records written later are listed apart, never hidden and never counted.
     queue: {
@@ -242,34 +262,58 @@ export function designedClean(ctx: Ctx): string[] {
   return [...t.quotes.filter((x) => x.status === "approved").map((x) => x.quote_id), ...t.invoices.filter((x) => x.status === "paid").map((x) => x.invoice_id)];
 }
 
+// Designed problem / clean per docs/value-metrics.md (the generator's end-of-window outcome), for the sample
+// day's draw only; never for a verdict.
+export function designedLists(ctx: Ctx): { problem: string[]; clean: string[] } {
+  const t = ctx.data.tables;
+  const quoteStatus = new Map(t.quotes.map((q) => [q.quote_id, q.status]));
+  const all = [...t.quotes.map((q) => ({ id: q.quote_id, d: designedQuote(q) })), ...t.invoices.map((i) => ({ id: i.invoice_id, d: designedInvoice(i, quoteStatus) }))];
+  return { problem: all.filter((x) => x.d.outcome === "problem").map((x) => x.id), clean: all.filter((x) => x.d.outcome === "clean").map((x) => x.id) };
+}
+
+export function sampleIds(ctx: Ctx): string[] {
+  const { problem, clean } = designedLists(ctx);
+  const day = sampleDay(problem, clean);
+  return [...day.problems, ...day.clean];
+}
+
 export function viewIds(ctx: Ctx, view: View): string[] {
   const t = ctx.data.tables;
   const all = [...t.quotes.map((x) => x.quote_id), ...t.invoices.map((x) => x.invoice_id)];
   if (view === "all") return all;
+  if (view === "sample") {
+    const keep = new Set(sampleIds(ctx));
+    return all.filter((id) => keep.has(id));
+  }
   const keep = new Set([...CURATED_PROBLEMS.map((p) => p.doc), ...designedClean(ctx)]);
   return all.filter((id) => keep.has(id));
 }
 
 // Every document in the view checked, and the money in each verdict state ("checked", never "saved"). Rebuilt
 // with the context after each judgment.
-export type Summary = { view: View; documents: number; total: number; by_state: Record<"warnings" | "not_cleared" | "clear", { n: number; total: number }>; states: Record<string, "warnings" | "not_cleared" | "clear"> };
+// to_confirm: items a person has to confirm over the view's not-cleared documents (amendment 1 section 4), and
+// per document, so the outbox reads as a to-do list.
+export type Summary = { view: View; documents: number; total: number; all_documents: number; by_state: Record<"warnings" | "not_cleared" | "clear", { n: number; total: number }>; states: Record<string, "warnings" | "not_cleared" | "clear">; to_confirm: { items: number; per_doc: Record<string, number> } };
 export function summary(ctx: Ctx, view: View = "all"): Summary {
   const cached = ctx.summaries?.[view];
   if (cached) return cached;
   const ids = viewIds(ctx, view);
   const by_state = { warnings: { n: 0, total: 0 }, not_cleared: { n: 0, total: 0 }, clear: { n: 0, total: 0 } };
   const states: Summary["states"] = {};
+  const perDoc: Record<string, number> = {};
   let total = 0;
   for (const id of ids) {
     const c = check(ctx, id)!;
     states[id] = c.verdict.state;
+    if (c.to_confirm.length) perDoc[id] = c.to_confirm.length;
     by_state[c.verdict.state].n++;
     by_state[c.verdict.state].total += c.doc.total;
     total += c.doc.total;
   }
   const r2 = (n: number) => Math.round(n * 100) / 100;
   for (const s of Object.values(by_state)) s.total = r2(s.total);
-  const out: Summary = { view, documents: ids.length, total: r2(total), by_state, states };
+  const allDocs = ctx.data.tables.quotes.length + ctx.data.tables.invoices.length;
+  const out: Summary = { view, documents: ids.length, total: r2(total), all_documents: allDocs, by_state, states, to_confirm: { items: Object.values(perDoc).reduce((a, b) => a + b, 0), per_doc: perDoc } };
   ctx.summaries = { ...ctx.summaries, [view]: out };
   return out;
 }

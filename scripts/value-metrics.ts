@@ -7,7 +7,8 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadData } from "../src/adapters/zetaris.ts";
-import { check, loadCtx, meta } from "../src/ui/api.ts";
+import { check, designedLists, loadCtx, meta } from "../src/ui/api.ts";
+import { SAMPLE_SEED, sampleDay } from "../src/ui/sample.ts";
 import { ms } from "../src/engine/docs.ts";
 import { classify, designedInvoice, designedQuote, median, OUTCOMES, recordsToRead, tally } from "../src/eval/value-metrics.ts";
 import type { Designed, DocResult } from "../src/eval/value-metrics.ts";
@@ -136,6 +137,31 @@ const forward = heroVersions.map((q, i) => {
   };
 });
 
+// ---- 4. What a person has to confirm (amendment 1) ---------------------------------------------------
+const items4 = docs.map((d) => ({ id: d.id, designed: d.designed, state: d.state, items: d.check.to_confirm.length, kinds: d.check.to_confirm.map((x) => x.kind), p2_open: d.check.judge_open.includes("P2") }));
+const nc = items4.filter((d) => d.state === "not_cleared");
+const kindCounts = (ds: typeof items4) => ds.flatMap((d) => d.kinds).reduce<Record<string, number>>((a, k) => ({ ...a, [k]: (a[k] ?? 0) + 1 }), {});
+const dist = (ds: typeof items4) => {
+  const n = ds.map((d) => d.items);
+  return { documents: ds.length, items: n.reduce((a, b) => a + b, 0), median: median(n), min: n.length ? Math.min(...n) : null, max: n.length ? Math.max(...n) : null, need_1: n.filter((x) => x === 1).length, need_2: n.filter((x) => x === 2).length, need_3: n.filter((x) => x === 3).length, need_more: n.filter((x) => x > 3).length, need_0: n.filter((x) => x === 0).length, by_kind: kindCounts(ds) };
+};
+const s4 = {
+  total_items_all_documents: items4.reduce((a, d) => a + d.items, 0),
+  total_items_designed_clean: items4.filter((d) => d.designed === "clean").reduce((a, d) => a + d.items, 0),
+  not_cleared: dist(nc),
+  not_cleared_by_designed: { problem: dist(nc.filter((d) => d.designed === "problem")), clean: dist(nc.filter((d) => d.designed === "clean")) },
+  warnings_need_a_fix: { documents: items4.filter((d) => d.state === "warnings").length, ids: items4.filter((d) => d.state === "warnings").map((d) => d.id) },
+  p2_needs_judge_not_a_persons_item: { not_cleared_documents_with_p2_open: nc.filter((d) => d.p2_open).map((d) => d.id) },
+  per_document: items4.filter((d) => d.state === "not_cleared"),
+  clicks_note: "Clicks in the interface are measured separately in the demo and reported as observed, not part of this count.",
+};
+const { problem: problemIds, clean: cleanIds } = designedLists(ctx);
+const day = sampleDay(problemIds, cleanIds);
+const sample = [...day.problems, ...day.clean].map((id) => {
+  const d = docs.find((x) => x.id === id)!;
+  return { id, designed: d.designed, state: d.state, outcome: d.outcome, total: d.total, fired: d.fired, to_confirm: d.check.to_confirm.length, judge_open: d.check.judge_open };
+});
+
 // ---- Write and print --------------------------------------------------------------------------------
 const head = git("rev-parse", "HEAD");
 const dirty = git("status", "--porcelain").split("\n").filter(Boolean);
@@ -150,6 +176,9 @@ const out = {
   per_document: docs.map(({ check: _c, ...d }) => d),
   metric_2_records_to_read: { caught_documents: caught.length, ...s2, ratio_of_medians: ratioOfMedians, median_of_per_document_ratios: medianPerDocRatio, per_document: reading, estimate_note: "Time per investigation is the builder's own estimate from real work (1.5–2 hours, about 15–20 disputed quotes a month reaching the last check); not measured here." },
   metric_3_wo_pw_05: { held_usd: hero.held_usd, versions: forward },
+  amendment_1: "docs/value-metrics-amendment-1.md (commit e309034)",
+  metric_4_items_to_confirm: s4,
+  metric_5_sample_day: { seed: SAMPLE_SEED, rule: "2 of the designed-problem and 8 of the designed-clean documents, uniform without replacement, each list sorted by id, mulberry32 (src/ui/sample.ts)", documents: sample },
   cannot_say: "The data is fictional and the problem documents were planted on purpose (about 57% problem documents). No real user has used the tool; time saved is not measured.",
 };
 writeFileSync(join(root, "eval/results/value-metrics.json"), JSON.stringify(out, null, 2) + "\n");
@@ -189,4 +218,15 @@ for (const v of forward) {
   for (const n of v.notes) console.log(`     note: ${n}`);
   if (v.what_happened) console.log(`     what happened: ${v.what_happened.at} ${v.what_happened.by} (${v.what_happened.record}): "${v.what_happened.text}" · reason given: ${v.what_happened.reason_given === false ? "no" : "unknown"}`);
 }
+const d4 = (x: ReturnType<typeof dist>) => `${x.documents} docs, ${x.items} items, median ${x.median}, range ${x.min}–${x.max}; need 1: ${x.need_1}, 2: ${x.need_2}, 3: ${x.need_3}, more: ${x.need_more}${x.need_0 ? `, 0: ${x.need_0}` : ""} · ${Object.entries(x.by_kind).map(([k, n]) => `${k} ${n}`).join(", ")}`;
+console.log(`\n4. What a person has to confirm (amendment 1)`);
+console.log(`   items over all ${docs.length} documents: ${s4.total_items_all_documents}; over the ${out.documents.clean.length} designed-clean: ${s4.total_items_designed_clean}`);
+console.log(`   not cleared: ${d4(s4.not_cleared)}`);
+console.log(`     designed problem: ${d4(s4.not_cleared_by_designed.problem)}`);
+console.log(`     designed clean:   ${d4(s4.not_cleared_by_designed.clean)}`);
+for (const d of s4.per_document) console.log(`     ${d.id.padEnd(12)} ${d.designed.padEnd(8)} ${d.items} item${d.items === 1 ? "" : "s"}: ${d.kinds.join(", ")}${d.p2_open ? " · and P2 needs the Judge step" : ""}`);
+console.log(`   warnings (need a fix, not a confirmation): ${s4.warnings_need_a_fix.documents}`);
+console.log(`   P2 needs the Judge step (not a person's item), not-cleared documents: ${s4.p2_needs_judge_not_a_persons_item.not_cleared_documents_with_p2_open.length} [${s4.p2_needs_judge_not_a_persons_item.not_cleared_documents_with_p2_open.join(" ")}]`);
+console.log(`\n5. The sample day (seed ${SAMPLE_SEED})`);
+for (const d of sample) console.log(`   ${d.id.padEnd(12)} ${d.designed.padEnd(8)} ${d.state.padEnd(12)} ${money(d.total).padStart(10)}  ${d.fired.length ? `fix: ${d.fired.join(",")}` : d.to_confirm ? `${d.to_confirm} left to confirm` : "ready"}${d.judge_open.length ? ` · ${d.judge_open.join(",")} needs the Judge step` : ""}`);
 console.log(`\nwrote eval/results/value-metrics.json`);

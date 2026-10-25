@@ -58,6 +58,42 @@ describe("gatekeeper API", () => {
     expect(get(box, "/api/check?doc=Q-XX-99").status).toBe(404);
   });
 
+  it("lists what a person has to confirm on each not-cleared document, the same open things the verdict counts", () => {
+    const { box } = setup();
+    const all = get(box, "/api/summary?view=all").body;
+    let items = 0;
+    for (const id of ["Q-NL-01-v1", "Q-NL-01-v2", "Q-NL-02-v1", "INV-NL-04", "Q-PW-05-v1", "Q-PW-05-v3"]) {
+      const c = get(box, `/api/check?doc=${id}`).body;
+      const kinds = (k: string) => c.to_confirm.filter((x: { kind: string }) => x.kind === k).length;
+      if (c.verdict.state !== "not_cleared") {
+        expect(c.to_confirm).toEqual([]); // a warning needs a fix, a clear document needs nothing
+        continue;
+      }
+      expect(kinds("needs_human")).toBe(c.records.unjudged);
+      expect(kinds("spot_check")).toBe(c.records.spot_check);
+      expect(kinds("first_quote")).toBe(c.verdict.notes.some((n: string) => n.startsWith("No messages")) ? 1 : 0);
+      expect(kinds("open_question")).toBe(c.verdict.notes.filter((n: string) => n.startsWith("Open question")).length);
+      expect(c.to_confirm.some((x: { kind: string }) => x.kind === "P2")).toBe(false); // the Judge step is not a person's item
+      for (const x of c.to_confirm.filter((x: { kind: string }) => x.kind !== "first_quote")) expect(typeof x.text).toBe("string");
+      expect(all.to_confirm.per_doc[id] ?? 0).toBe(c.to_confirm.length);
+      items += c.to_confirm.length;
+    }
+    expect(items).toBeGreaterThan(0);
+    expect(all.to_confirm.items).toBe(Object.values(all.to_confirm.per_doc as Record<string, number>).reduce((a, b) => a + b, 0));
+  });
+
+  it("serves the sample day as a view of 10 documents whose totals match its checks", () => {
+    const { box } = setup();
+    const s = get(box, "/api/summary?view=sample").body;
+    expect(s.documents).toBe(10);
+    expect(s.all_documents).toBe(58);
+    expect([...s.ids].sort()).toEqual(["INV-PW-01", "Q-NL-01-v2", "Q-NL-02-v1", "Q-NL-03-v1", "Q-NL-04-v3", "Q-OC-02-v1", "Q-PW-01-v1", "Q-PW-04-v1", "Q-PW-05-v2", "Q-RM-02-v1"]);
+    const by = { warnings: 0, not_cleared: 0, clear: 0 } as Record<string, number>;
+    for (const id of s.ids) by[get(box, `/api/check?doc=${id}`).body.verdict.state]++;
+    expect(by).toEqual({ warnings: s.by_state.warnings.n, not_cleared: s.by_state.not_cleared.n, clear: s.by_state.clear.n });
+    expect(get(box, "/api/summary?view=nope").status).toBe(400);
+  });
+
   it("never says Clear while a job record before the document is unjudged; does once they are all judged", () => {
     const { box } = setup();
     const doc = "Q-NL-01-v1"; // submitted 2026-03-04T09:15:00-06:00; no earlier version, so P2 has nothing open

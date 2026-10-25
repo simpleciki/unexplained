@@ -208,6 +208,21 @@
   .err { color: var(--red-ink); font-size: 13px; }
   .nothing { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--sep); }
   .nothing .hint { margin-bottom: 0; }
+  .todo { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 9px; font-variant-numeric: tabular-nums; }
+  .todo .fix { color: var(--red-ink); } .todo .chk { color: var(--amber-ink); } .todo .ok { color: var(--green-ink); }
+  .sample-note { font-size: 12px; color: var(--ink2); margin-bottom: 8px; }
+  .sample-note a { color: var(--blue); cursor: pointer; text-decoration: underline; }
+  .tc { border: 1px solid rgba(255, 159, 10, 0.3); background: var(--card); border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+  .tc-meta { font-size: 12px; color: var(--ink3); }
+  .tc-text { font-size: 14px; margin: 4px 0; white-space: pre-wrap; }
+  .tc-why { font-size: 12px; color: var(--amber-ink); margin-bottom: 6px; }
+  .tc .btn { margin-right: 6px; }
+  .tc .err { display: block; margin-top: 4px; }
+  .obx-group { margin-top: 18px; }
+  .obx-row { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-bottom: 1px solid var(--sep2); cursor: pointer; }
+  .obx-row:hover { background: rgba(0, 0, 0, 0.03); }
+  .obx-row .doc-id { flex: none; width: 104px; }
+  .obx-row .what { flex: 1; font-size: 13px; color: var(--ink2); }
 </style>
 </head>
 <body>
@@ -236,10 +251,13 @@ const day = (iso) => String(iso ?? "").replace("T", " ").slice(0, 16);
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const shortDate = (iso) => (iso ? `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}` : "");
 const api = async (path, opts) => { const r = await fetch(path, opts); const j = await r.json(); if (!r.ok && r.status !== 400) throw new Error((j.errors || []).join("; ") || r.status); return { status: r.status, body: j }; };
-const S = { meta: null, jobs: [], job: null, doc: null, tab: "outbox", people: new Map(), drafts: {}, sheet: null, view: "all", viewIds: null, picks: new Map() };
+const S = { meta: null, jobs: [], job: null, doc: null, tab: "outbox", people: new Map(), drafts: {}, sheet: null, view: "sample", viewIds: null, picks: new Map(), toConfirm: {}, summary: null };
 const nameOf = (id) => S.people.get(id)?.name ?? id;
-const STATE = { warnings: "Hold", not_cleared: "Not cleared", clear: "Clear" };
-const pill = (s) => (s ? `<span class="pill ${s}">${STATE[s]}</span>` : "");
+// A not-cleared document reads as the work left on it ("2 left to confirm"), not as blocked. Without a count
+// (nothing a person can confirm, e.g. only the Judge step is open) it says "Not cleared".
+const STATE = { warnings: "Fix before sending", not_cleared: "Not cleared", clear: "Clear" };
+const leftText = (n) => `${n} left to confirm`;
+const pill = (s, left) => (s ? `<span class="pill ${s}">${s === "not_cleared" && left ? leftText(left) : STATE[s]}</span>` : "");
 
 // Reviewer name: remembered in this browser only (a convenience; the judgment file is the record).
 const reviewerEl = $("#reviewer");
@@ -260,25 +278,38 @@ async function loadLedger() {
 
 // Documents checked and the money in each verdict state. "Checked", never "saved".
 // The view switch: "All documents" (the default) or the curated mix, labelled as curated on screen.
+// The view switch: "Today's outbox" (the default: a sample day drawn at the builder's 2-in-10 ratio), all
+// documents, or the curated mix; each labelled on screen. The header reads as a to-do list from the API's
+// counts for the view in use.
 async function loadValue() {
   const s = (await api(`/api/summary?view=${S.view}`)).body;
-  S.viewIds = S.view === "curated" ? new Set(s.ids) : null;
+  S.summary = s;
+  S.viewIds = s.ids ? new Set(s.ids) : null;
   S.picks = new Map((s.picks || []).map((p) => [p.doc, p]));
+  S.toConfirm = s.to_confirm.per_doc;
   const sw = (v, label) => `<button data-view="${v}" class="${S.view === v ? "on" : ""}">${label}</button>`;
   const pct = (n) => (s.total ? (n / s.total) * 100 : 0);
   const b = s.by_state;
+  const quick = Object.keys(s.to_confirm.per_doc).length;
+  const waiting = b.not_cleared.n - quick;
+  const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
   $("#value").innerHTML = `
+    <div class="todo"><span class="fix">${b.warnings.n} to fix before sending</span> · <span class="chk">${plural(quick, "quick check", "quick checks")} (${plural(s.to_confirm.items, "item", "items")})</span>${waiting ? ` · ${waiting} waiting on the Judge step` : ""} · <span class="ok">${b.clear.n} ready to send</span></div>
     <div class="value-line"><strong>${s.documents} documents · ${money(s.total)}</strong> checked before they went out
-      <span class="viewsw">${sw("all", "All documents")}${sw("curated", "Curated: one example per problem + all clean documents")}</span></div>
+      <span class="viewsw">${sw("sample", "Today's outbox")}${sw("all", `All ${s.all_documents} documents`)}${sw("curated", "Curated: one example per problem + all clean documents")}</span></div>
+    ${S.view === "sample" ? `<div class="sample-note">A sample day: ${s.documents} documents, drawn at random at the builder's 2-in-10 ratio. <a data-view="all">See all ${s.all_documents}.</a></div>` : ""}
     ${S.view === "curated" ? `<div class="curated-note">Curated view — ${S.picks.size} problem examples (one per pattern, P1–P7) and ${s.documents - S.picks.size} documents designed clean. Not the whole outbox.</div>` : ""}
     <div class="bar"><div style="width:${pct(b.warnings.total)}%;background:var(--red)"></div><div style="width:${pct(b.not_cleared.total)}%;background:var(--amber)"></div><div style="width:${pct(b.clear.total)}%;background:var(--green)"></div></div>
     <div class="legend">
-      <span><i class="dot" style="background:var(--red)"></i>Issues found before sending · ${b.warnings.n} · ${money(b.warnings.total)}</span>
-      <span><i class="dot" style="background:var(--amber)"></i>Not cleared, a person has to check · ${b.not_cleared.n} · ${money(b.not_cleared.total)}</span>
+      <span><i class="dot" style="background:var(--red)"></i>Fix before sending · ${b.warnings.n} · ${money(b.warnings.total)}</span>
+      <span><i class="dot" style="background:var(--amber)"></i>Not cleared until a person confirms · ${b.not_cleared.n} · ${money(b.not_cleared.total)}</span>
       <span><i class="dot" style="background:var(--green)"></i>Cleared · ${b.clear.n} · ${money(b.clear.total)}</span>
     </div>`;
-  document.documentElement.style.setProperty("--value-h", `${$("#value").offsetHeight}px`);
+  setValueHeight();
 }
+// The panes fill what the value strip leaves; measured again when the window changes size (the strip wraps).
+const setValueHeight = () => document.documentElement.style.setProperty("--value-h", `${$("#value").offsetHeight}px`);
+window.addEventListener("resize", setValueHeight);
 
 async function loadJobs() {
   S.jobs = (await api("/api/jobs")).body;
@@ -290,13 +321,14 @@ $("#value").addEventListener("click", async (e) => {
   if (!b || b.dataset.view === S.view) return;
   S.view = b.dataset.view;
   await loadValue();
-  renderSidebar();
+  if (S.tab === "outbox" && !S.doc && !S.job) await go({});
+  else renderSidebar();
 });
 
 function renderSidebar() {
   const docsOf = (j) => (S.viewIds ? j.docs.filter((d) => S.viewIds.has(d.id)) : j.docs);
   const jobs = S.jobs.filter((j) => docsOf(j).length);
-  $("#sidebar").innerHTML = `<div class="side-label">${S.viewIds ? "Curated: the jobs and documents in this view" : "Jobs and their documents"}</div>` + jobs.map((j) => `
+  $("#sidebar").innerHTML = `<div class="side-label">${S.view === "sample" ? "Today's outbox: the jobs and documents in it" : S.viewIds ? "Curated: the jobs and documents in this view" : "Jobs and their documents"}</div>` + jobs.map((j) => `
     <div class="job ${S.job === j.job && !S.doc ? "on" : ""}" data-job="${esc(j.job)}">
       <div class="job-row"><span class="job-id">${esc(j.job)}</span>${j.needs_human ? `<span class="job-need">${j.needs_human} need you</span>` : ""}</div>
       <div class="job-title">${esc(j.title)} · ${esc(j.client)}</div>
@@ -313,7 +345,8 @@ $("#sidebar").addEventListener("click", (e) => {
   if (j) return go({ tab: "outbox", job: j.dataset.job });
 });
 
-document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => go({ tab: t.dataset.tab })));
+// The Outbox tab goes back to the outbox list of the view in use.
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => go(t.dataset.tab === "outbox" ? { tab: "outbox", job: null } : { tab: t.dataset.tab })));
 
 // One place that switches what is shown, with the calm cross-fade.
 async function go(to) {
@@ -329,7 +362,8 @@ async function go(to) {
     if (S.tab === "needs") await showNeeds();
     else if (S.tab === "ledger") await showLedger();
     else if (S.doc) await showDoc(S.doc);
-    else await showJob(S.job ?? S.jobs[0]?.job);
+    else if (S.job) await showJob(S.job);
+    else await showOutbox();
   } finally {
     renderSidebar();
     panes.forEach((p) => p.classList.remove("fading"));
@@ -351,9 +385,10 @@ async function showDoc(id) {
     <div class="crumb">${esc(c.doc.job)}<i>·</i>${esc(j?.title)}<i>·</i>${esc(j?.client)}</div>
     <div class="doc-head"><div class="doc-title">${esc(title)}</div><div class="doc-total">${money2(c.doc.total)}</div></div>
     <div class="cutoff">${esc(c.doc.at)} · Checked as it is about to go out — ${esc(c.cutoff)}</div>
-    <div class="verdict ${c.verdict.state}">${pill(c.verdict.state)}
-      <div class="verdict-text">${esc(c.verdict.text)}</div>
+    <div class="verdict ${c.verdict.state}">${c.verdict.state === "not_cleared" && c.to_confirm.length ? `${pill("not_cleared", c.to_confirm.length)}` : pill(c.verdict.state)}
+      <div class="verdict-text">${c.verdict.state === "warnings" ? `Fix before sending — ${esc(c.verdict.text)}` : c.verdict.state === "not_cleared" && c.to_confirm.length ? `${leftText(c.to_confirm.length)} — not cleared until a person confirms ${c.to_confirm.length === 1 ? "it" : "them"}` : esc(c.verdict.text)}</div>
       ${c.verdict.notes.map((n) => `<div class="verdict-note">${emph(n)}</div>`).join("")}
+      ${c.to_confirm.map(toConfirmHtml).join("")}
     </div>
     ${fired.length ? `<div class="section-label">Triggered rules</div>${fired.map(patternHtml).join("")}` : ""}
     <div class="section-label">Patterns that did not fire</div>
@@ -361,6 +396,21 @@ async function showDoc(id) {
     <div class="section-label">Document lines</div>
     ${linesHtml(c.doc.lines, c.doc.total)}`;
   $(".right").innerHTML = evidenceHtml(fired) + queuePanel(c.queue, true);
+}
+
+// One item a person confirms, in place: the record (who, when, the text), why it needs a person, and the quick
+// actions the judgment form already supports. "Looks fine" is the form's "Nothing to keep" in one click (the
+// reason it records says it was a quick check from the outbox); anything else opens the usual form.
+const QUICK_REASON = "Quick check from the outbox: read the record, nothing to keep.";
+function toConfirmHtml(x) {
+  if (x.kind === "first_quote") return `<div class="tc"><div class="tc-why">${esc(x.why)}</div>
+    <div class="tc-meta">The judgment form covers records, not a document itself, so this one is confirmed outside the app.</div></div>`;
+  for (const q of [S.check.queue.needs_human, S.check.queue.spot_check, S.check.queue.confirmed]) for (const it of q) ITEMS.set(it.record_id, it);
+  const actions = x.kind === "open_question"
+    ? `<button class="btn" data-judge="${esc(x.record_id)}">Judge this record again</button><span class="tc-meta">Answer the question, then keep the cards without it.</span>`
+    : `<button class="btn primary" data-quick="${esc(x.record_id)}">Looks fine — nothing to keep</button><button class="btn" data-judge="${esc(x.record_id)}">This holds a decision…</button>`;
+  return `<div class="tc" data-rec="${esc(x.record_id)}"><div class="tc-meta">${B(shortDate(x.at))} · ${B(nameOf(x.author))} · ${esc(x.source_type.replaceAll("_", " "))} · ${esc(x.record_id)}</div>
+    <div class="tc-text">${esc(x.text)}</div><div class="tc-why">${esc(x.why)}</div>${actions}<span class="err" data-err></span></div>`;
 }
 
 // Person, date and money in bold (money in tabular figures); only those tokens, never whole sentences.
@@ -636,6 +686,16 @@ document.addEventListener("click", async (e) => {
   const t = e.target.closest?.("button, [data-judge], [data-close], .toggle, [data-goto]");
   if (!t) return;
   if (t.dataset.close !== undefined) return closeSheet();
+  if (t.dataset.quick) {
+    const err = t.closest(".tc").querySelector("[data-err]");
+    const reviewer = reviewerEl.value.trim();
+    if (!reviewer) { err.textContent = "Enter a reviewer name at the top."; return; }
+    t.disabled = true;
+    const r = await api("/api/judgments", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ record_id: t.dataset.quick, verdict: "no_decision", cards: [], reason: QUICK_REASON, reviewer }) });
+    if (r.status !== 201) { t.disabled = false; err.textContent = r.body.errors.join("; "); return; }
+    await Promise.all([loadLedger(), loadJobs(), loadValue()]);
+    return go({});
+  }
   if (t.dataset.judge) return openSheet(t.dataset.judge);
   if (t.dataset.goto) return go({ tab: "outbox", doc: t.dataset.goto });
   if (t.classList.contains("toggle")) {
@@ -683,8 +743,23 @@ async function showJob(job) {
   $("main").innerHTML = `<div class="crumb">${esc(job)}<i>·</i>${esc(j.client)}<i>·</i>${esc(j.trade)}</div>
     <div class="page-title">${esc(j.title)}</div>
     <div class="page-sub">Pick a document to check it as it was about to go out.</div>
-    <div class="doclist">${j.docs.map((d) => `<div class="doc" data-goto="${esc(d.id)}"><i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span><span class="doc-amt">${esc(day(d.at))}</span><span class="doc-amt">${money2(d.total)}</span>${pill(d.state)}</div>`).join("")}</div>`;
+    <div class="doclist">${j.docs.map((d) => `<div class="doc" data-goto="${esc(d.id)}"><i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span><span class="doc-amt">${esc(day(d.at))}</span><span class="doc-amt">${money2(d.total)}</span>${pill(d.state, d.left)}</div>`).join("")}</div>`;
   $(".right").innerHTML = queuePanel(q, false);
+}
+
+// The outbox as a to-do list for the view in use: what to fix, what is left to confirm, what is ready.
+async function showOutbox() {
+  const docs = S.jobs.flatMap((j) => j.docs.map((d) => ({ ...d, job: j.job, title: j.title, client: j.client }))).filter((d) => !S.viewIds || S.viewIds.has(d.id));
+  const groups = [
+    ["warnings", "Fix before sending", (d) => "Named problems found; fix them before it goes out."],
+    ["not_cleared", "Left to confirm", (d) => (d.left ? `${leftText(d.left)} before it can clear` : "Not cleared: waiting on the Judge step")],
+    ["clear", "Ready to send", () => "Every record is accounted for."],
+  ];
+  $("main").innerHTML = `<div class="page-title">${S.view === "sample" ? "Today's outbox" : S.view === "curated" ? "Outbox — curated view" : "Outbox — all documents"}</div>
+    <div class="page-sub">Each document is checked as it was about to go out. Open one to see why, and confirm what is left in place.</div>
+    ${groups.map(([st, label, what]) => { const xs = docs.filter((d) => d.state === st); return xs.length ? `<div class="obx-group"><div class="section-label">${label} (${xs.length})</div>
+      ${xs.map((d) => `<div class="obx-row" data-goto="${esc(d.id)}"><i class="sdot ${d.state}"></i><span class="doc-id">${esc(d.id)}</span><span class="what">${esc(d.title)} · ${esc(d.client)} — ${esc(what(d))}</span><span class="doc-amt">${money2(d.total)}</span>${pill(d.state, d.left)}</div>`).join("")}</div>` : ""; }).join("")}`;
+  $(".right").innerHTML = `<div class="rp-label">The ledger</div><div class="empty">${esc(S.ledger?.line ?? "")}</div>`;
 }
 
 async function showNeeds() {
@@ -724,7 +799,7 @@ window.addEventListener("hashchange", () => {
   S.people = new Map(S.meta.people.map((p) => [p.id, p]));
   await Promise.all([loadLedger(), loadJobs(), loadValue()]);
   const hash = location.hash.match(/doc=([\w-]+)/)?.[1];
-  await go(hash ? { tab: "outbox", doc: hash } : { tab: "outbox", job: S.jobs[0]?.job });
+  await go(hash ? { tab: "outbox", doc: hash } : { tab: "outbox", job: null });
 })().catch((e) => { $("main").innerHTML = `<p class="err">${esc(e.message)}</p>`; });
 </script>
 </body>

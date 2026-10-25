@@ -11,7 +11,8 @@ import { createServer } from "node:http";
 import { join } from "node:path";
 import { loadData } from "../adapters/zetaris.ts";
 import type { Dataset } from "../engine/types.ts";
-import { CURATED_PROBLEMS, check, effective, jobs, ledger, loadCtx, meta, postJudgment, queue, story, summary } from "./api.ts";
+import { CURATED_PROBLEMS, VIEWS, check, effective, jobs, ledger, loadCtx, meta, postJudgment, queue, story, summary } from "./api.ts";
+import type { View } from "./api.ts";
 import type { Ctx } from "./api.ts";
 import { DEMO_DIR, prepareDemoRoot, withDemoLabel } from "./demo.ts";
 
@@ -34,11 +35,11 @@ export function route(box: { ctx: Ctx; html: string; home?: string }, method: st
   if (method === "GET" && p === "/api/meta") return json(200, meta(box.ctx));
   if (method === "GET" && p === "/api/jobs") return json(200, jobs(box.ctx));
   if (method === "GET" && p === "/api/summary") {
-    const view = u.searchParams.get("view") ?? "all";
-    if (view !== "all" && view !== "curated") return json(400, { errors: ["view must be all or curated"] });
+    const view = (u.searchParams.get("view") ?? "all") as View;
+    if (!VIEWS.includes(view)) return json(400, { errors: [`view must be ${VIEWS.join(", ")}`] });
     const { states, ...s } = summary(box.ctx, view);
-    // The curated view also lists its documents and why each problem example was picked.
-    return json(200, view === "curated" ? { ...s, ids: Object.keys(states), picks: CURATED_PROBLEMS } : s);
+    // A view narrower than all lists its documents; the curated one also says why each problem example was picked.
+    return json(200, view === "curated" ? { ...s, ids: Object.keys(states), picks: CURATED_PROBLEMS } : view === "sample" ? { ...s, ids: Object.keys(states) } : s);
   }
   if (method === "GET" && p === "/api/queue") return json(200, queue(box.ctx, u.searchParams.get("job") ?? undefined));
   if (method === "GET" && p === "/api/effective") {
