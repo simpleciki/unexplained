@@ -1,0 +1,2720 @@
+{
+  "definitions": "docs/value-metrics.md (pre-registered 2026-10-25, commit 36483de)",
+  "code_commit": "db734d90cc9a43883315951de3f489b76eb91ee3",
+  "working_tree_uncommitted": [
+    "?? eval/results/value-metrics.json"
+  ],
+  "computed_at": "2026-10-25T07:05:58-05:00",
+  "inputs": {
+    "data": "data/ (files)",
+    "state_cards": 78,
+    "judgments_lines": 13,
+    "demo_copy_used": false,
+    "model_calls": 0
+  },
+  "documents": {
+    "total": 58,
+    "problem": [
+      {
+        "id": "Q-NL-02-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-NL-02-v3",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-NL-03-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-NL-03-v3",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-NL-03-v4",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-NL-04-v1",
+        "why": "voided"
+      },
+      {
+        "id": "Q-NL-04-v2",
+        "why": "rejected"
+      },
+      {
+        "id": "Q-NL-04-v3",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-OC-02-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-OC-02-v3",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-OC-03-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-OC-03-v3",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-PW-02-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-PW-02-v3",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": false
+      },
+      {
+        "id": "Q-PW-02-v4",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-PW-03-v2",
+        "why": "voided"
+      },
+      {
+        "id": "Q-PW-04-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-RM-01-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-RM-02-v2",
+        "why": "voided"
+      },
+      {
+        "id": "Q-RM-02-v3",
+        "why": "rejected"
+      },
+      {
+        "id": "Q-RM-02-v4",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-RM-04-v2",
+        "why": "submitted, never approved",
+        "still_waiting_at_end": true
+      },
+      {
+        "id": "Q-PW-05-v1",
+        "why": "rejected"
+      },
+      {
+        "id": "Q-PW-05-v2",
+        "why": "rejected"
+      },
+      {
+        "id": "Q-PW-05-v3",
+        "why": "rejected"
+      },
+      {
+        "id": "Q-OC-05-v1",
+        "why": "voided"
+      },
+      {
+        "id": "Q-OC-05-v2",
+        "why": "rejected"
+      },
+      {
+        "id": "INV-NL-04",
+        "why": "disputed"
+      },
+      {
+        "id": "INV-OC-03",
+        "why": "draft on Q-OC-03-v2 (submitted, never approved)"
+      },
+      {
+        "id": "INV-PW-03",
+        "why": "disputed"
+      },
+      {
+        "id": "INV-PW-04",
+        "why": "draft on Q-PW-04-v2 (submitted, never approved)"
+      },
+      {
+        "id": "INV-RM-02",
+        "why": "disputed"
+      },
+      {
+        "id": "INV-RM-04",
+        "why": "draft on Q-RM-04-v2 (submitted, never approved)"
+      }
+    ],
+    "clean": [
+      {
+        "id": "Q-NL-01-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-NL-01-v2",
+        "why": "approved"
+      },
+      {
+        "id": "Q-NL-01-v3",
+        "why": "approved"
+      },
+      {
+        "id": "Q-NL-02-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-NL-03-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-OC-01-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-OC-01-v2",
+        "why": "approved"
+      },
+      {
+        "id": "Q-OC-01-v3",
+        "why": "approved"
+      },
+      {
+        "id": "Q-OC-02-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-OC-03-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-OC-04-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-PW-01-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-PW-02-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-PW-03-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-PW-04-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-RM-01-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-RM-02-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-RM-03-v1",
+        "why": "approved"
+      },
+      {
+        "id": "Q-RM-03-v2",
+        "why": "approved"
+      },
+      {
+        "id": "Q-RM-04-v1",
+        "why": "approved"
+      },
+      {
+        "id": "INV-NL-01",
+        "why": "paid"
+      },
+      {
+        "id": "INV-OC-01",
+        "why": "paid"
+      },
+      {
+        "id": "INV-OC-04",
+        "why": "paid"
+      },
+      {
+        "id": "INV-PW-01",
+        "why": "paid"
+      },
+      {
+        "id": "INV-RM-03",
+        "why": "paid"
+      }
+    ]
+  },
+  "metric_1_documents_and_money": {
+    "by_outcome": {
+      "caught": {
+        "n": 27,
+        "total": 41266
+      },
+      "held": {
+        "n": 6,
+        "total": 3881
+      },
+      "missed": {
+        "n": 0,
+        "total": 0
+      },
+      "false_alarm": {
+        "n": 3,
+        "total": 3547
+      },
+      "needs_person": {
+        "n": 21,
+        "total": 27562
+      },
+      "cleared": {
+        "n": 1,
+        "total": 858
+      }
+    },
+    "problem": {
+      "n": 33,
+      "total": 45147
+    },
+    "clean": {
+      "n": 25,
+      "total": 31967
+    },
+    "stopped_before_sending": {
+      "n": 33,
+      "total": 45147,
+      "pct_by_count": 100,
+      "pct_by_money": 100
+    },
+    "missed": {
+      "n": 0,
+      "total": 0,
+      "pct_by_count": 0,
+      "pct_by_money": 0
+    },
+    "false_alarms": {
+      "n": 3,
+      "total": 3547,
+      "pct_by_count": 12,
+      "pct_by_money": 11.1
+    },
+    "p2_needs_judge": {
+      "documents_with_p2_open": [
+        "Q-NL-01-v2",
+        "Q-NL-01-v3",
+        "Q-NL-02-v2",
+        "Q-NL-02-v3",
+        "Q-NL-03-v2",
+        "Q-NL-03-v3",
+        "Q-NL-03-v4",
+        "Q-NL-04-v2",
+        "Q-NL-04-v3",
+        "Q-OC-01-v2",
+        "Q-OC-02-v2",
+        "Q-OC-03-v2",
+        "Q-OC-03-v3",
+        "Q-PW-02-v2",
+        "Q-PW-02-v3",
+        "Q-PW-02-v4",
+        "Q-PW-03-v2",
+        "Q-PW-04-v2",
+        "Q-RM-01-v2",
+        "Q-RM-02-v2",
+        "Q-RM-02-v3",
+        "Q-RM-03-v2",
+        "Q-RM-04-v2",
+        "Q-PW-05-v2",
+        "Q-PW-05-v3",
+        "Q-OC-05-v2"
+      ],
+      "not_cleared_only_because_of_p2": [],
+      "p2_open_by_outcome": {
+        "caught": 18,
+        "held": 4,
+        "missed": 0,
+        "false_alarm": 0,
+        "needs_person": 4,
+        "cleared": 0
+      }
+    }
+  },
+  "per_document": [
+    {
+      "id": "Q-NL-01-v1",
+      "kind": "quote",
+      "job": "WO-NL-01",
+      "client": "cl.north_loft",
+      "at": "2026-03-04 09:15",
+      "total": 1804,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "Open question (Ciki, 10/23) on rec-0284: What's the exact deadline?"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "open question"
+      ],
+      "records": {
+        "seen": 3,
+        "read": 3,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-NL-01-v2",
+      "kind": "quote",
+      "job": "WO-NL-01",
+      "client": "cl.north_loft",
+      "at": "2026-03-12 10:05",
+      "total": 1988,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "3 records the model read as empty need a person to spot-check before this can clear",
+        "Open question (Ciki, 10/23) on rec-0006: whether the studio riser needs its own isolated ground still needs Cal's follow up.",
+        "Open question (Ciki, 10/23) on rec-0284: What's the exact deadline?",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "open question",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 8,
+        "read": 8,
+        "unjudged": 0,
+        "spot_check": 3
+      }
+    },
+    {
+      "id": "Q-NL-01-v3",
+      "kind": "quote",
+      "job": "WO-NL-01",
+      "client": "cl.north_loft",
+      "at": "2026-03-16 16:30",
+      "total": 2156,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "3 records the model read as empty need a person to spot-check before this can clear",
+        "Open question (Ciki, 10/23) on rec-0006: whether the studio riser needs its own isolated ground still needs Cal's follow up.",
+        "Open question (Ciki, 10/23) on rec-0011: how many extra hours needs to be stated and if it's regular hour or overnight, that will affect the final quote.",
+        "Open question (Ciki, 10/23) on rec-0284: What's the exact deadline?",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "open question",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 10,
+        "read": 10,
+        "unjudged": 0,
+        "spot_check": 3
+      }
+    },
+    {
+      "id": "Q-NL-02-v1",
+      "kind": "quote",
+      "job": "WO-NL-02",
+      "client": "cl.north_loft",
+      "at": "2026-03-13 11:20",
+      "total": 1443,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-NL-02-v2",
+      "kind": "quote",
+      "job": "WO-NL-02",
+      "client": "cl.north_loft",
+      "at": "2026-03-24 09:50",
+      "total": 1629,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-NL-02-v3",
+      "kind": "quote",
+      "job": "WO-NL-02",
+      "client": "cl.north_loft",
+      "at": "2026-04-07 10:15",
+      "total": 1799,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 5,
+        "read": 3,
+        "unjudged": 2,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-NL-03-v1",
+      "kind": "quote",
+      "job": "WO-NL-03",
+      "client": "cl.north_loft",
+      "at": "2026-03-19 10:00",
+      "total": 503,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "warnings",
+      "outcome": "false_alarm",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-NL-03-v2",
+      "kind": "quote",
+      "job": "WO-NL-03",
+      "client": "cl.north_loft",
+      "at": "2026-04-02 09:30",
+      "total": 693,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P3",
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 2,
+        "read": 2,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-NL-03-v3",
+      "kind": "quote",
+      "job": "WO-NL-03",
+      "client": "cl.north_loft",
+      "at": "2026-04-21 11:10",
+      "total": 757,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P3"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 3,
+        "unjudged": 0,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-NL-03-v4",
+      "kind": "quote",
+      "job": "WO-NL-03",
+      "client": "cl.north_loft",
+      "at": "2026-05-12 09:45",
+      "total": 852,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P3"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 4,
+        "read": 3,
+        "unjudged": 1,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-NL-04-v1",
+      "kind": "quote",
+      "job": "WO-NL-04",
+      "client": "cl.north_loft",
+      "at": "2026-04-03 09:10",
+      "total": 1430,
+      "designed": "problem",
+      "designed_why": "voided",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-NL-04-v2",
+      "kind": "quote",
+      "job": "WO-NL-04",
+      "client": "cl.north_loft",
+      "at": "2026-04-03 09:22",
+      "total": 1830,
+      "designed": "problem",
+      "designed_why": "rejected",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 1,
+        "read": 0,
+        "unjudged": 1,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-NL-04-v3",
+      "kind": "quote",
+      "job": "WO-NL-04",
+      "client": "cl.north_loft",
+      "at": "2026-04-14 09:20",
+      "total": 2640,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P5"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 4,
+        "read": 2,
+        "unjudged": 2,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-OC-01-v1",
+      "kind": "quote",
+      "job": "WO-OC-01",
+      "client": "cl.oak_circle",
+      "at": "2026-03-05 13:10",
+      "total": 1620,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-OC-01-v2",
+      "kind": "quote",
+      "job": "WO-OC-01",
+      "client": "cl.oak_circle",
+      "at": "2026-03-23 11:00",
+      "total": 2030,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 3,
+        "read": 1,
+        "unjudged": 2,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-OC-01-v3",
+      "kind": "quote",
+      "job": "WO-OC-01",
+      "client": "cl.oak_circle",
+      "at": "2026-05-06 10:40",
+      "total": 2030,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "3 records in this job written before this quote are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 5,
+        "read": 2,
+        "unjudged": 3,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-OC-02-v1",
+      "kind": "quote",
+      "job": "WO-OC-02",
+      "client": "cl.oak_circle",
+      "at": "2026-03-17 14:00",
+      "total": 1014,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-OC-02-v2",
+      "kind": "quote",
+      "job": "WO-OC-02",
+      "client": "cl.oak_circle",
+      "at": "2026-04-09 09:05",
+      "total": 1178,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 3,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-OC-02-v3",
+      "kind": "quote",
+      "job": "WO-OC-02",
+      "client": "cl.oak_circle",
+      "at": "2026-05-22 10:20",
+      "total": 1178,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 7,
+        "read": 6,
+        "unjudged": 1,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-OC-03-v1",
+      "kind": "quote",
+      "job": "WO-OC-03",
+      "client": "cl.oak_circle",
+      "at": "2026-04-07 12:30",
+      "total": 1256,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-OC-03-v2",
+      "kind": "quote",
+      "job": "WO-OC-03",
+      "client": "cl.oak_circle",
+      "at": "2026-05-18 11:15",
+      "total": 2200,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-OC-03-v3",
+      "kind": "quote",
+      "job": "WO-OC-03",
+      "client": "cl.oak_circle",
+      "at": "2026-06-04 09:50",
+      "total": 1256,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 5,
+        "read": 3,
+        "unjudged": 2,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-OC-04-v1",
+      "kind": "quote",
+      "job": "WO-OC-04",
+      "client": "cl.oak_circle",
+      "at": "2026-04-21 10:30",
+      "total": 1014,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 2,
+        "read": 1,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-PW-01-v1",
+      "kind": "quote",
+      "job": "WO-PW-01",
+      "client": "cl.pike_water",
+      "at": "2026-03-06 11:20",
+      "total": 780,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records"
+      ],
+      "records": {
+        "seen": 1,
+        "read": 0,
+        "unjudged": 1,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-PW-02-v1",
+      "kind": "quote",
+      "job": "WO-PW-02",
+      "client": "cl.pike_water",
+      "at": "2026-03-23 13:40",
+      "total": 466,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-PW-02-v2",
+      "kind": "quote",
+      "job": "WO-PW-02",
+      "client": "cl.pike_water",
+      "at": "2026-04-16 10:00",
+      "total": 638,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1",
+        "P3"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 3,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-PW-02-v3",
+      "kind": "quote",
+      "job": "WO-PW-02",
+      "client": "cl.pike_water",
+      "at": "2026-05-05 09:20",
+      "total": 810,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": false,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1",
+        "P3"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 6,
+        "read": 4,
+        "unjudged": 2,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-PW-02-v4",
+      "kind": "quote",
+      "job": "WO-PW-02",
+      "client": "cl.pike_water",
+      "at": "2026-05-28 11:40",
+      "total": 950,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1",
+        "P3"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 6,
+        "read": 4,
+        "unjudged": 2,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-PW-03-v1",
+      "kind": "quote",
+      "job": "WO-PW-03",
+      "client": "cl.pike_water",
+      "at": "2026-04-09 10:25",
+      "total": 1074,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-PW-03-v2",
+      "kind": "quote",
+      "job": "WO-PW-03",
+      "client": "cl.pike_water",
+      "at": "2026-05-01 09:00",
+      "total": 1249,
+      "designed": "problem",
+      "designed_why": "voided",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 2,
+        "read": 2,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-PW-04-v1",
+      "kind": "quote",
+      "job": "WO-PW-04",
+      "client": "cl.pike_water",
+      "at": "2026-04-16 14:20",
+      "total": 3527,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-PW-04-v2",
+      "kind": "quote",
+      "job": "WO-PW-04",
+      "client": "cl.pike_water",
+      "at": "2026-05-14 09:35",
+      "total": 3600,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-RM-01-v1",
+      "kind": "quote",
+      "job": "WO-RM-01",
+      "client": "cl.red_mill",
+      "at": "2026-03-10 10:10",
+      "total": 754,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-RM-01-v2",
+      "kind": "quote",
+      "job": "WO-RM-01",
+      "client": "cl.red_mill",
+      "at": "2026-04-13 08:50",
+      "total": 1018,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "not_cleared",
+      "outcome": "held",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "3 records in this job written before this quote are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 7,
+        "read": 4,
+        "unjudged": 3,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-RM-02-v1",
+      "kind": "quote",
+      "job": "WO-RM-02",
+      "client": "cl.red_mill",
+      "at": "2026-03-30 09:40",
+      "total": 264,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-RM-02-v2",
+      "kind": "quote",
+      "job": "WO-RM-02",
+      "client": "cl.red_mill",
+      "at": "2026-04-27 09:00",
+      "total": 516,
+      "designed": "problem",
+      "designed_why": "voided",
+      "state": "not_cleared",
+      "outcome": "held",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 2,
+        "read": 2,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-RM-02-v3",
+      "kind": "quote",
+      "job": "WO-RM-02",
+      "client": "cl.red_mill",
+      "at": "2026-04-27 09:09",
+      "total": 558,
+      "designed": "problem",
+      "designed_why": "rejected",
+      "state": "not_cleared",
+      "outcome": "held",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-RM-02-v4",
+      "kind": "quote",
+      "job": "WO-RM-02",
+      "client": "cl.red_mill",
+      "at": "2026-05-08 10:00",
+      "total": 558,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P3",
+        "P5"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this quote are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 6,
+        "read": 4,
+        "unjudged": 2,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "Q-RM-03-v1",
+      "kind": "quote",
+      "job": "WO-RM-03",
+      "client": "cl.red_mill",
+      "at": "2026-04-02 09:25",
+      "total": 458,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "No messages, internal notes or field notes in this job were written before this quote, so nothing a client approved or asked for can be checked against it; a person has to check it by hand"
+      ],
+      "not_cleared_reasons": [
+        "no records before it"
+      ],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-RM-03-v2",
+      "kind": "quote",
+      "job": "WO-RM-03",
+      "client": "cl.red_mill",
+      "at": "2026-06-03 10:05",
+      "total": 490,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 3,
+        "read": 3,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-RM-04-v1",
+      "kind": "quote",
+      "job": "WO-RM-04",
+      "client": "cl.red_mill",
+      "at": "2026-04-20 11:00",
+      "total": 858,
+      "designed": "clean",
+      "designed_why": "approved",
+      "state": "clear",
+      "outcome": "cleared",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 0,
+        "read": 0,
+        "unjudged": 0,
+        "spot_check": 0
+      }
+    },
+    {
+      "id": "Q-RM-04-v2",
+      "kind": "quote",
+      "job": "WO-RM-04",
+      "client": "cl.red_mill",
+      "at": "2026-05-13 09:30",
+      "total": 1465,
+      "designed": "problem",
+      "designed_why": "submitted, never approved",
+      "still_waiting_at_end": true,
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1",
+        "P6"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 4,
+        "read": 4,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-PW-05-v1",
+      "kind": "quote",
+      "job": "WO-PW-05",
+      "client": "cl.pike_water",
+      "at": "2026-05-04 09:11",
+      "total": 761,
+      "designed": "problem",
+      "designed_why": "rejected",
+      "state": "not_cleared",
+      "outcome": "held",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-PW-05-v2",
+      "kind": "quote",
+      "job": "WO-PW-05",
+      "client": "cl.pike_water",
+      "at": "2026-05-27 10:00",
+      "total": 1626,
+      "designed": "problem",
+      "designed_why": "rejected",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1",
+        "P5"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "3 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 6,
+        "read": 5,
+        "unjudged": 1,
+        "spot_check": 3
+      }
+    },
+    {
+      "id": "Q-PW-05-v3",
+      "kind": "quote",
+      "job": "WO-PW-05",
+      "client": "cl.pike_water",
+      "at": "2026-06-15 09:30",
+      "total": 2026,
+      "designed": "problem",
+      "designed_why": "rejected",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P1",
+        "P5"
+      ],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this quote is not judged yet; the result can change",
+        "3 records the model read as empty need a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 7,
+        "read": 6,
+        "unjudged": 1,
+        "spot_check": 3
+      }
+    },
+    {
+      "id": "Q-OC-05-v1",
+      "kind": "quote",
+      "job": "WO-OC-05",
+      "client": "cl.oak_circle",
+      "at": "2026-06-08 09:00",
+      "total": 482,
+      "designed": "problem",
+      "designed_why": "voided",
+      "state": "not_cleared",
+      "outcome": "held",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 1,
+        "read": 1,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "Q-OC-05-v2",
+      "kind": "quote",
+      "job": "WO-OC-05",
+      "client": "cl.oak_circle",
+      "at": "2026-06-08 09:07",
+      "total": 546,
+      "designed": "problem",
+      "designed_why": "rejected",
+      "state": "not_cleared",
+      "outcome": "held",
+      "fired": [],
+      "p2_open": true,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear",
+        "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "P2 needs Judge"
+      ],
+      "records": {
+        "seen": 1,
+        "read": 1,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "INV-NL-01",
+      "kind": "invoice",
+      "job": "WO-NL-01",
+      "client": "cl.north_loft",
+      "at": "2026-04-03 10:00",
+      "total": 2156,
+      "designed": "clean",
+      "designed_why": "paid",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "4 records the model read as empty need a person to spot-check before this can clear",
+        "Open question (Ciki, 10/23) on rec-0006: whether the studio riser needs its own isolated ground still needs Cal's follow up.",
+        "Open question (Ciki, 10/23) on rec-0011: how many extra hours needs to be stated and if it's regular hour or overnight, that will affect the final quote.",
+        "Open question (Ciki, 10/23) on rec-0284: What's the exact deadline?"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked",
+        "open question"
+      ],
+      "records": {
+        "seen": 12,
+        "read": 12,
+        "unjudged": 0,
+        "spot_check": 4
+      }
+    },
+    {
+      "id": "INV-NL-04",
+      "kind": "invoice",
+      "job": "WO-NL-04",
+      "client": "cl.north_loft",
+      "at": "2026-05-04 10:30",
+      "total": 1830,
+      "designed": "problem",
+      "designed_why": "disputed",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6",
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this invoice are not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 6,
+        "read": 4,
+        "unjudged": 2,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "INV-OC-01",
+      "kind": "invoice",
+      "job": "WO-OC-01",
+      "client": "cl.oak_circle",
+      "at": "2026-04-10 11:00",
+      "total": 2030,
+      "designed": "clean",
+      "designed_why": "paid",
+      "state": "warnings",
+      "outcome": "false_alarm",
+      "fired": [
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "3 records in this job written before this invoice are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 5,
+        "read": 2,
+        "unjudged": 3,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "INV-OC-03",
+      "kind": "invoice",
+      "job": "WO-OC-03",
+      "client": "cl.oak_circle",
+      "at": "2026-05-28 14:00",
+      "total": 2200,
+      "designed": "problem",
+      "designed_why": "draft on Q-OC-03-v2 (submitted, never approved)",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6",
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this invoice are not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 5,
+        "read": 3,
+        "unjudged": 2,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "INV-OC-04",
+      "kind": "invoice",
+      "job": "WO-OC-04",
+      "client": "cl.oak_circle",
+      "at": "2026-05-11 09:15",
+      "total": 1014,
+      "designed": "clean",
+      "designed_why": "paid",
+      "state": "warnings",
+      "outcome": "false_alarm",
+      "fired": [
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this invoice are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 4,
+        "read": 2,
+        "unjudged": 2,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "INV-PW-01",
+      "kind": "invoice",
+      "job": "WO-PW-01",
+      "client": "cl.pike_water",
+      "at": "2026-04-01 09:00",
+      "total": 780,
+      "designed": "clean",
+      "designed_why": "paid",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this invoice is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "unjudged records",
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 4,
+        "read": 3,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "INV-PW-03",
+      "kind": "invoice",
+      "job": "WO-PW-03",
+      "client": "cl.pike_water",
+      "at": "2026-05-19 10:10",
+      "total": 1249,
+      "designed": "problem",
+      "designed_why": "disputed",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6",
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this invoice is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 3,
+        "read": 2,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "INV-PW-04",
+      "kind": "invoice",
+      "job": "WO-PW-04",
+      "client": "cl.pike_water",
+      "at": "2026-06-02 11:20",
+      "total": 3600,
+      "designed": "problem",
+      "designed_why": "draft on Q-PW-04-v2 (submitted, never approved)",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6",
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "3 records in this job written before this invoice are not judged yet; the result can change",
+        "3 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 7,
+        "read": 4,
+        "unjudged": 3,
+        "spot_check": 3
+      }
+    },
+    {
+      "id": "INV-RM-02",
+      "kind": "invoice",
+      "job": "WO-RM-02",
+      "client": "cl.red_mill",
+      "at": "2026-05-18 09:40",
+      "total": 558,
+      "designed": "problem",
+      "designed_why": "disputed",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "2 records in this job written before this invoice are not judged yet; the result can change",
+        "2 records the model read as empty need a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 6,
+        "read": 4,
+        "unjudged": 2,
+        "spot_check": 2
+      }
+    },
+    {
+      "id": "INV-RM-03",
+      "kind": "invoice",
+      "job": "WO-RM-03",
+      "client": "cl.red_mill",
+      "at": "2026-04-20 10:00",
+      "total": 458,
+      "designed": "clean",
+      "designed_why": "paid",
+      "state": "not_cleared",
+      "outcome": "needs_person",
+      "fired": [],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [
+        "empty reads not spot-checked"
+      ],
+      "records": {
+        "seen": 2,
+        "read": 2,
+        "unjudged": 0,
+        "spot_check": 1
+      }
+    },
+    {
+      "id": "INV-RM-04",
+      "kind": "invoice",
+      "job": "WO-RM-04",
+      "client": "cl.red_mill",
+      "at": "2026-06-08 10:45",
+      "total": 1465,
+      "designed": "problem",
+      "designed_why": "draft on Q-RM-04-v2 (submitted, never approved)",
+      "state": "warnings",
+      "outcome": "caught",
+      "fired": [
+        "P6",
+        "P7"
+      ],
+      "p2_open": false,
+      "p2_only_blocker": false,
+      "notes": [
+        "1 record in this job written before this invoice is not judged yet; the result can change",
+        "1 record the model read as empty needs a person to spot-check before this can clear"
+      ],
+      "not_cleared_reasons": [],
+      "records": {
+        "seen": 7,
+        "read": 6,
+        "unjudged": 1,
+        "spot_check": 1
+      }
+    }
+  ],
+  "metric_2_records_to_read": {
+    "caught_documents": 27,
+    "to_read_client_and_job": {
+      "median": 57,
+      "min": 21,
+      "max": 75,
+      "sum": 1466
+    },
+    "to_read_job_only": {
+      "median": 12,
+      "min": 1,
+      "max": 22,
+      "sum": 312
+    },
+    "cited": {
+      "median": 7,
+      "min": 1,
+      "max": 9,
+      "sum": 150
+    },
+    "ratio_of_medians": 8.1,
+    "median_of_per_document_ratios": 8.7,
+    "per_document": [
+      {
+        "id": "Q-NL-02-v2",
+        "job": "WO-NL-02",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 35,
+        "to_read_job_only": 7,
+        "cited": 7,
+        "cited_records": [
+          "rec-0002",
+          "rec-0005",
+          "rec-0008",
+          "rec-0011",
+          "rec-0013",
+          "rec-0016",
+          "rec-0030"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-02-v3",
+        "job": "WO-NL-02",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 57,
+        "to_read_job_only": 12,
+        "cited": 7,
+        "cited_records": [
+          "rec-0002",
+          "rec-0005",
+          "rec-0008",
+          "rec-0011",
+          "rec-0013",
+          "rec-0016",
+          "rec-0033"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-03-v2",
+        "job": "WO-NL-03",
+        "fired": [
+          "P3",
+          "P6"
+        ],
+        "to_read_client_and_job": 39,
+        "to_read_job_only": 6,
+        "cited": 8,
+        "cited_records": [
+          "rec-0002",
+          "rec-0005",
+          "rec-0008",
+          "rec-0011",
+          "rec-0013",
+          "rec-0016",
+          "rec-0040",
+          "rec-0044"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-03-v3",
+        "job": "WO-NL-03",
+        "fired": [
+          "P3"
+        ],
+        "to_read_client_and_job": 68,
+        "to_read_job_only": 10,
+        "cited": 3,
+        "cited_records": [
+          "rec-0040",
+          "rec-0044",
+          "rec-0047"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-03-v4",
+        "job": "WO-NL-03",
+        "fired": [
+          "P3"
+        ],
+        "to_read_client_and_job": 74,
+        "to_read_job_only": 14,
+        "cited": 4,
+        "cited_records": [
+          "rec-0040",
+          "rec-0044",
+          "rec-0047",
+          "rec-0050"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-04-v1",
+        "job": "WO-NL-04",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 42,
+        "to_read_job_only": 1,
+        "cited": 7,
+        "cited_records": [
+          "rec-0002",
+          "rec-0005",
+          "rec-0008",
+          "rec-0011",
+          "rec-0013",
+          "rec-0016",
+          "rec-0057"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-04-v2",
+        "job": "WO-NL-04",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 47,
+        "to_read_job_only": 6,
+        "cited": 7,
+        "cited_records": [
+          "rec-0002",
+          "rec-0005",
+          "rec-0008",
+          "rec-0011",
+          "rec-0013",
+          "rec-0016",
+          "rec-0061"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-NL-04-v3",
+        "job": "WO-NL-04",
+        "fired": [
+          "P5"
+        ],
+        "to_read_client_and_job": 62,
+        "to_read_job_only": 14,
+        "cited": 1,
+        "cited_records": [
+          "rec-0069"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-OC-02-v2",
+        "job": "WO-OC-02",
+        "fired": [
+          "P1"
+        ],
+        "to_read_client_and_job": 24,
+        "to_read_job_only": 7,
+        "cited": 2,
+        "cited_records": [
+          "rec-0098",
+          "rec-0105"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-OC-02-v3",
+        "job": "WO-OC-02",
+        "fired": [
+          "P1"
+        ],
+        "to_read_client_and_job": 53,
+        "to_read_job_only": 14,
+        "cited": 2,
+        "cited_records": [
+          "rec-0102",
+          "rec-0105"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-OC-03-v2",
+        "job": "WO-OC-03",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 47,
+        "to_read_job_only": 7,
+        "cited": 9,
+        "cited_records": [
+          "rec-0084",
+          "rec-0087",
+          "rec-0094",
+          "rec-0097",
+          "rec-0109",
+          "rec-0112",
+          "rec-0113",
+          "rec-0125",
+          "rec-0131"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-OC-03-v3",
+        "job": "WO-OC-03",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 61,
+        "to_read_job_only": 13,
+        "cited": 9,
+        "cited_records": [
+          "rec-0084",
+          "rec-0087",
+          "rec-0094",
+          "rec-0097",
+          "rec-0109",
+          "rec-0112",
+          "rec-0117",
+          "rec-0125",
+          "rec-0131"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-02-v2",
+        "job": "WO-PW-02",
+        "fired": [
+          "P1",
+          "P3"
+        ],
+        "to_read_client_and_job": 21,
+        "to_read_job_only": 7,
+        "cited": 3,
+        "cited_records": [
+          "rec-0142",
+          "rec-0145",
+          "rec-0147"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-02-v3",
+        "job": "WO-PW-02",
+        "fired": [
+          "P1",
+          "P3"
+        ],
+        "to_read_client_and_job": 50,
+        "to_read_job_only": 14,
+        "cited": 4,
+        "cited_records": [
+          "rec-0142",
+          "rec-0145",
+          "rec-0147",
+          "rec-0151"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-02-v4",
+        "job": "WO-PW-02",
+        "fired": [
+          "P1",
+          "P3"
+        ],
+        "to_read_client_and_job": 69,
+        "to_read_job_only": 17,
+        "cited": 5,
+        "cited_records": [
+          "rec-0142",
+          "rec-0145",
+          "rec-0147",
+          "rec-0151",
+          "rec-0154"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-03-v2",
+        "job": "WO-PW-03",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 35,
+        "to_read_job_only": 6,
+        "cited": 5,
+        "cited_records": [
+          "rec-0133",
+          "rec-0136",
+          "rec-0162",
+          "rec-0165",
+          "rec-0166"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-04-v2",
+        "job": "WO-PW-04",
+        "fired": [
+          "P6"
+        ],
+        "to_read_client_and_job": 56,
+        "to_read_job_only": 7,
+        "cited": 7,
+        "cited_records": [
+          "rec-0133",
+          "rec-0136",
+          "rec-0162",
+          "rec-0165",
+          "rec-0174",
+          "rec-0177",
+          "rec-0178"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-RM-02-v4",
+        "job": "WO-RM-02",
+        "fired": [
+          "P3",
+          "P5"
+        ],
+        "to_read_client_and_job": 48,
+        "to_read_job_only": 19,
+        "cited": 3,
+        "cited_records": [
+          "rec-0210",
+          "rec-0215",
+          "rec-0216"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-RM-04-v2",
+        "job": "WO-RM-04",
+        "fired": [
+          "P1",
+          "P6"
+        ],
+        "to_read_client_and_job": 53,
+        "to_read_job_only": 8,
+        "cited": 8,
+        "cited_records": [
+          "rec-0190",
+          "rec-0193",
+          "rec-0202",
+          "rec-0205",
+          "rec-0225",
+          "rec-0228",
+          "rec-0240",
+          "rec-0241"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-05-v2",
+        "job": "WO-PW-05",
+        "fired": [
+          "P1",
+          "P5"
+        ],
+        "to_read_client_and_job": 65,
+        "to_read_job_only": 14,
+        "cited": 3,
+        "cited_records": [
+          "rec-0250",
+          "rec-0260",
+          "rec-0262"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "Q-PW-05-v3",
+        "job": "WO-PW-05",
+        "fired": [
+          "P1",
+          "P5"
+        ],
+        "to_read_client_and_job": 75,
+        "to_read_job_only": 18,
+        "cited": 4,
+        "cited_records": [
+          "rec-0250",
+          "rec-0260",
+          "rec-0265",
+          "rec-0266"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "INV-NL-04",
+        "job": "WO-NL-04",
+        "fired": [
+          "P6",
+          "P7"
+        ],
+        "to_read_client_and_job": 71,
+        "to_read_job_only": 19,
+        "cited": 7,
+        "cited_records": [
+          "rec-0002",
+          "rec-0005",
+          "rec-0008",
+          "rec-0011",
+          "rec-0013",
+          "rec-0016",
+          "rec-0072"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "INV-OC-03",
+        "job": "WO-OC-03",
+        "fired": [
+          "P6",
+          "P7"
+        ],
+        "to_read_client_and_job": 59,
+        "to_read_job_only": 12,
+        "cited": 9,
+        "cited_records": [
+          "rec-0084",
+          "rec-0087",
+          "rec-0094",
+          "rec-0097",
+          "rec-0109",
+          "rec-0112",
+          "rec-0120",
+          "rec-0125",
+          "rec-0131"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "INV-PW-03",
+        "job": "WO-PW-03",
+        "fired": [
+          "P6",
+          "P7"
+        ],
+        "to_read_client_and_job": 61,
+        "to_read_job_only": 10,
+        "cited": 7,
+        "cited_records": [
+          "rec-0133",
+          "rec-0136",
+          "rec-0162",
+          "rec-0165",
+          "rec-0169",
+          "rec-0174",
+          "rec-0177"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "INV-PW-04",
+        "job": "WO-PW-04",
+        "fired": [
+          "P6",
+          "P7"
+        ],
+        "to_read_client_and_job": 73,
+        "to_read_job_only": 14,
+        "cited": 7,
+        "cited_records": [
+          "rec-0133",
+          "rec-0136",
+          "rec-0162",
+          "rec-0172",
+          "rec-0174",
+          "rec-0177",
+          "rec-0181"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "INV-RM-02",
+        "job": "WO-RM-02",
+        "fired": [
+          "P7"
+        ],
+        "to_read_client_and_job": 57,
+        "to_read_job_only": 22,
+        "cited": 3,
+        "cited_records": [
+          "rec-0202",
+          "rec-0205",
+          "rec-0219"
+        ],
+        "cited_without_source": 0
+      },
+      {
+        "id": "INV-RM-04",
+        "job": "WO-RM-04",
+        "fired": [
+          "P6",
+          "P7"
+        ],
+        "to_read_client_and_job": 64,
+        "to_read_job_only": 14,
+        "cited": 9,
+        "cited_records": [
+          "rec-0190",
+          "rec-0193",
+          "rec-0202",
+          "rec-0205",
+          "rec-0225",
+          "rec-0228",
+          "rec-0229",
+          "rec-0232",
+          "rec-0244"
+        ],
+        "cited_without_source": 0
+      }
+    ],
+    "estimate_note": "Time per investigation is the builder's own estimate from real work (1.5–2 hours, about 15–20 disputed quotes a month reaching the last check); not measured here."
+  },
+  "metric_3_wo_pw_05": {
+    "held_usd": {
+      "value": 2306,
+      "method": "unbilled stop-gap (3 h x 80.00 + 40.00 part = 280.00) + latest quote Q-PW-05-v3 total 2026.00 on hold; job has no invoice",
+      "sources": [
+        "rec-0259",
+        "rec-0266",
+        "rec-0271"
+      ]
+    },
+    "versions": [
+      {
+        "quote": "Q-PW-05-v1",
+        "submitted_at": "2026-05-04 09:11",
+        "total": 761,
+        "state": "not_cleared",
+        "verdict": "Not cleared",
+        "notes": [
+          "1 record in this job written before this quote is not judged yet; the result can change",
+          "1 record the model read as empty needs a person to spot-check before this can clear"
+        ],
+        "warnings": [],
+        "open": [],
+        "what_happened": {
+          "record": "rec-0260",
+          "at": "2026-05-19 16:30",
+          "by": "Otto Gell",
+          "text": "Not approving this one.",
+          "reason_given": false
+        }
+      },
+      {
+        "quote": "Q-PW-05-v2",
+        "submitted_at": "2026-05-27 10:00",
+        "total": 1626,
+        "state": "warnings",
+        "verdict": "Warnings found (2)",
+        "notes": [
+          "1 record in this job written before this quote is not judged yet; the result can change",
+          "3 records the model read as empty need a person to spot-check before this can clear",
+          "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+        ],
+        "warnings": [
+          {
+            "pattern": "P1",
+            "title": "A promise never closed",
+            "finding": [
+              "Mira Kell promised on 30 Apr: “We'll check that first and tell you what we find.” No result is on record before this quote. Check whether any line in this quote depends on it."
+            ],
+            "cited_records": [
+              "rec-0250",
+              "rec-0262"
+            ],
+            "who_to_ask_derived": [
+              "Mira Kell"
+            ]
+          },
+          {
+            "pattern": "P5",
+            "title": "Rejection blamed on price by default",
+            "finding": [
+              "Otto Gell rejected once without giving a reason (19 May).",
+              "What the records show instead: a version was voided and resent within 30 minutes; the cover note names a different quote id; the same quote was announced 3 times; a promised check or requested finding had no recorded result. These are inferred from the records, not stated reasons."
+            ],
+            "cited_records": [
+              "rec-0260"
+            ],
+            "who_to_ask_derived": [
+              "Otto Gell"
+            ]
+          }
+        ],
+        "open": [
+          "P2: not judged here (needs the Judge model step)"
+        ],
+        "what_happened": {
+          "record": "rec-0265",
+          "at": "2026-06-10 17:45",
+          "by": "Otto Gell",
+          "text": "Not this version either.",
+          "reason_given": false
+        }
+      },
+      {
+        "quote": "Q-PW-05-v3",
+        "submitted_at": "2026-06-15 09:30",
+        "total": 2026,
+        "state": "warnings",
+        "verdict": "Warnings found (2)",
+        "notes": [
+          "1 record in this job written before this quote is not judged yet; the result can change",
+          "3 records the model read as empty need a person to spot-check before this can clear",
+          "P2 (Unexplained change between versions) needs the Judge model step, not run here"
+        ],
+        "warnings": [
+          {
+            "pattern": "P1",
+            "title": "A promise never closed",
+            "finding": [
+              "Mira Kell promised on 30 Apr: “We'll check that first and tell you what we find.” No result is on record before this quote. Check whether any line in this quote depends on it."
+            ],
+            "cited_records": [
+              "rec-0250",
+              "rec-0266"
+            ],
+            "who_to_ask_derived": [
+              "Mira Kell"
+            ]
+          },
+          {
+            "pattern": "P5",
+            "title": "Rejection blamed on price by default",
+            "finding": [
+              "Otto Gell rejected twice without giving a reason (19 May, 10 Jun).",
+              "What the records show instead: a version was voided and resent within 30 minutes; the cover note names a different quote id; the same quote was announced 3 times; Q-PW-05-v2's total moved +$865 from Q-PW-05-v1; Q-PW-05-v2 added 2 lines: Replace leader to first cleanout and 4-inch cast leader and couplings; a promised check or requested finding had no recorded result. These are inferred from the records, not stated reasons."
+            ],
+            "cited_records": [
+              "rec-0260",
+              "rec-0265"
+            ],
+            "who_to_ask_derived": [
+              "Otto Gell"
+            ]
+          }
+        ],
+        "open": [
+          "P2: not judged here (needs the Judge model step)"
+        ],
+        "what_happened": {
+          "record": "rec-0270",
+          "at": "2026-06-24 16:50",
+          "by": "Otto Gell",
+          "text": "Rejected.",
+          "reason_given": false
+        }
+      }
+    ]
+  },
+  "cannot_say": "The data is fictional and the problem documents were planted on purpose (about 57% problem documents). No real user has used the tool; time saved is not measured."
+}
