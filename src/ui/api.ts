@@ -11,7 +11,7 @@ import { loadIngested } from "../pipeline/ingest.ts";
 import { appendDocJudgment, appendJudgment, confirmation, judgmentWarnings, openQuestions } from "../review/judgments.ts";
 import { suggestEffective } from "../review/effective.ts";
 import { findingSegments, plainText } from "./findings.ts";
-import { loadStoryFile, storyResponse, validateStory } from "./story.ts";
+import { loadHeroCase, loadStoryFile, storyResponse, validateStory } from "./story.ts";
 import type { EvidenceItem } from "./findings.ts";
 import type { JudgmentInput } from "../review/judgments.ts";
 import { jobQueue, loadReviewView } from "../review/queue.ts";
@@ -368,7 +368,7 @@ export function story(ctx: Ctx, job: string): { status: 200; body: unknown } | {
   const s = loadStoryFile(ctx.root, job);
   if (!s) return { status: 404, errors: [`no story for ${job}`] };
   const people = meta(ctx).people;
-  const problems = validateStory(s, job, ctx.data, ctx.engine.cards, people);
+  const problems = validateStory(s, job, ctx.data, ctx.engine.cards, people, loadHeroCase(ctx.root));
   if (problems.length) return { status: 500, errors: problems };
   return { status: 200, body: storyResponse(s, ctx.data, people) };
 }

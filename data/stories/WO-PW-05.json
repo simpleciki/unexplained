@@ -1,0 +1,39 @@
+{
+  "job": "WO-PW-05",
+  "about": "The video's opening (task 026): the job that does not end well. Same rules as WO-NL-01.json: every text is an exact substring of one of its record_ids, and GET /api/story checks the words, dates and prices, and checks the on-hold ending's numbers against eval/demo/hero_case.json and the quote versions, before serving it.",
+  "contractor": { "person": "p.hw.jonah_prent", "org": "Harbor & Wick", "role": "Office coordinator" },
+  "client": { "person": "p.pw.otto_gell", "role": "Client reviewer" },
+  "tagline": ["Listens to both sides of the job.", "Keeps every turn on the record."],
+  "events": [
+    { "t": 0.6, "side": "contractor", "date": "30 Apr", "who": "Mira Kell", "record_ids": ["rec-0250"],
+      "text": "before we commit to replacing the leader we want to run a scope down it to the first cleanout. We'll check that first and tell you what we find.",
+      "mark": { "kind": "open", "text": "Promise opened" } },
+    { "t": 2.5, "side": "contractor", "date": "4 May", "who": "Jonah Prent · quote v1 sent", "record_ids": ["rec-0255"],
+      "text": "Labor 480.00, material 281.00, total 761.00.", "price": 761, "version": "Q-PW-05-v1" },
+    { "t": 4.4, "side": "client", "date": "19 May", "who": "Otto Gell", "record_ids": ["rec-0260"],
+      "text": "Not approving this one.",
+      "mark": { "kind": "open", "text": "No reason given" } },
+    { "t": 6.3, "side": "contractor", "date": "27 May", "who": "Jonah Prent · quote v2 sent", "record_ids": ["rec-0262"],
+      "text": "Labor 960.00, material 666.00, total 1626.00.", "price": 1626, "version": "Q-PW-05-v2" },
+    { "t": 8.2, "side": "client", "date": "10 Jun", "who": "Otto Gell", "record_ids": ["rec-0265"],
+      "text": "Not this version either.",
+      "mark": { "kind": "open", "text": "No reason given" } },
+    { "t": 10.1, "side": "contractor", "date": "15 Jun", "who": "Jonah Prent · quote v3 sent", "record_ids": ["rec-0266"],
+      "text": "Labor 1360.00, material 666.00, total 2026.00.", "price": 2026, "version": "Q-PW-05-v3" },
+    { "t": 12.0, "side": "client", "date": "24 Jun", "who": "Otto Gell", "record_ids": ["rec-0270"],
+      "text": "Rejected.",
+      "mark": { "kind": "open", "text": "No reason given, third time" } },
+    { "t": 13.9, "side": "contractor", "date": "25 Jun", "who": "Delia Vorn · internal note", "record_ids": ["rec-0271"],
+      "text": "Wes's stop-gap from 6 May ($280, 3 hours and the temporary cover) is still unbilled, and the rebuild, $2,026 on v3, is on hold until Otto signs something.",
+      "mark": { "kind": "open", "text": "Still unbilled, still on hold" } }
+  ],
+  "ending": {
+    "kind": "on_hold",
+    "versions": 3,
+    "reasons": 0,
+    "held_usd": 2306,
+    "days": 53,
+    "sub": "Three quotes, three rejections, not one reason on the record. The call is still open.",
+    "link": { "text": "Check Heron Court v3 in the outbox", "doc": "Q-PW-05-v3" }
+  }
+}

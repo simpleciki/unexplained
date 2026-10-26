@@ -10,7 +10,8 @@
      unsettled and going straight when it is agreed. Every sentence comes from GET /api/story, which serves the
      story only after checking it word for word against the records. 1920x1080 stage scaled to fit.
      render(t) is pure; window.__seek(t) freezes a frame; window.__ready on the first tick; no loop while
-     window.__recording is set. */
+     window.__recording is set. /?story=<job> plays another story (WO-PW-05: the call that never settles, ending
+     "on hold": the line keeps swinging, never green, and the head stops at the last turn). */
   :root {
     --bg: #f5f5f7; --ink: #1d1d1f; --ink2: #6e6e73; --ink3: #8e8e93; --hair: #d2d2d7;
     --client: #0a63d1; --green: #248a3d; --greenbg: #e3f5e8; --amber: #a05a00; --amberbg: #fff1db;
@@ -69,6 +70,8 @@
   .end { position: absolute; left: 0; right: 0; top: 720px; text-align: center; }
   .end .big { font-size: 46px; font-weight: 700; letter-spacing: -.02em; }
   .end .big span { color: var(--green); }
+  .end.hold { top: 850px; }
+  .end.hold .big span { color: var(--amber); }
   .end .sub { font-size: 20px; color: var(--ink2); margin-top: 10px; }
   .end a { display: inline-block; margin-top: 26px; font-size: 18px; color: var(--client); text-decoration: none; }
   .error { position: absolute; left: 96px; top: 200px; font-size: 18px; color: #c8151b; max-width: 1400px; white-space: pre-wrap; }
@@ -114,7 +117,8 @@ const CLOCK = '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy
 
 const X0 = 232, X1 = 1688, MID = 540;           // the line runs from one phone to the other
 const AMPS = [230, 205, 180, 155, 125, 95, 65, 38, 16];
-let EVENTS = [], MARKS = [], DURATION = 29, END_AT = 24.4, total = 0;
+const AMPS_HOLD = [205, 195, 215, 200, 220, 205, 225, 175]; // never calming: the deal does not settle
+let EVENTS = [], MARKS = [], DURATION = 29, END_AT = 24.4, total = 0, HOLD = false;
 const stage = $("stage"), wave = $("wave"), track = $("track"), head = $("head"), layer = $("layer"), readout = $("price"), endEl = $("end");
 
 // calm: 1 while the deal is open; falls toward 0 as it is agreed, flattening every swing.
@@ -137,8 +141,12 @@ function setup(s) {
   $("c-initials").textContent = initials(s.client.name);
   $("c-name").textContent = s.client.name;
   $("c-org").innerHTML = `${esc(s.client.org)}<br>${esc(s.client.role)}`;
-  $("agreed").innerHTML = `Agreed · <span>${fmt(s.ending.price)}</span> · invoice ${esc(s.ending.invoice_status)}`;
-  $("sub").textContent = s.ending.sub;
+  HOLD = s.ending.kind === "on_hold";
+  endEl.classList.toggle("hold", HOLD);
+  $("agreed").innerHTML = HOLD
+    ? `${s.ending.versions} versions · ${s.ending.reasons} reasons · <span>${fmt(s.ending.held_usd)}</span> on hold`
+    : `Agreed · <span>${fmt(s.ending.price)}</span> · invoice ${esc(s.ending.invoice_status)}`;
+  $("sub").textContent = HOLD ? `${s.ending.sub} Day ${s.ending.days} since the first quote.` : s.ending.sub;
   $("heron").textContent = s.ending.link.text;
   $("heron").href = `/outbox#doc=${encodeURIComponent(s.ending.link.doc)}`;
   EVENTS = s.events.map((e, i) => ({
@@ -146,7 +154,7 @@ function setup(s) {
     side: e.side === "client" ? "c" : "k",
     label: e.version ? e.version.replace(/^.*-(v\d+)$/, "$1") : null,
     mark: e.mark ? { k: e.mark.kind === "open" ? "a" : "g", text: e.mark.text } : null,
-    amp: (e.side === "client" ? -1 : 1) * AMPS[Math.min(i, AMPS.length - 1)],
+    amp: (e.side === "client" ? -1 : 1) * (HOLD ? AMPS_HOLD : AMPS)[Math.min(i, (HOLD ? AMPS_HOLD : AMPS).length - 1)],
   }));
   EVENTS.forEach((e, i) => { e.x = X0 + 150 + i * ((X1 - X0 - 330) / Math.max(1, EVENTS.length - 1)); });
   MARKS = EVENTS.filter((e) => e.mark);
@@ -185,7 +193,8 @@ function build() {
 
 // Pure: same t -> same frame.
 function render(t) {
-  const agreed = clamp((t - END_AT) / 1.6);
+  const ended = clamp((t - END_AT) / 1.6);
+  const agreed = HOLD ? 0 : ended; // on hold: nothing calms, nothing turns green
   const calm = 1 - 0.92 * easeInOut(agreed);
   if (agreed > 0) { const d = pathD(calm); wave.setAttribute("d", d); track.setAttribute("d", d); }
   else if (wave.dataset.calm !== "1") { const d = pathD(1); wave.setAttribute("d", d); track.setAttribute("d", d); }
@@ -194,10 +203,10 @@ function render(t) {
   // the head travels node to node, arriving at each node at its time
   let len;
   if (t <= EVENTS[0].t) len = EVENTS[0].len * easeInOut(t / EVENTS[0].t);
-  else if (t >= END_AT) len = total;
+  else if (t >= END_AT) len = HOLD ? EVENTS[EVENTS.length - 1].len : total; // on hold the call never reaches the other side
   else {
     const i = EVENTS.findIndex((e) => e.t > t);
-    if (i === -1) { const L = EVENTS[EVENTS.length - 1]; len = L.len + (total - L.len) * easeInOut((t - L.t) / (END_AT - L.t)); }
+    if (i === -1) { const L = EVENTS[EVENTS.length - 1]; len = HOLD ? L.len : L.len + (total - L.len) * easeInOut((t - L.t) / (END_AT - L.t)); }
     else { const a = EVENTS[i - 1], b = EVENTS[i]; len = a.len + (b.len - a.len) * easeInOut((t - a.t) / (b.t - a.t)); }
   }
   const tl = agreed > 0 ? wave.getTotalLength() : total;
@@ -247,7 +256,7 @@ function render(t) {
   const k = t >= cur.t ? Math.min(1, springOut((t - cur.t) / 0.7)) : 0;
   const shown = from + (cur.price - from) * k;
   readout.innerHTML = `${fmt(shown)}<small>${agreed > 0 ? "agreed" : "on the line · quote " + esc(cur.label)}</small>`;
-  readout.style.opacity = 1 - agreed;
+  readout.style.opacity = 1 - ended;
 
   endEl.style.opacity = clamp((t - END_AT - 0.6) / 0.8);
   endEl.style.transform = `translateY(${(1 - springOut(clamp((t - END_AT - 0.6) / 0.8))) * 16}px)`;
@@ -271,7 +280,8 @@ function tick(now) {
 // Click replays (links keep working).
 stage.addEventListener("click", (ev) => { if (!ev.target.closest("a")) { window.__held = false; t0 = null; } });
 
-fetch("/api/story") // the server picks the curated story
+const STORY = new URLSearchParams(location.search).get("story");
+fetch(STORY ? `/api/story?job=${encodeURIComponent(STORY)}` : "/api/story") // without ?story= the server picks the curated story
   .then(async (r) => { const j = await r.json(); if (!r.ok) throw new Error(`The story did not pass its checks, so it is not shown:\n${(j.errors || []).join("\n")}`); return j; })
   .then((s) => document.fonts.ready.then(() => { setup(s); fit(); build(); render(0); requestAnimationFrame(tick); }))
   .catch((e) => { fit(); const d = document.createElement("div"); d.className = "error"; d.textContent = e.message; stage.appendChild(d); });
