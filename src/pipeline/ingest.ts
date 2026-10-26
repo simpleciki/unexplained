@@ -2,7 +2,7 @@
 // cards are re-extracted, at most twice, then dropped) -> Keeper over every seat pair -> seat graph,
 // H-MEM and state/. A budget stop writes what it has and says so.
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join, resolve, sep } from "node:path";
 import { loadDataset } from "../engine/data.ts";
 import { buildEngine, saveState } from "../engine/engine.ts";
 import type { Dataset, DecisionCard, RelationEdge, SourceRecord } from "../engine/types.ts";
@@ -62,18 +62,23 @@ export function sampleRecords(records: SourceRecord[], ids: string[]): SourceRec
   return all.filter((r) => ids.includes(r.record_id));
 }
 
+// --out: a run's own folder (a sample, or a full run such as state/run-2). Never state/ itself, the repo root, or
+// anything under snapshot/ (committed, read-only).
 export function sampleOutDir(root: string, out: string): string {
   const dir = resolve(root, out);
   if (dir === resolve(root, "state") || dir === resolve(root)) throw new Error("--out must be its own directory (for example state/sample-007), not state/ or the repo root");
+  const snap = resolve(root, "snapshot");
+  if (dir === snap || dir.startsWith(snap + sep)) throw new Error("--out must not be under snapshot/: the snapshots are read-only");
   return dir;
 }
 
-export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, sample?: IngestSample): Promise<IngestReport> {
+// out: a full run (every record, Keeper included) into its own folder instead of state/.
+export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, sample?: IngestSample, out?: string): Promise<IngestReport> {
   const data = preloaded ?? loadDataset(root);
   const vocab = loadVocab(root);
   const ctx = agentContext(root, data, vocab);
   const records = sample ? sampleRecords(data.records, sample.records) : extractableRecords(data.records);
-  const outDir = sample ? sampleOutDir(root, sample.out) : join(root, "state");
+  const outDir = sample ? sampleOutDir(root, sample.out) : out ? sampleOutDir(root, out) : join(root, "state");
   const byId = new Map(data.records.map((r) => [r.record_id, r]));
   const report: IngestReport = {
     complete: false, records_total: records.length, records_done: 0, records_rejected: [], records_prose_reply: [], pairs_prose_reply: [], records_failed_upstream: [], records_failed_upstream_count: 0, pairs_failed_upstream: [], cards_gate_rejected: [],
@@ -171,7 +176,7 @@ export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, 
   writeFileSync(join(outDir, "ingest-report.json"), JSON.stringify(report, null, 2) + "\n");
   if (sample) return report;
   writeFileSync(join(outDir, "edges.json"), JSON.stringify(edges, null, 2) + "\n");
-  saveState(buildEngine(root, accepted, edges, undefined, data), root);
+  saveState(buildEngine(root, accepted, edges, undefined, data), root, outDir);
   return report;
 }
 

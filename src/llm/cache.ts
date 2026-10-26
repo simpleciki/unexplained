@@ -7,10 +7,14 @@ import { join } from "node:path";
 
 // mode = the routing mode that produced the reply (differs from the requested one after a route fallback).
 export type CachedResponse = { text: string; model: string; mode?: string };
-export type CacheKeyInput = { model: string; system: string; user: string; temperature: number };
+// namespace: a setting that changes the reply but not the prompt (e.g. "thinking-off"). Absent = the original
+// four-part key, so every reply cached before namespaces existed keeps its key.
+export type CacheKeyInput = { model: string; system: string; user: string; temperature: number; namespace?: string };
 
 export function cacheKey(k: CacheKeyInput): string {
-  return createHash("sha256").update(JSON.stringify([k.model, k.system, k.user, k.temperature]), "utf8").digest("hex");
+  const parts: unknown[] = [k.model, k.system, k.user, k.temperature];
+  if (k.namespace) parts.push(k.namespace);
+  return createHash("sha256").update(JSON.stringify(parts), "utf8").digest("hex");
 }
 
 export interface ResponseCache {

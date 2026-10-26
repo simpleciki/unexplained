@@ -76,6 +76,7 @@ export type ClientOptions = {
   warn?: (line: string) => void;
   sleep?: (ms: number) => Promise<void>; // injectable for tests
   route?: string; // which provider route this run uses, recorded on every event
+  cacheNamespace?: string; // e.g. "thinking-off": part of every cache key, so other settings' replies never hit
 };
 
 // Waits before re-asking a route that worked earlier in the run and then failed upstream.
@@ -100,7 +101,7 @@ export class ModelClient {
   // One raw call: cache hit, or budget + provider. No provider (sample mode) means a miss is fatal.
   // The cache key uses the mode the agent asked for, so replays find the reply whichever mode answered.
   keyOf(spec: CallSpec) {
-    return cacheKey({ model: spec.model, system: spec.system, user: spec.user, temperature: this.temperature });
+    return cacheKey({ model: spec.model, system: spec.system, user: spec.user, temperature: this.temperature, namespace: this.opts.cacheNamespace });
   }
 
   // read: may the reply come from the cache; write: may this reply be cached as it is. JSON calls write

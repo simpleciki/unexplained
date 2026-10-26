@@ -23,20 +23,22 @@ function standIn(req: ChatRequest): string {
 }
 
 // sample: probe an ingest --records run (its out directory is inside the temporary copy).
-export async function probeCacheMisses(root: string, sample?: Pick<IngestSample, "records">) {
+// cache: the run's own cache folder and key namespace (a thinking-off run reads cache-thinking-off/ only).
+export async function probeCacheMisses(root: string, sample?: Pick<IngestSample, "records">, cacheOpts: { dir?: string; namespace?: string } = {}) {
   const tmp = mkdtempSync(join(tmpdir(), "unexplained-probe-"));
   cpSync(join(root, "data"), join(tmp, "data"), { recursive: true });
-  const cache = join(root, "cache");
+  const cacheName = cacheOpts.dir ?? "cache";
+  const cache = join(root, cacheName);
   let cached = 0;
   if (existsSync(cache)) {
     // Top-level entries only: quarantined and sample replies are not what an ingest reads.
     for (const f of readdirSync(cache).filter((f) => f.endsWith(".json") && statSync(join(cache, f)).isFile())) {
-      cpSync(join(cache, f), join(tmp, "cache", f));
+      cpSync(join(cache, f), join(tmp, cacheName, f));
       cached++;
     }
   }
   // The runtime listed every routing mode (deep included), so Keeper and Skeptic ask for meterless/deep.
-  const rt = await makeRuntime(tmp, { maxCalls: 100_000, sampleMode: false, provider: new FakeProvider(standIn, FALLBACK_MODES) });
+  const rt = await makeRuntime(tmp, { maxCalls: 100_000, sampleMode: false, provider: new FakeProvider(standIn, FALLBACK_MODES), cacheDir: cacheName, cacheNamespace: cacheOpts.namespace, deadModesFile: join(tmp, "dead-modes.json") });
   await runIngest(tmp, rt, undefined, sample ? { records: sample.records, out: "probe-out" } : undefined);
   const byAgent: Record<string, { hit: number; miss: number }> = {};
   for (const e of rt.events) {

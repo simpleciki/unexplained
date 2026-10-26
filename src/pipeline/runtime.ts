@@ -3,7 +3,7 @@
 // explicit NVIDIA fallback route (src/llm/nvidia-direct.ts); nothing else does. Also chooses model ids and
 // writes the trace.
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { MeterlessRuntime } from "../llm/meterless.ts";
 import { NVIDIA_DIRECT_ID, NVIDIA_DIRECT_ORDER, NvidiaDirect } from "../llm/nvidia-direct.ts";
 import { FileCache } from "../llm/cache.ts";
@@ -16,7 +16,7 @@ import { MODELS } from "../agents/shared.ts";
 import type { ModelIds } from "../agents/shared.ts";
 
 export type Route = "nightshift" | "nvidia-direct";
-export type Runtime = { client: ModelClient; models: ModelIds; events: CallEvent[]; sampleMode: boolean; modeOrder?: string[]; orderSource?: "env" | "default" | "nvidia-direct"; route?: Route | string };
+export type Runtime = { client: ModelClient; models: ModelIds; events: CallEvent[]; sampleMode: boolean; modeOrder?: string[]; orderSource?: "env" | "default" | "nvidia-direct"; route?: Route | string; cacheDir?: string; cacheNamespace?: string };
 
 // AI_PROVIDER: "nightshift" (the default, also when unset) or "nvidia-direct". Anything else is an error, so a
 // typo never silently changes the route.
@@ -67,7 +67,18 @@ export function chooseModels(available: string[]): ModelIds {
   return { researcher: MODELS.auto, router: MODELS.auto, explainer: MODELS.auto, keeper: strong, judge: strong, skeptic: strong };
 }
 
-export async function makeRuntime(root: string, opts: { maxCalls: number; sampleMode: boolean; teeSamples?: boolean; provider?: ChatProvider }): Promise<Runtime> {
+// Thinking off (NVIDIA_DISABLE_THINKING=1 on the direct route) changes the replies but not the prompts, so such a run
+// never shares a cache with thinking on: its keys carry the namespace "thinking-off" and it reads and writes its own
+// folder (default cache-thinking-off/), never cache/. cacheDir / cacheNamespace / deadModesFile override the defaults
+// (the dry-run probe and tests use them); deadModesFile keeps a run with --out from writing state/.
+export const THINKING_OFF = "thinking-off";
+export const THINKING_OFF_CACHE = "cache-thinking-off";
+export function thinkingOff(env = process.env): boolean {
+  return routeFromEnv(env.AI_PROVIDER) === "nvidia-direct" && env.NVIDIA_DISABLE_THINKING === "1";
+}
+export type RuntimeOpts = { maxCalls: number; sampleMode: boolean; teeSamples?: boolean; provider?: ChatProvider; cacheDir?: string; cacheNamespace?: string; deadModesFile?: string };
+
+export async function makeRuntime(root: string, opts: RuntimeOpts): Promise<Runtime> {
   const events: CallEvent[] = [];
   if (opts.sampleMode) {
     const f = join(samplesDir(root), "models.json");
@@ -94,9 +105,13 @@ export async function makeRuntime(root: string, opts: { maxCalls: number; sample
   const fromEnv = direct ? undefined : parseModeOrder(process.env.METERLESS_MODE_ORDER);
   const modeOrder = direct ? NVIDIA_DIRECT_ORDER : (fromEnv ?? DEFAULT_MODE_ORDER);
   const orderSource = direct ? "nvidia-direct" : fromEnv ? "env" : "default";
+  const off = direct && process.env.NVIDIA_DISABLE_THINKING === "1";
+  const namespace = opts.cacheNamespace ?? (off ? THINKING_OFF : undefined);
+  const cacheDir = resolve(root, opts.cacheDir ?? (namespace === THINKING_OFF ? THINKING_OFF_CACHE : "cache"));
+  if (namespace === THINKING_OFF && cacheDir === resolve(root, "cache")) throw new Error("a thinking-off run must not use cache/: pass its own --cache-dir (default cache-thinking-off)");
   const available = await provider.listModels();
   const models = chooseModels(available);
-  const cache = new FileCache(join(root, "cache"), { tee: opts.teeSamples ? samplesDir(root) : undefined });
+  const cache = new FileCache(cacheDir, { tee: opts.teeSamples ? samplesDir(root) : undefined });
   if (opts.teeSamples) {
     mkdirSync(samplesDir(root), { recursive: true });
     writeFileSync(join(samplesDir(root), "models.json"), JSON.stringify(models, null, 2) + "\n");
@@ -104,14 +119,15 @@ export async function makeRuntime(root: string, opts: { maxCalls: number; sample
   // The cache key is the prompt plus the mode the agent asked for (meterless/auto, meterless/deep), not the
   // route or the model that answered, so replies cached through Nightshift still hit on the direct route.
   const client = new ModelClient(provider, cache, new CallBudget(opts.maxCalls), (e) => events.push(e), {
+    cacheNamespace: namespace,
     availableModels: available,
     modeOrder,
     // Each route remembers its own dead models: lightning being dead through Nightshift says nothing about
     // lightning called directly.
-    deadModes: new FileDeadModes(join(root, direct ? "state/dead-modes-nvidia-direct.json" : "state/dead-modes.json")),
+    deadModes: new FileDeadModes(opts.deadModesFile ?? join(root, direct ? "state/dead-modes-nvidia-direct.json" : "state/dead-modes.json")),
     route,
   });
-  return { client, models, events, sampleMode: false, modeOrder, orderSource, route };
+  return { client, models, events, sampleMode: false, modeOrder, orderSource, route, cacheDir, cacheNamespace: namespace };
 }
 
 // One trace line per model call. The model that answered goes into outcome; no prompt text, no token.

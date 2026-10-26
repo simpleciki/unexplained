@@ -11,3 +11,4 @@ state/
 cache/*
 !cache/samples/
 .demo/
+cache-*/

@@ -8,7 +8,8 @@ export type Args = {
   subset?: "dev" | "full";
   sample?: string;
   records?: string[]; // ingest sample mode: only these record ids (needs --out)
-  out?: string; // ingest sample mode: output directory, never state/ itself
+  out?: string; // ingest: output directory (a sample, or a full run such as state/run-2), never state/ itself
+  cacheDir?: string; // ingest: the reply cache folder (default cache/, or cache-thinking-off/ with thinking off)
   groups?: string[]; // eval:compare: which groups to run, in order (default a,c)
   source: "files" | "zetaris"; // where the engine reads data/ tables and records from
 };
@@ -33,6 +34,7 @@ export function parseArgs(argv: string[]): Args {
     } else if (a === "--sample") out.sample = next();
     else if (a === "--records") out.records = next().split(",").map((s) => s.trim()).filter(Boolean);
     else if (a === "--out") out.out = next();
+    else if (a === "--cache-dir") out.cacheDir = next();
     else if (a === "--group") out.groups = next().split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
     else if (a === "--source") {
       const s = next();
