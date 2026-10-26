@@ -1,0 +1,1912 @@
+{
+  "seq": 61,
+  "records": [
+    {
+      "id": "mem-1",
+      "content": "Approved as sent at $92 an hour.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1772718000000,
+      "lastAccessed": 1772718000000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "price.labor",
+        "job:WO-NL-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0005",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1772718000000,
+        "label": "rec-0005",
+        "refs": [
+          "m.rec-0005.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "approved"
+      ],
+      "relatedTo": [
+        "mem-12",
+        "mem-25"
+      ]
+    },
+    {
+      "id": "mem-2",
+      "content": "Do not add trip fees.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1772718000000,
+      "lastAccessed": 1772718000000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.cap",
+        "job:WO-NL-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0005",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1772718000000,
+        "label": "rec-0005",
+        "refs": [
+          "m.rec-0005.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-3",
+      "content": "All Red Mill quotes go through the client portal.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773072000000,
+      "lastAccessed": 1773072000000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "client:cl.red_mill"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0187",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773072000000,
+        "label": "rec-0187",
+        "refs": [
+          "m.rec-0187.0.0"
+        ]
+      },
+      "domain": "work",
+      "namespace": "work/facts",
+      "entities": [
+        "all",
+        "red",
+        "mill"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-4",
+      "content": "Do not email PDFs.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773072000000,
+      "lastAccessed": 1773072000000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "client:cl.red_mill"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0187",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773072000000,
+        "label": "rec-0187",
+        "refs": [
+          "m.rec-0187.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "pdfs"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-5",
+      "content": "Paul may read them but I am the signer.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773072000000,
+      "lastAccessed": 1773072000000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.cap",
+        "client:cl.red_mill"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0187",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773072000000,
+        "label": "rec-0187",
+        "refs": [
+          "m.rec-0187.0.2"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "paul"
+      ],
+      "relatedTo": [
+        "mem-35"
+      ]
+    },
+    {
+      "id": "mem-6",
+      "content": "Do not send reminder emails for ten business days after a quote.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773090600000,
+      "lastAccessed": 1773090600000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-PW-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0137",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773090600000,
+        "label": "rec-0137",
+        "refs": [
+          "m.rec-0137.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-7",
+      "content": "I move slowly and I will answer.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773090600000,
+      "lastAccessed": 1773090600000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-PW-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0137",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773090600000,
+        "label": "rec-0137",
+        "refs": [
+          "m.rec-0137.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-8",
+      "content": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773147600000,
+      "lastAccessed": 1773147600000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.cap",
+        "client_rule.submission",
+        "job:WO-NL-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0018",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773147600000,
+        "label": "rec-0018",
+        "refs": [
+          "m.rec-0018.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "anything"
+      ],
+      "relatedTo": [],
+      "supersededBy": "mem-57"
+    },
+    {
+      "id": "mem-9",
+      "content": "Annex receptacles approved.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773238800000,
+      "lastAccessed": 1773238800000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "approval.effective",
+        "job:WO-RM-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0193",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773238800000,
+        "label": "rec-0193",
+        "refs": [
+          "m.rec-0193.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "annex"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-10",
+      "content": "Fine. Swap the heater.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773491580000,
+      "lastAccessed": 1773491580000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-NL-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0028",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773491580000,
+        "label": "rec-0028",
+        "refs": [
+          "m.rec-0028.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "fine",
+        "swap"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-11",
+      "content": "Ria said on the 17th call that Q-NL-01-v3 is approved now that the surge device from the inspector is on the quote.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773757200000,
+      "lastAccessed": 1773757200000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-NL-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0016",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773757200000,
+        "label": "rec-0016",
+        "refs": [
+          "m.rec-0016.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "ria"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-12",
+      "content": "Approved.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773849900000,
+      "lastAccessed": 1773849900000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "approval.effective",
+        "job:WO-OC-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0097",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773849900000,
+        "label": "rec-0097",
+        "refs": [
+          "m.rec-0097.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "approved"
+      ],
+      "relatedTo": [
+        "mem-1",
+        "mem-25"
+      ]
+    },
+    {
+      "id": "mem-13",
+      "content": "Please photograph the coupling orientation for my file.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773849900000,
+      "lastAccessed": 1773849900000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-OC-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0097",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773849900000,
+        "label": "rec-0097",
+        "refs": [
+          "m.rec-0097.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "please"
+      ],
+      "relatedTo": [
+        "mem-26",
+        "mem-60"
+      ]
+    },
+    {
+      "id": "mem-14",
+      "content": "Otto approved the shop labeling quote on a 19 March call at 10:45.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1773935100000,
+      "lastAccessed": 1773935100000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0136",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1773935100000,
+        "label": "rec-0136",
+        "refs": [
+          "m.rec-0136.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "otto",
+        "march"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-15",
+      "content": "Do the gauges.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1774009080000,
+      "lastAccessed": 1774009080000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-NL-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0043",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1774009080000,
+        "label": "rec-0043",
+        "refs": [
+          "m.rec-0043.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-16",
+      "content": "Then tell me what failed.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1774009080000,
+      "lastAccessed": 1774009080000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-NL-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0043",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1774009080000,
+        "label": "rec-0043",
+        "refs": [
+          "m.rec-0043.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "then"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-17",
+      "content": "He asked us not to ping him for ten business days after a send.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1774274700000,
+      "lastAccessed": 1774274700000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "client:cl.pike_water"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0136",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1774274700000,
+        "label": "rec-0136",
+        "refs": [
+          "m.rec-0136.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-18",
+      "content": "Flush valve rebuild approved in the portal.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1774965300000,
+      "lastAccessed": 1774965300000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-RM-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0205",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1774965300000,
+        "label": "rec-0205",
+        "refs": [
+          "m.rec-0205.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "flush"
+      ],
+      "relatedTo": [],
+      "supersededBy": "mem-34"
+    },
+    {
+      "id": "mem-19",
+      "content": "Belts approved as submitted through the portal.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775223600000,
+      "lastAccessed": 1775223600000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-RM-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0228",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775223600000,
+        "label": "rec-0228",
+        "refs": [
+          "m.rec-0228.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "belts"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-20",
+      "content": "I am not approving this.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775235900000,
+      "lastAccessed": 1775235900000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-NL-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0069",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775235900000,
+        "label": "rec-0069",
+        "refs": [
+          "m.rec-0069.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-21",
+      "content": "Send one packet.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775235900000,
+      "lastAccessed": 1775235900000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-NL-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0069",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775235900000,
+        "label": "rec-0069",
+        "refs": [
+          "m.rec-0069.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "send"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-22",
+      "content": "Snake it.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775513100000,
+      "lastAccessed": 1775513100000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-PW-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0145",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775513100000,
+        "label": "rec-0145",
+        "refs": [
+          "m.rec-0145.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "snake"
+      ],
+      "relatedTo": [],
+      "supersededBy": "mem-24"
+    },
+    {
+      "id": "mem-23",
+      "content": "I will wait on a later note for the cause.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775513100000,
+      "lastAccessed": 1775513100000,
+      "accessCount": 0,
+      "tags": [
+        "open_item",
+        "open_item.inspection",
+        "job:WO-PW-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0145",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775513100000,
+        "label": "rec-0145",
+        "refs": [
+          "m.rec-0145.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-24",
+      "content": "Agreed we'd come back with a camera after the next good rain and confirm then if there is a trap on that drain at all.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775577600000,
+      "lastAccessed": 1775577600000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-PW-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0146",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775577600000,
+        "label": "rec-0146",
+        "refs": [
+          "m.rec-0146.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "agreed"
+      ],
+      "relatedTo": [],
+      "supersedes": "mem-22"
+    },
+    {
+      "id": "mem-25",
+      "content": "Approved in the usual four-line shape.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775659440000,
+      "lastAccessed": 1775659440000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "scope.structure",
+        "job:WO-OC-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0112",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775659440000,
+        "label": "rec-0112",
+        "refs": [
+          "m.rec-0112.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "approved"
+      ],
+      "relatedTo": [
+        "mem-1",
+        "mem-12"
+      ]
+    },
+    {
+      "id": "mem-26",
+      "content": "Please keep labor and material apart.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775659440000,
+      "lastAccessed": 1775659440000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.labor",
+        "price.material",
+        "job:WO-OC-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0112",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775659440000,
+        "label": "rec-0112",
+        "refs": [
+          "m.rec-0112.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "please"
+      ],
+      "relatedTo": [
+        "mem-13",
+        "mem-60"
+      ]
+    },
+    {
+      "id": "mem-27",
+      "content": "once the coupling is in we'll run a camera up the rest of the stack.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775682000000,
+      "lastAccessed": 1775682000000,
+      "accessCount": 0,
+      "tags": [
+        "open_item",
+        "open_item.inspection",
+        "job:WO-OC-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0105",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775682000000,
+        "label": "rec-0105",
+        "refs": [
+          "m.rec-0105.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-28",
+      "content": "I asked that quotes come only to me.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775767200000,
+      "lastAccessed": 1775767200000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-OC-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0101",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775767200000,
+        "label": "rec-0101",
+        "refs": [
+          "m.rec-0101.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": [],
+      "supersededBy": "mem-51"
+    },
+    {
+      "id": "mem-29",
+      "content": "Fix the routing before I read the numbers.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1775767200000,
+      "lastAccessed": 1775767200000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-OC-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0101",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1775767200000,
+        "label": "rec-0101",
+        "refs": [
+          "m.rec-0101.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "fix"
+      ],
+      "relatedTo": [],
+      "supersededBy": "mem-51"
+    },
+    {
+      "id": "mem-30",
+      "content": "That is not a submission. Put it in the portal or I will not open it.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1776107100000,
+      "lastAccessed": 1776107100000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "submission.process",
+        "job:WO-RM-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0197",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1776107100000,
+        "label": "rec-0197",
+        "refs": [
+          "m.rec-0197.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "put"
+      ],
+      "relatedTo": [
+        "mem-37"
+      ]
+    },
+    {
+      "id": "mem-31",
+      "content": "Yvette, once the ceiling has dried out we'll check the north wall paint and let you know if it needs a refinish.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1776877800000,
+      "lastAccessed": 1776877800000,
+      "accessCount": 0,
+      "tags": [
+        "open_item",
+        "open_item.inspection",
+        "job:WO-RM-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0240",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1776877800000,
+        "label": "rec-0240",
+        "refs": [
+          "m.rec-0240.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "yvette"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-32",
+      "content": "The EPDM patch is approved.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1776894000000,
+      "lastAccessed": 1776894000000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0165",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1776894000000,
+        "label": "rec-0165",
+        "refs": [
+          "m.rec-0165.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "epdm"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-33",
+      "content": "No trip line.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1776894000000,
+      "lastAccessed": 1776894000000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-PW-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0165",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1776894000000,
+        "label": "rec-0165",
+        "refs": [
+          "m.rec-0165.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-34",
+      "content": "Rejected.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1777321800000,
+      "lastAccessed": 1777321800000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-RM-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0215",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1777321800000,
+        "label": "rec-0215",
+        "refs": [
+          "m.rec-0215.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "rejected"
+      ],
+      "relatedTo": [
+        "mem-61"
+      ],
+      "supersedes": "mem-18"
+    },
+    {
+      "id": "mem-35",
+      "content": "The portal shows a voided number, the email shows another, and Paul was copied three times.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1777321800000,
+      "lastAccessed": 1777321800000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "submission.process",
+        "job:WO-RM-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0215",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1777321800000,
+        "label": "rec-0215",
+        "refs": [
+          "m.rec-0215.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "paul"
+      ],
+      "relatedTo": [
+        "mem-5"
+      ]
+    },
+    {
+      "id": "mem-36",
+      "content": "I cannot tell what is live.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1777321800000,
+      "lastAccessed": 1777321800000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "submission.process",
+        "job:WO-RM-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0215",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1777321800000,
+        "label": "rec-0215",
+        "refs": [
+          "m.rec-0215.0.2"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-37",
+      "content": "Put one packet in the portal.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1777321800000,
+      "lastAccessed": 1777321800000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-RM-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0215",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1777321800000,
+        "label": "rec-0215",
+        "refs": [
+          "m.rec-0215.0.3"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "put"
+      ],
+      "relatedTo": [
+        "mem-30"
+      ]
+    },
+    {
+      "id": "mem-38",
+      "content": "We'll check that first and tell you what we find.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1777562400000,
+      "lastAccessed": 1777562400000,
+      "accessCount": 0,
+      "tags": [
+        "open_item",
+        "open_item.inspection",
+        "job:WO-PW-05"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0250",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1777562400000,
+        "label": "rec-0250",
+        "refs": [
+          "m.rec-0250.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-39",
+      "content": "Compressor swap approved with labor and material shown apart.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1777669200000,
+      "lastAccessed": 1777669200000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "approval.effective",
+        "job:WO-PW-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0177",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1777669200000,
+        "label": "rec-0177",
+        "refs": [
+          "m.rec-0177.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "compressor"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-40",
+      "content": "stamp it approved for the file.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778161800000,
+      "lastAccessed": 1778161800000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "approval.effective",
+        "job:WO-OC-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0087",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778161800000,
+        "label": "rec-0087",
+        "refs": [
+          "m.rec-0087.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-41",
+      "content": "v3 is the same work we already finished",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778161800000,
+      "lastAccessed": 1778161800000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-OC-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0087",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778161800000,
+        "label": "rec-0087",
+        "refs": [
+          "m.rec-0087.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-42",
+      "content": "From 15 June 2026 Pike Water electrical labor is $96 per hour.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778531400000,
+      "lastAccessed": 1778531400000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.labor",
+        "client:cl.pike_water"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0185",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778531400000,
+        "label": "rec-0185",
+        "refs": [
+          "m.rec-0185.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "from",
+        "june",
+        "pike",
+        "water"
+      ],
+      "relatedTo": [
+        "mem-44",
+        "mem-46",
+        "mem-49"
+      ]
+    },
+    {
+      "id": "mem-43",
+      "content": "Until that date keep the $90 rate already used on the shop panel job.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778531400000,
+      "lastAccessed": 1778531400000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.labor",
+        "client:cl.pike_water"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0185",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778531400000,
+        "label": "rec-0185",
+        "refs": [
+          "m.rec-0185.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "until"
+      ],
+      "relatedTo": [
+        "mem-46",
+        "mem-49"
+      ]
+    },
+    {
+      "id": "mem-44",
+      "content": "From 1 June 2026 Red Mill mechanical labor is $96 per hour.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778598900000,
+      "lastAccessed": 1778598900000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.labor",
+        "client:cl.red_mill"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0200",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778598900000,
+        "label": "rec-0200",
+        "refs": [
+          "m.rec-0200.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "from",
+        "june",
+        "red",
+        "mill"
+      ],
+      "relatedTo": [
+        "mem-42",
+        "mem-46",
+        "mem-49"
+      ]
+    },
+    {
+      "id": "mem-45",
+      "content": "Material prices already approved stay as they are.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778598900000,
+      "lastAccessed": 1778598900000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.material",
+        "client:cl.red_mill"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0200",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778598900000,
+        "label": "rec-0200",
+        "refs": [
+          "m.rec-0200.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "material"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-46",
+      "content": "Until 1 June use the $88 labor on file.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778598900000,
+      "lastAccessed": 1778598900000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.labor",
+        "client:cl.red_mill"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0200",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778598900000,
+        "label": "rec-0200",
+        "refs": [
+          "m.rec-0200.0.2"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "until",
+        "june"
+      ],
+      "relatedTo": [
+        "mem-42",
+        "mem-43",
+        "mem-44",
+        "mem-49"
+      ]
+    },
+    {
+      "id": "mem-47",
+      "content": "Invoice matches the approved stair work. Paid.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778599080000,
+      "lastAccessed": 1778599080000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "price.total",
+        "job:WO-OC-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0131",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778599080000,
+        "label": "rec-0131",
+        "refs": [
+          "m.rec-0131.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "invoice",
+        "paid"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-48",
+      "content": "I have not seen a trip line in our file. Explain it or take it off.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778695800000,
+      "lastAccessed": 1778695800000,
+      "accessCount": 0,
+      "tags": [
+        "scope",
+        "scope.lines",
+        "job:WO-RM-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0300",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778695800000,
+        "label": "rec-0300",
+        "refs": [
+          "m.rec-0300.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "explain"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-49",
+      "content": "Starting 1 June 2026 you may send Oak Circle mechanical work as a single lump-sum line if you also attach the backup sheet. Until then keep the four-line shape.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1778857200000,
+      "lastAccessed": 1778857200000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "submission.process",
+        "client:cl.oak_circle"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0091",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1778857200000,
+        "label": "rec-0091",
+        "refs": [
+          "m.rec-0091.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "starting",
+        "june",
+        "oak",
+        "circle",
+        "until"
+      ],
+      "relatedTo": [
+        "mem-42",
+        "mem-43",
+        "mem-44",
+        "mem-46"
+      ]
+    },
+    {
+      "id": "mem-50",
+      "content": "Not approving this one.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1779226200000,
+      "lastAccessed": 1779226200000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-05"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0260",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1779226200000,
+        "label": "rec-0260",
+        "refs": [
+          "m.rec-0260.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "not"
+      ],
+      "relatedTo": [
+        "mem-59"
+      ]
+    },
+    {
+      "id": "mem-51",
+      "content": "You may CC Tomas Frey from 20 May 2026. The earlier 'only me' instruction is withdrawn.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1779287400000,
+      "lastAccessed": 1779287400000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-OC-02"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0092",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1779287400000,
+        "label": "rec-0092",
+        "refs": [
+          "m.rec-0092.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "you",
+        "tomas",
+        "frey",
+        "may"
+      ],
+      "relatedTo": [
+        "mem-52",
+        "mem-57"
+      ],
+      "supersedes": "mem-29"
+    },
+    {
+      "id": "mem-52",
+      "content": "For gallery general repair only, labor is $90 per hour starting 21 May.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1779381600000,
+      "lastAccessed": 1779381600000,
+      "accessCount": 0,
+      "tags": [
+        "price",
+        "price.labor",
+        "job:WO-RM-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0247",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1779381600000,
+        "label": "rec-0247",
+        "refs": [
+          "m.rec-0247.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "for",
+        "may"
+      ],
+      "relatedTo": [
+        "mem-51"
+      ]
+    },
+    {
+      "id": "mem-53",
+      "content": "Do not change the copper and tile material numbers.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1779381600000,
+      "lastAccessed": 1779381600000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.cap",
+        "job:WO-RM-04"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0247",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1779381600000,
+        "label": "rec-0247",
+        "refs": [
+          "m.rec-0247.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-54",
+      "content": "This invoice has a travel line I did not approve.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1779402120000,
+      "lastAccessed": 1779402120000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0172",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1779402120000,
+        "label": "rec-0172",
+        "refs": [
+          "m.rec-0172.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-55",
+      "content": "Holding payment.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1779402120000,
+      "lastAccessed": 1779402120000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0172",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1779402120000,
+        "label": "rec-0172",
+        "refs": [
+          "m.rec-0172.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "holding"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-56",
+      "content": "Cap is lifted for the rest of 2026.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1780405860000,
+      "lastAccessed": 1780405860000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.cap",
+        "job:WO-NL-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0019",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1780405860000,
+        "label": "rec-0019",
+        "refs": [
+          "m.rec-0019.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "cap"
+      ],
+      "relatedTo": [],
+      "supersedes": "mem-8"
+    },
+    {
+      "id": "mem-57",
+      "content": "You do not need the pre-note anymore.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1780405860000,
+      "lastAccessed": 1780405860000,
+      "accessCount": 0,
+      "tags": [
+        "client_rule",
+        "client_rule.submission",
+        "job:WO-NL-01"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0019",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1780405860000,
+        "label": "rec-0019",
+        "refs": [
+          "m.rec-0019.0.1"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "you"
+      ],
+      "relatedTo": [
+        "mem-51"
+      ],
+      "supersedes": "mem-8"
+    },
+    {
+      "id": "mem-58",
+      "content": "Second belt change approved at the new labor rate.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1780582200000,
+      "lastAccessed": 1780582200000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "price.labor",
+        "job:WO-RM-03"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0232",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1780582200000,
+        "label": "rec-0232",
+        "refs": [
+          "m.rec-0232.2.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "second"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "mem-59",
+      "content": "Not this version either.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1781131500000,
+      "lastAccessed": 1781131500000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-05"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0265",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1781131500000,
+        "label": "rec-0265",
+        "refs": [
+          "m.rec-0265.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "not"
+      ],
+      "relatedTo": [
+        "mem-50"
+      ]
+    },
+    {
+      "id": "mem-60",
+      "content": "I can't approve this version. Please hold off until you hear from me.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1781190900000,
+      "lastAccessed": 1781190900000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-OC-05"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0283",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1781190900000,
+        "label": "rec-0283",
+        "refs": [
+          "m.rec-0283.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "please"
+      ],
+      "relatedTo": [
+        "mem-13",
+        "mem-26"
+      ]
+    },
+    {
+      "id": "mem-61",
+      "content": "Rejected.",
+      "type": "factual",
+      "layer": "working",
+      "timestamp": 1782337800000,
+      "lastAccessed": 1782337800000,
+      "accessCount": 0,
+      "tags": [
+        "approval",
+        "approval.status",
+        "job:WO-PW-05"
+      ],
+      "confidence": 0.7,
+      "source": "rec-0270",
+      "provenance": {
+        "origin": "document",
+        "learnedAt": 1782337800000,
+        "label": "rec-0270",
+        "refs": [
+          "m.rec-0270.0.0"
+        ]
+      },
+      "domain": "general",
+      "namespace": "general/facts",
+      "entities": [
+        "rejected"
+      ],
+      "relatedTo": [
+        "mem-34"
+      ]
+    }
+  ],
+  "ledger": {
+    "create": 61,
+    "conflict_resolved": 5,
+    "update": 13
+  }
+}

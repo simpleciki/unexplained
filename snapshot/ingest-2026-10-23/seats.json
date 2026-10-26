@@ -1,0 +1,1293 @@
+{
+  "seats": {
+    "approval|approval.effective|job:WO-OC-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.effective",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0087.0.0",
+      "in_effect_card": "m.rec-0087.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0087.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.effective|job:WO-OC-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.effective",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0097.0.0",
+      "in_effect_card": "m.rec-0097.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0097.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.effective|job:WO-PW-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.effective",
+        "scope": "job:WO-PW-04"
+      },
+      "scope_used": "job:WO-PW-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0177.0.0",
+      "in_effect_card": "m.rec-0177.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0177.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.effective|job:WO-RM-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.effective",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0193.0.0",
+      "in_effect_card": "m.rec-0193.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0193.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-NL-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0016.0.0",
+      "in_effect_card": "m.rec-0016.0.0",
+      "coexisting": [
+        "m.rec-0005.0.0"
+      ],
+      "chain": [
+        "m.rec-0016.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-NL-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-NL-04"
+      },
+      "scope_used": "job:WO-NL-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0069.0.0",
+      "in_effect_card": "m.rec-0069.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0069.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0087.0.0",
+      "in_effect_card": "m.rec-0087.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0087.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0097.0.0",
+      "in_effect_card": "m.rec-0097.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0097.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0112.0.0",
+      "in_effect_card": "m.rec-0112.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0112.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-04"
+      },
+      "scope_used": "job:WO-OC-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0131.0.0",
+      "in_effect_card": "m.rec-0131.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0131.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-OC-05": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-OC-05"
+      },
+      "scope_used": "job:WO-OC-05",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0283.0.0",
+      "in_effect_card": "m.rec-0283.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0283.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-01"
+      },
+      "scope_used": "job:WO-PW-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0136.0.0",
+      "in_effect_card": "m.rec-0136.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0136.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-03"
+      },
+      "scope_used": "job:WO-PW-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0172.0.1",
+      "in_effect_card": "m.rec-0172.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0172.0.1",
+        "m.rec-0172.0.0",
+        "m.rec-0165.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-04"
+      },
+      "scope_used": "job:WO-PW-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0177.0.0",
+      "in_effect_card": "m.rec-0177.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0177.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-PW-05": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-PW-05"
+      },
+      "scope_used": "job:WO-PW-05",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0270.0.0",
+      "in_effect_card": "m.rec-0270.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0270.0.0",
+        "m.rec-0265.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0193.0.0",
+      "in_effect_card": "m.rec-0193.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0193.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-02"
+      },
+      "scope_used": "job:WO-RM-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0215.0.0",
+      "in_effect_card": "m.rec-0215.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0215.0.0",
+        "m.rec-0205.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|approval.status|job:WO-RM-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "approval.status",
+        "scope": "job:WO-RM-03"
+      },
+      "scope_used": "job:WO-RM-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0232.2.0",
+      "in_effect_card": "m.rec-0232.2.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0232.2.0",
+        "m.rec-0228.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.labor|job:WO-NL-01": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.labor",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0005.0.0",
+      "in_effect_card": "m.rec-0005.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0005.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.labor|job:WO-RM-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.labor",
+        "scope": "job:WO-RM-03"
+      },
+      "scope_used": "job:WO-RM-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0232.2.0",
+      "in_effect_card": "m.rec-0232.2.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0232.2.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|price.total|job:WO-OC-04": {
+      "seat": {
+        "topic": "approval",
+        "facet": "price.total",
+        "scope": "job:WO-OC-04"
+      },
+      "scope_used": "job:WO-OC-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0131.0.0",
+      "in_effect_card": "m.rec-0131.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0131.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|scope.structure|job:WO-OC-03": {
+      "seat": {
+        "topic": "approval",
+        "facet": "scope.structure",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0112.0.0",
+      "in_effect_card": "m.rec-0112.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0112.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "approval|submission.process|job:WO-RM-02": {
+      "seat": {
+        "topic": "approval",
+        "facet": "submission.process",
+        "scope": "job:WO-RM-02"
+      },
+      "scope_used": "job:WO-RM-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0215.0.1",
+      "in_effect_card": "m.rec-0215.0.1",
+      "coexisting": [
+        "m.rec-0215.0.2"
+      ],
+      "chain": [
+        "m.rec-0215.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.cap|client:cl.red_mill": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.cap",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0187.0.2",
+      "in_effect_card": "m.rec-0187.0.2",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0187.0.2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.cap|job:WO-NL-01": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.cap",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0019.0.0",
+      "in_effect_card": "m.rec-0019.0.0",
+      "coexisting": [
+        "m.rec-0005.0.1"
+      ],
+      "chain": [
+        "m.rec-0019.0.0",
+        "m.rec-0018.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.cap|job:WO-RM-04": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.cap",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0247.0.1",
+      "in_effect_card": "m.rec-0247.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0247.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|client:cl.oak_circle": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "client:cl.oak_circle"
+      },
+      "scope_used": "client:cl.oak_circle",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0091.0.0",
+      "in_effect_card": "m.rec-0091.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0091.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|client:cl.pike_water": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "client:cl.pike_water"
+      },
+      "scope_used": "client:cl.pike_water",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0136.0.1",
+      "in_effect_card": "m.rec-0136.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0136.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|client:cl.red_mill": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0187.0.1",
+      "in_effect_card": "m.rec-0187.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0187.0.1",
+        "m.rec-0187.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-NL-01": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-NL-01"
+      },
+      "scope_used": "job:WO-NL-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0019.0.1",
+      "in_effect_card": "m.rec-0019.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0019.0.1",
+        "m.rec-0018.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-NL-04": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-NL-04"
+      },
+      "scope_used": "job:WO-NL-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0069.0.1",
+      "in_effect_card": "m.rec-0069.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0069.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-OC-02": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0092.0.0",
+      "in_effect_card": "m.rec-0092.0.0",
+      "coexisting": [
+        "m.rec-0097.0.1"
+      ],
+      "chain": [
+        "m.rec-0092.0.0",
+        "m.rec-0101.0.1",
+        "m.rec-0101.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-PW-01": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-PW-01"
+      },
+      "scope_used": "job:WO-PW-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0137.0.0",
+      "in_effect_card": "m.rec-0137.0.0",
+      "coexisting": [
+        "m.rec-0137.0.1"
+      ],
+      "chain": [
+        "m.rec-0137.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-RM-01": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0197.0.0",
+      "in_effect_card": "m.rec-0197.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0197.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|client_rule.submission|job:WO-RM-02": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "client_rule.submission",
+        "scope": "job:WO-RM-02"
+      },
+      "scope_used": "job:WO-RM-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0215.0.3",
+      "in_effect_card": "m.rec-0215.0.3",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0215.0.3"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|submission.process|client:cl.oak_circle": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "submission.process",
+        "scope": "client:cl.oak_circle"
+      },
+      "scope_used": "client:cl.oak_circle",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0091.0.0",
+      "in_effect_card": "m.rec-0091.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0091.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "client_rule|submission.process|job:WO-RM-01": {
+      "seat": {
+        "topic": "client_rule",
+        "facet": "submission.process",
+        "scope": "job:WO-RM-01"
+      },
+      "scope_used": "job:WO-RM-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0197.0.0",
+      "in_effect_card": "m.rec-0197.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0197.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-OC-02": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-OC-02"
+      },
+      "scope_used": "job:WO-OC-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0105.0.0",
+      "in_effect_card": "m.rec-0105.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0105.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-PW-02": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-PW-02"
+      },
+      "scope_used": "job:WO-PW-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0145.0.1",
+      "in_effect_card": "m.rec-0145.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0145.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-PW-05": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-PW-05"
+      },
+      "scope_used": "job:WO-PW-05",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0250.0.1",
+      "in_effect_card": "m.rec-0250.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0250.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "open_item|open_item.inspection|job:WO-RM-04": {
+      "seat": {
+        "topic": "open_item",
+        "facet": "open_item.inspection",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0240.0.0",
+      "in_effect_card": "m.rec-0240.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0240.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|client:cl.pike_water": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "client:cl.pike_water"
+      },
+      "scope_used": "client:cl.pike_water",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0185.0.0",
+      "in_effect_card": "m.rec-0185.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0185.0.0",
+        "m.rec-0185.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|client:cl.red_mill": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0200.0.0",
+      "in_effect_card": "m.rec-0200.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0200.0.0",
+        "m.rec-0200.0.2"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|job:WO-OC-03": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0112.0.1",
+      "in_effect_card": "m.rec-0112.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0112.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.labor|job:WO-RM-04": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.labor",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0247.0.0",
+      "in_effect_card": "m.rec-0247.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0247.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.material|client:cl.red_mill": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.material",
+        "scope": "client:cl.red_mill"
+      },
+      "scope_used": "client:cl.red_mill",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0200.0.1",
+      "in_effect_card": "m.rec-0200.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0200.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "price|price.material|job:WO-OC-03": {
+      "seat": {
+        "topic": "price",
+        "facet": "price.material",
+        "scope": "job:WO-OC-03"
+      },
+      "scope_used": "job:WO-OC-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0112.0.1",
+      "in_effect_card": "m.rec-0112.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0112.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-NL-02": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-NL-02"
+      },
+      "scope_used": "job:WO-NL-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0028.0.0",
+      "in_effect_card": "m.rec-0028.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0028.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-NL-03": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-NL-03"
+      },
+      "scope_used": "job:WO-NL-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0043.0.1",
+      "in_effect_card": "m.rec-0043.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0043.0.1",
+        "m.rec-0043.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-OC-01": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-OC-01"
+      },
+      "scope_used": "job:WO-OC-01",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0087.0.1",
+      "in_effect_card": "m.rec-0087.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0087.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-PW-02": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-PW-02"
+      },
+      "scope_used": "job:WO-PW-02",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0146.0.0",
+      "in_effect_card": "m.rec-0146.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0146.0.0",
+        "m.rec-0145.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-PW-03": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-PW-03"
+      },
+      "scope_used": "job:WO-PW-03",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0165.0.1",
+      "in_effect_card": "m.rec-0165.0.1",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0165.0.1"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    },
+    "scope|scope.lines|job:WO-RM-04": {
+      "seat": {
+        "topic": "scope",
+        "facet": "scope.lines",
+        "scope": "job:WO-RM-04"
+      },
+      "scope_used": "job:WO-RM-04",
+      "scope_fallback": false,
+      "state": "PASS",
+      "current_card": "m.rec-0300.0.0",
+      "in_effect_card": "m.rec-0300.0.0",
+      "coexisting": [],
+      "chain": [
+        "m.rec-0300.0.0"
+      ],
+      "conflicts": [],
+      "scheduled": null
+    }
+  },
+  "cards": {
+    "m.rec-0005.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0005.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0016.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0018.0.0": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "m.rec-0019.0.1"
+    },
+    "m.rec-0019.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0019.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0028.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0043.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0043.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0069.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0069.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0087.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0087.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0091.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0092.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0097.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0097.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0101.0.0": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "m.rec-0092.0.0"
+    },
+    "m.rec-0101.0.1": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "m.rec-0092.0.0"
+    },
+    "m.rec-0105.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0112.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0112.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0131.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0136.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0136.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0137.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0137.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0145.0.0": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "m.rec-0146.0.0"
+    },
+    "m.rec-0145.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0146.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0165.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0165.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0172.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0172.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0177.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0185.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0185.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0187.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0187.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0187.0.2": {
+      "result": "PASS"
+    },
+    "m.rec-0193.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0197.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0200.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0200.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0200.0.2": {
+      "result": "PASS"
+    },
+    "m.rec-0205.0.0": {
+      "result": "REPLACED_BY_SUCCESSOR",
+      "replaced_by": "m.rec-0215.0.0"
+    },
+    "m.rec-0215.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0215.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0215.0.2": {
+      "result": "PASS"
+    },
+    "m.rec-0215.0.3": {
+      "result": "PASS"
+    },
+    "m.rec-0228.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0232.2.0": {
+      "result": "PASS"
+    },
+    "m.rec-0240.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0247.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0247.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0250.0.1": {
+      "result": "PASS"
+    },
+    "m.rec-0260.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0265.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0270.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0283.0.0": {
+      "result": "PASS"
+    },
+    "m.rec-0300.0.0": {
+      "result": "PASS"
+    }
+  },
+  "links": [
+    {
+      "from": "m.rec-0018.0.0",
+      "to": "m.rec-0019.0.0",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0018.0.0",
+      "to": "m.rec-0019.0.1",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0043.0.0",
+      "to": "m.rec-0043.0.1",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "m.rec-0101.0.0",
+      "to": "m.rec-0101.0.1",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "m.rec-0101.0.0",
+      "to": "m.rec-0092.0.0",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0101.0.1",
+      "to": "m.rec-0092.0.0",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0145.0.0",
+      "to": "m.rec-0146.0.0",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0165.0.0",
+      "to": "m.rec-0172.0.0",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0165.0.0",
+      "to": "m.rec-0172.0.1",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0172.0.0",
+      "to": "m.rec-0172.0.1",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "m.rec-0185.0.1",
+      "to": "m.rec-0185.0.0",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "m.rec-0187.0.0",
+      "to": "m.rec-0187.0.1",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "m.rec-0200.0.2",
+      "to": "m.rec-0200.0.0",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "overlapping times; newer card explicitly references the older one"
+    },
+    {
+      "from": "m.rec-0205.0.0",
+      "to": "m.rec-0215.0.0",
+      "relation": "REPLACES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0228.0.0",
+      "to": "m.rec-0232.2.0",
+      "relation": "REFINES",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0260.0.0",
+      "to": "m.rec-0270.0.0",
+      "relation": "SAME",
+      "status": "ok",
+      "why": "before"
+    },
+    {
+      "from": "m.rec-0265.0.0",
+      "to": "m.rec-0270.0.0",
+      "relation": "SAME",
+      "status": "ok",
+      "why": "before"
+    }
+  ]
+}

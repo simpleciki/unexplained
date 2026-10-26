@@ -1,0 +1,69 @@
+{
+  "complete": false,
+  "records_total": 116,
+  "records_done": 113,
+  "records_rejected": [
+    {
+      "record_id": "rec-0011",
+      "why": "reply was prose, not JSON"
+    },
+    {
+      "record_id": "rec-0017",
+      "why": "reply was prose, not JSON"
+    },
+    {
+      "record_id": "rec-0078",
+      "why": "reply was prose, not JSON"
+    },
+    {
+      "record_id": "rec-0083",
+      "why": "reply was prose, not JSON"
+    },
+    {
+      "record_id": "rec-0116",
+      "why": "reply was prose, not JSON"
+    },
+    {
+      "record_id": "rec-0160",
+      "why": "reply was prose, not JSON"
+    },
+    {
+      "record_id": "rec-0299",
+      "why": "reply was prose, not JSON"
+    }
+  ],
+  "records_prose_reply": [
+    "rec-0011",
+    "rec-0017",
+    "rec-0078",
+    "rec-0083",
+    "rec-0116",
+    "rec-0160",
+    "rec-0232",
+    "rec-0299"
+  ],
+  "pairs_prose_reply": [],
+  "records_failed_upstream": [
+    {
+      "record_id": "rec-0006",
+      "error": "{\"error\":{\"message\":\"Meterless provider request failed.\",\"meterless_detail\":\"provider_deadline\"}} [request id and model details removed in the snapshot]"
+    },
+    {
+      "record_id": "rec-0079",
+      "error": "{\"error\":{\"message\":\"Meterless provider request failed.\",\"meterless_detail\":\"provider_deadline\"}} [request id and model details removed in the snapshot]"
+    },
+    {
+      "record_id": "rec-0128",
+      "error": "every routing mode is dead or unavailable [NVIDIA error bodies removed in the snapshot]"
+    }
+  ],
+  "records_failed_upstream_count": 3,
+  "pairs_failed_upstream": [],
+  "cards_gate_rejected": [],
+  "cards_dropped_by_skeptic": [],
+  "cards": 73,
+  "pairs_total": 24,
+  "pairs_judged": 24,
+  "edges": 17,
+  "stopped_reason": "finished, but some records or pairs failed upstream or answered in prose; rerun to retry them"
+}

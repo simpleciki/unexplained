@@ -15,6 +15,7 @@ import { CURATED_PROBLEMS, VIEWS, check, effective, jobs, ledger, loadCtx, meta,
 import type { View } from "./api.ts";
 import type { Ctx } from "./api.ts";
 import { DEMO_DIR, prepareDemoRoot, withDemoLabel } from "./demo.ts";
+import { ingestSource } from "../pipeline/ingest-source.ts";
 
 export type Reply = { status: number; type: "json" | "html"; body: string };
 const json = (status: number, v: unknown): Reply => ({ status, type: "json", body: JSON.stringify(v) });
@@ -99,6 +100,7 @@ export async function startServer(root: string, argv: string[]) {
   });
   server.listen(port, "127.0.0.1", () => {
     if (demo) console.log(`DEMO COPY: judgments go to ${DEMO_DIR}/review/judgments.jsonl, never to review/judgments.jsonl; restart to start over`);
+    console.log(ingestSource(ctxRoot).line);
     console.log(box.ctx.view.ledger.line);
     console.log(`home (the call): http://127.0.0.1:${port}/  ·  outbox (the check page): http://127.0.0.1:${port}/outbox  (data from ${source}; no model calls)`);
   });

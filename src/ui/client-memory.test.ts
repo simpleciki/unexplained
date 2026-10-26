@@ -9,6 +9,7 @@ import { HMEM } from "../../vendor/meterless-hmem/src/index.ts";
 import { loadDataset } from "../engine/data.ts";
 import { check, loadCtx, summary } from "./api.ts";
 import { recallClient } from "./client-memory.ts";
+import { ingestSource } from "../pipeline/ingest-source.ts";
 
 const repo = join(import.meta.dirname, "../..");
 const T = (iso: string) => Date.parse(iso);
@@ -74,10 +75,10 @@ describe("check page panel", () => {
   function ctxCopy() {
     const root = mkdtempSync(join(tmpdir(), "unexplained-mem-"));
     cpSync(join(repo, "data"), join(root, "data"), { recursive: true });
+    // The ingest this repo reads (state/, or the committed snapshot in a fresh clone).
+    const src = ingestSource(repo).dir;
     mkdirSync(join(root, "state"));
-    cpSync(join(repo, "state/cards.json"), join(root, "state/cards.json"));
-    cpSync(join(repo, "state/edges.json"), join(root, "state/edges.json"));
-    cpSync(join(repo, "state/ingest-report.json"), join(root, "state/ingest-report.json"));
+    for (const f of ["cards.json", "edges.json", "ingest-report.json"]) cpSync(join(src, f), join(root, "state", f));
     mkdirSync(join(root, "review"));
     cpSync(join(repo, "review/judgments.jsonl"), join(root, "review/judgments.jsonl"));
     const data = loadDataset(root);

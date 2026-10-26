@@ -21,6 +21,7 @@ import { relate, seatPairs } from "../agents/keeper.ts";
 import { agentContext } from "../agents/shared.ts";
 import type { Runtime } from "./runtime.ts";
 import { applyJudgments, loadJudgments } from "../review/judgments.ts";
+import { ingestSource } from "./ingest-source.ts";
 import { buildLedger } from "../review/ledger.ts";
 import type { Ledger } from "../review/ledger.ts";
 
@@ -178,7 +179,8 @@ export async function runIngest(root: string, rt: Runtime, preloaded?: Dataset, 
 // record uses the person's cards. `modelCards` is the model's output alone: extraction scores use only that.
 // The engine is built from these, never from eval/gold/.
 export function loadIngested(root: string, data?: Dataset) {
-  const f = (n: string) => join(root, "state", n);
+  const src = ingestSource(root); // state/, else the committed snapshot
+  const f = (n: string) => join(src.dir, n);
   if (!existsSync(f("cards.json")) || !existsSync(f("edges.json"))) throw new Error("no ingested cards yet: run `npm run ingest -- --max-calls N` first");
   const modelCards = JSON.parse(readFileSync(f("cards.json"), "utf8")) as DecisionCard[];
   const modelEdges = JSON.parse(readFileSync(f("edges.json"), "utf8")) as RelationEdge[];

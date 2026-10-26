@@ -1,0 +1,146 @@
+[
+  {
+    "old_card": "m.rec-0005.0.0",
+    "new_card": "m.rec-0016.0.0",
+    "relation": "UNRELATED",
+    "reason": "records do not say they concern the same quote or subject"
+  },
+  {
+    "old_card": "m.rec-0005.0.1",
+    "new_card": "m.rec-0018.0.0",
+    "relation": "UNRELATED",
+    "reason": "the records do not say they concern the same subject; the older decides on trip fees, the newer on a $2500 note requirement"
+  },
+  {
+    "old_card": "m.rec-0005.0.1",
+    "new_card": "m.rec-0019.0.0",
+    "relation": "UNRELATED",
+    "reason": "the records do not say they concern the same subject; the older decides on trip fees, the newer on a cap being lifted for 2026"
+  },
+  {
+    "old_card": "m.rec-0018.0.0",
+    "new_card": "m.rec-0019.0.0",
+    "relation": "REPLACES",
+    "reason": "Cap is lifted for the rest of 2026. You do not need the pre-note anymore."
+  },
+  {
+    "old_card": "m.rec-0018.0.0",
+    "new_card": "m.rec-0019.0.1",
+    "relation": "REPLACES",
+    "reason": "Cap is lifted for the rest of 2026"
+  },
+  {
+    "old_card": "m.rec-0043.0.0",
+    "new_card": "m.rec-0043.0.1",
+    "relation": "REFINES",
+    "reason": "The newer decision isolates the second instruction ('Then tell me what failed.') from the full statement, while the older decision still stands as the first part ('Do the gauges.'); both from the same source and speaker."
+  },
+  {
+    "old_card": "m.rec-0097.0.1",
+    "new_card": "m.rec-0101.0.0",
+    "relation": "UNRELATED",
+    "reason": "The older decision concerns photographing coupling orientation; the newer concerns quote routing. They address different subjects."
+  },
+  {
+    "old_card": "m.rec-0097.0.1",
+    "new_card": "m.rec-0101.0.1",
+    "relation": "UNRELATED",
+    "reason": "The older decision concerns photographing coupling orientation, while the newer one concerns fixing routing before reading numbers; they address different subjects."
+  },
+  {
+    "old_card": "m.rec-0097.0.1",
+    "new_card": "m.rec-0092.0.0",
+    "relation": "UNRELATED",
+    "reason": "The older decision concerns photographing coupling orientation, while the newer decision concerns withdrawing an 'only me' instruction and allowing CC to Tomas Frey; they address different client rules."
+  },
+  {
+    "old_card": "m.rec-0101.0.0",
+    "new_card": "m.rec-0101.0.1",
+    "relation": "REFINES",
+    "reason": "newer adds routing-fix detail to same client_rule.submission; older quote-recipient rule still stands"
+  },
+  {
+    "old_card": "m.rec-0101.0.0",
+    "new_card": "m.rec-0092.0.0",
+    "relation": "REPLACES",
+    "reason": "The newer decision explicitly withdraws the earlier 'only me' instruction and substitutes a new routing rule."
+  },
+  {
+    "old_card": "m.rec-0101.0.1",
+    "new_card": "m.rec-0092.0.0",
+    "relation": "REPLACES",
+    "reason": "The earlier 'only me' instruction is withdrawn."
+  },
+  {
+    "old_card": "m.rec-0145.0.0",
+    "new_card": "m.rec-0146.0.0",
+    "relation": "REPLACES",
+    "reason": "The newer record says to come back with a camera after rain, while the older record says to snake it."
+  },
+  {
+    "old_card": "m.rec-0165.0.0",
+    "new_card": "m.rec-0172.0.0",
+    "relation": "REFINES",
+    "reason": "The newer decision adds a travel-line disapproval and payment hold without revoking the earlier EPDM patch approval."
+  },
+  {
+    "old_card": "m.rec-0165.0.0",
+    "new_card": "m.rec-0172.0.1",
+    "relation": "REFINES",
+    "reason": "The newer decision adds a travel-line disapproval and payment hold without revoking the earlier EPDM patch approval."
+  },
+  {
+    "old_card": "m.rec-0172.0.0",
+    "new_card": "m.rec-0172.0.1",
+    "relation": "REFINES",
+    "reason": "The newer decision isolates the payment-hold action from the older decision's broader statement that also disapproves the travel line; the older decision still stands."
+  },
+  {
+    "old_card": "m.rec-0185.0.1",
+    "new_card": "m.rec-0185.0.0",
+    "relation": "REFINES",
+    "reason": "newer card adds $96 rate effective 15 June 2026, older $90 rate instruction still stands"
+  },
+  {
+    "old_card": "m.rec-0187.0.0",
+    "new_card": "m.rec-0187.0.1",
+    "relation": "REFINES",
+    "reason": "newer adds no-email-PDFs detail to same client_rule.submission; older portal-routing rule still stands"
+  },
+  {
+    "old_card": "m.rec-0200.0.2",
+    "new_card": "m.rec-0200.0.0",
+    "relation": "REFINES",
+    "reason": "newer card adds $96 rate effective 1 June 2026, older $88 labor instruction still stands"
+  },
+  {
+    "old_card": "m.rec-0205.0.0",
+    "new_card": "m.rec-0215.0.0",
+    "relation": "REPLACES",
+    "reason": "The newer record supersedes and contradicts the older approval decision."
+  },
+  {
+    "old_card": "m.rec-0228.0.0",
+    "new_card": "m.rec-0232.2.0",
+    "relation": "REFINES",
+    "reason": "Newer adds detail on second belt change and labor rate while referencing the already-approved kit, leaving the prior approval intact."
+  },
+  {
+    "old_card": "m.rec-0260.0.0",
+    "new_card": "m.rec-0265.0.0",
+    "relation": "UNRELATED",
+    "reason": "Decisions reference different items ('this one' vs 'this version either'); records do not establish a relation."
+  },
+  {
+    "old_card": "m.rec-0260.0.0",
+    "new_card": "m.rec-0270.0.0",
+    "relation": "SAME",
+    "reason": "The newer restates the same non-approval position in different words."
+  },
+  {
+    "old_card": "m.rec-0265.0.0",
+    "new_card": "m.rec-0270.0.0",
+    "relation": "SAME",
+    "reason": "The newer restates the same rejection in different words."
+  }
+]

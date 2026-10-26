@@ -1,5 +1,5 @@
 // Finding sentences over every document (no network): with the gold cards as the ingested state (so P1-P7 all
-// get exercised) and, when present, with the real state/. No raw ids, booleans, nulls or timestamps; every
+// get exercised) and with the real ingest (state/, or the committed snapshot). No raw ids, booleans, nulls or timestamps; every
 // quoted string is the exact words of a record in that warning's evidence.
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -8,10 +8,13 @@ import { describe, expect, it } from "vitest";
 import { loadDataset } from "../engine/data.ts";
 import { extractableRecords } from "../pipeline/ingest.ts";
 import { check, jobs, loadCtx } from "./api.ts";
+import { ingestSource } from "../pipeline/ingest-source.ts";
 import { findingSentences, money, plainText, shortDate } from "./findings.ts";
 import type { Seg } from "./findings.ts";
 
 const repo = join(import.meta.dirname, "../..");
+// The real ingest: state/ when there is a local one, else the committed snapshot (a fresh clone).
+const hasIngest = (() => { try { ingestSource(repo); return true; } catch { return false; } })();
 const FORBIDDEN = [/undefined/, /\bnull\b/, /m\.rec-/, /\bcard\.[a-z]/, /\bh\.j\./, /\btrue\b/, /\bfalse\b/, /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/];
 
 function goldRoot() {
@@ -57,7 +60,7 @@ describe("finding sentences", () => {
     for (const p of ["P1", "P3", "P4", "P5", "P6", "P7"]) expect(patterns.has(p), `${p} never fired with gold cards`).toBe(true);
   });
 
-  it.skipIf(!existsSync(join(repo, "state/cards.json")))("are clean on all documents with the real ingested state", () => {
+  it.skipIf(!hasIngest)("are clean on all documents with the real ingested state", () => {
     assertClean(allFindings(repo).out);
   });
 
@@ -115,7 +118,7 @@ describe("finding sentences", () => {
     expect(linked).toMatch(/The line “Replace leader to first cleanout” uses “leader” from the promise\.$/);
   });
 
-  it.skipIf(!existsSync(join(repo, "state/cards.json")))("Q-PW-05-v3 does not claim a priced line from the word 'first'", () => {
+  it.skipIf(!hasIngest)("Q-PW-05-v3 does not claim a priced line from the word 'first'", () => {
     const ctx = loadCtx(repo, loadDataset(repo));
     const p1 = check(ctx, "Q-PW-05-v3")!.warnings.find((w) => w.pattern === "P1") as { fired: boolean; finding: string[] } | undefined;
     if (!p1?.fired) return;

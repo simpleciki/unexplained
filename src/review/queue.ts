@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { loadDataset } from "../engine/data.ts";
 import type { Dataset, DecisionCard, SourceRecord } from "../engine/types.ts";
 import { extractableRecords } from "../pipeline/ingest.ts";
+import { ingestSource, SNAPSHOT } from "../pipeline/ingest-source.ts";
 import type { IngestReport } from "../pipeline/ingest.ts";
 import { loadVocab } from "../engine/vocab.ts";
 import { loadPeople } from "../agents/shared.ts";
@@ -37,12 +38,13 @@ export type QueueItem = {
 export type ReviewView = { data: Dataset; modelCards: DecisionCard[]; judgments: Judgment[]; docJudgments: DocJudgment[]; ledger: Ledger; items: QueueItem[] };
 
 export function loadReviewView(root: string, data: Dataset = loadDataset(root)): ReviewView {
-  const state = (n: string) => join(root, "state", n);
+  const src = ingestSource(root); // state/, else the committed snapshot
+  const state = (n: string) => join(src.dir, n);
   if (!existsSync(state("cards.json")) || !existsSync(state("ingest-report.json"))) throw new Error("no ingest yet: run `npm run ingest -- --max-calls N` first");
   const modelCards = JSON.parse(readFileSync(state("cards.json"), "utf8")) as DecisionCard[];
   const report = JSON.parse(readFileSync(state("ingest-report.json"), "utf8")) as IngestReport;
   const records = extractableRecords(data.records);
-  if (report.records_total !== records.length) throw new Error(`state/ingest-report.json covers ${report.records_total} records but data/ has ${records.length}: it is from a sample or another dataset`);
+  if (report.records_total !== records.length) throw new Error(`${src.kind === "state" ? "state" : SNAPSHOT}/ingest-report.json covers ${report.records_total} records but data/ has ${records.length}: it is from a sample or another dataset`);
   const judgments = loadJudgments(root);
   const ledger = buildLedger(records, modelCards, report, judgments);
   const byId = new Map<string, SourceRecord>(data.records.map((r) => [r.record_id, r]));

@@ -1,0 +1,1038 @@
+[
+  {
+    "card_id": "m.rec-0005.0.0",
+    "record_id": "rec-0005",
+    "quote": "Approved as sent at $92 an hour.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "price.labor"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-03-05T07:40:00-06:00",
+    "effective": "2026-03-05T07:40:00-06:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0005.0.1",
+    "record_id": "rec-0005",
+    "quote": "Do not add trip fees.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.cap"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-03-05T07:40:00-06:00",
+    "effective": "2026-03-05T07:40:00-06:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0012.0.0",
+    "record_id": "rec-0012",
+    "quote": "He wants a whole-house surge device on the new panel before he signs the final.",
+    "mode": "mentions",
+    "topic": "open_item",
+    "facets": [
+      "open_item.inspection"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-03-16T11:40:00-05:00",
+    "effective": "2026-03-16T11:40:00-05:00",
+    "decided_by": "p.hw.cal_rhees"
+  },
+  {
+    "card_id": "m.rec-0016.0.0",
+    "record_id": "rec-0016",
+    "quote": "Ria said on the 17th call that Q-NL-01-v3 is approved now that the surge device from the inspector is on the quote.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-03-17T09:20:00-05:00",
+    "effective": "2026-03-17T09:20:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0018.0.0",
+    "record_id": "rec-0018",
+    "quote": "Anything over $2500 needs a one-line note from me before you submit. No exceptions.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.cap",
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-03-10T08:00:00-05:00",
+    "effective": "2026-03-10T08:00:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0019.0.0",
+    "record_id": "rec-0019",
+    "quote": "Cap is lifted for the rest of 2026.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.cap"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-06-02T08:11:00-05:00",
+    "effective": "2026-06-02T08:11:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0019.0.1",
+    "record_id": "rec-0019",
+    "quote": "You do not need the pre-note anymore.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-NL-01",
+    "decided_at": "2026-06-02T08:11:00-05:00",
+    "effective": "2026-06-02T08:11:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0028.0.0",
+    "record_id": "rec-0028",
+    "quote": "Fine. Swap the heater.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-NL-02",
+    "decided_at": "2026-03-14T07:33:00-05:00",
+    "effective": "2026-03-14T07:33:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0043.0.0",
+    "record_id": "rec-0043",
+    "quote": "Do the gauges.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-NL-03",
+    "decided_at": "2026-03-20T07:18:00-05:00",
+    "effective": "2026-03-20T07:18:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0043.0.1",
+    "record_id": "rec-0043",
+    "quote": "Then tell me what failed.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-NL-03",
+    "decided_at": "2026-03-20T07:18:00-05:00",
+    "effective": "2026-03-20T07:18:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0069.0.0",
+    "record_id": "rec-0069",
+    "quote": "I am not approving this.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-NL-04",
+    "decided_at": "2026-04-03T12:05:00-05:00",
+    "effective": "2026-04-03T12:05:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0069.0.1",
+    "record_id": "rec-0069",
+    "quote": "Send one packet.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-NL-04",
+    "decided_at": "2026-04-03T12:05:00-05:00",
+    "effective": "2026-04-03T12:05:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0073.0.0",
+    "record_id": "rec-0073",
+    "quote": "This bill is not what I approved.",
+    "mode": "mentions",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-NL-04",
+    "decided_at": "2026-05-06T08:02:00-05:00",
+    "effective": "2026-05-06T08:02:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0073.0.1",
+    "record_id": "rec-0073",
+    "quote": "I never signed the flashing packet.",
+    "mode": "mentions",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-NL-04",
+    "decided_at": "2026-05-06T08:02:00-05:00",
+    "effective": "2026-05-06T08:02:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0087.0.0",
+    "record_id": "rec-0087",
+    "quote": "stamp it approved for the file.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "approval.effective"
+    ],
+    "scope": "job:WO-OC-01",
+    "decided_at": "2026-05-07T08:50:00-05:00",
+    "effective": "2026-05-07T08:50:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0087.0.1",
+    "record_id": "rec-0087",
+    "quote": "v3 is the same work we already finished",
+    "mode": "gives_reason",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-OC-01",
+    "decided_at": "2026-05-07T08:50:00-05:00",
+    "effective": "2026-05-07T08:50:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0091.0.0",
+    "record_id": "rec-0091",
+    "quote": "Starting 1 June 2026 you may send Oak Circle mechanical work as a single lump-sum line if you also attach the backup sheet. Until then keep the four-line shape.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission",
+      "submission.process"
+    ],
+    "scope": "client:cl.oak_circle",
+    "decided_at": "2026-05-15T10:00:00-05:00",
+    "effective": "2026-06-01T00:00:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0092.0.0",
+    "record_id": "rec-0092",
+    "quote": "You may CC Tomas Frey from 20 May 2026. The earlier 'only me' instruction is withdrawn.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-05-20T09:30:00-05:00",
+    "effective": "2026-05-20T09:30:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0097.0.0",
+    "record_id": "rec-0097",
+    "quote": "Approved.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "approval.effective"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-03-18T11:05:00-05:00",
+    "effective": "2026-03-18T11:05:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0097.0.1",
+    "record_id": "rec-0097",
+    "quote": "Please photograph the coupling orientation for my file.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-03-18T11:05:00-05:00",
+    "effective": "2026-03-18T11:05:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0101.0.0",
+    "record_id": "rec-0101",
+    "quote": "I asked that quotes come only to me.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-04-09T15:40:00-05:00",
+    "effective": "2026-04-09T15:40:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0101.0.1",
+    "record_id": "rec-0101",
+    "quote": "Fix the routing before I read the numbers.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-04-09T15:40:00-05:00",
+    "effective": "2026-04-09T15:40:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0105.0.0",
+    "record_id": "rec-0105",
+    "quote": "once the coupling is in we'll run a camera up the rest of the stack.",
+    "mode": "proposes",
+    "topic": "open_item",
+    "facets": [
+      "open_item.inspection"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-04-08T16:00:00-05:00",
+    "effective": "2026-04-08T16:00:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0112.0.0",
+    "record_id": "rec-0112",
+    "quote": "Approved in the usual four-line shape.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "scope.structure"
+    ],
+    "scope": "job:WO-OC-03",
+    "decided_at": "2026-04-08T09:44:00-05:00",
+    "effective": "2026-04-08T09:44:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0112.0.1",
+    "record_id": "rec-0112",
+    "quote": "Please keep labor and material apart.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.labor",
+      "price.material"
+    ],
+    "scope": "job:WO-OC-03",
+    "decided_at": "2026-04-08T09:44:00-05:00",
+    "effective": "2026-04-08T09:44:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0131.0.0",
+    "record_id": "rec-0131",
+    "quote": "Invoice matches the approved stair work. Paid.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "price.total"
+    ],
+    "scope": "job:WO-OC-04",
+    "decided_at": "2026-05-12T10:18:00-05:00",
+    "effective": "2026-05-12T10:18:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0136.0.0",
+    "record_id": "rec-0136",
+    "quote": "Otto approved the shop labeling quote on a 19 March call at 10:45.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-01",
+    "decided_at": "2026-03-19T10:45:00-05:00",
+    "effective": "2026-03-23T09:05:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0136.0.1",
+    "record_id": "rec-0136",
+    "quote": "He asked us not to ping him for ten business days after a send.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "client:cl.pike_water",
+    "decided_at": "2026-03-23T09:05:00-05:00",
+    "effective": "2026-03-23T09:05:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0137.0.0",
+    "record_id": "rec-0137",
+    "quote": "Do not send reminder emails for ten business days after a quote.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-PW-01",
+    "decided_at": "2026-03-09T16:10:00-05:00",
+    "effective": "2026-03-09T16:10:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0137.0.1",
+    "record_id": "rec-0137",
+    "quote": "I move slowly and I will answer.",
+    "mode": "gives_reason",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-PW-01",
+    "decided_at": "2026-03-09T16:10:00-05:00",
+    "effective": "2026-03-09T16:10:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0145.0.0",
+    "record_id": "rec-0145",
+    "quote": "Snake it.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-PW-02",
+    "decided_at": "2026-04-06T17:05:00-05:00",
+    "effective": "2026-04-06T17:05:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0145.0.1",
+    "record_id": "rec-0145",
+    "quote": "I will wait on a later note for the cause.",
+    "mode": "decides",
+    "topic": "open_item",
+    "facets": [
+      "open_item.inspection"
+    ],
+    "scope": "job:WO-PW-02",
+    "decided_at": "2026-04-06T17:05:00-05:00",
+    "effective": "2026-04-06T17:05:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0146.0.0",
+    "record_id": "rec-0146",
+    "quote": "Agreed we'd come back with a camera after the next good rain and confirm then if there is a trap on that drain at all.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-PW-02",
+    "decided_at": "2026-04-07T11:00:00-05:00",
+    "effective": "2026-04-07T11:00:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0165.0.0",
+    "record_id": "rec-0165",
+    "quote": "The EPDM patch is approved.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-03",
+    "decided_at": "2026-04-22T16:40:00-05:00",
+    "effective": "2026-04-22T16:40:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0165.0.1",
+    "record_id": "rec-0165",
+    "quote": "No trip line.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-PW-03",
+    "decided_at": "2026-04-22T16:40:00-05:00",
+    "effective": "2026-04-22T16:40:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0172.0.0",
+    "record_id": "rec-0172",
+    "quote": "This invoice has a travel line I did not approve.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-03",
+    "decided_at": "2026-05-21T17:22:00-05:00",
+    "effective": "2026-05-21T17:22:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0172.0.1",
+    "record_id": "rec-0172",
+    "quote": "Holding payment.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-03",
+    "decided_at": "2026-05-21T17:22:00-05:00",
+    "effective": "2026-05-21T17:22:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0177.0.0",
+    "record_id": "rec-0177",
+    "quote": "Compressor swap approved with labor and material shown apart.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "approval.effective"
+    ],
+    "scope": "job:WO-PW-04",
+    "decided_at": "2026-05-01T16:00:00-05:00",
+    "effective": "2026-05-01T16:00:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0185.0.0",
+    "record_id": "rec-0185",
+    "quote": "From 15 June 2026 Pike Water electrical labor is $96 per hour.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.labor"
+    ],
+    "scope": "client:cl.pike_water",
+    "decided_at": "2026-05-11T15:30:00-05:00",
+    "effective": "2026-06-15T00:00:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0185.0.1",
+    "record_id": "rec-0185",
+    "quote": "Until that date keep the $90 rate already used on the shop panel job.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.labor"
+    ],
+    "scope": "client:cl.pike_water",
+    "decided_at": "2026-05-11T15:30:00-05:00",
+    "effective": "2026-05-11T15:30:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0187.0.0",
+    "record_id": "rec-0187",
+    "quote": "All Red Mill quotes go through the client portal.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "client:cl.red_mill",
+    "decided_at": "2026-03-09T11:00:00-05:00",
+    "effective": "2026-03-09T11:00:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0187.0.1",
+    "record_id": "rec-0187",
+    "quote": "Do not email PDFs.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "client:cl.red_mill",
+    "decided_at": "2026-03-09T11:00:00-05:00",
+    "effective": "2026-03-09T11:00:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0187.0.2",
+    "record_id": "rec-0187",
+    "quote": "Paul may read them but I am the signer.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.cap"
+    ],
+    "scope": "client:cl.red_mill",
+    "decided_at": "2026-03-09T11:00:00-05:00",
+    "effective": "2026-03-09T11:00:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0193.0.0",
+    "record_id": "rec-0193",
+    "quote": "Annex receptacles approved.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "approval.effective"
+    ],
+    "scope": "job:WO-RM-01",
+    "decided_at": "2026-03-11T09:20:00-05:00",
+    "effective": "2026-03-11T09:20:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0197.0.0",
+    "record_id": "rec-0197",
+    "quote": "That is not a submission. Put it in the portal or I will not open it.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission",
+      "submission.process"
+    ],
+    "scope": "job:WO-RM-01",
+    "decided_at": "2026-04-13T14:05:00-05:00",
+    "effective": "2026-04-13T14:05:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0200.0.0",
+    "record_id": "rec-0200",
+    "quote": "From 1 June 2026 Red Mill mechanical labor is $96 per hour.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.labor"
+    ],
+    "scope": "client:cl.red_mill",
+    "decided_at": "2026-05-12T10:15:00-05:00",
+    "effective": "2026-06-01T00:00:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0200.0.1",
+    "record_id": "rec-0200",
+    "quote": "Material prices already approved stay as they are.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.material"
+    ],
+    "scope": "client:cl.red_mill",
+    "decided_at": "2026-05-12T10:15:00-05:00",
+    "effective": "2026-05-12T10:15:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0200.0.2",
+    "record_id": "rec-0200",
+    "quote": "Until 1 June use the $88 labor on file.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.labor"
+    ],
+    "scope": "client:cl.red_mill",
+    "decided_at": "2026-05-12T10:15:00-05:00",
+    "effective": "2026-05-12T10:15:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0205.0.0",
+    "record_id": "rec-0205",
+    "quote": "Flush valve rebuild approved in the portal.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-RM-02",
+    "decided_at": "2026-03-31T08:55:00-05:00",
+    "effective": "2026-03-31T08:55:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0215.0.0",
+    "record_id": "rec-0215",
+    "quote": "Rejected.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-RM-02",
+    "decided_at": "2026-04-27T15:30:00-05:00",
+    "effective": "2026-04-27T15:30:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0215.0.1",
+    "record_id": "rec-0215",
+    "quote": "The portal shows a voided number, the email shows another, and Paul was copied three times.",
+    "mode": "gives_reason",
+    "topic": "approval",
+    "facets": [
+      "submission.process"
+    ],
+    "scope": "job:WO-RM-02",
+    "decided_at": "2026-04-27T15:30:00-05:00",
+    "effective": "2026-04-27T15:30:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0215.0.2",
+    "record_id": "rec-0215",
+    "quote": "I cannot tell what is live.",
+    "mode": "gives_reason",
+    "topic": "approval",
+    "facets": [
+      "submission.process"
+    ],
+    "scope": "job:WO-RM-02",
+    "decided_at": "2026-04-27T15:30:00-05:00",
+    "effective": "2026-04-27T15:30:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0215.0.3",
+    "record_id": "rec-0215",
+    "quote": "Put one packet in the portal.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-RM-02",
+    "decided_at": "2026-04-27T15:30:00-05:00",
+    "effective": "2026-04-27T15:30:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0228.0.0",
+    "record_id": "rec-0228",
+    "quote": "Belts approved as submitted through the portal.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-RM-03",
+    "decided_at": "2026-04-03T08:40:00-05:00",
+    "effective": "2026-04-03T08:40:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0232.2.0",
+    "record_id": "rec-0232",
+    "quote": "Second belt change approved at the new labor rate.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "price.labor"
+    ],
+    "scope": "job:WO-RM-03",
+    "decided_at": "2026-06-04T09:10:00-05:00",
+    "effective": "2026-06-04T09:10:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0232.2.1",
+    "record_id": "rec-0232",
+    "quote": "Material is the same kit I already approved.",
+    "mode": "mentions",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-RM-03",
+    "decided_at": "2026-06-04T09:10:00-05:00",
+    "effective": "2026-06-04T09:10:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0239.1.0",
+    "record_id": "rec-0239",
+    "quote": "Yvette approved the gallery leak quote on the 21 April portal call at 15:00.",
+    "mode": "mentions",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "approval.effective"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-04-21T15:00:00-05:00",
+    "effective": "2026-04-21T15:00:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0240.0.0",
+    "record_id": "rec-0240",
+    "quote": "Yvette, once the ceiling has dried out we'll check the north wall paint and let you know if it needs a refinish.",
+    "mode": "proposes",
+    "topic": "open_item",
+    "facets": [
+      "open_item.inspection"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-04-22T12:10:00-05:00",
+    "effective": "2026-04-22T12:10:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0246.0.0",
+    "record_id": "rec-0246",
+    "quote": "the trip line covers the truck run from the shop.",
+    "mode": "proposes",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-05-12T14:00:00-05:00",
+    "effective": "2026-05-12T14:00:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0246.0.1",
+    "record_id": "rec-0246",
+    "quote": "I also put the north wall refinish on it.",
+    "mode": "proposes",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-05-12T14:00:00-05:00",
+    "effective": "2026-05-12T14:00:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0247.0.0",
+    "record_id": "rec-0247",
+    "quote": "For gallery general repair only, labor is $90 per hour starting 21 May.",
+    "mode": "decides",
+    "topic": "price",
+    "facets": [
+      "price.labor"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-05-21T11:40:00-05:00",
+    "effective": "2026-05-21T11:40:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0247.0.1",
+    "record_id": "rec-0247",
+    "quote": "Do not change the copper and tile material numbers.",
+    "mode": "decides",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.cap"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-05-21T11:40:00-05:00",
+    "effective": "2026-05-21T11:40:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  },
+  {
+    "card_id": "m.rec-0250.0.0",
+    "record_id": "rec-0250",
+    "quote": "Otto, before we commit to replacing the leader we want to run a scope down it to the first cleanout.",
+    "mode": "proposes",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-PW-05",
+    "decided_at": "2026-04-30T10:20:00-05:00",
+    "effective": "2026-04-30T10:20:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0250.0.1",
+    "record_id": "rec-0250",
+    "quote": "We'll check that first and tell you what we find.",
+    "mode": "proposes",
+    "topic": "open_item",
+    "facets": [
+      "open_item.inspection"
+    ],
+    "scope": "job:WO-PW-05",
+    "decided_at": "2026-04-30T10:20:00-05:00",
+    "effective": "2026-04-30T10:20:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0260.0.0",
+    "record_id": "rec-0260",
+    "quote": "Not approving this one.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-05",
+    "decided_at": "2026-05-19T16:30:00-05:00",
+    "effective": "2026-05-19T16:30:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0265.0.0",
+    "record_id": "rec-0265",
+    "quote": "Not this version either.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-05",
+    "decided_at": "2026-06-10T17:45:00-05:00",
+    "effective": "2026-06-10T17:45:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0270.0.0",
+    "record_id": "rec-0270",
+    "quote": "Rejected.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-PW-05",
+    "decided_at": "2026-06-24T16:50:00-05:00",
+    "effective": "2026-06-24T16:50:00-05:00",
+    "decided_by": "p.pw.otto_gell"
+  },
+  {
+    "card_id": "m.rec-0283.0.0",
+    "record_id": "rec-0283",
+    "quote": "I can't approve this version. Please hold off until you hear from me.",
+    "mode": "decides",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-OC-05",
+    "decided_at": "2026-06-11T10:15:00-05:00",
+    "effective": "2026-06-11T10:15:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0288.0.0",
+    "record_id": "rec-0288",
+    "quote": "Helen said I can be copied now.",
+    "mode": "mentions",
+    "topic": "client_rule",
+    "facets": [
+      "client_rule.submission"
+    ],
+    "scope": "job:WO-OC-02",
+    "decided_at": "2026-05-22T11:00:00-05:00",
+    "effective": "2026-05-22T11:00:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0290.1.0",
+    "record_id": "rec-0290",
+    "quote": "Cal found a soft corner on the flashing job, so v3 adds a plywood patch.",
+    "mode": "gives_reason",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-NL-04",
+    "decided_at": "2026-04-14T08:10:00-05:00",
+    "effective": "2026-04-14T08:10:00-05:00",
+    "decided_by": "p.hw.mira_kell"
+  },
+  {
+    "card_id": "m.rec-0297.0.0",
+    "record_id": "rec-0297",
+    "quote": "I have not said yes.",
+    "mode": "mentions",
+    "topic": "approval",
+    "facets": [
+      "approval.status"
+    ],
+    "scope": "job:WO-NL-04",
+    "decided_at": "2026-04-14T12:40:00-05:00",
+    "effective": "2026-04-14T12:40:00-05:00",
+    "decided_by": "p.nl.ria_moth"
+  },
+  {
+    "card_id": "m.rec-0298.0.0",
+    "record_id": "rec-0298",
+    "quote": "I have not approved a lump sum on the pump job.",
+    "mode": "mentions",
+    "topic": "approval",
+    "facets": [
+      "approval.status",
+      "price.total"
+    ],
+    "scope": "job:WO-OC-03",
+    "decided_at": "2026-05-18T16:05:00-05:00",
+    "effective": "2026-05-18T16:05:00-05:00",
+    "decided_by": "p.oc.helen_bray"
+  },
+  {
+    "card_id": "m.rec-0300.0.0",
+    "record_id": "rec-0300",
+    "quote": "I have not seen a trip line in our file. Explain it or take it off.",
+    "mode": "decides",
+    "topic": "scope",
+    "facets": [
+      "scope.lines"
+    ],
+    "scope": "job:WO-RM-04",
+    "decided_at": "2026-05-13T13:10:00-05:00",
+    "effective": "2026-05-13T13:10:00-05:00",
+    "decided_by": "p.rm.yvette_sarn"
+  }
+]

@@ -5,16 +5,31 @@
 // eval/results/value-metrics.json and prints the three outputs.
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { loadData } from "../src/adapters/zetaris.ts";
 import { check, designedLists, loadCtx, meta } from "../src/ui/api.ts";
 import { SAMPLE_SEED, sampleDay } from "../src/ui/sample.ts";
+import { ingestSource } from "../src/pipeline/ingest-source.ts";
 import { ms } from "../src/engine/docs.ts";
 import { classify, designedInvoice, designedQuote, median, OUTCOMES, recordsToRead, tally } from "../src/eval/value-metrics.ts";
 import type { Designed, DocResult } from "../src/eval/value-metrics.ts";
 
-const root = join(import.meta.dirname, "..");
-const git = (...args: string[]) => execFileSync("git", args, { cwd: root, encoding: "utf8", env: { ...process.env, GIT_CONFIG_GLOBAL: "/dev/null" } }).trim();
+// --root <dir>: the folder with data/, review/ and state/ or the snapshot (default: this repo); --out <file>: where
+// the JSON goes (default: <root>/eval/results/value-metrics.json). The commit is the code's, read from this repo.
+const argv = process.argv.slice(2);
+const opt = (name: string) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : undefined);
+const codeDir = join(import.meta.dirname, "..");
+const root = resolve(opt("--root") ?? codeDir);
+const outFile = resolve(opt("--out") ?? join(root, "eval/results/value-metrics.json"));
+const git = (...args: string[]) => {
+  try {
+    return execFileSync("git", args, { cwd: codeDir, encoding: "utf8", env: { ...process.env, GIT_CONFIG_GLOBAL: "/dev/null" }, stdio: ["ignore", "pipe", "ignore"] }).trim();
+  } catch {
+    return "unknown";
+  }
+};
+const source = ingestSource(root);
+console.log(source.line);
 const localNow = () => {
   const d = new Date();
   const off = -d.getTimezoneOffset();
@@ -164,7 +179,7 @@ const sample = [...day.problems, ...day.clean].map((id) => {
 
 // ---- Write and print --------------------------------------------------------------------------------
 const head = git("rev-parse", "HEAD");
-const dirty = git("status", "--porcelain").split("\n").filter(Boolean);
+const dirty = head === "unknown" ? [] : git("status", "--porcelain").split("\n").filter(Boolean);
 const out = {
   definitions: "docs/value-metrics.md (pre-registered 2026-10-25, commit 36483de)",
   code_commit: head,
@@ -181,7 +196,7 @@ const out = {
   metric_5_sample_day: { seed: SAMPLE_SEED, rule: "2 of the designed-problem and 8 of the designed-clean documents, uniform without replacement, each list sorted by id, mulberry32 (src/ui/sample.ts)", documents: sample },
   cannot_say: "The data is fictional and the problem documents were planted on purpose (about 57% problem documents). No real user has used the tool; time saved is not measured.",
 };
-writeFileSync(join(root, "eval/results/value-metrics.json"), JSON.stringify(out, null, 2) + "\n");
+writeFileSync(outFile, JSON.stringify(out, null, 2) + "\n");
 
 const pct = (x: number | null) => (x === null ? "n/a" : `${x}%`);
 console.log(`value metrics · code ${head.slice(0, 7)}${dirty.length ? ` (+${dirty.length} uncommitted paths)` : ""} · computed ${out.computed_at} · ${ctx.engine.cards.length} cards · ${judgmentLines} judgments · no model calls`);
@@ -229,4 +244,4 @@ console.log(`   warnings (need a fix, not a confirmation): ${s4.warnings_need_a_
 console.log(`   P2 needs the Judge step (not a person's item), not-cleared documents: ${s4.p2_needs_judge_not_a_persons_item.not_cleared_documents_with_p2_open.length} [${s4.p2_needs_judge_not_a_persons_item.not_cleared_documents_with_p2_open.join(" ")}]`);
 console.log(`\n5. The sample day (seed ${SAMPLE_SEED})`);
 for (const d of sample) console.log(`   ${d.id.padEnd(12)} ${d.designed.padEnd(8)} ${d.state.padEnd(12)} ${money(d.total).padStart(10)}  ${d.fired.length ? `fix: ${d.fired.join(",")}` : d.to_confirm ? `${d.to_confirm} left to confirm` : "ready"}${d.judge_open.length ? ` · ${d.judge_open.join(",")} needs the Judge step` : ""}`);
-console.log(`\nwrote eval/results/value-metrics.json`);
+console.log(`\nwrote ${relative(process.cwd(), outFile)}`);
