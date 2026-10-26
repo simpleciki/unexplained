@@ -76,7 +76,8 @@ export const THINKING_OFF_CACHE = "cache-thinking-off";
 export function thinkingOff(env = process.env): boolean {
   return routeFromEnv(env.AI_PROVIDER) === "nvidia-direct" && env.NVIDIA_DISABLE_THINKING === "1";
 }
-export type RuntimeOpts = { maxCalls: number; sampleMode: boolean; teeSamples?: boolean; provider?: ChatProvider; cacheDir?: string; cacheNamespace?: string; deadModesFile?: string };
+// jsonObject: the direct route sends response_format {"type":"json_object"} (extraction run 3).
+export type RuntimeOpts = { maxCalls: number; sampleMode: boolean; teeSamples?: boolean; provider?: ChatProvider; cacheDir?: string; cacheNamespace?: string; deadModesFile?: string; jsonObject?: boolean };
 
 export async function makeRuntime(root: string, opts: RuntimeOpts): Promise<Runtime> {
   const events: CallEvent[] = [];
@@ -91,7 +92,7 @@ export async function makeRuntime(root: string, opts: RuntimeOpts): Promise<Runt
     if (routeFromEnv() === "nvidia-direct") {
       const apiKey = process.env.NVIDIA_API_KEY ?? "";
       if (!apiKey) throw new Error("AI_PROVIDER=nvidia-direct needs NVIDIA_API_KEY in .env");
-      provider = new NvidiaDirect({ apiKey, disableThinking: process.env.NVIDIA_DISABLE_THINKING === "1" });
+      provider = new NvidiaDirect({ apiKey, disableThinking: process.env.NVIDIA_DISABLE_THINKING === "1", jsonObject: opts.jsonObject });
     } else {
       const token = process.env.METERLESS_RUNTIME_TOKEN ?? "";
       if (!token) throw new Error("METERLESS_RUNTIME_TOKEN is not set: create .env from .env.example, then run with node --env-file=.env");
@@ -108,7 +109,7 @@ export async function makeRuntime(root: string, opts: RuntimeOpts): Promise<Runt
   const off = direct && process.env.NVIDIA_DISABLE_THINKING === "1";
   const namespace = opts.cacheNamespace ?? (off ? THINKING_OFF : undefined);
   const cacheDir = resolve(root, opts.cacheDir ?? (namespace === THINKING_OFF ? THINKING_OFF_CACHE : "cache"));
-  if (namespace === THINKING_OFF && cacheDir === resolve(root, "cache")) throw new Error("a thinking-off run must not use cache/: pass its own --cache-dir (default cache-thinking-off)");
+  if (namespace && cacheDir === resolve(root, "cache")) throw new Error(`a "${namespace}" run must not use cache/: pass its own --cache-dir`);
   const available = await provider.listModels();
   const models = chooseModels(available);
   const cache = new FileCache(cacheDir, { tee: opts.teeSamples ? samplesDir(root) : undefined });

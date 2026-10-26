@@ -29,7 +29,17 @@ export type NvidiaDirectOptions = {
   requestTimeoutMs?: number;
   maxRequestsPerMinute?: number;
   disableThinking?: boolean; // NVIDIA_DISABLE_THINKING=1: chat_template_kwargs.enable_thinking = false
+  jsonObject?: boolean; // response_format {"type":"json_object"} on every request (extraction run 3)
 };
+
+// NVIDIA refused a request that carries response_format. Not a ProviderError: nothing retries, falls back or skips
+// the record on it, so the run stops instead of quietly running without the field (docs/extraction-run-3.md).
+export class ResponseFormatRejected extends Error {
+  constructor(readonly status: number, detail: string) {
+    super(`NVIDIA rejected the request with response_format {"type":"json_object"} (HTTP ${status}): ${detail}; the run stops (the field is not dropped)`);
+    this.name = "ResponseFormatRejected";
+  }
+}
 
 // NVIDIA's own error bodies are not the runtime's provider_error shape: classify by status and text.
 function directError(status: number, body: string): ProviderError {
@@ -48,6 +58,7 @@ export class NvidiaDirect implements ChatProvider {
   private readonly timeoutMs: number;
   private readonly limiter: SlidingWindowLimiter;
   private readonly disableThinking: boolean;
+  private readonly jsonObject: boolean;
 
   constructor(o: NvidiaDirectOptions) {
     this.key = o.apiKey;
@@ -56,6 +67,7 @@ export class NvidiaDirect implements ChatProvider {
     this.timeoutMs = o.requestTimeoutMs ?? CHAT_TIMEOUT_MS;
     this.limiter = new SlidingWindowLimiter(o.maxRequestsPerMinute ?? MAX_REQUESTS_PER_MINUTE, MINUTE_MS, o.now ?? Date.now, this.sleep);
     this.disableThinking = o.disableThinking ?? false;
+    this.jsonObject = o.jsonObject ?? false;
   }
 
   async status(): Promise<ProviderStatus> {
@@ -77,6 +89,7 @@ export class NvidiaDirect implements ChatProvider {
     const body: Record<string, unknown> = { model: req.model, messages, max_tokens: NVIDIA_MAX_TOKENS };
     if (req.temperature !== undefined) body.temperature = req.temperature;
     if (this.disableThinking) body.chat_template_kwargs = { enable_thinking: false };
+    if (this.jsonObject) body.response_format = { type: "json_object" };
     const started = Date.now();
     const response = await this.post(JSON.stringify(body));
     const payload = (await response.json()) as { model?: string; choices?: { message?: { content?: unknown; reasoning_content?: unknown } }[] };
@@ -98,10 +111,15 @@ export class NvidiaDirect implements ChatProvider {
           body,
           signal: controller.signal,
         });
-        if (!r.ok) throw directError(r.status, await safeText(r));
+        if (!r.ok) {
+          const text = await safeText(r);
+          // A 400 or 422 while response_format is set is read as the field being rejected.
+          if (this.jsonObject && (r.status === 400 || r.status === 422)) throw new ResponseFormatRejected(r.status, redactAccount(text).slice(0, 300) || `HTTP ${r.status}`);
+          throw directError(r.status, text);
+        }
         return r;
       } catch (e) {
-        if (e instanceof ProviderError) throw e;
+        if (e instanceof ProviderError || e instanceof ResponseFormatRejected) throw e;
         if (isAbortError(e)) throw new ProviderError("timeout", `Request timed out after ${this.timeoutMs}ms`);
         throw new ProviderError("offline", "network error"); // the message of a fetch error is not echoed
       } finally {

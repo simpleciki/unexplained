@@ -40,5 +40,17 @@ const row = (s: typeof a, trace: string | null) =>
   ].join("\n");
 console.log(`extraction against eval/gold/gold_cards.jsonl (${gold.length} cards), scored by src/eval/extraction-score.ts, no model call\n`);
 console.log(`A\n${row(a, A.traceName)}\nB\n${row(b, B.traceName)}\n`);
+// Extraction run 3 (docs/extraction-run-3.md): the second pass's own counts, and how many of its new cards sit on
+// records that hold no decision (eval/gold/no_decision_records.json).
+const sp = (B.report as { second_pass?: { records_read: number; cards_proposed: number; cards_kept: number; cards_gate_rejected: number; cards_dropped_by_skeptic: number; records_prose_reply: string[]; records_failed_upstream: unknown[] } }).second_pass;
+if (sp) {
+  const aIds = new Set((A.cards as { card_id: string }[]).map((c) => c.card_id));
+  const fresh = (B.cards as { card_id: string; record_id: string }[]).filter((c) => !aIds.has(c.card_id));
+  const noDecision = new Set<string>(json(join(root, "eval/gold/no_decision_records.json")).record_ids);
+  const onNoDecision = fresh.filter((c) => noDecision.has(c.record_id));
+  console.log(`second pass (B): records read ${sp.records_read} · cards proposed ${sp.cards_proposed} · rejected by the quote gate ${sp.cards_gate_rejected} · dropped by the Skeptic ${sp.cards_dropped_by_skeptic} · kept ${sp.cards_kept}`);
+  console.log(`  answered in prose ${sp.records_prose_reply.length} · failed upstream ${sp.records_failed_upstream.length} · new cards on records that hold no decision (eval/gold/no_decision_records.json) ${onNoDecision.length}${onNoDecision.length ? ` (${onNoDecision.map((c) => c.card_id).join(", ")})` : ""}\n`);
+}
 const d = decide(a, b);
-console.log(`decision (docs/extraction-run-2.md): ${d.adopt ? "ADOPT B" : "KEEP A"} — ${d.why}`);
+// Runs 2 and 3 pre-registered the same rule; the line names the run's own document.
+console.log(`decision (${sp ? "docs/extraction-run-3.md" : "docs/extraction-run-2.md"}): ${d.adopt ? "ADOPT B" : "KEEP A"} — ${d.why}`);
