@@ -26,7 +26,8 @@
     "queue": "node --import tsx src/cli/queue.ts",
     "ui": "node --import tsx src/cli/ui.ts",
     "eval:mode-disputes": "node --import tsx scripts/mode-disputes.ts",
-    "value:metrics": "node --import tsx scripts/value-metrics.ts"
+    "value:metrics": "node --import tsx scripts/value-metrics.ts",
+    "demo:sample-day": "node --import tsx scripts/demo-sample-day.ts"
   },
   "devDependencies": {
     "@types/node": "^24.9.1",

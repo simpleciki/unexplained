@@ -1,0 +1,25 @@
+# Zetaris parity, live run
+# observed: 2026-10-25 23:03 CDT on the builder's machine; code commit 2cd25f6; command: npm run zetaris:parity
+# Zetaris (self-hosted Docker, 4 containers healthy) read the two sources registered as CLIENT_PORTAL and CONTRACTOR_OPS;
+# 'files' = rows read from data/, 'zetaris' = rows returned through Zetaris SQL. No model call. Output below is verbatim.
+
+
+table or cross-source view         files  zetaris  result
+/portal/clients                        4        4  same
+/portal/quote_versions                47       47  same
+/portal/quote_lines                  198      198  same
+/portal/submission_events            108      108  same
+/portal/invoices                      11       11  same
+/portal/invoice_lines                 47       47  same
+/ops/work_orders                      18       18  same
+/portal/records_client_message        52       52  same
+/portal/records_quote_version         47       47  same
+/portal/records_submission_event     108      108  same
+/portal/records_invoice               11       11  same
+/ops/records_work_order               18       18  same
+/ops/records_internal_note            28       28  same
+/ops/records_field_note               36       36  same
+v_invoice_vs_approved                 15       15  same
+v_job_evidence_timeline              116      116  same
+
+parity: every table identical.
