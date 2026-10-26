@@ -97,6 +97,13 @@
   .verdict.clear { background: rgba(52, 199, 89, 0.06); border-color: rgba(52, 199, 89, 0.24); }
   .verdict-text { font-size: 16px; font-weight: 600; margin: 8px 0 4px; }
   .verdict-note { font-size: 13px; color: var(--ink2); margin-top: 3px; }
+  /* Task 027: each fired warning with its one step to fix, first thing in the red box. */
+  .fixes { margin: 10px 0 12px; display: grid; gap: 10px; }
+  .fix-item { background: #fff; border: 1px solid rgba(255, 59, 48, 0.18); border-radius: 10px; padding: 10px 14px; }
+  .fix-item .pattern-head { margin-bottom: 4px; }
+  .fix { font-size: 15px; margin: 2px 0 4px; max-width: 80ch; }
+  .fix-ev { font-size: 13px; color: var(--blue); cursor: pointer; background: none; border: 0; padding: 0; font-family: inherit; }
+  .fix-ev:hover { text-decoration: underline; }
 
   .section-label { font-size: 12px; font-weight: 600; color: var(--ink3); margin: 22px 0 8px; }
   .pattern { border-radius: 12px; border: 1px solid var(--sep2); background: var(--card); padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
@@ -395,11 +402,12 @@ async function showDoc(id) {
     <div class="cutoff">${esc(c.doc.at)} · Checked as it is about to go out — ${esc(c.cutoff)}</div>
     <div class="verdict ${c.verdict.state}">${c.verdict.state === "not_cleared" && c.to_confirm.length ? `${pill("not_cleared", c.to_confirm.length)}` : pill(c.verdict.state)}
       <div class="verdict-text">${c.verdict.state === "warnings" ? `Fix before sending — ${esc(c.verdict.text)}` : c.verdict.state === "not_cleared" && c.to_confirm.length ? `${leftText(c.to_confirm.length)} — not cleared until a person confirms ${c.to_confirm.length === 1 ? "it" : "them"}` : esc(c.verdict.text)}</div>
+      ${fired.length ? `<div class="fixes">${fired.map(fixHtml).join("")}</div>` : ""}
       ${c.verdict.notes.map((n) => `<div class="verdict-note">${emph(n)}</div>`).join("")}
       ${c.to_confirm.map(toConfirmHtml).join("")}
     </div>
-    ${clientMemoryHtml(c)}
     ${fired.length ? `<div class="section-label">Triggered rules</div>${fired.map(patternHtml).join("")}` : ""}
+    ${clientMemoryHtml(c)}
     <div class="section-label">Patterns that did not fire</div>
     ${quiet.map((w) => `<div class="quiet"><span class="code">${w.pattern}</span><span>${esc(w.title)} — ${esc(w.status)}</span></div>`).join("")}
     <div class="section-label">Document lines</div>
@@ -491,9 +499,19 @@ function kindLine(e) {
   return `<span class="${e.mode_chosen && e.mode_chosen !== e.mode ? "used" : ""}">${esc(modeText(e.mode_chosen ?? e.mode, e.mode, e.mode_note))}</span> · ${e.by === "person" ? `<span class="person">confirmed by a person</span>` : "read by the model"}`;
 }
 
+// A fired warning in the red box: pattern id and name, its one step to fix (none when the flag lacks a detail the
+// fix needs), and a jump to its evidence under "Triggered rules".
+function fixHtml(w) {
+  return `<div class="fix-item">
+    <div class="pattern-head"><span class="code">${w.pattern}</span><span class="pattern-title">${esc(w.title)}</span></div>
+    ${(w.fix_segments || []).map((f) => `<p class="fix">${segHtml(f)}</p>`).join("")}
+    <button class="fix-ev" data-jump="pat-${esc(w.pattern)}">See the evidence ↓</button>
+  </div>`;
+}
+
 function patternHtml(w) {
   const cards = w.evidence.filter((e) => e.kind === "card" && e.source).slice(0, 2);
-  return `<div class="pattern">
+  return `<div class="pattern" id="pat-${esc(w.pattern)}">
     <div class="pattern-head"><span class="code">${w.pattern}</span><span class="pattern-title">${esc(w.title)}</span></div>
     ${(w.finding_segments || []).map((f) => `<p class="finding">${segHtml(f)}</p>`).join("")}
     ${cards.map((e) => `<div class="quote-block"><div class="qb-who">${B(nameOf(e.decided_by))} · ${B(shortDate(e.decided_at))}</div>${marked(e.source.text, e.quote)}
@@ -718,6 +736,7 @@ document.addEventListener("click", async (e) => {
   const t = e.target.closest?.("button, [data-judge], [data-close], .toggle, [data-goto]");
   if (!t) return;
   if (t.dataset.close !== undefined) return closeSheet();
+  if (t.dataset.jump) return document.getElementById(t.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" });
   if (t.dataset.confirmFirst) {
     const box = t.closest(".tc");
     const err = box.querySelector("[data-err]");

@@ -25,14 +25,14 @@ export type FindingContext = {
 export type Seg = { k: "person" | "date" | "money" | "doc" | "text"; v: string } | { k: "quote"; v: string; said?: boolean };
 type Part = Seg | Seg[] | string;
 
-const P = (v: string): Seg => ({ k: "person", v });
-const D = (v: string): Seg => ({ k: "date", v });
-const M = (v: string): Seg => ({ k: "money", v });
-const Doc = (v: string): Seg => ({ k: "doc", v });
-const Q = (v: string, said = false): Seg => (said ? { k: "quote", v, said } : { k: "quote", v });
+export const P = (v: string): Seg => ({ k: "person", v });
+export const D = (v: string): Seg => ({ k: "date", v });
+export const M = (v: string): Seg => ({ k: "money", v });
+export const Doc = (v: string): Seg => ({ k: "doc", v });
+export const Q = (v: string, said = false): Seg => (said ? { k: "quote", v, said } : { k: "quote", v });
 
 // s`...${P(name)}...` -> segments; plain interpolated strings are text.
-function s(strings: TemplateStringsArray, ...parts: Part[]): Seg[] {
+export function s(strings: TemplateStringsArray, ...parts: Part[]): Seg[] {
   const out: Seg[] = [];
   const text = (v: string) => { if (v) out.push({ k: "text", v }); };
   strings.forEach((str, i) => {
@@ -59,19 +59,19 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 export const shortDate = (iso: string) => `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}`;
 export const money = (n: number) => `$${Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
 const signed = (n: number) => `${n < 0 ? "−" : "+"}${money(n)}`;
-const words = (x: string) => x.replace(/_/g, " ");
+export const words = (x: string) => x.replace(/_/g, " ");
 const joinSegs = (items: Seg[][], sep: string): Seg[] => items.flatMap((x, i) => (i ? [{ k: "text" as const, v: sep }, ...x] : x));
-const list = (items: Seg[][]): Seg[] =>
-  items.length <= 1 ? items.flat() : [...joinSegs(items.slice(0, -1), ", "), { k: "text", v: " and " }, ...items.at(-1)!];
-const docs = (ids: string[]) => list(ids.map((id) => [Doc(id)]));
+export const list = (items: Seg[][], and = "and"): Seg[] =>
+  items.length <= 1 ? items.flat() : [...joinSegs(items.slice(0, -1), ", "), { k: "text", v: ` ${and} ` }, ...items.at(-1)!];
+export const docs = (ids: string[]) => list(ids.map((id) => [Doc(id)]));
 const times = (n: number) => (n === 1 ? "once" : n === 2 ? "twice" : `${n} times`);
-const arr = <T>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
+export const arr = <T>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
 const capital = (x: string) => x.charAt(0).toUpperCase() + x.slice(1);
 // A quote that ends a sentence gets a full stop after the closing mark unless its own words end one.
-const stop = (q: string) => (/[.!?]$/.test(q.trim()) ? "" : ".");
+export const stop = (q: string) => (/[.!?]$/.test(q.trim()) ? "" : ".");
 const an = (w: string) => `${/^[aeiou]/i.test(w) ? "an" : "a"} ${w}`;
 
-function cardOf(input: FindingInput, id: string) {
+export function cardOf(input: FindingInput, id: string) {
   return input.evidence.find((e) => e.kind === "card" && e.id === id);
 }
 
@@ -118,10 +118,13 @@ function p2(input: FindingInput): Seg[][] {
 }
 
 // P3: versions that keep saying the cause is being looked for, with no finding.
+// The words in a version's record that keep the question open ("Need to determine the cause ..."), if any.
+const STILL_OPEN = /\b(need(s)? to determine|working to determine|determine the cause|not yet named|still tracing)\b[^.;]*/i;
+export const stillOpenPhrase = (input: FindingInput) => input.evidence.map((e) => e.source?.text.match(STILL_OPEN)?.[0]).find(Boolean);
+
 function p3(input: FindingInput, c: FindingContext): Seg[][] {
   const versions = arr<string>(input.details.versions_without_finding);
-  const STILL_OPEN = /\b(need(s)? to determine|working to determine|determine the cause|not yet named|still tracing)\b[^.;]*/i;
-  const phrase = input.evidence.map((e) => e.source?.text.match(STILL_OPEN)?.[0]).find(Boolean);
+  const phrase = stillOpenPhrase(input);
   const said = phrase ? s` still say ${Q(phrase)}` : " still say the cause is being looked for";
   return [s`${docs(versions)}${said}, and no finding is on record before this ${c.docKind}. The question has not moved across ${String(versions.length)} versions.`];
 }
@@ -147,7 +150,7 @@ function p4(input: FindingInput, c: FindingContext): Seg[][] {
 }
 
 // P5: an outstanding rejection; the client's own reason if given, otherwise what the records show, as inference.
-function causeText(cause: string, evidenceCount: number): Seg[] {
+export function causeText(cause: string, evidenceCount: number): Seg[] {
   let m = cause.match(/^(\d+) voided submission\(s\), (\d+) recreated within (\d+) minutes$/);
   if (m) return s`${m[1] === "1" ? "a version was" : `${m[1]} versions were`} voided${Number(m[2]) ? ` and ${m[2] === "1" ? "resent" : `${m[2]} resent`} within ${m[3]} minutes` : ""}`;
   if (cause === "cover note names a different quote id") return s`the cover note names a different quote id`;

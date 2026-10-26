@@ -1,6 +1,8 @@
 // The gatekeeper screen's API, as plain functions (server.ts only routes HTTP to them, so they are tested
 // without a network). Nothing here calls a model: warnings come from the deterministic engine, built from
 // the ingested model cards with human judgments applied.
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { buildEngine } from "../engine/engine.ts";
 import type { Engine } from "../engine/engine.ts";
 import type { Dataset, Flag } from "../engine/types.ts";
@@ -11,6 +13,7 @@ import { loadIngested } from "../pipeline/ingest.ts";
 import { appendDocJudgment, appendJudgment, confirmation, judgmentWarnings, openQuestions } from "../review/judgments.ts";
 import { suggestEffective } from "../review/effective.ts";
 import { findingSegments, plainText } from "./findings.ts";
+import { clientSigner, fixSegments } from "./fixes.ts";
 import { loadHeroCase, loadStoryFile, storyResponse, validateStory } from "./story.ts";
 import type { EvidenceItem } from "./findings.ts";
 import type { JudgmentInput } from "../review/judgments.ts";
@@ -121,6 +124,10 @@ export function inOffsetOf(iso: string, t: number): string {
 // records at all before the cut-off there is nothing to check against, so that is not "clear" either; the one
 // exception is a job's first quote, checked against the client's rules and usual quotes when the client has
 // rules on file and enough approved quotes to judge its usual structure, and nothing fired.
+// data/README.md holds the client table (who signs for each client); read once per root.
+const readmes = new Map<string, string>();
+const dataReadme = (root: string) => readmes.get(root) ?? readmes.set(root, readFileSync(join(root, "data/README.md"), "utf8")).get(root)!;
+
 export function check(ctx: Ctx, docId: string) {
   const t = ctx.data.tables;
   const invoice = t.invoices.find((x) => x.invoice_id === docId) ?? null;
@@ -183,9 +190,15 @@ export function check(ctx: Ctx, docId: string) {
   const docLines = invoice ? t.invoiceLines.filter((l) => l.invoice_id === docId).map((l) => ({ description: l.description })) : version!.lines;
   const fctx = { nameOf: (id: string) => names.get(id) ?? id, docKind: (invoice ? "invoice" : "quote") as "quote" | "invoice", invoiceBilledQuote: invoice?.quote_id ?? null, lines: docLines };
   // finding_segments: the same sentences as typed segments, so the page can set names, dates and money in bold.
+  // fix_segments: the one step to fix each fired warning (src/ui/fixes.ts), from the same details and evidence.
+  const approvedTotal = (id: unknown) => { const q = typeof id === "string" ? t.quotes.find((x) => x.quote_id === id) : undefined; return q ? Number(q.total) : null; };
   for (const w of warnings) {
-    const segs = w.fired ? findingSegments({ pattern: w.pattern, details: w.details as Record<string, unknown>, evidence: w.evidence as EvidenceItem[] }, fctx) : [];
-    Object.assign(w, { finding: segs.map(plainText), finding_segments: segs });
+    const input = { pattern: w.pattern, details: w.details as Record<string, unknown>, evidence: w.evidence as EvidenceItem[] };
+    const segs = w.fired ? findingSegments(input, fctx) : [];
+    const fix = w.fired
+      ? fixSegments(input, { ...fctx, clientPerson: clientSigner(dataReadme(ctx.root), client), invoiceTotal: invoice ? Number(invoice.total) : null, approvedTotal: approvedTotal((w.details as { approved_version?: unknown }).approved_version) })
+      : [];
+    Object.assign(w, { finding: segs.map(plainText), finding_segments: segs, fix: fix.map(plainText), fix_segments: fix });
   }
   const fired = warnings.filter((w) => w.fired).length;
   const openPatterns = warnings.filter((w) => w.open).map((w) => w.pattern);
