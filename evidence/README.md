@@ -17,6 +17,17 @@ Every record behind them is fictional (see `data/README.md`).
 - **Reproduce:** run `npm run zetaris:parity`. It needs a running Zetaris and its credentials in `.env`. Without
   them the command fails loudly and never falls back to files.
 
+## `zetaris-live-check-2026-10-26.md` — one end-to-end request with Zetaris running
+
+- **What it is:** the check page started with `--source zetaris` (no model call), then one request,
+  `GET /api/check?doc=Q-PW-05-v2`, answered from data Zetaris had just read.
+- **Produced:** 2026-10-26 16:00 CDT, on the builder's machine, Zetaris self-hosted in Docker.
+- **What it shows:** each read Zetaris made from the two source systems during the run (path, rows, status), and
+  the request's input and output: two named warnings, each with its one-step fix and the records that prove it.
+  The same request against files returned an identical response. No credentials appear.
+- **Reproduce:** with Zetaris running and its credentials in `.env`: `npm run sources:serve`, then
+  `npm run ui -- --source zetaris` and open `/outbox`.
+
 ## `nightshift-receipts-summary.jsonl` — the model calls went through Nightshift
 
 - **What it is:** one line per successful Nightshift call made by the app `unexplained`. It is summarised from
