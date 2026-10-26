@@ -57,6 +57,16 @@ describe("demo mode", () => {
     expect(existsSync(join(root, ".demo"))).toBe(false);
   });
 
+  it("serves the WO-PW-05 story with its on-hold ending: eval/ is linked, so hero_case.json is found", () => {
+    const { root, data } = setup();
+    cpSync(join(repo, "eval/demo"), join(root, "eval/demo"), { recursive: true });
+    const dir = prepareDemoRoot(root);
+    expect(lstatSync(join(dir, "eval")).isSymbolicLink()).toBe(true);
+    const r = route({ ctx: loadCtx(dir, data), html: "" }, "GET", "/api/story?job=WO-PW-05");
+    expect(r.status, r.body).toBe(200);
+    expect(JSON.parse(r.body).ending).toMatchObject({ kind: "on_hold", held_usd: 2306 });
+  });
+
   it("labels every page it serves as a demo copy", () => {
     for (const f of ["index.html", "home.html"]) {
       const html = withDemoLabel(readFileSync(join(repo, "src/ui", f), "utf8"));
