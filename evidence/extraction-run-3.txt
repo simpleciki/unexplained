@@ -1,0 +1,23 @@
+# Extraction run 3 (a targeted second read of records with no card, thinking on) vs the 2026-10-23 ingest
+# Rules pre-registered in docs/extraction-run-3.md (9145e11). Output of the compare command below, verbatim. No model call in the compare.
+# Run 3: started 2026-10-26 08:21:06 CDT, finished 10:46:26 CDT, 139 model calls, route nvidia-direct, thinking on, response_format json_object.
+# Scheduled cut-off: the pre-registration said 11:00 CDT; at 08:50, while the run was going and before any result, Ciki moved the scheduled cut-off to 12:00 CDT. The run finished before both.
+
+extraction against eval/gold/gold_cards.jsonl (100 cards), scored by src/eval/extraction-score.ts, no model call
+
+A
+  snapshot/ingest-2026-10-23
+    cards 73 · matched 32/100 gold · precision 0.438 · recall 0.32
+    records answered in prose 8 · records failed upstream 3 · complete false
+    median latency per model call 26.4 s over 322 calls (logs/trace-ingest-2026-10-23T06-42-45-515Z.jsonl)
+B
+  state/run-3
+    cards 76 · matched 32/100 gold · precision 0.421 · recall 0.32
+    records answered in prose 8 · records failed upstream 3 · complete true
+    median latency per model call 44.7 s over 236 calls (logs/trace-ingest-second-pass-2026-10-26T15-46-26-926Z.jsonl)
+    finished 2026-10-26T10:46:26-05:00
+
+second pass (B): records read 69 · cards proposed 3 · rejected by the quote gate 0 · dropped by the Skeptic 0 · kept 3
+  answered in prose 30 · failed upstream 0 · new cards on records that hold no decision (eval/gold/no_decision_records.json) 0
+
+decision (docs/extraction-run-3.md): KEEP A — precision 0.421 vs 0.438 (lower), recall 0.32 vs 0.32 (not lower)
