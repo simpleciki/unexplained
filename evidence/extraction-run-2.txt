@@ -1,0 +1,20 @@
+# Extraction run 2 (thinking off) vs the 2026-10-23 ingest
+# Rules pre-registered in docs/extraction-run-2.md (cb9ad57). Output of the compare command below, verbatim. No model call in the compare.
+# Run 2: started 2026-10-26 07:27:05 CDT, finished 07:35:00 CDT, 211 model calls, route nvidia-direct, thinking off.
+
+
+extraction against eval/gold/gold_cards.jsonl (100 cards), scored by src/eval/extraction-score.ts, no model call
+
+A
+  snapshot/ingest-2026-10-23
+    cards 73 · matched 32/100 gold · precision 0.438 · recall 0.32
+    records answered in prose 8 · records failed upstream 3 · complete false
+    median latency per model call 26.4 s over 322 calls (logs/trace-ingest-2026-10-23T06-42-45-515Z.jsonl)
+B
+  state/run-2
+    cards 78 · matched 21/100 gold · precision 0.269 · recall 0.21
+    records answered in prose 0 · records failed upstream 0 · complete true
+    median latency per model call 1.3 s over 211 calls (logs/trace-ingest-2026-10-26T12-35-00-143Z.jsonl)
+    finished 2026-10-26T07:35:00-05:00
+
+decision (docs/extraction-run-2.md): KEEP A — precision 0.269 vs 0.438 (lower), recall 0.21 vs 0.32 (lower)
