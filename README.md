@@ -25,7 +25,7 @@ and each takes 1.5–2 hours to piece together. More disputes are settled earlie
 
 | Answer | What the contractor sees |
 |---|---|
-| **Fix before sending** | the problem by name (one of seven patterns, below) and the records that prove it |
+| **Fix before sending** | the problem by name (one of seven patterns, below), the one step to fix it, and the records that prove it |
 | **N left to confirm** | the few records the model could not be sure about, or a first quote to confirm against the client's history, shown in place; most take one click, an open question opens the judgment form |
 | **Ready to send** | everything on file is accounted for |
 
@@ -57,7 +57,7 @@ quote of $2,026 (`eval/demo/hero_case.json`, computed from the records by `scrip
 | Version | What the check said before it was sent | What happened |
 |---|---|---|
 | v1, $761 | Not cleared: one record nobody had judged, one the model read as empty | Rejected: "Not approving this one." |
-| v2, $1,626 | **Fix before sending.** P1: on 30 April the estimator promised to scope the drain line and report back; no report followed. P5: the client already rejected once and never said why | Rejected: "Not this version either." |
+| v2, $1,626 | **Fix before sending.** P1: on 30 April the estimator promised to scope the drain line and report back; no report followed. Fix: send Otto the result, or say in the cover note it is still pending. P5: the client already rejected once and never said why. Fix: don't cut the price yet; ask Otto which cause it was | Rejected: "Not this version either." |
 | v3, $2,026 | **Fix before sending.** The same two, now "rejected twice", plus +$865 and two new lines | Rejected: "Rejected." |
 
 Before v2 went out, the contractor would have known the one thing to do first: report what the drain scope
@@ -181,7 +181,7 @@ Requirements: Node 26 or later.
 
 ```
 npm ci
-npm test                                 # 259 tests, no network
+npm test                                 # 271 tests, no network
 npm run eval:oracle -- --source files    # the detectors on gold cards, no model: 80/80
 npm run value:metrics -- --out /tmp/value-metrics.json   # the value numbers above, no model
 npm run ui -- --demo                     # the check page; judgments go to .demo/
