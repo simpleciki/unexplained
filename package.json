@@ -24,7 +24,7 @@
     "zetaris:parity": "node --env-file-if-exists=.env --import tsx scripts/zetaris-parity.ts",
     "cache:audit": "node --import tsx scripts/cache-audit.ts",
     "queue": "node --import tsx src/cli/queue.ts",
-    "ui": "node --import tsx src/cli/ui.ts",
+    "ui": "node --env-file-if-exists=.env --import tsx src/cli/ui.ts",
     "eval:mode-disputes": "node --import tsx scripts/mode-disputes.ts",
     "value:metrics": "node --import tsx scripts/value-metrics.ts",
     "demo:sample-day": "node --import tsx scripts/demo-sample-day.ts",

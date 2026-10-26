@@ -149,9 +149,12 @@ What this does and does not show:
 
 - **Zetaris** is the data layer: the client portal and the contractor's job system stay two separate sources,
   registered in Zetaris with three cross-source views, two of which the engine reads: P5 and P7 findings show the
-  matching cross-source view row as context. Ingest and the evaluations read through Zetaris by default; the check page reads the same data
-  from files so it runs without Docker. Live run: `evidence/zetaris-parity-2026-10-25.txt` (16 tables and views
-  identical through Zetaris and from files). Details below.
+  matching cross-source view row as context. Ingest and the evaluations read through Zetaris by default (their
+  Zetaris query traces are in `evidence/agent-activity/traces/`); the check page reads the same data from files by
+  default so a judge can run it without Docker, and through Zetaris with `--source zetaris`. Live runs:
+  `evidence/zetaris-live-check-2026-10-26.md` (one end-to-end request with Zetaris running, input and output shown)
+  and `evidence/zetaris-parity-2026-10-25.txt` (16 tables and views identical through Zetaris and from files).
+  Details below.
 - **Meterless.** Nightshift (the Meterless Runtime) is the app's default AI provider: 713 successful calls went
   through it from 21 to 23 October, each with a signed compute receipt (summary without account data:
   `evidence/nightshift-receipts-summary.jsonl`); the committed ingest snapshot came through it. **H-MEM** is the memory:
@@ -177,7 +180,15 @@ substitution.
 
 ## Run it
 
-Requirements: Node 26 or later.
+**Dependencies.** Node 26 or later; `npm ci` installs the only packages, all for development: TypeScript, tsx,
+vitest, @types/node (no runtime npm dependency). Vendored: Meterless H-MEM reference implementation (`vendor/`).
+Optional, for live runs only: Docker with Zetaris 2.4.3.1 (the organisers' hackathon images, self-hosted),
+Meterless Nightshift on `127.0.0.1:8088` with a runtime token, or an NVIDIA API key for the direct route.
+
+**Data.** `data/` holds one fictional contractor's records (`data/README.md`): the client portal (clients, quote
+versions and lines, submission events, invoices, client messages) and the contractor job system (work orders,
+internal notes, field notes), 116 records across 18 jobs for 4 clients. `eval/gold/` holds the hand-written gold
+cards and questions; `snapshot/ingest-2026-10-23/` holds the model's cards from one ingest, read-only.
 
 ```
 npm ci
@@ -211,8 +222,10 @@ the base protocol and amendment 1 in its protocol field although amendment 2 gov
 contractor-side bookkeeper; no employer, client or real record is in this repository.
 
 **Agent activity log.** Every model call is one trace line in `logs/`, with the model that actually answered.
-`evidence/agent-activity/` holds two of those traces as the runs wrote them and walks three questions on WO-PW-05
-from the first model call to the scored answer, and one record from extraction to decision card.
+`evidence/agent-activity/` holds two of those traces as the runs wrote them, with the Zetaris query traces that fed
+the same runs, and walks three questions on WO-PW-05 from the first model call to the scored answer, and one record
+from extraction to decision card. For one input and output of the check itself (quote in; warnings, one-step fixes
+and evidence out) with Zetaris running, see `evidence/zetaris-live-check-2026-10-26.md`.
 
 ## Known limits
 
@@ -283,8 +296,9 @@ views the engine reads against `data/`. If Zetaris is unreachable the run fails 
 To run against Zetaris: start a self-hosted Zetaris (Docker, as in the organisers' setup guide); put
 `ZETARIS_URL`, `ZETARIS_USERNAME` and `ZETARIS_PASSWORD` in `.env`; then `npm run sources:serve` (the two
 source systems), `npm run zetaris:register -- --apply` (registers both sources and the views; without
-`--apply` it only prints the SQL) and `npm run zetaris:parity`. The committed live run is
-`evidence/zetaris-parity-2026-10-25.txt`.
+`--apply` it only prints the SQL) and `npm run zetaris:parity`. To see the check page on live Zetaris data:
+`npm run ui -- --source zetaris` (no model call). Committed live runs: `evidence/zetaris-live-check-2026-10-26.md`
+and `evidence/zetaris-parity-2026-10-25.txt`.
 The engine uses the cross-source views directly: P7 (invoice vs approved version) shows the
 `v_invoice_vs_approved` row for the invoice, and P5 (unexplained rejection) shows the job's
 `v_job_evidence_timeline` across both systems. Which version was approved on a date is still worked out

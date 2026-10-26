@@ -1,7 +1,8 @@
 # Agent activity: how the agent reached its output
 
-Every model call the agent makes is logged as one trace line. This folder holds two of those traces as the runs
-wrote them, and step-by-step walkthroughs built from them, so you can follow one question from the first model
+Every model call the agent makes, and every Zetaris query, is logged as one trace line. This folder holds four of
+those traces as the runs wrote them (two model traces, and the Zetaris reads that fed the same two runs), and
+step-by-step walkthroughs built from them, so you can follow one question from the first model
 call to the scored answer. All data in this project is fictional.
 
 | file | what it shows |
@@ -12,6 +13,9 @@ call to the scored answer. All data in this project is fictional.
 | [`ingest-rec-0270.md`](ingest-rec-0270.md) | how Otto's third rejection (`rec-0270`, "Rejected.") became a decision card: extract → check → compare with the two earlier rejections |
 | [`traces/trace-eval-compare-full-2026-10-24T21-44-49-432Z.jsonl`](traces/) | the full A-vs-C comparison run, 80 questions, NVIDIA direct route, 1,028 lines |
 | [`traces/trace-ingest-2026-10-23T06-42-45-515Z.jsonl`](traces/) | the ingest of 2026-10-23 01:42 CDT through Nightshift (Meterless Runtime), 387 lines; it produced `state/` and `snapshot/ingest-2026-10-23/` |
+| [`traces/trace-ingest-zetaris-2026-10-23T03-58-58-140Z.jsonl`](traces/) | that ingest's data read through Zetaris, written when it started (2026-10-22 22:58 CDT): one login and 16 SQL queries, each with the rows returned. A model trace is written when its run ends, hence the later name above |
+| [`traces/trace-eval-compare-full-zetaris-2026-10-24T14-31-45-726Z.jsonl`](traces/) | the 80-question run's data read through Zetaris, written when it started (2026-10-24 09:31 CDT): one login and 16 SQL queries |
+| [`../zetaris-live-check-2026-10-26.md`](../zetaris-live-check-2026-10-26.md) | one end-to-end request on 2026-10-26 with Zetaris running: the check page reads through Zetaris, Zetaris pulls both source systems (each read logged), and the request for Q-PW-05-v2 returns its warnings, one-step fixes and evidence, identical to the same request from files; input and output shown |
 
 ## What a trace line means
 
