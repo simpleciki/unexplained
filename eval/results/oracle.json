@@ -1,5 +1,5 @@
 {
-  "run_id": "oracle-2026-10-23T00-38-13-915Z",
+  "run_id": "oracle-2026-10-26T02-39-37-312Z",
   "mode": "oracle",
   "notes": [
     "Cards = eval/gold/gold_cards.jsonl, relations = eval/gold/gold_edges.jsonl.",
@@ -11564,6 +11564,7 @@
                 "Q-PW-02-v1"
               ],
               "structure_instruction": null,
+              "status": "not enough history to judge this client's usual structure (2 of 3 approved quotes)",
               "off": []
             },
             "amount": {
@@ -20469,6 +20470,7 @@
               "approved_categories": [],
               "norm_from": [],
               "structure_instruction": null,
+              "status": "not enough history to judge this client's usual structure (0 of 3 approved quotes)",
               "off": []
             },
             "amount": {
@@ -23103,6 +23105,7 @@
                 "Q-OC-02-v1"
               ],
               "structure_instruction": null,
+              "status": "not enough history to judge this client's usual structure (2 of 3 approved quotes)",
               "off": []
             },
             "amount": {
@@ -23472,6 +23475,7 @@
                 "Q-PW-01-v1"
               ],
               "structure_instruction": null,
+              "status": "not enough history to judge this client's usual structure (1 of 3 approved quotes)",
               "off": []
             },
             "amount": {
@@ -24820,6 +24824,7 @@
                 "Q-NL-01-v1"
               ],
               "structure_instruction": null,
+              "status": "not enough history to judge this client's usual structure (1 of 3 approved quotes)",
               "off": []
             },
             "amount": {
@@ -25186,6 +25191,7 @@
               "approved_categories": [],
               "norm_from": [],
               "structure_instruction": null,
+              "status": "not enough history to judge this client's usual structure (0 of 3 approved quotes)",
               "off": []
             },
             "amount": {
@@ -25227,5 +25233,5 @@
       "unresolved": []
     }
   ],
-  "trace_file": "logs/trace-oracle-2026-10-23T00-38-13-915Z.jsonl"
+  "trace_file": "logs/trace-oracle-2026-10-26T02-39-37-312Z.jsonl"
 }
