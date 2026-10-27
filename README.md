@@ -7,7 +7,7 @@ so and asks a person. Nothing clears unless the records support it or a person s
 Open Agent Hackathon 2026 · Track 02, *The Agent That Can Explain Why* · Zetaris + Meterless (Nightshift,
 H-MEM) + NVIDIA Nemotron · all data in this repository is fictional (`data/README.md`).
 
-**Demo video (2:11):** https://youtu.be/RcWYPKJifgM
+**Demo video (2:11):** https://youtu.be/hIkGZEeFWL4
 
 > Numbers below are copied from the committed result files named next to them. Anything marked *estimate*
 > comes from the builder's own work and was not measured here.
