@@ -28,6 +28,16 @@ Every record behind them is fictional (see `data/README.md`).
 - **Reproduce:** with Zetaris running and its credentials in `.env`: `npm run sources:serve`, then
   `npm run ui -- --source zetaris` and open `/outbox`.
 
+## `zetaris-live-video-2026-10-27.md` — the live Zetaris request shown in the demo video
+
+- **What it is:** the run recorded for the demo video at 1:30.7–1:36.0: the check page started with
+  `--source zetaris` (no model call), every read Zetaris made of the two source systems, and the check page for
+  `Q-PW-05-v2`.
+- **Produced:** 2026-10-27 09:09 CDT, on the builder's machine, Zetaris self-hosted in Docker; parity checked first.
+- **What it shows:** 22 reads with times, paths and row counts, all HTTP 200. The reads are shown at 3× speed in the
+  video, marked on screen.
+- **Reproduce:** same as the 10-26 check above.
+
 ## `nightshift-receipts-summary.jsonl` — the model calls went through Nightshift
 
 - **What it is:** one line per successful Nightshift call made by the app `unexplained`. It is summarised from
