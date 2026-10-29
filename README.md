@@ -342,3 +342,7 @@ The same panel is where a person confirms a first quote that has nothing on file
 
 **What H-MEM does not decide.** The verdict. Warnings, "not cleared" and "clear" come from the seat table
 and the detectors only. The check gives the same verdict with an empty H-MEM store; a test checks this.
+
+## License
+
+MIT — see [`LICENSE`](LICENSE). `vendor/meterless-hmem/` keeps its own Apache-2.0 license (`vendor/meterless-hmem/LICENSE`).
